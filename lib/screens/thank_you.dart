@@ -88,7 +88,7 @@ fit: BoxFit.fill,
         CommonButton(
           title: 'Continue',
           onPressed: () {
-            // Get.toNamed(MyRouters.dashbordScreen);
+             Get.toNamed(MyRouters.bottomNavbar);
           },
         )
       ),

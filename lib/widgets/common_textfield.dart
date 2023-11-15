@@ -111,16 +111,16 @@ class _CommonTextfieldState extends State<CommonTextfield> {
           contentPadding: const EdgeInsets.symmetric(vertical: 18,horizontal: 12),
           disabledBorder: OutlineInputBorder(
             borderSide:
-            const BorderSide(color: AppTheme.secondaryColor, width: 1.5),
+            const BorderSide(color: AppTheme.shadowColor, width: 1.5),
             borderRadius: BorderRadius.circular(8),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide:
-            const BorderSide(color: AppTheme.secondaryColor, width: 1.5),
+            const BorderSide(color: AppTheme.shadowColor, width: 1.5),
             borderRadius: BorderRadius.circular(8),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:AppTheme.secondaryColor, width: 1.5),
+            borderSide: const BorderSide(color:AppTheme.shadowColor, width: 1.5),
             borderRadius: BorderRadius.circular(8),
           ),
           border: OutlineInputBorder(

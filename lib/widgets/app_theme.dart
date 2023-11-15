@@ -6,8 +6,8 @@ class AppTheme {
   final Shader linearGradient = LinearGradient(
     colors: <Color>[Color(0xffFFA302), Color(0xffFF5102)],
   ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
-  static const Color shadowColor = Color(0xffA7A7A7);
-  static const Color secondaryColor = Color(0xffDFDFDF);
+  static const Color shadowColor = Color(0xffDFDFDF);
+  static const Color secondaryColor = Color(0xff3797EF);
   static const Color buttonColor = Color(0xff7ED957);
   static const Color onboardingColor = Color(0xff000000);
   static const Color onboardingDescColor = Color(0xFF616772);
