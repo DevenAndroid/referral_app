@@ -22,7 +22,12 @@ class _SplashScreenState extends State<SplashScreen> {
   userCheck() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     if (pref.getString('cookie') != null) {
-      // Get.offAllNamed(MyRouters.bottomNavbar);
+      if (pref.getBool('complete') == true) {
+         Get.toNamed(MyRouters.bottomNavbar);
+       }
+       else{
+         Get.toNamed(MyRouters.createAccountScreen);
+       }
     }
     else{
       Get.offAllNamed(MyRouters.loginScreen);

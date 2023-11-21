@@ -28,7 +28,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
 
   final pages = [
     const HomeScreen(),
-    const AddRecommendationScreen(),
+    const AskRecommendationScreen(),
+
+    // const AddRecommendationScreen(),
     const EditAccount(),
   ];
 

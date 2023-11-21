@@ -1,13 +1,10 @@
 
 
-
-
-
 import 'package:get/get.dart';
-
 import '../screens/add_recommadtion_screen.dart';
 import '../screens/ask_recommendation_screen.dart';
 import '../screens/bottom_nav_bar.dart';
+import '../screens/categories.dart';
 import '../screens/create_account.dart';
 import '../screens/edit_account_screen.dart';
 import '../screens/following_screen.dart';
@@ -27,6 +24,7 @@ class MyRouters {
   static var otpScreen = "/otpScreen";
   static var createAccountScreen = "/createAccountScreen";
   static var thankYouScreen = "/thankYouScreen";
+
   static var homeScreen = "/homeScreen";
   static var askRecommendationScreen = "/askRecommendationScreen";
   static var bottomNavbar = "/bottomNavbar";
@@ -36,6 +34,7 @@ class MyRouters {
   static var followingScreen = "/followingScreen";
   static var postScreen = "/postScreen";
   static var recommendationSingleScreen = "/recommendationSingleScreen";
+  static var categoriesScreen = "/categoriesScreen";
 
 
   static var route = [
@@ -53,6 +52,7 @@ class MyRouters {
  GetPage(name: '/followingScreen', page: () =>  const FollowingScreen()),
  GetPage(name: '/postScreen', page: () =>  const PostScreen()),
  GetPage(name: '/recommendationSingleScreen', page: () =>  const RecommendationSingleScreen()),
+ GetPage(name: '/categoriesScreen', page: () =>  const CategoriesScreen()),
 
 
 

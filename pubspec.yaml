@@ -41,6 +41,10 @@ dependencies:
   flutter_svg:
   google_fonts:
   flutter_pin_code_fields: ^1.1.0
+  fluttertoast: ^8.1.2
+  loading_animation_widget: ^1.2.0+4
+  image_picker: ^0.8.7
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
