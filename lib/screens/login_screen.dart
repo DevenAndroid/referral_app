@@ -7,6 +7,7 @@ import 'package:referral_app/widgets/app_theme.dart';
 import 'package:referral_app/widgets/common_textfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../controller/profile_controller.dart';
 import '../models/login_model.dart';
 import '../repositories/login_repo.dart';
 import '../resourses/api_constant.dart';
@@ -23,6 +24,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   Rx<RxStatus> statusOflogin = RxStatus.empty().obs;
   Rx<LoginModel> login = LoginModel().obs;
+  final profileController = Get.put(ProfileController());
   final formKey6 = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   loginApi(context) {
@@ -30,13 +32,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
       loginRepo(
           context: context,
-         email: emailController.text.trim(),
+         email: profileController.emailController.text.trim(),
       ).then((value) async {
         login.value = value;
         if (value.status == true) {
           SharedPreferences pref = await SharedPreferences.getInstance();
           // pref.setString('cookie', value.authToken.toString());
-          Get.toNamed(MyRouters.otpScreen,arguments: [ emailController.text.trim()]);
+          Get.toNamed(MyRouters.otpScreen,arguments: [ profileController.emailController.text.trim()]);
           // Get.offAllNamed(MyRouters.bottomNavbar);
           statusOflogin.value = RxStatus.success();
           showToast(value.message.toString());
@@ -121,14 +123,14 @@ SizedBox(height: size.height*.07,),
                     ),),
 SizedBox(height: 10,),
 CommonTextfield(
-    controller: emailController,
+    controller: profileController.emailController,
     validator: (value) {
-      if (emailController.text.isEmpty) {
+      if (profileController.emailController.text.isEmpty) {
           return "Please enter your email";
-      } else if (emailController.text.contains('+') || emailController.text.contains(' ')) {
+      } else if (profileController.  emailController.text.contains('+') ||profileController. emailController.text.contains(' ')) {
           return "Email is invalid";
       } else if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            .hasMatch(emailController.text)) {
+            .hasMatch(profileController.emailController.text)) {
           return null;
       } else {
           return 'Please type a valid email address';

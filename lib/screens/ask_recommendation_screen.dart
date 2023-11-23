@@ -136,21 +136,21 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
               ),
             ),
 
-                  SizedBox(height: 0,),
+                  SizedBox(height: 10,),
                   TextFormField(
                     style:  GoogleFonts.mulish(
                         fontWeight: FontWeight.w300,
                         fontSize: 12,
                         color: Color(0xFF162224)),
                     controller: descriptionController,
-                    maxLines: 4,
+                    maxLines: 6,
                     decoration: InputDecoration(
                       hintText: 'I m looking for a water bottle that fits in my car cupholder and is at least 30 oz',
 
                       hintStyle:
                       GoogleFonts.mulish(
                           fontWeight: FontWeight.w300,
-                          fontSize: 12,
+                          fontSize: 14,
                           color: Color(0xFF162224)),
                       // Remove the underline and border
                       border: InputBorder.none,

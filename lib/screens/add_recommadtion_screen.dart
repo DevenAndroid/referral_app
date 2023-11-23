@@ -91,6 +91,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                 ),),
               SizedBox(height: 12,),
               CommonTextfield(
+                isMulti: true,
                   controller: reviewController,
                   obSecure: false, hintText: "Lorem Ipsum is simply dummy text of the printing and "),
               SizedBox(height: 15,),

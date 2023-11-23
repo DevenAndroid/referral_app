@@ -17,6 +17,7 @@ class ApiUrls {
   static const String addAskRecommandation = "${apiBaseUrl}add-ask-recommandation";
   static const String addRecommandation = "${apiBaseUrl}add-recommandation";
   static const String categories = "${apiBaseUrl}categories";
+  static const String home = "${apiBaseUrl}home";
 
 }
 

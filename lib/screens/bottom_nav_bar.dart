@@ -31,7 +31,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     const AskRecommendationScreen(),
 
     // const AddRecommendationScreen(),
-    const EditAccount(),
+    const ProfileScreen(),
   ];
 
 

@@ -82,6 +82,7 @@ class _CommonTextfieldState extends State<CommonTextfield> {
         keyboardType: widget.keyboardType,
         controller: widget.controller,
         decoration: InputDecoration(
+
           counterStyle: const TextStyle(
             color: AppTheme.primaryColor,
             fontSize: 25,

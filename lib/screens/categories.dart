@@ -131,8 +131,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                       onTap: () {
                                         profileController.categoriesController.text = item.name.toString();
                                         profileController.idController.text = item.id.toString();
-                                        Get.toNamed(MyRouters.addRecommendationScreen,
-                                            arguments: [item.name.toString(),item.id.toString()]);
+                                        Get.back();
                                       },
                                       child: Text(
                                         item.name
