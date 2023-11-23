@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
                 // automaticIndicatorColorAdjustment: true,
                 onTap: (value) {
-                  currentDrawer = 0;
+                  currentDrawer = value;
                   setState(() {});
                 },
                 tabs: [
