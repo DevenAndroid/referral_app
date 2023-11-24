@@ -12,11 +12,12 @@ class ProfileController extends GetxController{
   RxString selectedValue = 'friends'.obs;
   final categoriesController = TextEditingController();
   final idController = TextEditingController();
-
+  var profileDrawer = 0;
 
 
   Rx<GetProfileModel> modal = GetProfileModel().obs;
   Rx<RxStatus> statusOfProfile = RxStatus.empty().obs;
+  String? address = "";
   getData() {
     getProfileRepo().then((value) async {
       modal.value = value;
@@ -24,7 +25,7 @@ class ProfileController extends GetxController{
 
         emailController.text = modal.value.data!.user!.email.toString();
         mobileController.text = modal.value.data!.user!.phone.toString();
-        addressController.text = modal.value.data!.user!.address.toString();
+        address = modal.value.data!.user!.address.toString();
         nameController.text = modal.value.data!.user!.name.toString();
 
         statusOfProfile.value = RxStatus.success();

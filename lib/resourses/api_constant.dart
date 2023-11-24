@@ -19,6 +19,10 @@ class ApiUrls {
   static const String categories = "${apiBaseUrl}categories";
   static const String home = "${apiBaseUrl}home";
   static const String userProfile = "${apiBaseUrl}user-profile";
+  static const String followers = "${apiBaseUrl}followers-list";
+  static const String following = "${apiBaseUrl}following-list";
+  static const String unfollow = "${apiBaseUrl}add-remove-follower";
+  static const String pages = "${apiBaseUrl}pages?slug=";
 
 }
 

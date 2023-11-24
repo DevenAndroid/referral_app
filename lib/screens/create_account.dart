@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
@@ -20,6 +21,8 @@ import 'package:referral_app/widgets/custome_textfiled.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controller/profile_controller.dart';
+import '../models/Pages_model.dart';
+import '../repositories/pages_repo.dart';
 import '../repositories/updateProfile_repo.dart';
 import '../resourses/api_constant.dart';
 import '../resourses/size.dart';
@@ -36,7 +39,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final formKeyUpdate = GlobalKey<FormState>();
   String code = "+91";
   String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
-  String? _address = "";
+
   File image = File("");
   RxBool showValidation = false.obs;
   final profileController = Get.put(ProfileController());
@@ -59,6 +62,29 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       print('Field to pick img : $e');
     }
   }
+
+
+  Rx<RxStatus> statusOfSlug = RxStatus.empty().obs;
+  Rx<PagesModel> page = PagesModel().obs;
+  slug() {
+    getPagesRepo(slug: "terms-condition").then((value) {
+      page.value = value;
+
+      if (value.status == true) {
+        statusOfSlug.value = RxStatus.success();
+      } else {
+        statusOfSlug.value = RxStatus.error();
+      }
+
+      // showToast(value.message.toString());
+    });
+  }
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    slug();
+}
   RxBool checkboxColor = false.obs;
   bool value = false;
   @override
@@ -226,7 +252,7 @@ contentPadding: EdgeInsets.zero,
                             });
                         if (place != null) {
                           setState(() {
-                            _address = (place.description ?? "Location")
+                            profileController.address = (place.description ?? "Location")
                                 .toString();
                           });
                           final plist = GoogleMapsPlaces(
@@ -242,7 +268,7 @@ contentPadding: EdgeInsets.zero,
                           final lat = geometry.location.lat;
                           final lang = geometry.location.lng;
                           setState(() {
-                            _address = (place.description ?? "Location")
+                            profileController.address = (place.description ?? "Location")
                                 .toString();
                           });
                         }
@@ -255,7 +281,7 @@ contentPadding: EdgeInsets.zero,
                                   border: Border.all(
                                       color: !checkValidation(
                                           showValidation.value,
-                                          _address == "")
+                                          profileController.address == "")
                                           ? Colors.grey.shade300
                                           : Colors.red),
                                   borderRadius:
@@ -265,7 +291,7 @@ contentPadding: EdgeInsets.zero,
                               child: ListTile(
                                 leading: Icon(Icons.location_on_rounded),
                                 title: Text(
-                                  _address ?? "Location".toString(),
+                                  profileController.address ?? "Location".toString(),
                                   style: TextStyle(
                                       fontSize: AddSize.font14),
                                 ),
@@ -273,7 +299,7 @@ contentPadding: EdgeInsets.zero,
                                 dense: true,
                               )),
                           checkValidation(
-                              showValidation.value, _address == "")
+                              showValidation.value,   profileController.address == "")
                               ? Padding(
                             padding: EdgeInsets.only(
                                 top: AddSize.size5),
@@ -337,14 +363,16 @@ contentPadding: EdgeInsets.zero,
                                           context: context,
                                           builder: (BuildContext context) {
                                             // Return the dialog box widget
-                                            return const AlertDialog(
+                                            return  statusOfSlug.value.isSuccess?
+
+                                              AlertDialog(
                                               title:
-                                              Text('Terms And Conditions'),
-                                              content: Text(
-                                                  'Terms and conditions are part of a contract that ensure parties understand their contractual rights and obligations. Parties draft them into a legal contract, also called a legal agreement, in accordance with local, state, and federal contract laws. They set important boundaries that all contract principals must uphold.'
-                                                      'Several contract types utilize terms and conditions. When there is a formal agreement to create with another individual or entity, consider how you would like to structure your deal and negotiate the terms and conditions with the other side before finalizing anything. This strategy will help foster a sense of importance and inclusion on all sides.'),
+                                              Text(page.value.data!.title.toString()),
+                                              content: Html(
+                                                data:page.value.data!.content.toString(),
+                                              ),
                                               actions: <Widget>[],
-                                            );
+                                            ):CircularProgressIndicator();
                                           },
                                         );
                                       },

@@ -24,12 +24,38 @@ class GetProfileModel {
 
 class Data {
   User? user;
+  List<MyRequest>? myRequest;
+  List<MyRecommandation>? myRecommandation;
+  List<SaveRecommandation>? saveRecommandation;
   int? notificationCount;
 
-  Data({this.user, this.notificationCount});
+  Data(
+      {this.user,
+        this.myRequest,
+        this.myRecommandation,
+        this.saveRecommandation,
+        this.notificationCount});
 
   Data.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    if (json['my_request'] != null) {
+      myRequest = <MyRequest>[];
+      json['my_request'].forEach((v) {
+        myRequest!.add(new MyRequest.fromJson(v));
+      });
+    }
+    if (json['my_recommandation'] != null) {
+      myRecommandation = <MyRecommandation>[];
+      json['my_recommandation'].forEach((v) {
+        myRecommandation!.add(new MyRecommandation.fromJson(v));
+      });
+    }
+    if (json['save_recommandation'] != null) {
+      saveRecommandation = <SaveRecommandation>[];
+      json['save_recommandation'].forEach((v) {
+        saveRecommandation!.add(new SaveRecommandation.fromJson(v));
+      });
+    }
     notificationCount = json['notification_count'];
   }
 
@@ -38,32 +64,43 @@ class Data {
     if (this.user != null) {
       data['user'] = this.user!.toJson();
     }
+    if (this.myRequest != null) {
+      data['my_request'] = this.myRequest!.map((v) => v.toJson()).toList();
+    }
+    if (this.myRecommandation != null) {
+      data['my_recommandation'] =
+          this.myRecommandation!.map((v) => v.toJson()).toList();
+    }
+    if (this.saveRecommandation != null) {
+      data['save_recommandation'] =
+          this.saveRecommandation!.map((v) => v.toJson()).toList();
+    }
     data['notification_count'] = this.notificationCount;
     return data;
   }
 }
 
 class User {
-  dynamic id;
-  dynamic name;
-  dynamic email;
-  dynamic phone;
-  dynamic walletBalance;
-  dynamic earnedBalance;
-  dynamic profileImage;
-  dynamic address;
-  dynamic referalCode;
+  int? id;
+  String? name;
+  String? email;
+  String? phone;
+  String? walletBalance;
+  String? earnedBalance;
+  String? profileImage;
+  String? address;
+  String? referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
-  dynamic deliveryRange;
+  Null? deliveryRange;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;
   bool? asMarketingManagerVerified;
   bool? isComplete;
- dynamic followingCount;
- dynamic followersCount;
- dynamic postCount;
+  int? followingCount;
+  int? followersCount;
+  int? postCount;
 
   User(
       {this.id,
@@ -132,6 +169,166 @@ class User {
     data['following_count'] = this.followingCount;
     data['followers_count'] = this.followersCount;
     data['post_count'] = this.postCount;
+    return data;
+  }
+}
+
+class MyRequest {
+  int? id;
+  User? userId;
+  String? title;
+  String? description;
+  String? minPrice;
+  String? maxPrice;
+  String? image;
+  String? postViewersType;
+
+  MyRequest(
+      {this.id,
+        this.userId,
+        this.title,
+        this.description,
+        this.minPrice,
+        this.maxPrice,
+        this.image,
+        this.postViewersType});
+
+  MyRequest.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId =
+    json['user_id'] != null ? new User.fromJson(json['user_id']) : null;
+    title = json['title'];
+    description = json['description'];
+    minPrice = json['min_price'];
+    maxPrice = json['max_price'];
+    image = json['image'];
+    postViewersType = json['post_viewers_type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    if (this.userId != null) {
+      data['user_id'] = this.userId!.toJson();
+    }
+    data['title'] = this.title;
+    data['description'] = this.description;
+    data['min_price'] = this.minPrice;
+    data['max_price'] = this.maxPrice;
+    data['image'] = this.image;
+    data['post_viewers_type'] = this.postViewersType;
+    return data;
+  }
+}
+
+class MyRecommandation {
+  int? id;
+  User? user;
+  String? title;
+  String? review;
+  String? link;
+  String? categoryId;
+  String? image;
+  String? status;
+
+  MyRecommandation(
+      {this.id,
+        this.user,
+        this.title,
+        this.review,
+        this.link,
+        this.categoryId,
+        this.image,
+        this.status});
+
+  MyRecommandation.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    title = json['title'];
+    review = json['review'];
+    link = json['link'];
+    categoryId = json['category_id'];
+    image = json['image'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    data['title'] = this.title;
+    data['review'] = this.review;
+    data['link'] = this.link;
+    data['category_id'] = this.categoryId;
+    data['image'] = this.image;
+    data['status'] = this.status;
+    return data;
+  }
+}
+
+class SaveRecommandation {
+  int? id;
+  Post? post;
+  String? date;
+
+  SaveRecommandation({this.id, this.post, this.date});
+
+  SaveRecommandation.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    post = json['post'] != null ? new Post.fromJson(json['post']) : null;
+    date = json['date'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    if (this.post != null) {
+      data['post'] = this.post!.toJson();
+    }
+    data['date'] = this.date;
+    return data;
+  }
+}
+
+class Post {
+  int? id;
+  String? title;
+  String? review;
+  String? link;
+  String? categoryId;
+  String? image;
+  String? status;
+
+  Post(
+      {this.id,
+        this.title,
+        this.review,
+        this.link,
+        this.categoryId,
+        this.image,
+        this.status});
+
+  Post.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    review = json['review'];
+    link = json['link'];
+    categoryId = json['category_id'];
+    image = json['image'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['review'] = this.review;
+    data['link'] = this.link;
+    data['category_id'] = this.categoryId;
+    data['image'] = this.image;
+    data['status'] = this.status;
     return data;
   }
 }

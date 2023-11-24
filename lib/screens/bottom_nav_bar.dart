@@ -47,6 +47,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
         // extendBodyBehindAppBar: true,
         backgroundColor: Colors.white,
         bottomNavigationBar: buildMyNavBar(context),
+
       );
     });
   }

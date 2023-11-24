@@ -193,25 +193,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
 
                                               SizedBox(width: 20,),
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  home.value.data!.discover![index].userId!.name ==""? Text("Name..."  , style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w700,
-                                                  // letterSpacing: 1,
-                                                  fontSize: 14,
-                                                  color: Colors.black),): Text(
-                                                    home.value.data!.discover![index].userId!.name.toString(),
-                                                    style: GoogleFonts.mulish(
-                                                        fontWeight: FontWeight.w700,
-                                                        // letterSpacing: 1,
-                                                        fontSize: 14,
-                                                        color: Colors.black),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      home.value.data!.discover![index].userId!.address ==""? Text("address..."  , style: GoogleFonts.mulish(
+                                              Expanded(
+                                                child: Column(
+
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    home.value.data!.discover![index].userId!.name ==""? Text("Name..."  , style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w700,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 14,
+                                                    color: Colors.black),): Text(
+                                                      home.value.data!.discover![index].userId!.name.toString(),
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w700,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          color: Colors.black),
+                                                    ),
+                                                    Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                      Expanded(child:   home.value.data!.discover![index].userId!.address ==""? Text("address..."  , style: GoogleFonts.mulish(
                                                           fontWeight: FontWeight.w400,
                                                           // letterSpacing: 1,
                                                           fontSize: 14,
@@ -222,29 +224,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             // letterSpacing: 1,
                                                             fontSize: 14,
                                                             color: Color(0xFF878D98)),
-                                                      ),
+                                                      ),),
 
-                                                      SizedBox(
-                                                        height: 11,
-                                                        child: VerticalDivider(
-                                                          width: 8,
-                                                          thickness: 1,
-                                                          color: Colors.grey,
+                                                        SizedBox(
+                                                          height: 15,
+                                                          child: VerticalDivider(
+                                                            width: 8,
+                                                            thickness: 1,
+                                                            color: Colors.grey,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      Text(
-                                                        "3 Hour",
-                                                        style: GoogleFonts.mulish(
-                                                            fontWeight: FontWeight.w300,
-                                                            // letterSpacing: 1,
-                                                            fontSize: 12,
-                                                            color: Color(0xFF878D98)),
-                                                      ),
-                                                    ],
-                                                  )
-                                                ],
+                                                        Text(
+                                                          "3 Hour",
+                                                          style: GoogleFonts.mulish(
+                                                              fontWeight: FontWeight.w300,
+                                                              // letterSpacing: 1,
+                                                              fontSize: 12,
+                                                              color: Color(0xFF878D98)),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
                                               ),
-                                              Spacer(),
+
                                               SvgPicture.asset(AppAssets.bookmark),
                                             ],
                                           ),
