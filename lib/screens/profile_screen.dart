@@ -54,6 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_tabListener);
+    profileController.getData();
     chooseCategories();
     chooseCategories1();
   }
@@ -591,49 +592,20 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                         height:
                                                                             15,
                                                                       ),
-                                                                      Stack(
-                                                                          children: [
-                                                                            CachedNetworkImage(
-                                                                              width:
-                                                                                  size.width,
-                                                                              height:
-                                                                                  200,
-                                                                              fit:
-                                                                                  BoxFit.fill,
-                                                                              imageUrl:
-                                                                                  profileController.modal.value.data!.myRequest![index].image.toString(),
-                                                                              placeholder: (context, url) =>
-                                                                                  Image.asset(AppAssets.picture),
-                                                                              errorWidget: (context, url, error) =>
-                                                                                  Image.asset(AppAssets.picture),
-                                                                            ),
-                                                                            Positioned(
-                                                                                right: 10,
-                                                                                top: 15,
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.all(6),
-                                                                                  decoration: (BoxDecoration(
-                                                                                    color: Colors.white,
-                                                                                    borderRadius: BorderRadius.circular(15),
-                                                                                  )),
-                                                                                  child: Row(
-                                                                                    children: [
-                                                                                      const Icon(
-                                                                                        Icons.remove_red_eye_outlined,
-                                                                                        size: 20,
-                                                                                      ),
-                                                                                      Text(
-                                                                                        " Views  7.5k",
-                                                                                        style: GoogleFonts.mulish(
-                                                                                            fontWeight: FontWeight.w500,
-                                                                                            // letterSpacing: 1,
-                                                                                            fontSize: 14,
-                                                                                            color: Colors.black),
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
-                                                                                ))
-                                                                          ]),
+                                                                      CachedNetworkImage(
+                                                                        width:
+                                                                            size.width,
+                                                                        height:
+                                                                            200,
+                                                                        fit:
+                                                                            BoxFit.fill,
+                                                                        imageUrl:
+                                                                            profileController.modal.value.data!.myRequest![index].image.toString(),
+                                                                        placeholder: (context, url) =>
+                                                                            Image.asset(AppAssets.picture),
+                                                                        errorWidget: (context, url, error) =>
+                                                                            Image.asset(AppAssets.picture),
+                                                                      ),
                                                                       const SizedBox(
                                                                         height:
                                                                             10,

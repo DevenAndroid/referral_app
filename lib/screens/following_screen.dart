@@ -69,6 +69,7 @@ var following = Get.arguments[1];
   void initState() {
     // TODO: implement initState
     super.initState();
+    profileController.getData();
     listFollowing();
     listFollower();
   }

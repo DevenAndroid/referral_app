@@ -101,7 +101,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               fontWeight: FontWeight.w700,
 
               fontSize: 18,
-              color:Color(0xFF262626)
+              color:const Color(0xFF262626)
           ),),
         leading:InkWell(
           onTap: (){
@@ -118,20 +118,20 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           key: formKeyUpdate,
           child: Column(
             children: [
-              SizedBox(height: 12,),
+              const SizedBox(height: 12,),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             width: size.width,
              height: size.height,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(topRight: Radius.circular(15),topLeft:  Radius.circular(15)),
+              borderRadius: const BorderRadius.only(topRight: Radius.circular(15),topLeft:  Radius.circular(15)),
               boxShadow: [
                 BoxShadow(
-                  color: Color(0xFF5F5F5F).withOpacity(0.4),
-                  offset: Offset(0.1, 0.1),
+                  color: const Color(0xFF5F5F5F).withOpacity(0.4),
+                  offset: const Offset(0.1, 0.1),
                   blurRadius: 1,),
               ],
             ),
@@ -139,20 +139,20 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 15,),
+                  const SizedBox(height: 15,),
                   Text("Upload Profile Photo",
                     style: GoogleFonts.mulish(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
                         color: AppTheme.onboardingColor
                     ),),
-                  SizedBox(height: 12,),
+                  const SizedBox(height: 12,),
                   Container(
                     width: size.width,
                     height: size.height*.15,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Color(0xFFE4E4E4)),
+                      border: Border.all(color: const Color(0xFFE4E4E4)),
                     ),
                     child: InkWell(
                       onTap: () => pickImage(),
@@ -170,25 +170,25 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
 
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Text("Full Name",
                     style: GoogleFonts.mulish(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
                         color: AppTheme.onboardingColor
                     ),),
-                  SizedBox(height: 12,),
+                  const SizedBox(height: 12,),
                   CommonTextfield(
                       controller: profileController.nameController,
                       obSecure: false, hintText: "Enter your name"),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Text("Mobile Number",
                     style: GoogleFonts.mulish(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
                         color: AppTheme.onboardingColor
                     ),),
-                  SizedBox(height: 12,),
+                  const SizedBox(height: 12,),
 
                   IntlPhoneField(
                     flagsButtonPadding: const EdgeInsets.all(8),
@@ -218,26 +218,26 @@ contentPadding: EdgeInsets.zero,
                     },
                   ),
 
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Text("Email ID",
                     style: GoogleFonts.mulish(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
                         color: AppTheme.onboardingColor
                     ),),
-                  SizedBox(height: 12,),
+                  const SizedBox(height: 12,),
                   CommonTextfield(
                     readOnly: true,
                       controller: profileController.emailController,
                       obSecure: false, hintText: "Enter your Email ID"),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Text("Address",
                     style: GoogleFonts.mulish(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
                         color: AppTheme.onboardingColor
                     ),),
-                  SizedBox(height: 12,),
+                  const SizedBox(height: 12,),
                   InkWell(
                       onTap: () async {
                         var place = await PlacesAutocomplete.show(
@@ -289,7 +289,7 @@ contentPadding: EdgeInsets.zero,
                                   color: Colors.grey.shade50),
                               // width: MediaQuery.of(context).size.width - 40,
                               child: ListTile(
-                                leading: Icon(Icons.location_on_rounded),
+                                leading: const Icon(Icons.location_on_rounded),
                                 title: Text(
                                   profileController.address ?? "Location".toString(),
                                   style: TextStyle(
@@ -310,7 +310,7 @@ contentPadding: EdgeInsets.zero,
                                   fontSize: AddSize.font12),
                             ),
                           )
-                              : SizedBox()
+                              : const SizedBox()
                         ],
                       )),
                   // CommonTextfield(
@@ -318,7 +318,7 @@ contentPadding: EdgeInsets.zero,
                   //     controller: profileController.addressController,
                   //
                   //     obSecure: false, hintText: "Enter your Address"),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(
                     children: [
                       Transform.scale(
@@ -331,8 +331,8 @@ contentPadding: EdgeInsets.zero,
                                 ),
                               ),
                               unselectedWidgetColor: checkboxColor.value == false
-                                  ? Color(0xFF64646F)
-                                  : Color(0xFF64646F)
+                                  ? const Color(0xFF64646F)
+                                  : const Color(0xFF64646F)
                           ),
                           child: Checkbox(
                               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -372,7 +372,7 @@ contentPadding: EdgeInsets.zero,
                                                 data:page.value.data!.content.toString(),
                                               ),
                                               actions: <Widget>[],
-                                            ):CircularProgressIndicator();
+                                            ):const CircularProgressIndicator();
                                           },
                                         );
                                       },
@@ -386,7 +386,7 @@ contentPadding: EdgeInsets.zero,
                     ],
                   ),
 
-                  SizedBox(height: 26,),
+                  const SizedBox(height: 26,),
                   CommonButton(title: "Create Account",onPressed: (){
                     if (formKeyUpdate.currentState!.validate()) {
                       Map map = <String, String>{};

@@ -308,6 +308,7 @@ class _EditAccountState extends State<EditAccount> {
                         file1: image,
                       ).then((value) async {
                         if (value.status == true) {
+                          profileController.getData();
                           if(value.data!.isComplete ==true) {
                             SharedPreferences pref = await SharedPreferences.getInstance();
                             pref.setBool('complete', true);
