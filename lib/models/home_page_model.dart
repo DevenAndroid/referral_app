@@ -100,6 +100,7 @@ class Discover {
   String? maxPrice;
   String? image;
   String? postViewersType;
+  bool? wishlist;
 
   Discover(
       {this.id,
@@ -109,7 +110,8 @@ class Discover {
         this.minPrice,
         this.maxPrice,
         this.image,
-        this.postViewersType});
+        this.postViewersType,
+        this.wishlist});
 
   Discover.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -121,6 +123,7 @@ class Discover {
     maxPrice = json['max_price'];
     image = json['image'];
     postViewersType = json['post_viewers_type'];
+    wishlist = json['wishlist'];
   }
 
   Map<String, dynamic> toJson() {
@@ -135,6 +138,7 @@ class Discover {
     data['max_price'] = this.maxPrice;
     data['image'] = this.image;
     data['post_viewers_type'] = this.postViewersType;
+    data['wishlist'] = this.wishlist;
     return data;
   }
 }
@@ -241,6 +245,7 @@ class Recommandation {
   String? categoryId;
   String? image;
   String? status;
+  bool? wishlist;
 
   Recommandation(
       {this.id,
@@ -250,7 +255,8 @@ class Recommandation {
         this.link,
         this.categoryId,
         this.image,
-        this.status});
+        this.status,
+        this.wishlist});
 
   Recommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -261,6 +267,7 @@ class Recommandation {
     categoryId = json['category_id'];
     image = json['image'];
     status = json['status'];
+    wishlist = json['wishlist'];
   }
 
   Map<String, dynamic> toJson() {
@@ -275,6 +282,7 @@ class Recommandation {
     data['category_id'] = this.categoryId;
     data['image'] = this.image;
     data['status'] = this.status;
+    data['wishlist'] = this.wishlist;
     return data;
   }
 }

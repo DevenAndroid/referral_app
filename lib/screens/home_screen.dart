@@ -257,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                               InkWell(
                                                 onTap: (){
-                                                  like = true;
+                                                  print(home.value.data!.discover![index].wishlist! );
                                                   setState(() {
 
                                                   });
@@ -269,12 +269,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               modalRemove.value = value;
                                                               if (value.status == true) {
                                                                 statusOfRemove.value = RxStatus.success();
-                                                                print(like);
-                                                                like=true;
+                                                                chooseCategories();
+                                                                print(home.value.data!.discover![index].wishlist! );
+                                                                // like=true;
                                                                 showToast(value.message.toString());
                                                               } else {
                                                                 statusOfRemove.value = RxStatus.error();
-                                                                like=false;
+                                                                // like=false;
                                                                 showToast(value.message.toString());
 
 
@@ -284,8 +285,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             );
                                                 },
                                                 child: Icon(
-                                                  like? Icons.favorite : Icons.favorite_border_rounded,
-                                                  color: like? Colors.red : Colors.grey.shade700,
+                                                  home.value.data!.discover![index].wishlist! ? Icons.favorite : Icons.favorite_border_rounded,
+                                                  color:home.value.data!.discover![index].wishlist! ? Colors.red : Colors.grey.shade700,
                                                 ),
                                               ),
                                               // Obx(() {
