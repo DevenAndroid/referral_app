@@ -167,7 +167,8 @@ color: AppTheme.secondaryColor,
                   file1: image,
                 ).then((value) async {
                   if (value.status == true) {
-                    Get.toNamed(MyRouters.followingScreen);
+                    // Get.toNamed(MyRouters.followingScreen);
+                    Get.back();
                     showToast(value.message.toString());
                   }
                   else{

@@ -11,9 +11,12 @@ import 'package:referral_app/widgets/app_assets.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../controller/profile_controller.dart';
+import '../controller/wishlist controller.dart';
 import '../models/home_page_model.dart';
+import '../models/remove_reomeendation.dart';
 import '../repositories/add_ask_recommendation_repo.dart';
 import '../repositories/home_pafe_repo.dart';
+import '../repositories/remove_bookmark_repo.dart';
 import '../resourses/api_constant.dart';
 import '../routers/routers.dart';
 import '../widgets/app_text.dart';
@@ -24,6 +27,7 @@ import '../widgets/custome_size.dart';
 import '../widgets/custome_textfiled.dart';
 import '../widgets/dimenestion.dart';
 import '../widgets/recommendation_popup.dart';
+import 'like button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,9 +38,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Rx<RxStatus> statusOfHome = RxStatus.empty().obs;
+  final wishListController = Get.put(WishListController());
 
+  Rx<RemoveRecommendationModel> modalRemove = RemoveRecommendationModel().obs;
+  Rx<RxStatus> statusOfRemove = RxStatus.empty().obs;
   Rx<HomeModel> home = HomeModel().obs;
-
+  bool like = false ;
   chooseCategories() {
     getHomeRepo().then((value) {
       home.value = value;
@@ -248,6 +255,70 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                               ),
 
+                                              InkWell(
+                                                onTap: (){
+                                                  like = true;
+                                                  setState(() {
+
+                                                  });
+
+                                                  bookmarkRepo(
+                                                              context: context,
+                                                              post_id: home.value.data!.discover![index].userId!.id.toString(),
+                                                            ).then((value) async {
+                                                              modalRemove.value = value;
+                                                              if (value.status == true) {
+                                                                statusOfRemove.value = RxStatus.success();
+                                                                print(like);
+                                                                like=true;
+                                                                showToast(value.message.toString());
+                                                              } else {
+                                                                statusOfRemove.value = RxStatus.error();
+                                                                like=false;
+                                                                showToast(value.message.toString());
+
+
+                                                              }
+                                                            }
+
+                                                            );
+                                                },
+                                                child: Icon(
+                                                  like? Icons.favorite : Icons.favorite_border_rounded,
+                                                  color: like? Colors.red : Colors.grey.shade700,
+                                                ),
+                                              ),
+                                              // Obx(() {
+                                              //   if (wishListController.refreshFav.value > 0) {}
+                                              //   return LikeButton(
+                                              //     onPressed: () {
+                                              //       bookmarkRepo(
+                                              //         context: context,
+                                              //         post_id: home.value.data!.discover![index].userId!.id.toString(),
+                                              //       ).then((value) async {
+                                              //         modalRemove.value = value;
+                                              //         if (value.status == true) {
+                                              //           statusOfRemove.value = RxStatus.success();
+                                              //           showToast(value.message.toString());
+                                              //         } else {
+                                              //           statusOfRemove.value = RxStatus.error();
+                                              //           showToast(value.message.toString());
+                                              //
+                                              //
+                                              //         }
+                                              //       }
+                                              //
+                                              //       );
+                                              //
+                                              //       // if (wishListController.favoriteItems.contains(widget.productElement.id.toString())) {
+                                              //         // removeFromWishList();
+                                              //       // } else {
+                                              //         // addToWishList();
+                                              //       // }
+                                              //     },
+                                              //     // isLiked: wishListController.favoriteItems.contains(widget.productElement.id.toString()),
+                                              //   );
+                                              // }),
                                               SvgPicture.asset(AppAssets.bookmark),
                                             ],
                                           ),
@@ -297,7 +368,7 @@ width: size.width,
                                           SizedBox(height: 10,),
                                           Container(
                                             padding: EdgeInsets.all(5),
-                                            width: 150,
+                                            width: 180,
                                             height: 30,
                                             decoration: BoxDecoration(
                                               color: Color(0xFF3797EF).withOpacity(.09),
@@ -486,7 +557,7 @@ width: size.width,
                                          SizedBox(height: 10,),
                                          Container(
                                            padding: EdgeInsets.all(5),
-                                           width: 150,
+                                           width: 180,
                                            height: 30,
                                            decoration: BoxDecoration(
                                              color: Color(0xFF3797EF).withOpacity(.09),
