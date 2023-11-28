@@ -303,7 +303,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                               color: const Color(0xFF262626))),
                                       const Spacer(),
                                       SizedBox(
-                                          width: 70,
+                                          width: 80,
                                           height: 30,
                                           child: CommonButton(
                                             title: "Edit",
@@ -654,7 +654,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                                 .all(
                                                                                 5),
                                                                         width:
-                                                                            150,
+                                                                            10,
                                                                         height:
                                                                             30,
                                                                         decoration:

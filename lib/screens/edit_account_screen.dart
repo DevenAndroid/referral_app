@@ -132,7 +132,7 @@ class _EditAccountState extends State<EditAccount> {
                           image,
                           width: 120,
                           height: 120,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                         )
                             : CachedNetworkImage(
                               width: 120,
@@ -320,17 +320,17 @@ class _EditAccountState extends State<EditAccount> {
 
                     },),
                      SizedBox(height: 26,),
-                    CommonButton(title: "Logout",onPressed: () async {
-
-                            SharedPreferences pref = await SharedPreferences.getInstance();
-                            pref.clear();
-                            Get.toNamed(MyRouters.loginScreen);
-                          }
+                    // CommonButton(title: "Logout",onPressed: () async {
+                    //
+                    //         SharedPreferences pref = await SharedPreferences.getInstance();
+                    //         pref.clear();
+                    //         Get.toNamed(MyRouters.loginScreen);
+                    //       }
                           // Get.toNamed(MyRouters.thankYouScreen);
 
 
 
-                    )
+                    // )
                   ],
                 ),
               ),

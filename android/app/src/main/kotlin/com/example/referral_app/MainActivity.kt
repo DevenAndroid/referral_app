@@ -1,4 +1,4 @@
-package com.example.referral_app
+package com.referralApp
 
 import io.flutter.embedding.android.FlutterActivity
 

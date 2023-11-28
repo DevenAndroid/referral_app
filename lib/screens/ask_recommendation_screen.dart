@@ -82,7 +82,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                           child: Icon(Icons.arrow_drop_down)),
                       Spacer(),
                       SizedBox(
-                          width: 80,
+                          width: 90,
                           height: 32,
                           child: CommonButton(title: "Post",onPressed: (){
 
