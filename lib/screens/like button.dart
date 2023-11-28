@@ -11,7 +11,7 @@ class LikeButton extends StatefulWidget {
 }
 
 class _LikeButtonState extends State<LikeButton> with SingleTickerProviderStateMixin {
-RxBool like = false.obs ;
+  RxBool like = false.obs ;
   @override
   Widget build(BuildContext context) {
     return IconButton(

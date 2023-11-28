@@ -64,8 +64,8 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
                         color: Color(0xFF3797EF)),
-                  ), 
-                Icon(Icons.clear)
+                  ),
+                  Icon(Icons.clear)
                 ],
               ),
               SizedBox(height: 30,),
@@ -91,7 +91,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                 ),),
               SizedBox(height: 12,),
               CommonTextfield(
-                isMulti: true,
+                  isMulti: true,
                   controller: reviewController,
                   obSecure: false, hintText: "Lorem Ipsum is simply dummy text of the printing and "),
               SizedBox(height: 15,),
@@ -114,42 +114,42 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                 ),),
               SizedBox(height: 12,),
               CommonTextfield(
-                onTap: (){
-                  Get.toNamed(MyRouters.categoriesScreen);
-                },
+                  onTap: (){
+                    Get.toNamed(MyRouters.categoriesScreen);
+                  },
                   controller: profileController.categoriesController,
                   obSecure: false, hintText: "Furniture"),
               SizedBox(height: 15,),
-    Center(
-        child: DottedBorder(
-color: AppTheme.secondaryColor,
-        borderType: BorderType.RRect,
-        radius: Radius.circular(12),
-        padding: EdgeInsets.all(6),
-        child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-                  child: Container(
-                    width: size.width*.3,
-                    height: size.height*.15,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+              Center(
+                child: DottedBorder(
+                  color: AppTheme.secondaryColor,
+                  borderType: BorderType.RRect,
+                  radius: Radius.circular(12),
+                  padding: EdgeInsets.all(6),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    child: Container(
+                      width: size.width*.3,
+                      height: size.height*.15,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
 
-                    ),
-                    child: InkWell(
-                      onTap: () => pickImage(),
-                      child: image.path != ""
-                          ? Image.file(
-                        image,
-                        width: 120,
-                        height: 120,
-                        fit: BoxFit.contain,
-                      )
-                          : Image.asset(AppAssets.camera),
+                      ),
+                      child: InkWell(
+                        onTap: () => pickImage(),
+                        child: image.path != ""
+                            ? Image.file(
+                          image,
+                          width: 120,
+                          height: 120,
+                          fit: BoxFit.contain,
+                        )
+                            : Image.asset(AppAssets.camera),
+                      ),
                     ),
                   ),
                 ),
-        ),
-    ),
+              ),
               SizedBox(height: 22,),
               CommonButton(title: "Next",onPressed: (){
 
