@@ -85,7 +85,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                             width: 90,
                             height: 32,
                             child: CommonButton(title: "Post",onPressed: (){
-
+                              FocusScope.of(context).unfocus();
                               Map map = <String, String>{};
                               map['title'] =tittleController.text.trim();
                               map['description'] =descriptionController.text.trim();
@@ -100,7 +100,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                 file1: image,
                               ).then((value) async {
                                 if (value.status == true) {
-                                  Get.toNamed(MyRouters.addRecommendationScreen);
+                                  // Get.toNamed(MyRouters.addRecommendationScreen);
                                   showToast(value.message.toString());
                                 }
                                 else{
@@ -117,6 +117,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
 
                     SizedBox(height: 30,),
                     TextFormField(
+                      textInputAction: TextInputAction.done,
                       style:  GoogleFonts.mulish(
                           fontWeight: FontWeight.w700,
                           fontSize: 18,
@@ -138,6 +139,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
 
                     SizedBox(height: 10,),
                     TextFormField(
+                      textInputAction: TextInputAction.done,
                       style:  GoogleFonts.mulish(
                           fontWeight: FontWeight.w300,
                           fontSize: 12,

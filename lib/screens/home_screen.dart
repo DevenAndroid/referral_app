@@ -5,12 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:referral_app/controller/profile_controller.dart';
+import 'package:referral_app/routers/routers.dart';
 import 'package:referral_app/widgets/app_assets.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../controller/wishlist controller.dart';
+import '../models/categories_model.dart';
 import '../models/home_page_model.dart';
 import '../models/remove_reomeendation.dart';
+import '../repositories/categories_repo.dart';
 import '../repositories/home_pafe_repo.dart';
 import '../repositories/remove_bookmark_repo.dart';
 import '../resourses/api_constant.dart';
@@ -25,8 +29,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+  Rx<RxStatus> statusOfCategories = RxStatus.empty().obs;
+
+  Rx<CategoriesModel> categories = CategoriesModel().obs;
+
+  chooseCategories1() {
+    getCategoriesRepo().then((value) {
+      categories.value = value;
+
+      if (value.status == true) {
+        statusOfCategories.value = RxStatus.success();
+      } else {
+        statusOfCategories.value = RxStatus.error();
+      }
+
+      // showToast(value.message.toString());
+    });
+  }
   Rx<RxStatus> statusOfHome = RxStatus.empty().obs;
   final wishListController = Get.put(WishListController());
+  final profileController = Get.put(ProfileController());
 
   Rx<RemoveRecommendationModel> modalRemove = RemoveRecommendationModel().obs;
   Rx<RxStatus> statusOfRemove = RxStatus.empty().obs;
@@ -51,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     chooseCategories();
+    chooseCategories1();
   }
   final key = GlobalKey<ScaffoldState>();
 
@@ -83,7 +108,11 @@ class _HomeScreenState extends State<HomeScreen> {
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 14.0),
-                  child: SvgPicture.asset(AppAssets.search),
+                  child: InkWell(
+                      onTap: (){
+                        Get.toNamed(MyRouters.searchScreen);
+                      },
+                      child: SvgPicture.asset(AppAssets.search)),
                 )
               ],
               bottom: TabBar(
@@ -400,227 +429,139 @@ width: size.width,
                     ),
                   ),
                 ),
-               SingleChildScrollView(
-                 child: Column(
-                   children: [
-                     Obx(() {
-
-                       return statusOfHome.value.isSuccess ?
-
-                       ListView.builder(
-                           shrinkWrap: true,
-                           itemCount: home.value.data!.recommandation!.length,
-                           physics: const BouncingScrollPhysics(),
-                           itemBuilder: (context, index) {
-                             return
-                               Column(
-                                 children: [
-                                   Container(
-                                     padding: const EdgeInsets.all(10),
-                                     decoration: BoxDecoration(
-                                         color: Colors.white,
-                                         borderRadius: BorderRadius.circular(10),
-                                         boxShadow: [
-                                           BoxShadow(
-                                             color: const Color(0xFF5F5F5F).withOpacity(0.2),
-                                             offset: const Offset(0.0, 0.2),
-                                             blurRadius: 2,
-                                           ),
-                                         ]),
-                                     child: Column(
-                                       mainAxisAlignment: MainAxisAlignment.start,
-                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                       children: [
-                                         Row(
-                                           children: [
-                                             ClipOval(
-                                               child: CachedNetworkImage(
-                                                 width: 30,
-                                                 height: 30,
-                                                 fit: BoxFit.cover,
-                                                 imageUrl: home.value.data!.recommandation![index].user!.profileImage.toString(),
-                                                 placeholder: (context, url) =>
-                                                     Image.asset(AppAssets.girl),
-                                                 errorWidget: (context, url, error) =>
-                                                     Image.asset(AppAssets.girl),
-                                               ),
-                                             ),
-                                             const SizedBox(width: 20,),
-                                             Column(
-                                               mainAxisAlignment: MainAxisAlignment.start,
-                                               crossAxisAlignment: CrossAxisAlignment.start,
-                                               children: [
-                                                 home.value.data!.recommandation![index].user!.name ==""? Text("Name..."  , style: GoogleFonts.mulish(
-                                                     fontWeight: FontWeight.w700,
-                                                     // letterSpacing: 1,
-                                                     fontSize: 14,
-                                                     color: Colors.black),): Text(
-                                                   home.value.data!.recommandation![index].user!.name.toString(),
-                                                   style: GoogleFonts.mulish(
-                                                       fontWeight: FontWeight.w700,
-                                                       // letterSpacing: 1,
-                                                       fontSize: 14,
-                                                       color: Colors.black),
-                                                 ),
-                                                 Row(
-                                                   children: [
-                                                     home.value.data!.recommandation![index].user!.address ==""? Text("address..."  , style: GoogleFonts.mulish(
-                                                         fontWeight: FontWeight.w400,
-                                                         // letterSpacing: 1,
-                                                         fontSize: 13,
-                                                         color: Colors.grey),): Text(
-                                                       home.value.data!.recommandation![index].user!.address.toString(),
-                                                       style: GoogleFonts.mulish(
-                                                           fontWeight: FontWeight.w400,
-                                                           // letterSpacing: 1,
-                                                           fontSize: 13,
-                                                           color: Colors.grey),
-                                                     ),
-
-                                                     const SizedBox(
-                                                       height: 11,
-                                                       child: VerticalDivider(
-                                                         width: 8,
-                                                         thickness: 1,
-                                                         color: Colors.grey,
-                                                       ),
-                                                     ),
-                                                     Text(
-                                                       "3 Hour",
-                                                       style: GoogleFonts.mulish(
-                                                           fontWeight: FontWeight.w300,
-                                                           // letterSpacing: 1,
-                                                           fontSize: 12,
-                                                           color: const Color(0xFF878D98)),
-                                                     ),
-                                                   ],
-                                                 )
-                                               ],
-                                             ),
-                                             const Spacer(),
-                                             const SizedBox(width: 20,),
-                                             InkWell(
-                                               onTap: (){
-                                                 // home.value.data!.discover![index].wishlist.toString();
-                                                 setState(() {
-
-                                                 });
-
-                                                 bookmarkRepo(
-                                                   context: context,
-                                                   post_id: home.value.data!.recommandation![index].id.toString(),
-                                                 ).then((value) async {
-                                                   modalRemove.value = value;
-                                                   if (value.status == true) {
-                                                     statusOfRemove.value = RxStatus.success();
-                                                     chooseCategories();
-                                                     print(home.value.data!.recommandation![index].wishlist! );
-                                                     // like=true;
-                                                     showToast(value.message.toString());
-                                                   } else {
-                                                     statusOfRemove.value = RxStatus.error();
-                                                     // like=false;
-                                                     showToast(value.message.toString());
-
-
-                                                   }
-                                                 }
-
-                                                 );
-                                               },
-                                               child:
-                                               home.value.data!.recommandation![index].wishlist!?
-                                               SvgPicture.asset(AppAssets.bookmark1,height: 20,): SvgPicture.asset(AppAssets.bookmark),
-                                             )
-                                           ],
-                                         ),
-                                         const SizedBox(height: 15,),
-                                         Stack(children: [
-                                           CachedNetworkImage(
-                                             width: size.width,
-                                             height: 200,
-                                             fit: BoxFit.contain ,
-
-                                             imageUrl:home.value.data!.recommandation![index].image.toString(),
-                                             placeholder: (context, url) =>
-                                                 Image.asset(AppAssets.picture,width: size.width,),
-                                             errorWidget: (context, url, error) =>
-                                                 Image.asset(AppAssets.picture,width: size.width,),
-                                           ),
-
-                                           Positioned(
-                                               right: 10,
-                                               top: 15,
-                                               child:
-                                               InkWell(
-                                                   onTap: (){
-                                                     Share.share(home.value.data!.recommandation![index].image.toString(),);
-                                                   },
-                                                   child: SvgPicture.asset(AppAssets.forward)))
-
-                                         ]),
-                                         const SizedBox(height: 10,),
-                                         Text(
-                                           home.value.data!.recommandation![index].title.toString(),
-                                           style: GoogleFonts.mulish(
-                                               fontWeight: FontWeight.w700,
-                                               // letterSpacing: 1,
-                                               fontSize: 17,
-                                               color: Colors.black),
-                                         ),
-                                         const SizedBox(height: 10,),
-                                         Text(
-                                           home.value.data!.recommandation![index].review.toString(),
-                                           style: GoogleFonts.mulish(
-                                               fontWeight: FontWeight.w300,
-                                               // letterSpacing: 1,
-                                               fontSize: 14,
-                                               color: const Color(0xFF6F7683)),
-                                         ),
-                                         const SizedBox(height: 10,),
-                                         Container(
-                                           padding: const EdgeInsets.all(5),
-                                           width: 180,
-                                           height: 30,
-                                           decoration: BoxDecoration(
-                                             color: const Color(0xFF3797EF).withOpacity(.09),
-                                             borderRadius: BorderRadius.circular(10),
-                                           ),
-                                           child: Row(
-                                             children: [
-                                               SvgPicture.asset(AppAssets.message),
-                                               const SizedBox(width: 6,),
-                                               Text(
-                                                 "Recommendations: 120",
-                                                 style: GoogleFonts.mulish(
-                                                     fontWeight: FontWeight.w500,
-                                                     // letterSpacing: 1,
-                                                     fontSize: 12,
-                                                     color: const Color(0xFF3797EF)),
-                                               ),
-                                             ],
-                                           ),
-                                         ),
-                                         const SizedBox(height: 10,),
-                                       ],
-                                     ),
-                                   ),
-                                   const SizedBox(height: 15,)
-                                 ],
-                               );
-
-                           })
-                           : statusOfHome.value.isError
-                           ? CommonErrorWidget(
-                         errorText: "",
-                         onTap: () {},
-                       )
-                           : const Center(
-                           child: CircularProgressIndicator());
-                     })
-                   ],
-                 ),
-               )
+                SingleChildScrollView(
+                  physics:
+                  const AlwaysScrollableScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                            height: size.height * .15,
+                            child: Obx(() {
+                              return statusOfCategories.value.isSuccess && profileController.statusOfProfile.value.isSuccess
+                                  ? ListView.builder(
+                                  itemCount: categories
+                                      .value.data!.length,
+                                  shrinkWrap: true,
+                                  scrollDirection:
+                                  Axis.horizontal,
+                                  physics:
+                                  const AlwaysScrollableScrollPhysics(),
+                                  itemBuilder:
+                                      (context, index) {
+                                    return Padding(
+                                      padding:
+                                      const EdgeInsets
+                                          .all(8.0),
+                                      child: Column(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              // profileController.categoriesController.text = item.name.toString();
+                                              // profileController.idController.text = item.id.toString();
+                                              // Get.back();
+                                            },
+                                            child: ClipOval(
+                                              child:
+                                              CachedNetworkImage(
+                                                width: 70,
+                                                height: 70,
+                                                fit: BoxFit
+                                                    .fill,
+                                                imageUrl: categories
+                                                    .value
+                                                    .data![
+                                                index]
+                                                    .image
+                                                    .toString(),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 2,
+                                          ),
+                                          Text(
+                                            categories
+                                                .value
+                                                .data![
+                                            index]
+                                                .name
+                                                .toString(),
+                                            style: GoogleFonts
+                                                .mulish(
+                                                fontWeight:
+                                                FontWeight
+                                                    .w300,
+                                                // letterSpacing: 1,
+                                                fontSize:
+                                                14,
+                                                color: Color(
+                                                    0xFF26282E)),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  })
+                                  : statusOfCategories
+                                  .value.isError
+                                  ? CommonErrorWidget(
+                                errorText: "",
+                                onTap: () {},
+                              )
+                                  : const Center(
+                                  child:
+                                  CircularProgressIndicator());
+                            })),
+                       if(profileController.modal.value.data == null)
+                         profileController.statusOfProfile.value.isSuccess?
+                        GridView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            // Number of columns
+                            crossAxisSpacing: 8.0,
+                            // Spacing between columns
+                            mainAxisSpacing:
+                            2.0, // Spacing between rows
+                          ),
+                          itemCount: profileController
+                              .modal
+                              .value
+                              .data!
+                              .myRecommandation!
+                              .length,
+                          // Total number of items
+                          itemBuilder: (BuildContext context,
+                              int index) {
+                            // You can replace the Container with your image widget
+                            return CachedNetworkImage(
+                              imageUrl: profileController
+                                  .modal
+                                  .value
+                                  .data!
+                                  .myRecommandation![index]
+                                  .image
+                                  .toString(),
+                              width: 50,
+                              height: 50,
+                            );
+                          },
+                        ) : profileController.statusOfProfile
+            .value.isError
+        ? CommonErrorWidget(
+        errorText: "",
+          onTap: () {},
+        )
+            : const Center(
+        child:
+        CircularProgressIndicator()),
+                      ],
+                    ),
+                  ),
+                ),
               ]),
             )));
   }

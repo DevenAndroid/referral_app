@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +26,7 @@ import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
 import '../widgets/common_textfield.dart';
 import '../widgets/custome_textfiled.dart';
+import '../widgets/helper.dart';
 class EditAccount extends StatefulWidget {
   const EditAccount({super.key});
 
@@ -33,6 +36,7 @@ class EditAccount extends StatefulWidget {
 
 class _EditAccountState extends State<EditAccount> {
   File image = File("");
+  File categoryFile = File("");
   String code = "+91";
   String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
 
@@ -118,33 +122,75 @@ class _EditAccountState extends State<EditAccount> {
                                   color: AppTheme.onboardingColor
                               ),),
                             const SizedBox(height: 12,),
-                            Container(
-                              width: size.width,
-                              height: size.height*.15,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: const Color(0xFFE4E4E4)),
-                              ),
-                              child:  InkWell(
-                                onTap: () => pickImage(),
-                                child: image.path != ""
-                                    ? Image.file(
-                                  image,
-                                  width: 120,
-                                  height: 120,
-                                  fit: BoxFit.contain,
-                                )
-                                    : CachedNetworkImage(
-                                  width: 120,
-                                  height: 120,
-                                  fit: BoxFit.cover,
-                                  imageUrl: profileController
-                                      .modal.value.data!.user!.profileImage
-                                      .toString(),
-                                  placeholder: (context, url) =>
-                                  const SizedBox(),
-                                  errorWidget: (context, url, error) =>
-                                  const SizedBox(),
+                            InkWell(
+                              onTap: () {
+                                _showActionSheet(context);
+                              },
+                              child: categoryFile.path != ""
+                                  ? Stack(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration:
+                                    BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius
+                                          .circular(10),
+                                      border: Border.all(color: Colors.black12),
+                                      color: Colors.white,
+
+                                    ),
+                                    margin: const EdgeInsets
+                                        .symmetric(
+                                        vertical: 10,
+                                        horizontal: 10),
+                                    width: double.maxFinite,
+                                    height: 180,
+                                    alignment:
+                                    Alignment.center,
+                                    child: Image.file(
+                                        categoryFile,
+                                        errorBuilder: (_, __, ___) =>
+                                            Image.network(
+                                                categoryFile
+                                                    .path,
+                                                errorBuilder: (_,
+                                                    __,
+                                                    ___) =>
+                                                const SizedBox())),
+                                  ),
+                                ],
+                              )
+                                  : Container(
+                                decoration: BoxDecoration(border: Border.all(color: Colors.black12),color: Colors.white),
+                                padding:
+                                const EdgeInsets.only(
+                                    top: 8),
+                                margin: const EdgeInsets
+                                    .symmetric(
+                                    vertical: 8,
+                                    horizontal: 8),
+                                width: double.maxFinite,
+                                height: 130,
+                                alignment: Alignment.center,
+                                child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment
+                                      .center,
+                                  children: [
+                                    Image.asset(
+                                      AppAssets.camera,
+                                      height: 60,
+                                      width: 50,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+
+                                    const SizedBox(
+                                      height: 11,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -162,7 +208,9 @@ class _EditAccountState extends State<EditAccount> {
                             CommonTextfield(
                                 controller: profileController.nameController,
 
-                                obSecure: false, hintText: "Enter your name"),
+                                obSecure: false, hintText: "Enter your name",
+                              autofocus: false,
+                            ),
                             const SizedBox(height: 20,),
                             Text("Email ID",
                               style: GoogleFonts.mulish(
@@ -345,5 +393,104 @@ class _EditAccountState extends State<EditAccount> {
                   child: Center(child: CircularProgressIndicator()));
             })
         ));
+  }
+  void _showActionSheet(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: const Text(
+          'Select Picture from',
+          style: TextStyle(
+              color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
+        ),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Helper.addImagePicker(
+                  imageSource: ImageSource.camera, imageQuality: 75)
+                  .then((value) async {
+                CroppedFile? croppedFile = await ImageCropper().cropImage(
+                  sourcePath: value.path,
+                  aspectRatioPresets: [
+                    CropAspectRatioPreset.square,
+                    CropAspectRatioPreset.ratio3x2,
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    CropAspectRatioPreset.ratio16x9
+                  ],
+                  uiSettings: [
+                    AndroidUiSettings(
+                        toolbarTitle: 'Cropper',
+                        toolbarColor: Colors.deepOrange,
+                        toolbarWidgetColor: Colors.white,
+                        initAspectRatio: CropAspectRatioPreset.original,
+                        lockAspectRatio: false),
+                    IOSUiSettings(
+                      title: 'Cropper',
+                    ),
+                    WebUiSettings(
+                      context: context,
+                    ),
+                  ],
+                );
+                if (croppedFile != null) {
+                  categoryFile = File(croppedFile.path);
+                  setState(() {});
+                }
+
+                Get.back();
+              });
+            },
+            child: const Text("Camera"),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Helper.addImagePicker(
+                  imageSource: ImageSource.gallery, imageQuality: 75)
+                  .then((value) async {
+                CroppedFile? croppedFile = await ImageCropper().cropImage(
+                  sourcePath: value.path,
+                  aspectRatioPresets: [
+                    CropAspectRatioPreset.square,
+                    CropAspectRatioPreset.ratio3x2,
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    CropAspectRatioPreset.ratio16x9
+                  ],
+                  uiSettings: [
+                    AndroidUiSettings(
+                        toolbarTitle: 'Cropper',
+                        toolbarColor: Colors.deepOrange,
+                        toolbarWidgetColor: Colors.white,
+                        initAspectRatio: CropAspectRatioPreset.original,
+                        lockAspectRatio: false),
+                    IOSUiSettings(
+                      title: 'Cropper',
+                    ),
+                    WebUiSettings(
+                      context: context,
+                    ),
+                  ],
+                );
+                if (croppedFile != null) {
+                  categoryFile = File(croppedFile.path);
+                  setState(() {});
+                }
+
+                Get.back();
+              });
+            },
+            child: const Text('Gallery'),
+          ),
+          CupertinoActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -44,7 +44,11 @@ var email= Get.arguments[0];
       ).then((value) async {
         otpVerify.value = value;
         if (value.status == true) {
+
           SharedPreferences pref = await SharedPreferences.getInstance();
+          if (pref.getBool('complete') == true) {
+            Get.toNamed(MyRouters.bottomNavbar);
+          }
            pref.setString('cookie', value.authToken.toString());
           Get.toNamed(MyRouters.createAccountScreen);
           // Get.offAllNamed(MyRouters.bottomNavbar);

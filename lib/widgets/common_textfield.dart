@@ -7,6 +7,7 @@ import 'app_theme.dart';
 
 
 class CommonTextfield extends StatefulWidget {
+
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
   final bool obSecure;
@@ -30,6 +31,7 @@ class CommonTextfield extends StatefulWidget {
 
   CommonTextfield({
     this.controller,
+
     this.validator,
     this.keyboardType = TextInputType.text,
     required this.obSecure,
@@ -55,6 +57,7 @@ class CommonTextfield extends StatefulWidget {
 }
 
 class _CommonTextfieldState extends State<CommonTextfield> {
+  FocusNode _focusNode = FocusNode();
   @override
   void initState() {
     super.initState();
@@ -67,7 +70,7 @@ class _CommonTextfieldState extends State<CommonTextfield> {
         style: const TextStyle(
             color: AppTheme.textColor
         ),
-        autofocus: false, textInputAction: TextInputAction.next,
+        autofocus: false,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         onFieldSubmitted: widget.onFieldSubmitted,
         inputFormatters: widget.inputFormatters,
@@ -81,6 +84,8 @@ class _CommonTextfieldState extends State<CommonTextfield> {
         readOnly: widget.readOnly,
         keyboardType: widget.keyboardType,
         controller: widget.controller,
+        focusNode: _focusNode,
+        textInputAction: TextInputAction.done,
         decoration: InputDecoration(
 
           counterStyle: const TextStyle(
