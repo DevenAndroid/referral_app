@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -6,28 +5,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:referral_app/widgets/app_assets.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../controller/profile_controller.dart';
 import '../controller/wishlist controller.dart';
 import '../models/home_page_model.dart';
 import '../models/remove_reomeendation.dart';
-import '../repositories/add_ask_recommendation_repo.dart';
 import '../repositories/home_pafe_repo.dart';
 import '../repositories/remove_bookmark_repo.dart';
 import '../resourses/api_constant.dart';
-import '../routers/routers.dart';
-import '../widgets/app_text.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
-import '../widgets/common_textfield.dart';
-import '../widgets/custome_size.dart';
-import '../widgets/custome_textfiled.dart';
-import '../widgets/dimenestion.dart';
-import '../widgets/recommendation_popup.dart';
-import 'like button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -89,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.w400,
                     letterSpacing: 1,
                     fontSize: 25,
-                    color: Color(0xFF262626)),
+                    color: const Color(0xFF262626)),
               ),
               centerTitle: true,
               actions: [
@@ -101,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: TabBar(
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorColor: AppTheme.primaryColor,
-                indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
+                indicatorPadding: const EdgeInsets.symmetric(horizontal: 15),
                 // automaticIndicatorColorAdjustment: true,
                 onTap: (value) {
                   currentDrawer = value;
@@ -116,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w700,
                           letterSpacing: 1,
                           fontSize: 15,
-                          color: Color(0xFF3797EF))
+                          color: const Color(0xFF3797EF))
                           :GoogleFonts.mulish(
                           fontWeight: FontWeight.w700,
                           letterSpacing: 1,
@@ -133,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w700,
                           letterSpacing: 1,
                           fontSize: 15,
-                          color: Color(0xFF3797EF))
+                          color: const Color(0xFF3797EF))
                           : GoogleFonts.mulish(
                           fontWeight: FontWeight.w700,
                           letterSpacing: 1,
@@ -148,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: TabBarView(children: [
                 SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -169,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Column(
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.all(10),
+                                      padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.circular(10),
@@ -199,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                               ),
 
-                                              SizedBox(width: 20,),
+                                              const SizedBox(width: 20,),
                                               Expanded(
                                                 child: Column(
 
@@ -224,16 +212,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           fontWeight: FontWeight.w400,
                                                           // letterSpacing: 1,
                                                           fontSize: 14,
-                                                          color: Color(0xFF878D98)),): Text(
+                                                          color: const Color(0xFF878D98)),): Text(
                                                         home.value.data!.discover![index].userId!.address.toString(),
                                                         style: GoogleFonts.mulish(
                                                             fontWeight: FontWeight.w400,
                                                             // letterSpacing: 1,
                                                             fontSize: 14,
-                                                            color: Color(0xFF878D98)),
+                                                            color: const Color(0xFF878D98)),
                                                       ),),
 
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height: 15,
                                                           child: VerticalDivider(
                                                             width: 8,
@@ -247,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               fontWeight: FontWeight.w300,
                                                               // letterSpacing: 1,
                                                               fontSize: 12,
-                                                              color: Color(0xFF878D98)),
+                                                              color: const Color(0xFF878D98)),
                                                         ),
                                                       ],
                                                     )
@@ -255,75 +243,76 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                               ),
 
+                                              // InkWell(
+                                              //   onTap: (){
+                                              //     home.value.data!.discover![index].wishlist.toString();
+                                              //     setState(() {
+                                              //
+                                              //     });
+                                              //
+                                              //     bookmarkRepo(
+                                              //                 context: context,
+                                              //                 post_id: home.value.data!.discover![index].id.toString(),
+                                              //               ).then((value) async {
+                                              //                 modalRemove.value = value;
+                                              //                 if (value.status == true) {
+                                              //                   statusOfRemove.value = RxStatus.success();
+                                              //                   chooseCategories();
+                                              //                   print(home.value.data!.discover![index].wishlist! );
+                                              //                   // like=true;
+                                              //                   showToast(value.message.toString());
+                                              //                 } else {
+                                              //                   statusOfRemove.value = RxStatus.error();
+                                              //                   // like=false;
+                                              //                   showToast(value.message.toString());
+                                              //
+                                              //
+                                              //                 }
+                                              //               }
+                                              //
+                                              //               );
+                                              //   },
+                                              //   child: Icon(
+                                              //     home.value.data!.discover![index].wishlist! ? Icons.favorite : Icons.favorite_border_rounded,
+                                              //     color:home.value.data!.discover![index].wishlist! ? Colors.red : Colors.grey.shade700,
+                                              //   ),
+                                              // ),
+const SizedBox(width: 20,),
                                               InkWell(
-                                                onTap: (){
-                                                  print(home.value.data!.discover![index].wishlist! );
-                                                  setState(() {
+                                                  onTap: (){
+                                                    // home.value.data!.discover![index].wishlist.toString();
+                                                    setState(() {
 
-                                                  });
+                                                    });
 
-                                                  bookmarkRepo(
-                                                              context: context,
-                                                              post_id: home.value.data!.discover![index].userId!.id.toString(),
-                                                            ).then((value) async {
-                                                              modalRemove.value = value;
-                                                              if (value.status == true) {
-                                                                statusOfRemove.value = RxStatus.success();
-                                                                chooseCategories();
-                                                                print(home.value.data!.discover![index].wishlist! );
-                                                                // like=true;
-                                                                showToast(value.message.toString());
-                                                              } else {
-                                                                statusOfRemove.value = RxStatus.error();
-                                                                // like=false;
-                                                                showToast(value.message.toString());
+                                                    bookmarkRepo(
+                                                      context: context,
+                                                      post_id: home.value.data!.discover![index].id.toString(),
+                                                    ).then((value) async {
+                                                      modalRemove.value = value;
+                                                      if (value.status == true) {
+                                                        statusOfRemove.value = RxStatus.success();
+                                                        chooseCategories();
+                                                        print(home.value.data!.discover![index].wishlist! );
+                                                        // like=true;
+                                                        showToast(value.message.toString());
+                                                      } else {
+                                                        statusOfRemove.value = RxStatus.error();
+                                                        // like=false;
+                                                        showToast(value.message.toString());
 
 
-                                                              }
-                                                            }
+                                                      }
+                                                    }
 
-                                                            );
-                                                },
-                                                child: Icon(
-                                                  home.value.data!.discover![index].wishlist! ? Icons.favorite : Icons.favorite_border_rounded,
-                                                  color:home.value.data!.discover![index].wishlist! ? Colors.red : Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              // Obx(() {
-                                              //   if (wishListController.refreshFav.value > 0) {}
-                                              //   return LikeButton(
-                                              //     onPressed: () {
-                                              //       bookmarkRepo(
-                                              //         context: context,
-                                              //         post_id: home.value.data!.discover![index].userId!.id.toString(),
-                                              //       ).then((value) async {
-                                              //         modalRemove.value = value;
-                                              //         if (value.status == true) {
-                                              //           statusOfRemove.value = RxStatus.success();
-                                              //           showToast(value.message.toString());
-                                              //         } else {
-                                              //           statusOfRemove.value = RxStatus.error();
-                                              //           showToast(value.message.toString());
-                                              //
-                                              //
-                                              //         }
-                                              //       }
-                                              //
-                                              //       );
-                                              //
-                                              //       // if (wishListController.favoriteItems.contains(widget.productElement.id.toString())) {
-                                              //         // removeFromWishList();
-                                              //       // } else {
-                                              //         // addToWishList();
-                                              //       // }
-                                              //     },
-                                              //     // isLiked: wishListController.favoriteItems.contains(widget.productElement.id.toString()),
-                                              //   );
-                                              // }),
-                                              SvgPicture.asset(AppAssets.bookmark),
-                                            ],
+                                                    );
+                                                  },
+                                                  child:
+                                                  home.value.data!.discover![index].wishlist!?
+                                                  SvgPicture.asset(AppAssets.bookmark1,height: 20,): SvgPicture.asset(AppAssets.bookmark),
+                                              )   ],
                                           ),
-                                          SizedBox(height: 15,),
+                                          const SizedBox(height: 15,),
                                           Stack(children: [
                                             CachedNetworkImage(
 width: size.width,
@@ -348,7 +337,7 @@ width: size.width,
                                                     child: SvgPicture.asset(AppAssets.forward)))
 
                                           ]),
-                                          SizedBox(height: 10,),
+                                          const SizedBox(height: 10,),
                                           Text(
                               home.value.data!.discover![index].title.toString(),
                                             style: GoogleFonts.mulish(
@@ -357,44 +346,44 @@ width: size.width,
                                                 fontSize: 17,
                                                 color: Colors.black),
                                           ),
-                                          SizedBox(height: 10,),
+                                          const SizedBox(height: 10,),
                                           Text(
                                             home.value.data!.discover![index].description.toString(),
                                             style: GoogleFonts.mulish(
                                                 fontWeight: FontWeight.w300,
                                                 // letterSpacing: 1,
                                                 fontSize: 14,
-                                                color: Color(0xFF6F7683)),
+                                                color: const Color(0xFF6F7683)),
                                           ),
-                                          SizedBox(height: 10,),
+                                          const SizedBox(height: 10,),
                                           Container(
-                                            padding: EdgeInsets.all(5),
+                                            padding: const EdgeInsets.all(5),
                                             width: 180,
                                             height: 30,
                                             decoration: BoxDecoration(
-                                              color: Color(0xFF3797EF).withOpacity(.09),
+                                              color: const Color(0xFF3797EF).withOpacity(.09),
                                               borderRadius: BorderRadius.circular(10),
                                             ),
                                             child: Row(
                                               children: [
                                                 SvgPicture.asset(AppAssets.message),
-                                                SizedBox(width: 6,),
+                                                const SizedBox(width: 6,),
                                                 Text(
                                                   "Recommendations: 120",
                                                   style: GoogleFonts.mulish(
                                                       fontWeight: FontWeight.w500,
                                                       // letterSpacing: 1,
                                                       fontSize: 12,
-                                                      color: Color(0xFF3797EF)),
+                                                      color: const Color(0xFF3797EF)),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          SizedBox(height: 10,),
+                                          const SizedBox(height: 10,),
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height: 15,)
+                                    const SizedBox(height: 15,)
                                   ],
                                 );
 
@@ -427,7 +416,7 @@ width: size.width,
                                Column(
                                  children: [
                                    Container(
-                                     padding: EdgeInsets.all(10),
+                                     padding: const EdgeInsets.all(10),
                                      decoration: BoxDecoration(
                                          color: Colors.white,
                                          borderRadius: BorderRadius.circular(10),
@@ -456,7 +445,7 @@ width: size.width,
                                                      Image.asset(AppAssets.girl),
                                                ),
                                              ),
-                                             SizedBox(width: 20,),
+                                             const SizedBox(width: 20,),
                                              Column(
                                                mainAxisAlignment: MainAxisAlignment.start,
                                                crossAxisAlignment: CrossAxisAlignment.start,
@@ -488,7 +477,7 @@ width: size.width,
                                                            color: Colors.grey),
                                                      ),
 
-                                                     SizedBox(
+                                                     const SizedBox(
                                                        height: 11,
                                                        child: VerticalDivider(
                                                          width: 8,
@@ -502,17 +491,50 @@ width: size.width,
                                                            fontWeight: FontWeight.w300,
                                                            // letterSpacing: 1,
                                                            fontSize: 12,
-                                                           color: Color(0xFF878D98)),
+                                                           color: const Color(0xFF878D98)),
                                                      ),
                                                    ],
                                                  )
                                                ],
                                              ),
-                                             Spacer(),
-                                             SvgPicture.asset(AppAssets.bookmark),
+                                             const Spacer(),
+                                             const SizedBox(width: 20,),
+                                             InkWell(
+                                               onTap: (){
+                                                 // home.value.data!.discover![index].wishlist.toString();
+                                                 setState(() {
+
+                                                 });
+
+                                                 bookmarkRepo(
+                                                   context: context,
+                                                   post_id: home.value.data!.recommandation![index].id.toString(),
+                                                 ).then((value) async {
+                                                   modalRemove.value = value;
+                                                   if (value.status == true) {
+                                                     statusOfRemove.value = RxStatus.success();
+                                                     chooseCategories();
+                                                     print(home.value.data!.recommandation![index].wishlist! );
+                                                     // like=true;
+                                                     showToast(value.message.toString());
+                                                   } else {
+                                                     statusOfRemove.value = RxStatus.error();
+                                                     // like=false;
+                                                     showToast(value.message.toString());
+
+
+                                                   }
+                                                 }
+
+                                                 );
+                                               },
+                                               child:
+                                               home.value.data!.recommandation![index].wishlist!?
+                                               SvgPicture.asset(AppAssets.bookmark1,height: 20,): SvgPicture.asset(AppAssets.bookmark),
+                                             )
                                            ],
                                          ),
-                                         SizedBox(height: 15,),
+                                         const SizedBox(height: 15,),
                                          Stack(children: [
                                            CachedNetworkImage(
                                              width: size.width,
@@ -537,7 +559,7 @@ width: size.width,
                                                    child: SvgPicture.asset(AppAssets.forward)))
 
                                          ]),
-                                         SizedBox(height: 10,),
+                                         const SizedBox(height: 10,),
                                          Text(
                                            home.value.data!.recommandation![index].title.toString(),
                                            style: GoogleFonts.mulish(
@@ -546,44 +568,44 @@ width: size.width,
                                                fontSize: 17,
                                                color: Colors.black),
                                          ),
-                                         SizedBox(height: 10,),
+                                         const SizedBox(height: 10,),
                                          Text(
                                            home.value.data!.recommandation![index].review.toString(),
                                            style: GoogleFonts.mulish(
                                                fontWeight: FontWeight.w300,
                                                // letterSpacing: 1,
                                                fontSize: 14,
-                                               color: Color(0xFF6F7683)),
+                                               color: const Color(0xFF6F7683)),
                                          ),
-                                         SizedBox(height: 10,),
+                                         const SizedBox(height: 10,),
                                          Container(
-                                           padding: EdgeInsets.all(5),
+                                           padding: const EdgeInsets.all(5),
                                            width: 180,
                                            height: 30,
                                            decoration: BoxDecoration(
-                                             color: Color(0xFF3797EF).withOpacity(.09),
+                                             color: const Color(0xFF3797EF).withOpacity(.09),
                                              borderRadius: BorderRadius.circular(10),
                                            ),
                                            child: Row(
                                              children: [
                                                SvgPicture.asset(AppAssets.message),
-                                               SizedBox(width: 6,),
+                                               const SizedBox(width: 6,),
                                                Text(
                                                  "Recommendations: 120",
                                                  style: GoogleFonts.mulish(
                                                      fontWeight: FontWeight.w500,
                                                      // letterSpacing: 1,
                                                      fontSize: 12,
-                                                     color: Color(0xFF3797EF)),
+                                                     color: const Color(0xFF3797EF)),
                                                ),
                                              ],
                                            ),
                                          ),
-                                         SizedBox(height: 10,),
+                                         const SizedBox(height: 10,),
                                        ],
                                      ),
                                    ),
-                                   SizedBox(height: 15,)
+                                   const SizedBox(height: 15,)
                                  ],
                                );
 

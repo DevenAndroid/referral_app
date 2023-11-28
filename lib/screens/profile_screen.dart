@@ -1013,7 +1013,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                               fit:
                                                                                   BoxFit.fill,
                                                                               imageUrl:
-                                                                                  profileController.modal.value.data!.saveRecommandation![index].post!.image.toString(),
+                                                                profileController.modal.value.data!.saveRecommandation![index].post == null ? '' : profileController.modal.value.data!.saveRecommandation![index].post!.image.toString(),
                                                                               placeholder: (context, url) =>
                                                                                   Image.asset(AppAssets.picture),
                                                                               errorWidget: (context, url, error) =>
@@ -1034,7 +1034,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                                         Icons.remove_red_eye_outlined,
                                                                                         size: 20,
                                                                                       ),
-                                                                                      Text(
+                                                                                      profileController.modal.value.data!.saveRecommandation![index].post == null ? Text('') : Text(
                                                                                         " Views " + profileController.modal.value.data!.saveRecommandation![index].post!.review.toString(),
                                                                                         style: GoogleFonts.mulish(
                                                                                             fontWeight: FontWeight.w500,
@@ -1050,7 +1050,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                         height:
                                                                             10,
                                                                       ),
-                                                                      Text(
+                                                                      profileController.modal.value.data!.saveRecommandation![index].post == null ? Text('') :  Text(
                                                                         profileController
                                                                             .modal
                                                                             .value
@@ -1087,6 +1087,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                           }
                                                                         },
                                                                         child:
+                                                                        profileController.modal.value.data!.saveRecommandation![index].post == null ? Text('') :
                                                                             Text(
                                                                           profileController
                                                                               .modal
