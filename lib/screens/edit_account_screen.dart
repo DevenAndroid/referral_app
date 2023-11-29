@@ -17,6 +17,8 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controller/profile_controller.dart';
+import '../models/logout_Model.dart';
+import '../repositories/logout_repo.dart';
 import '../repositories/updateProfile_repo.dart';
 import '../resourses/api_constant.dart';
 import '../resourses/size.dart';
@@ -35,6 +37,30 @@ class EditAccount extends StatefulWidget {
 }
 
 class _EditAccountState extends State<EditAccount> {
+
+
+  Rx<LogoutModel> logout = LogoutModel().obs;
+  Rx<RxStatus> statusOfLogout = RxStatus.empty().obs;
+  String? address = "";
+
+  getLogout() {
+    getLogoutRepo().then((value) async {
+      logout.value = value;
+      if (value.status == true) {
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.clear();
+        Get.toNamed(MyRouters.loginScreen);
+        statusOfLogout.value = RxStatus.success();
+
+        // holder();
+      } else {
+        statusOfLogout.value = RxStatus.error();
+      }
+
+      print(value.message.toString());
+    });
+  }
+
   File image = File("");
   File categoryFile = File("");
   String code = "+91";
@@ -99,7 +125,7 @@ class _EditAccountState extends State<EditAccount> {
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         width: size.width,
-                        height: size.height,
+
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: const BorderRadius.only(topRight: Radius.circular(15),topLeft:  Radius.circular(15)),
@@ -368,13 +394,11 @@ class _EditAccountState extends State<EditAccount> {
 
                             },),
                             SizedBox(height: 26,),
-                            // CommonButton(title: "Logout",onPressed: () async {
-                            //
-                            //         SharedPreferences pref = await SharedPreferences.getInstance();
-                            //         pref.clear();
-                            //         Get.toNamed(MyRouters.loginScreen);
-                            //       }
-                            // Get.toNamed(MyRouters.thankYouScreen);
+                            CommonButton(title: "Logout",onPressed: () async {
+
+                              getLogout();
+                                  }
+                            )
 
 
 

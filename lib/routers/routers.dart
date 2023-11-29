@@ -12,6 +12,7 @@ import '../screens/otp_screen.dart';
 import '../screens/post_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/recommendation_single_page.dart';
+import '../screens/search_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/thank_you.dart';
 import '../screens/user_profile_screen.dart';
@@ -34,7 +35,11 @@ class MyRouters {
   static var postScreen = "/postScreen";
   static var recommendationSingleScreen = "/recommendationSingleScreen";
   static var categoriesScreen = "/categoriesScreen";
+
   static var userProfileScreen = "/userProfileScreen";
+
+  static var searchScreen = "/searchScreen";
+
 
   static var route = [
     GetPage(name: '/', page: () => const SplashScreen()),
@@ -49,6 +54,7 @@ class MyRouters {
         name: '/askRecommendationScreen',
         page: () => const AskRecommendationScreen()),
     GetPage(name: '/profileScreen', page: () => const ProfileScreen()),
+    GetPage(name: '/searchScreen', page: () => const SearchScreen()),
     GetPage(
         name: '/addRecommendationScreen',
         page: () => const AddRecommendationScreen()),

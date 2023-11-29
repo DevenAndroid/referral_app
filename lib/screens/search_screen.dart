@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -7,8 +8,10 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../resourses/api_constant.dart';
 import '../../widgets/common_error_widget.dart';
 import '../controller/profile_controller.dart';
+import '../models/all_recommendation_model.dart';
 import '../models/categories_model.dart';
 import '../models/search_model.dart';
+import '../repositories/all_recommendation_repo.dart';
 import '../repositories/categories_repo.dart';
 import '../repositories/search_repo.dart';
 import '../routers/routers.dart';
@@ -22,29 +25,32 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  Rx<RxStatus> statusOfCategories = RxStatus.empty().obs;
-
-  Rx<SearchModel> searchModel = SearchModel().obs;
-
-  chooseCategories() {
-    getSearchRepo(type: "recommandation",keyword:search1Controller ).then((value) {
-      searchModel.value = value;
+  Rx<RxStatus> statusOfAllRecommendation = RxStatus.empty().obs;
+  Rx<AllRecommendationModel> allRecommendation = AllRecommendationModel().obs;
+  all() {
+    getAllRepo().then((value) {
+      allRecommendation.value = value;
 
       if (value.status == true) {
-        statusOfCategories.value = RxStatus.success();
+        statusOfAllRecommendation.value = RxStatus.success();
       } else {
-        statusOfCategories.value = RxStatus.error();
+        statusOfAllRecommendation.value = RxStatus.error();
       }
 
       // showToast(value.message.toString());
     });
   }
 
+
+
+
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    chooseCategories();
+    all();
   }
   final profileController = Get.put(ProfileController());
   // final controller = Get.put(registerController());
@@ -97,7 +103,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           });
                         },
                         onChanged: (gt){
-                          chooseCategories();
+
                           setState(() {});
                         },
                       ),
@@ -105,54 +111,41 @@ class _SearchScreenState extends State<SearchScreen> {
                         height: 20,
                       ),
                       Obx(() {
-                        List<SearchData> searchData=[];
-                        if(statusOfCategories.value.isSuccess && searchModel.value.data!= null){
+                        List<AllRecommendation> searchData=[];
+                        if(statusOfAllRecommendation.value.isSuccess && allRecommendation.value.data!= null){
                           String search = search1Controller.text.trim().toLowerCase();
                           if(search.isNotEmpty) {
-                            searchData = searchModel.value.data!.where((element) => element.title.toString().toLowerCase().contains(search)
+                            searchData = allRecommendation.value.data!.where((element) => element.title.toString().toLowerCase().contains(search)
                             ).toList();
                           } else {
-                            searchData = searchModel.value.data!;
+                            searchData = allRecommendation.value.data!;
                           }
                         }
-                        return statusOfCategories.value.isSuccess
-                            ? ListView.builder(
-                            itemCount: searchData.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              final item = searchData[index];
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        // profileController.categoriesController.text = item.name.toString();
-                                        // profileController.idController.text = item.id.toString();
-                                        // Get.back();
-                                      },
-                                      child: Text(
-                                        item.title
-                                            .toString(),
-                                        style: GoogleFonts.poppins(
-                                            color: const Color(0xFF1D1D1D),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 2,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            })
-                            : statusOfCategories.value.isError
+                        return   statusOfAllRecommendation.value.isSuccess
+                            ? GridView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            // Number of columns
+                            crossAxisSpacing: 8.0,
+                            // Spacing between columns
+                            mainAxisSpacing: 2.0, // Spacing between rows
+                          ),
+                          itemCount: searchData.length,
+                          // Total number of items
+                          itemBuilder: (BuildContext context, int index) {
+                            final item = searchData[index];
+                            // You can replace the Container with your image widget
+                            return CachedNetworkImage(
+                              imageUrl: item.image.toString(),
+                              width: 50,
+                              height: 50,
+                            );
+                          },
+                        )
+                            : statusOfAllRecommendation.value.isError
                             ? CommonErrorWidget(
                           errorText: "",
                           onTap: () {},
