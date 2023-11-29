@@ -242,10 +242,11 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                     fieldName1: 'image',
                     mapData: map,
                     context: context,
-                    file1: image,
+                    file1: categoryFile,
                   ).then((value) async {
                     if (value.status == true) {
-                      Get.toNamed(MyRouters.followingScreen);
+                      Get.back();
+                      // Get.toNamed(MyRouters.followingScreen);
                       showToast(value.message.toString());
                     } else {
                       showToast(value.message.toString());

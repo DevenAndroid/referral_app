@@ -321,22 +321,22 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   const SizedBox(
                                     height: 5,
                                   ),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(AppAssets.location1),
-                                      SizedBox(
-                                        width: 6,
-                                      ),
-                                      Text(
-                                          profileController
-                                              .modal.value.data!.user!.address
-                                              .toString(),
-                                          style: GoogleFonts.mulish(
-                                              fontWeight: FontWeight.w300,
-                                              fontSize: 16,
-                                              color: const Color(0xFF262626))),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   children: [
+                                  //     SvgPicture.asset(AppAssets.location1),
+                                  //     SizedBox(
+                                  //       width: 6,
+                                  //     ),
+                                  //     Text(
+                                  //         profileController
+                                  //             .modal.value.data!.user!.address
+                                  //             .toString(),
+                                  //         style: GoogleFonts.mulish(
+                                  //             fontWeight: FontWeight.w300,
+                                  //             fontSize: 16,
+                                  //             color: const Color(0xFF262626))),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             ),
@@ -662,7 +662,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                             .all(
                                                                             5),
                                                                         width:
-                                                                            150,
+                                                                            180,
                                                                         height:
                                                                             30,
                                                                         decoration:

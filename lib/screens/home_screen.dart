@@ -410,7 +410,89 @@ bool check = false;
                                               ]),
                                               const SizedBox(
                                                 height: 10,
-                                              ),
+                                              )
+                                              SvgPicture.asset(
+                                                  AppAssets.bookmark),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Stack(children: [
+                                            CachedNetworkImage(
+                                              width: size.width,
+                                              height: 200,
+                                              fit: BoxFit.fill,
+                                              imageUrl: home.value.data!
+                                                  .discover![index].image
+                                                  .toString(),
+                                              placeholder: (context, url) =>
+                                                 SizedBox(),
+                                              errorWidget: (context, url,
+                                                  error) =>
+                                                  SizedBox(),
+                                            ),
+                                            Positioned(
+                                                right: 10,
+                                                top: 15,
+                                                child: InkWell(
+                                                    onTap: () {
+                                                      Share.share(
+                                                        home
+                                                            .value
+                                                            .data!
+                                                            .discover![
+                                                        index]
+                                                            .image
+                                                            .toString(),
+                                                      );
+                                                    },
+                                                    child: SvgPicture.asset(
+                                                        AppAssets.forward)))
+                                          ]),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            home.value.data!
+                                                .discover![index].title
+                                                .toString(),
+                                            style: GoogleFonts.mulish(
+                                                fontWeight: FontWeight.w700,
+                                                // letterSpacing: 1,
+                                                fontSize: 17,
+                                                color: Colors.black),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            home
+                                                .value
+                                                .data!
+                                                .discover![index]
+                                                .description
+                                                .toString(),
+                                            style: GoogleFonts.mulish(
+                                                fontWeight: FontWeight.w300,
+                                                // letterSpacing: 1,
+                                                fontSize: 14,
+                                                color: Color(0xFF6F7683)),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.all(5),
+                                                width: size.width * .45,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFF3797EF)
+                                                      .withOpacity(.09),
+                                                  borderRadius:
+                                                  BorderRadius.circular(10),
                                               Text(
                                                 home.value.data!
                                                     .discover![index].title
@@ -449,6 +531,7 @@ bool check = false;
                                                       .withOpacity(.09),
                                                   borderRadius:
                                                       BorderRadius.circular(10),
+
                                                 ),
                                                 child: Row(
                                                   children: [
@@ -460,6 +543,37 @@ bool check = false;
                                                     InkWell(
                                                       onTap: () {
                                                         showModalBottomSheet(
+
+                                                          isScrollControlled: true,
+                                                          context: context,
+                                                          backgroundColor:
+                                                          Colors.white,
+                                                          elevation: 10,
+
+                                                          shape:
+                                                          RoundedRectangleBorder(
+                                                            borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                20.0),
+                                                          ),
+                                                          builder: (BuildContext
+                                                          context) {
+                                                            // UDE : SizedBox instead of Container for whitespaces
+                                                            return Center(
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 20),
+                                                                child: SingleChildScrollView(
+                                                                  child: Column(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                    crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                    children: <
+                                                                        Widget>[
+
                                                           isScrollControlled:
                                                               true,
                                                           context: context,
@@ -494,11 +608,51 @@ bool check = false;
                                                                         CrossAxisAlignment
                                                                             .start,
                                                                     children: <Widget>[
+
                                                                       Text(
                                                                         'recommendation List',
                                                                         style: GoogleFonts
                                                                             .mulish(
                                                                           fontWeight:
+
+                                                                          FontWeight
+                                                                              .w700,
+                                                                          // letterSpacing: 1,
+                                                                          fontSize:
+                                                                          18,
+                                                                          color: Colors
+                                                                              .black,
+                                                                        ),
+                                                                      ),
+                                                                      ListView.builder(
+                                                                        scrollDirection: Axis.vertical,
+
+                                                                        itemCount: 20,
+                                                                        shrinkWrap: true,
+                                                                        itemBuilder: (context, index) {
+                                                                         return Padding(
+                                                                            padding: const EdgeInsets.only(left: 8.0,top: 10),
+                                                                            child: Row(mainAxisAlignment: MainAxisAlignment.start,
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              children: [
+
+                                                                                Image(
+                                                                                    height: 20,
+                                                                                    width: 20,
+                                                                                    image: AssetImage(
+                                                                                        'assets/icons/chat.png')
+
+                                                                                ),
+                                                                                SizedBox(width: 10,),
+                                                                                Container(
+                                                                                  padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                                                                                  decoration: BoxDecoration(
+                                                                                      borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10) ),
+                                                                                      color: Color(
+                                                                                          0xffF0F0F0)
+                                                                                  ),
+                                                                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+
                                                                               FontWeight.w700,
                                                                           // letterSpacing: 1,
                                                                           fontSize:
@@ -540,6 +694,66 @@ bool check = false;
                                                                                         children: [
                                                                                           Text(
                                                                                             'David Paterson',
+
+                                                                                            style: GoogleFonts
+                                                                                                .mulish(
+                                                                                              fontWeight:
+                                                                                              FontWeight
+                                                                                                  .w600,
+                                                                                              // letterSpacing: 1,
+                                                                                              fontSize:
+                                                                                              14,
+                                                                                              color: Colors
+                                                                                                  .black,
+                                                                                            ),),
+                                                                                          SizedBox(
+                                                                                            width: 10,),
+                                                                                          Text(
+                                                                                            '2 days',
+                                                                                            style: GoogleFonts
+                                                                                                .mulish(
+                                                                                              fontWeight:
+                                                                                              FontWeight
+                                                                                                  .w400,
+                                                                                              // letterSpacing: 1,
+                                                                                              fontSize:
+                                                                                              10,
+                                                                                              color: Colors
+                                                                                                  .black,
+                                                                                            ),),
+                                                                                          SizedBox(width: 50,),
+                                                                                          Icon(Icons.favorite_outline,color: Color(0xff134563),)
+                                                                                        ],
+                                                                                      ),
+                                                                                      SizedBox(
+                                                                                        height: size
+                                                                                            .height *
+                                                                                            .02,),
+                                                                                      Text(
+                                                                                        'i think Steel bottle is okay please use',
+                                                                                        style: GoogleFonts
+                                                                                            .mulish(
+                                                                                          fontWeight:
+                                                                                          FontWeight
+                                                                                              .w600,
+                                                                                          // letterSpacing: 1,
+                                                                                          fontSize:
+                                                                                          14,
+                                                                                          color: Colors
+                                                                                              .black,
+                                                                                        ),)
+                                                                                    ],
+                                                                                  ),
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          );
+                                                                        },
+
+                                                                      )
+                                                                      ,SizedBox(
+                                                                        height: 20,)
+
                                                                                             style: GoogleFonts.mulish(
                                                                                               fontWeight: FontWeight.w600,
                                                                                               // letterSpacing: 1,
@@ -603,6 +817,39 @@ bool check = false;
                                                       child: Text(
                                                         "Recommendations: 120",
                                                         style:
+
+                                                        GoogleFonts.mulish(
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w500,
+                                                            // letterSpacing: 1,
+                                                            fontSize: 12,
+                                                            color: const Color(
+                                                                0xFF3797EF)),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+
+                                              Text( home
+                                                  .value
+                                                  .data!
+                                                  .discover![index]
+                                                  .maxPrice
+                                                  .toString(),),
+                                              SizedBox(width: 10,),
+                                              Text( home
+                                                  .value
+                                                  .data!
+                                                  .discover![index]
+                                                  .maxPrice
+                                                  .toString(),)
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+
                                                             GoogleFonts.mulish(
                                                                 fontWeight:
                                                                     FontWeight
@@ -620,6 +867,7 @@ bool check = false;
                                                 height: 10,
                                               ),
                                             ],
+
                                           ),
                                         ),
                                         const SizedBox(
@@ -653,6 +901,56 @@ bool check = false;
                                       profileController
                                           .statusOfProfile.value.isSuccess
                                   ? ListView.builder(
+
+                                  itemCount: categories
+                                      .value.data!.length,
+                                  shrinkWrap: true,
+                                  scrollDirection:
+                                  Axis.horizontal,
+                                  physics:
+                                  const AlwaysScrollableScrollPhysics(),
+                                  itemBuilder:
+                                      (context, index) {
+                                    return Padding(
+                                      padding:
+                                      const EdgeInsets
+                                          .all(8.0),
+                                      child: Column(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              getSingleRepo(category_id:categories
+                                                  .value.data![index].id.toString() ).then((value) {
+                                                single.value = value;
+
+                                                if (value.status == true) {
+                                                  statusOfSingle.value = RxStatus.success();
+                                                } else {
+                                                  statusOfSingle.value = RxStatus.error();
+                                                }
+setState(() {
+
+});
+                                                // showToast(value.message.toString());
+                                              });
+                                              // profileController.categoriesController.text = item.name.toString();
+                                              // profileController.idController.text = item.id.toString();
+                                              // Get.back();
+                                            },
+                                            child: ClipOval(
+                                              child:
+                                              CachedNetworkImage(
+                                                width: 70,
+                                                height: 70,
+                                                fit: BoxFit
+                                                    .fill,
+                                                imageUrl: categories
+                                                    .value
+                                                    .data![
+                                                index]
+                                                    .image
+                                                    .toString(),
+
                                       itemCount: categories.value.data!.length,
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
@@ -702,6 +1000,7 @@ bool check = false;
                                                         .toString(),
                                                   ),
                                                 ),
+
                                               ),
                                               const SizedBox(
                                                 height: 2,
@@ -728,6 +1027,107 @@ bool check = false;
                                       : const Center(
                                           child: CircularProgressIndicator());
                             })),
+
+
+
+                        statusOfSingle.value.isSuccess?
+                        GridView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            // Number of columns
+                            crossAxisSpacing: 8.0,
+                            // Spacing between columns
+                            mainAxisSpacing:
+                            2.0, // Spacing between rows
+                          ),
+                          itemCount:  single.value.data!.length,
+                          // Total number of items
+                          itemBuilder: (BuildContext context,
+                              int index) {
+                            // You can replace the Container with your image widget
+                            return InkWell(
+                              onTap: (){
+                                Get.toNamed(MyRouters.recommendationSingleScreen,arguments: [
+                                  single.value.data![index]
+                                      .image
+                                      .toString(),
+                                  single.value.data![index]
+                                      .title
+                                      .toString(),
+                                  single.value.data![index]
+                                      .review
+                                      .toString(),
+                                  single.value.data![index].id.toString(),
+
+
+                                ]);
+                              },
+                              child: CachedNetworkImage(
+                                imageUrl:  single.value.data![index]
+                                    .image
+                                    .toString(),
+                                width: 50,
+                                height: 50,
+                              ),
+                            );
+                          },
+                        ) : statusOfSingle
+                            .value.isError
+                            ? CommonErrorWidget(
+                          errorText: "",
+                          onTap: () {},
+                        )
+                            : const Center(
+                            child:
+                            CircularProgressIndicator()),
+
+                        profileController.statusOfProfile.value.isSuccess?
+                        GridView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            // Number of columns
+                            crossAxisSpacing: 8.0,
+                            // Spacing between columns
+                            mainAxisSpacing:
+                            2.0, // Spacing between rows
+                          ),
+                          itemCount: profileController
+                              .modal
+                              .value
+                              .data!
+                              .myRecommandation!
+                              .length,
+                          // Total number of items
+                          itemBuilder: (BuildContext context,
+                              int index) {
+                            // You can replace the Container with your image widget
+                            return CachedNetworkImage(
+                              imageUrl: profileController
+                                  .modal
+                                  .value
+                                  .data!
+                                  .myRecommandation![index]
+                                  .image
+                                  .toString(),
+                              width: 50,
+                              height: 50,
+                            );
+                          },
+                        ) : profileController.statusOfProfile
+                            .value.isError
+                            ? CommonErrorWidget(
+                          errorText: "",
+                          onTap: () {},
+                        )
+                            : const Center(
+                            child:
+                            CircularProgressIndicator()),
 
                         statusOfSingle.value.isSuccess
                             ? GridView.builder(
@@ -794,6 +1194,7 @@ bool check = false;
                                   )
                                 : const Center(
                                     child: CircularProgressIndicator()),
+
                       ],
                     ),
                   ),

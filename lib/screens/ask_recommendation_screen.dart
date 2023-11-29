@@ -115,7 +115,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                 fieldName1: 'image',
                                 mapData: map,
                                 context: context,
-                                file1: image,
+                                file1: categoryFile,
                               ).then((value) async {
                                 if (value.status == true) {
                                   Get.toNamed(
@@ -147,9 +147,24 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                             fontSize: 18,
                             color: Colors.black),
                         // Remove the underline and border
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
+                        disabledBorder: OutlineInputBorder(
+                          borderSide:
+                          const BorderSide(color: AppTheme.shadowColor, width: 1.5),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                          const BorderSide(color: AppTheme.shadowColor, width: 1.5),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color:AppTheme.shadowColor, width: 1.5),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        border: OutlineInputBorder(
+                            borderSide:
+                            const BorderSide(color: AppTheme.secondaryColor, width: 1.5),
+                            borderRadius: BorderRadius.circular(8)),
                       ),
                     ),
 

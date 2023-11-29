@@ -284,88 +284,88 @@ class _EditAccountState extends State<EditAccount> {
                               },
                             ),
                             const SizedBox(height: 20,),
-                            Text("Address",
-                              style: GoogleFonts.mulish(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 13,
-                                  color: AppTheme.onboardingColor
-                              ),),
-                            const SizedBox(height: 12,),
-                            InkWell(
-                                onTap: () async {
-                                  var place = await PlacesAutocomplete.show(
-                                      hint: "Location",
-                                      context: context,
-                                      apiKey: googleApikey,
-                                      mode: Mode.overlay,
-                                      types: [],
-                                      strictbounds: false,
-                                      onError: (err) {
-                                        log("error.....   ${err.errorMessage}");
-                                      });
-                                  if (place != null) {
-                                    setState(() {
-                                      profileController.address = (place.description ?? "Location")
-                                          .toString();
-                                    });
-                                    final plist = GoogleMapsPlaces(
-                                      apiKey: googleApikey,
-                                      apiHeaders: await const GoogleApiHeaders()
-                                          .getHeaders(),
-                                    );
-                                    print(plist);
-                                    String placeid = place.placeId ?? "0";
-                                    final detail =
-                                    await plist.getDetailsByPlaceId(placeid);
-                                    final geometry = detail.result.geometry!;
-                                    final lat = geometry.location.lat;
-                                    final lang = geometry.location.lng;
-                                    setState(() {
-                                      profileController.address = (place.description ?? "Location")
-                                          .toString();
-                                    });
-                                  }
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: !checkValidation(
-                                                    showValidation.value,
-                                                    profileController.address == "")
-                                                    ? Colors.grey.shade300
-                                                    : Colors.red),
-                                            borderRadius:
-                                            BorderRadius.circular(10.0),
-                                            color: Colors.grey.shade50),
-                                        // width: MediaQuery.of(context).size.width - 40,
-                                        child: ListTile(
-                                          leading: Icon(Icons.location_on_rounded),
-                                          title: Text(
-                                            profileController.address ?? "Location".toString(),
-                                            style: TextStyle(
-                                                fontSize: AddSize.font14),
-                                          ),
-                                          trailing: const Icon(Icons.search),
-                                          dense: true,
-                                        )),
-                                    checkValidation(
-                                        showValidation.value,   profileController.address == "")
-                                        ? Padding(
-                                      padding: EdgeInsets.only(
-                                          top: AddSize.size5),
-                                      child: Text(
-                                        "      Location is required",
-                                        style: TextStyle(
-                                            color: Colors.red.shade700,
-                                            fontSize: AddSize.font12),
-                                      ),
-                                    )
-                                        : SizedBox()
-                                  ],
-                                )),
+                            // Text("Address",
+                            //   style: GoogleFonts.mulish(
+                            //       fontWeight: FontWeight.w600,
+                            //       fontSize: 13,
+                            //       color: AppTheme.onboardingColor
+                            //   ),),
+                            // const SizedBox(height: 12,),
+                            // InkWell(
+                            //     onTap: () async {
+                            //       var place = await PlacesAutocomplete.show(
+                            //           hint: "Location",
+                            //           context: context,
+                            //           apiKey: googleApikey,
+                            //           mode: Mode.overlay,
+                            //           types: [],
+                            //           strictbounds: false,
+                            //           onError: (err) {
+                            //             log("error.....   ${err.errorMessage}");
+                            //           });
+                            //       if (place != null) {
+                            //         setState(() {
+                            //           profileController.address = (place.description ?? "Location")
+                            //               .toString();
+                            //         });
+                            //         final plist = GoogleMapsPlaces(
+                            //           apiKey: googleApikey,
+                            //           apiHeaders: await const GoogleApiHeaders()
+                            //               .getHeaders(),
+                            //         );
+                            //         print(plist);
+                            //         String placeid = place.placeId ?? "0";
+                            //         final detail =
+                            //         await plist.getDetailsByPlaceId(placeid);
+                            //         final geometry = detail.result.geometry!;
+                            //         final lat = geometry.location.lat;
+                            //         final lang = geometry.location.lng;
+                            //         setState(() {
+                            //           profileController.address = (place.description ?? "Location")
+                            //               .toString();
+                            //         });
+                            //       }
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.start,
+                            //       children: [
+                            //         Container(
+                            //             decoration: BoxDecoration(
+                            //                 border: Border.all(
+                            //                     color: !checkValidation(
+                            //                         showValidation.value,
+                            //                         profileController.address == "")
+                            //                         ? Colors.grey.shade300
+                            //                         : Colors.red),
+                            //                 borderRadius:
+                            //                 BorderRadius.circular(10.0),
+                            //                 color: Colors.grey.shade50),
+                            //             // width: MediaQuery.of(context).size.width - 40,
+                            //             child: ListTile(
+                            //               leading: Icon(Icons.location_on_rounded),
+                            //               title: Text(
+                            //                 profileController.address ?? "Location".toString(),
+                            //                 style: TextStyle(
+                            //                     fontSize: AddSize.font14),
+                            //               ),
+                            //               trailing: const Icon(Icons.search),
+                            //               dense: true,
+                            //             )),
+                            //         checkValidation(
+                            //             showValidation.value,   profileController.address == "")
+                            //             ? Padding(
+                            //           padding: EdgeInsets.only(
+                            //               top: AddSize.size5),
+                            //           child: Text(
+                            //             "      Location is required",
+                            //             style: TextStyle(
+                            //                 color: Colors.red.shade700,
+                            //                 fontSize: AddSize.font12),
+                            //           ),
+                            //         )
+                            //             : SizedBox()
+                            //       ],
+                            //     )),
 
                             const SizedBox(height: 26,),
                             CommonButton(title: "Update Account",onPressed: (){
@@ -373,7 +373,7 @@ class _EditAccountState extends State<EditAccount> {
                               map['name'] = profileController.nameController.text.trim();
                               map['phone'] = profileController.mobileController.text.trim();
                               map['email'] = profileController.emailController.text.trim();
-                              map['address'] =   profileController.address;
+                              // map['address'] =   profileController.address;
 
                               UpdateProfileRepo(
                                 fieldName1: 'profile_image',
