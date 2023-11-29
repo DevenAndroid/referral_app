@@ -3,6 +3,7 @@ class AppAssets {
   static const String message = "assets/icons/message.svg";
   static const String location = "assets/icons/location.svg";
   static const String bookmark = "assets/icons/bookmark.svg";
+  static const String bookmark1 = "assets/icons/bookmark1.svg";
   static const String add = "assets/icons/add.svg";
   static const String profile = "assets/icons/profile.svg";
   static const String man = "assets/icons/man.png";
