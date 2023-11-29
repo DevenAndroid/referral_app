@@ -101,15 +101,14 @@ class Discover {
   String? image;
   String? postViewersType;
 
-  Discover(
-      {this.id,
-        this.userId,
-        this.title,
-        this.description,
-        this.minPrice,
-        this.maxPrice,
-        this.image,
-        this.postViewersType});
+  Discover({this.id,
+    this.userId,
+    this.title,
+    this.description,
+    this.minPrice,
+    this.maxPrice,
+    this.image,
+    this.postViewersType});
 
   Discover.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -161,27 +160,26 @@ class UserId {
   int? followersCount;
   int? postCount;
 
-  UserId(
-      {this.id,
-        this.name,
-        this.email,
-        this.phone,
-        this.walletBalance,
-        this.earnedBalance,
-        this.profileImage,
-        this.address,
-        this.referalCode,
-        this.isDriverOnline,
-        this.isVendorOnline,
-        this.deliveryRange,
-        this.selfDelivery,
-        this.asDriverVerified,
-        this.asVendorVerified,
-        this.asMarketingManagerVerified,
-        this.isComplete,
-        this.followingCount,
-        this.followersCount,
-        this.postCount});
+  UserId({this.id,
+    this.name,
+    this.email,
+    this.phone,
+    this.walletBalance,
+    this.earnedBalance,
+    this.profileImage,
+    this.address,
+    this.referalCode,
+    this.isDriverOnline,
+    this.isVendorOnline,
+    this.deliveryRange,
+    this.selfDelivery,
+    this.asDriverVerified,
+    this.asVendorVerified,
+    this.asMarketingManagerVerified,
+    this.isComplete,
+    this.followingCount,
+    this.followersCount,
+    this.postCount});
 
   UserId.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -242,15 +240,14 @@ class Recommandation {
   String? image;
   String? status;
 
-  Recommandation(
-      {this.id,
-        this.user,
-        this.title,
-        this.review,
-        this.link,
-        this.categoryId,
-        this.image,
-        this.status});
+  Recommandation({this.id,
+    this.user,
+    this.title,
+    this.review,
+    this.link,
+    this.categoryId,
+    this.image,
+    this.status});
 
   Recommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];

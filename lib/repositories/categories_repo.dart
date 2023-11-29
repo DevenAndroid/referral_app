@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +8,8 @@ import '../resourses/helper.dart';
 
 Future<CategoriesModel> getCategoriesRepo() async {
   try {
-    http.Response response = await http.get(Uri.parse(ApiUrls.categories),
+    http.Response response = await http.get(
+      Uri.parse(ApiUrls.categories),
       headers: await getAuthHeader(),
     );
 

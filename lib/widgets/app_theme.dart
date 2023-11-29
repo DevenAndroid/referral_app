@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-
   static const Color lightPrimaryColor = Color(0xffEFFFEF);
   final Shader linearGradient = LinearGradient(
     colors: <Color>[Color(0xffFFA302), Color(0xffFF5102)],
@@ -36,6 +35,7 @@ class AppTheme {
   static const Color darkYellowColor = Color(0xffD17813);
   static const Color lightPinkColor = Color(0xffFFB6B6);
   static const Color darkPinkColor = Color(0xffCF1D1D);
+
   // elephant cart theme
   static const Color primaryColor = Color(0xFF3797EF);
   static const Color textColor = Color(0xFF828282);
@@ -49,8 +49,4 @@ class AppTheme {
   static const Color priceColor = Color(0xFFFF6300);
   static const Color proTextColor = Color(0xFF556771);
   static const Color proTextBold = Color(0xFF384651);
-
-
-
-
 }

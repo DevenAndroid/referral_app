@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +10,8 @@ import '../resourses/helper.dart';
 
 Future<FollowerListModel> getFollowersRepo() async {
   try {
-    http.Response response = await http.get(Uri.parse(ApiUrls.followers),
+    http.Response response = await http.get(
+      Uri.parse(ApiUrls.followers),
       headers: await getAuthHeader(),
     );
 

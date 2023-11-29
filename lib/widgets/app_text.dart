@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,8 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'app_theme.dart';
 import 'dimenestion.dart';
-
-
 
 class AppText {
   static const TextStyle headline1 = TextStyle(
@@ -32,7 +29,6 @@ class AppText {
       color: AppTheme.primaryColor, fontSize: 20, fontWeight: FontWeight.w500);
 }
 
-
 class RegisterTextFieldWidget extends StatelessWidget {
   final IconData? suffixIcon;
   final IconData? prefixIcon;
@@ -54,6 +50,7 @@ class RegisterTextFieldWidget extends StatelessWidget {
   final VoidCallback? onTap;
   final length;
   List<TextInputFormatter>? inputFormatters = [];
+
   RegisterTextFieldWidget({
     Key? key,
     this.suffixIcon,
@@ -87,7 +84,6 @@ class RegisterTextFieldWidget extends StatelessWidget {
       controller: controller,
       obscureText: hint == hint ? obscureText! : false,
       autofillHints: autofillHints,
-
       validator: validator,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
@@ -99,7 +95,6 @@ class RegisterTextFieldWidget extends StatelessWidget {
         LengthLimitingTextInputFormatter(length),
       ],
       decoration: InputDecoration(
-
           hintText: hint,
           focusColor: const Color(0xFF384953),
           hintStyle: GoogleFonts.quicksand(
@@ -116,24 +111,27 @@ class RegisterTextFieldWidget extends StatelessWidget {
           filled: true,
           fillColor: Colors.white.withOpacity(.10),
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+              const EdgeInsets.symmetric(horizontal: 15, vertical: 16),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: const Color(0xFF384953).withOpacity(.24)),
+            borderSide:
+                BorderSide(color: const Color(0xFF384953).withOpacity(.24)),
             borderRadius: BorderRadius.circular(10.0),
           ),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: const Color(0xFF384953).withOpacity(.24)),
+              borderSide:
+                  BorderSide(color: const Color(0xFF384953).withOpacity(.24)),
               borderRadius: const BorderRadius.all(Radius.circular(10.0))),
           border: OutlineInputBorder(
-              borderSide:
-              BorderSide(color:const Color(0xFF384953).withOpacity(.24), width: 3.0),
+              borderSide: BorderSide(
+                  color: const Color(0xFF384953).withOpacity(.24), width: 3.0),
               borderRadius: BorderRadius.circular(10.0)),
           suffixIcon: suffix,
           prefixIcon: prefix),
     );
   }
 }
+
 class CommonButtonGreen extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
@@ -166,11 +164,13 @@ class CommonButtonGreen extends StatelessWidget {
     );
   }
 }
+
 class CommonButton1 extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
 
-  const CommonButton1({Key? key, required this.title, this.onPressed}) : super(key: key);
+  const CommonButton1({Key? key, required this.title, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +188,7 @@ class CommonButton1 extends StatelessWidget {
       child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            minimumSize: Size(AddSize.screenWidth, AddSize.size50*1.2),
+            minimumSize: Size(AddSize.screenWidth, AddSize.size50 * 1.2),
             backgroundColor: Color(0xff3797EF),
             elevation: 0,
             shape: RoundedRectangleBorder(
@@ -205,4 +205,3 @@ class CommonButton1 extends StatelessWidget {
     );
   }
 }
-

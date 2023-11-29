@@ -23,22 +23,22 @@ class AskRecommendationModel {
 }
 
 class Data {
- dynamic id;
- dynamic title;
- dynamic description;
- dynamic minPrice;
- dynamic maxPrice;
- dynamic image;
- dynamic postViewersType;
+  dynamic id;
+  dynamic title;
+  dynamic description;
+  dynamic minPrice;
+  dynamic maxPrice;
+  dynamic image;
+  dynamic postViewersType;
 
   Data(
       {this.id,
-        this.title,
-        this.description,
-        this.minPrice,
-        this.maxPrice,
-        this.image,
-        this.postViewersType});
+      this.title,
+      this.description,
+      this.minPrice,
+      this.maxPrice,
+      this.image,
+      this.postViewersType});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];

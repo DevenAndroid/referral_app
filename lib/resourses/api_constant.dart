@@ -5,16 +5,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/app_theme.dart';
 
-
-
-
 class ApiUrls {
   static const String apiBaseUrl = 'https://referral-app.eoxyslive.com/api/';
   static const String login = "${apiBaseUrl}login";
   static const String verifyOtp = "${apiBaseUrl}verify-otp";
   static const String updateProfile = "${apiBaseUrl}update-profile";
   static const String resendOtp = "${apiBaseUrl}resend-otp";
-  static const String addAskRecommandation = "${apiBaseUrl}add-ask-recommandation";
+  static const String addAskRecommandation =
+      "${apiBaseUrl}add-ask-recommandation";
   static const String addRecommandation = "${apiBaseUrl}add-recommandation";
   static const String categories = "${apiBaseUrl}categories";
   static const String home = "${apiBaseUrl}home";
@@ -23,38 +21,38 @@ class ApiUrls {
   static const String following = "${apiBaseUrl}following-list";
   static const String unfollow = "${apiBaseUrl}add-remove-follower";
   static const String pages = "${apiBaseUrl}pages?slug=";
-
 }
 
 Future getAuthHeader() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   // pref.getString("cookie")!.toString().replaceAll('\"', '');
-  var gg ={
-     HttpHeaders.contentTypeHeader: 'application/json',
-     HttpHeaders.acceptHeader: 'application/json',
+  var gg = {
+    HttpHeaders.contentTypeHeader: 'application/json',
+    HttpHeaders.acceptHeader: 'application/json',
 
     // HttpHeaders.authorizationHeader:"FLWSECK_TEST-SANDBOXDEMOKEY-X"
-    if(pref.getString("cookie") != null)
-      HttpHeaders.authorizationHeader: 'Bearer ${pref.getString("cookie")!.toString().replaceAll('\"', '')}',
+    if (pref.getString("cookie") != null)
+      HttpHeaders.authorizationHeader:
+          'Bearer ${pref.getString("cookie")!.toString().replaceAll('\"', '')}',
   };
   print(gg);
   return gg;
 }
+
 Future getAuthHeaderApi() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   // pref.getString("cookie")!.toString().replaceAll('\"', '');
-  var gg ={
+  var gg = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
     // FLWSECK_TEST-2e4497e1d44affec2b5bb40148e43193-X
-     HttpHeaders.authorizationHeader:"FLWSECK_TEST-SANDBOXDEMOKEY-X"
+    HttpHeaders.authorizationHeader: "FLWSECK_TEST-SANDBOXDEMOKEY-X"
     // if(pref.getString("cookie") != null)
     //   HttpHeaders.authorizationHeader: 'Bearer ${pref.getString("cookie")!.toString().replaceAll('\"', '')}',
   };
   print(gg);
   return gg;
 }
-
 
 // HttpHeaders.contentTypeHeader: 'application/json',
 // HttpHeaders.acceptHeader: 'application/json',

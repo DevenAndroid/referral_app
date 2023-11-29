@@ -43,31 +43,30 @@ class Data {
   bool? asVendorVerified;
   bool? asMarketingManagerVerified;
   bool? isProfileComplete;
- dynamic followingCount;
- dynamic followersCount;
- dynamic postCount;
+  dynamic followingCount;
+  dynamic followersCount;
+  dynamic postCount;
 
-  Data(
-      {this.id,
-        this.name,
-        this.email,
-        this.phone,
-        this.walletBalance,
-        this.earnedBalance,
-        this.profileImage,
-        this.address,
-        this.referalCode,
-        this.isDriverOnline,
-        this.isVendorOnline,
-        this.deliveryRange,
-        this.selfDelivery,
-        this.asDriverVerified,
-        this.asVendorVerified,
-        this.asMarketingManagerVerified,
-        this.isProfileComplete,
-        this.followingCount,
-        this.followersCount,
-        this.postCount});
+  Data({this.id,
+    this.name,
+    this.email,
+    this.phone,
+    this.walletBalance,
+    this.earnedBalance,
+    this.profileImage,
+    this.address,
+    this.referalCode,
+    this.isDriverOnline,
+    this.isVendorOnline,
+    this.deliveryRange,
+    this.selfDelivery,
+    this.asDriverVerified,
+    this.asVendorVerified,
+    this.asMarketingManagerVerified,
+    this.isProfileComplete,
+    this.followingCount,
+    this.followersCount,
+    this.postCount});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];

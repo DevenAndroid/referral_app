@@ -23,6 +23,4 @@ class AppAssets {
   static const String img = "assets/images/img.png";
   static const String img1 = "assets/images/img1.png";
   static const String sofa = "assets/images/sofa.png";
-
-
 }

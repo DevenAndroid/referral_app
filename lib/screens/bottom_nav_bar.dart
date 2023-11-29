@@ -4,15 +4,11 @@ import 'package:get/get.dart';
 import 'package:referral_app/screens/home_screen.dart';
 import 'package:referral_app/screens/profile_screen.dart';
 
-
-
 import '../controller/bottomNav_controller.dart';
 import '../widgets/app_theme.dart';
 import 'add_recommadtion_screen.dart';
 import 'ask_recommendation_screen.dart';
 import 'edit_account_screen.dart';
-
-
 
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({Key? key}) : super(key: key);
@@ -24,8 +20,6 @@ class BottomNavbar extends StatefulWidget {
 class _BottomNavbarState extends State<BottomNavbar> {
   final bottomController = Get.put(BottomNavBarController());
 
-
-
   final pages = [
     const HomeScreen(),
     const AskRecommendationScreen(),
@@ -34,20 +28,15 @@ class _BottomNavbarState extends State<BottomNavbar> {
     const ProfileScreen(),
   ];
 
-
-
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       return Scaffold(
-
-
         body: pages.elementAt(bottomController.pageIndex.value),
         extendBody: true,
         // extendBodyBehindAppBar: true,
         backgroundColor: Colors.white,
         bottomNavigationBar: buildMyNavBar(context),
-
       );
     });
   }
@@ -74,7 +63,6 @@ class _BottomNavbarState extends State<BottomNavbar> {
           ),
           child: Column(
             children: [
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -83,20 +71,21 @@ class _BottomNavbarState extends State<BottomNavbar> {
                       padding: const EdgeInsets.only(bottom: 10),
                       onPressed: () {
                         bottomController.updateIndexValue(0);
-
                       },
-
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(height: 8,),
-
-                          bottomController. pageIndex.value == 0
-                              ?  SvgPicture.asset('assets/icons/home.svg',
-                            color: AppTheme.secondaryColor,
-                          )
-                              : SvgPicture.asset('assets/icons/home.svg',),
-
+                          SizedBox(
+                            height: 8,
+                          ),
+                          bottomController.pageIndex.value == 0
+                              ? SvgPicture.asset(
+                                  'assets/icons/home.svg',
+                                  color: AppTheme.secondaryColor,
+                                )
+                              : SvgPicture.asset(
+                                  'assets/icons/home.svg',
+                                ),
                         ],
                       ),
                     ),
@@ -106,19 +95,19 @@ class _BottomNavbarState extends State<BottomNavbar> {
                       padding: const EdgeInsets.only(bottom: 10),
                       onPressed: () {
                         bottomController.updateIndexValue(1);
-
-
                       },
                       child: Column(
                         children: [
-                          SizedBox(height: 8,),
-                          bottomController. pageIndex.value == 1
-                              ? SvgPicture.asset('assets/icons/add.svg',
-
-                          )
-                              :  SvgPicture.asset('assets/icons/add.svg',),
-
-
+                          SizedBox(
+                            height: 8,
+                          ),
+                          bottomController.pageIndex.value == 1
+                              ? SvgPicture.asset(
+                                  'assets/icons/add.svg',
+                                )
+                              : SvgPicture.asset(
+                                  'assets/icons/add.svg',
+                                ),
                         ],
                       ),
                     ),
@@ -129,28 +118,26 @@ class _BottomNavbarState extends State<BottomNavbar> {
                       child: MaterialButton(
                         padding: const EdgeInsets.only(bottom: 10),
                         onPressed: () {
-
                           bottomController.updateIndexValue(2);
-
-
-
                         },
                         child: Column(
                           children: [
-                            SizedBox(height: 8,),
+                            SizedBox(
+                              height: 8,
+                            ),
                             bottomController.pageIndex.value == 2
-                                ?  SvgPicture.asset('assets/icons/profile.svg',
-                              color: AppTheme.secondaryColor,
-                            )
-                                : SvgPicture.asset('assets/icons/profile.svg',),
-
+                                ? SvgPicture.asset(
+                                    'assets/icons/profile.svg',
+                                    color: AppTheme.secondaryColor,
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/icons/profile.svg',
+                                  ),
                           ],
                         ),
                       ),
                     ),
                   ),
-
-
                 ],
               ),
             ],

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,10 +12,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/dimenestion.dart';
 
-
-
 class Helpers {
-
   late BuildContext context;
   late DateTime currentBackPressTime;
 
@@ -100,7 +96,8 @@ class Helpers {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              LoadingAnimationWidget.threeArchedCircle(color: AppTheme.primaryColor, size: AddSize.size40),
+              LoadingAnimationWidget.threeArchedCircle(
+                  color: AppTheme.primaryColor, size: AddSize.size40),
             ],
           ),
         ),
@@ -122,7 +119,8 @@ class Helpers {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              LoadingAnimationWidget.threeArchedCircle(color: AppTheme.primaryColor, size: AddSize.size40),
+              LoadingAnimationWidget.threeArchedCircle(
+                  color: AppTheme.primaryColor, size: AddSize.size40),
             ],
           ),
         ),
@@ -139,7 +137,6 @@ class Helpers {
       } catch (e) {}
     });
   }
-
 
   static createSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -159,6 +156,4 @@ class Helpers {
     RegExp regex = RegExp(pattern.toString());
     return (!regex.hasMatch(value)) ? false : true;
   }
-
-
 }

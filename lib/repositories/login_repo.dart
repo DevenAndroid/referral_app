@@ -7,21 +7,20 @@ import '../models/login_model.dart';
 import '../resourses/api_constant.dart';
 import '../resourses/helper.dart';
 
-
-
-Future<LoginModel> loginRepo({email,context,}) async {
+Future<LoginModel> loginRepo({
+  email,
+  context,
+}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   var map = <String, dynamic>{};
 
   map['email'] = email;
 
-
   print(map);
   // try {
   http.Response response = await http.post(Uri.parse(ApiUrls.login),
-      headers: await getAuthHeader(),
-      body: jsonEncode(map));
+      headers: await getAuthHeader(), body: jsonEncode(map));
   log("Sign IN DATA${response.body}");
   // http.Response response = await http.post(Uri.parse(ApiUrls.loginUser),
   //     headers: await getAuthHeader(),body: jsonEncode(map) );
@@ -30,11 +29,12 @@ Future<LoginModel> loginRepo({email,context,}) async {
     Helpers.hideLoader(loader);
     print(jsonDecode(response.body));
     return LoginModel.fromJson(jsonDecode(response.body));
-
   } else {
     Helpers.hideLoader(loader);
     print(jsonDecode(response.body));
-    return LoginModel(message: jsonDecode(response.body)["message"], );
+    return LoginModel(
+      message: jsonDecode(response.body)["message"],
+    );
   }
   // }  catch (e) {
   //   Helpers.hideLoader(loader);

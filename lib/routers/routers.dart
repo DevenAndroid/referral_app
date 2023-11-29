@@ -1,5 +1,3 @@
-
-
 import 'package:get/get.dart';
 import '../screens/add_recommadtion_screen.dart';
 import '../screens/ask_recommendation_screen.dart';
@@ -36,26 +34,28 @@ class MyRouters {
   static var recommendationSingleScreen = "/recommendationSingleScreen";
   static var categoriesScreen = "/categoriesScreen";
 
-
   static var route = [
-    GetPage(name: '/', page: () =>  const SplashScreen()),
-    GetPage(name: '/loginScreen', page: () =>  const LoginScreen()),
- GetPage(name: '/otpScreen', page: () =>  const OtpScreen()),
- GetPage(name: '/createAccountScreen', page: () =>  const CreateAccountScreen()),
- GetPage(name: '/thankYouScreen', page: () =>  const ThankYouScreen()),
- GetPage(name: '/bottomNavbar', page: () =>  const BottomNavbar()),
- GetPage(name: '/homeScreen', page: () =>  const HomeScreen()),
- GetPage(name: '/askRecommendationScreen', page: () =>  const AskRecommendationScreen()),
- GetPage(name: '/profileScreen', page: () =>  const ProfileScreen()),
- GetPage(name: '/addRecommendationScreen', page: () =>  const AddRecommendationScreen()),
- GetPage(name: '/editAccount', page: () =>  const EditAccount()),
- GetPage(name: '/followingScreen', page: () =>  const FollowingScreen()),
- GetPage(name: '/postScreen', page: () =>  const PostScreen()),
- GetPage(name: '/recommendationSingleScreen', page: () =>  const RecommendationSingleScreen()),
- GetPage(name: '/categoriesScreen', page: () =>  const CategoriesScreen()),
-
-
-
-
+    GetPage(name: '/', page: () => const SplashScreen()),
+    GetPage(name: '/loginScreen', page: () => const LoginScreen()),
+    GetPage(name: '/otpScreen', page: () => const OtpScreen()),
+    GetPage(
+        name: '/createAccountScreen', page: () => const CreateAccountScreen()),
+    GetPage(name: '/thankYouScreen', page: () => const ThankYouScreen()),
+    GetPage(name: '/bottomNavbar', page: () => const BottomNavbar()),
+    GetPage(name: '/homeScreen', page: () => const HomeScreen()),
+    GetPage(
+        name: '/askRecommendationScreen',
+        page: () => const AskRecommendationScreen()),
+    GetPage(name: '/profileScreen', page: () => const ProfileScreen()),
+    GetPage(
+        name: '/addRecommendationScreen',
+        page: () => const AddRecommendationScreen()),
+    GetPage(name: '/editAccount', page: () => const EditAccount()),
+    GetPage(name: '/followingScreen', page: () => const FollowingScreen()),
+    GetPage(name: '/postScreen', page: () => const PostScreen()),
+    GetPage(
+        name: '/recommendationSingleScreen',
+        page: () => const RecommendationSingleScreen()),
+    GetPage(name: '/categoriesScreen', page: () => const CategoriesScreen()),
   ];
 }

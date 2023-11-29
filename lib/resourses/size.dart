@@ -3,10 +3,6 @@ import 'package:get/get.dart';
 
 import '../widgets/app_theme.dart';
 
-
-
-
-
 class AddSize {
   static final screenHeight = Get.context!.height;
   static final screenWidth = Get.context!.width;
@@ -21,7 +17,6 @@ class AddSize {
   static double padding18 = screenHeight / 44.6666;
   static double padding15 = screenHeight / 53.6;
   static double padding20 = screenHeight / 40.2;
-
 
   ///width
 

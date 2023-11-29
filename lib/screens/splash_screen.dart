@@ -8,9 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../routers/routers.dart';
 import '../widgets/app_assets.dart';
 
-
-
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -23,13 +20,11 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     if (pref.getString('cookie') != null) {
       if (pref.getBool('complete') == true) {
-         Get.toNamed(MyRouters.bottomNavbar);
-       }
-       else{
-         Get.toNamed(MyRouters.createAccountScreen);
-       }
-    }
-    else{
+        Get.toNamed(MyRouters.bottomNavbar);
+      } else {
+        Get.toNamed(MyRouters.createAccountScreen);
+      }
+    } else {
       Get.offAllNamed(MyRouters.loginScreen);
     }
   }
@@ -47,21 +42,21 @@ class _SplashScreenState extends State<SplashScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor:  Colors.white,
+      backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-       Center(
-         child: Text("Social Network",
-           style: GoogleFonts.monomaniacOne(
-               fontWeight: FontWeight.w500,
-               letterSpacing: 3,
-               fontSize: 40,
-               color: const Color(0xFF262626)
-           ),),
-       )
-
+          Center(
+            child: Text(
+              "Social Network",
+              style: GoogleFonts.monomaniacOne(
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 3,
+                  fontSize: 40,
+                  color: const Color(0xFF262626)),
+            ),
+          )
         ],
       ),
     );

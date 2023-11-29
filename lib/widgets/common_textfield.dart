@@ -3,9 +3,6 @@ import 'package:flutter/services.dart';
 
 import 'app_theme.dart';
 
-
-
-
 class CommonTextfield extends StatefulWidget {
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
@@ -63,11 +60,9 @@ class _CommonTextfieldState extends State<CommonTextfield> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-
-        style: const TextStyle(
-            color: AppTheme.textColor
-        ),
-        autofocus: false, textInputAction: TextInputAction.next,
+        style: const TextStyle(color: AppTheme.textColor),
+        autofocus: false,
+        textInputAction: TextInputAction.next,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         onFieldSubmitted: widget.onFieldSubmitted,
         inputFormatters: widget.inputFormatters,
@@ -82,7 +77,6 @@ class _CommonTextfieldState extends State<CommonTextfield> {
         keyboardType: widget.keyboardType,
         controller: widget.controller,
         decoration: InputDecoration(
-
           counterStyle: const TextStyle(
             color: AppTheme.primaryColor,
             fontSize: 25,
@@ -102,31 +96,32 @@ class _CommonTextfieldState extends State<CommonTextfield> {
             fontSize: 15,
           ),
           hintStyle: const TextStyle(
-
             color: AppTheme.textColor,
             fontSize: 15,
           ),
           /*errorStyle: const TextStyle(
               overflow: TextOverflow.clip,
             ),*/
-          contentPadding: const EdgeInsets.symmetric(vertical: 18,horizontal: 12),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
           disabledBorder: OutlineInputBorder(
             borderSide:
-            const BorderSide(color: AppTheme.shadowColor, width: 1.5),
+                const BorderSide(color: AppTheme.shadowColor, width: 1.5),
             borderRadius: BorderRadius.circular(8),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide:
-            const BorderSide(color: AppTheme.shadowColor, width: 1.5),
+                const BorderSide(color: AppTheme.shadowColor, width: 1.5),
             borderRadius: BorderRadius.circular(8),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:AppTheme.shadowColor, width: 1.5),
+            borderSide:
+                const BorderSide(color: AppTheme.shadowColor, width: 1.5),
             borderRadius: BorderRadius.circular(8),
           ),
           border: OutlineInputBorder(
               borderSide:
-              const BorderSide(color: AppTheme.secondaryColor, width: 1.5),
+                  const BorderSide(color: AppTheme.secondaryColor, width: 1.5),
               borderRadius: BorderRadius.circular(8)),
         ),
         validator: widget.validator);

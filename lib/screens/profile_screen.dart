@@ -16,6 +16,7 @@ import '../repositories/home_pafe_repo.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
 import '../widgets/custome_textfiled.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -106,13 +107,11 @@ class _ProfileScreenState extends State<ProfileScreen>
               )
             : const SizedBox(),
         backgroundColor: const Color(0xFFEAEEF1),
-        body:  RefreshIndicator(
+        body: RefreshIndicator(
           color: Colors.white,
           backgroundColor: AppTheme.primaryColor,
           onRefresh: () async {
             profileController.getData();
-
-
           },
           child: SingleChildScrollView(
               physics: NeverScrollableScrollPhysics(),
@@ -158,7 +157,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           padding: EdgeInsets.all(5),
                                           decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: AppTheme.secondaryColor,
+                                                  color:
+                                                      AppTheme.secondaryColor,
                                                   width: 1),
                                               shape: BoxShape.circle),
                                           child: ClipOval(
@@ -166,8 +166,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                               width: 50,
                                               height: 50,
                                               fit: BoxFit.cover,
-                                              imageUrl: profileController.modal
-                                                  .value.data!.user!.profileImage
+                                              imageUrl: profileController
+                                                  .modal
+                                                  .value
+                                                  .data!
+                                                  .user!
+                                                  .profileImage
                                                   .toString(),
                                               placeholder: (context, url) =>
                                                   const SizedBox(),
@@ -181,8 +185,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       Column(
                                         children: [
                                           Text(
-                                              profileController.modal.value.data!
-                                                  .user!.postCount
+                                              profileController.modal.value
+                                                  .data!.user!.postCount
                                                   .toString(),
                                               style: GoogleFonts.mulish(
                                                   fontWeight: FontWeight.w700,
@@ -221,8 +225,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                 style: GoogleFonts.mulish(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 18,
-                                                    color:
-                                                        const Color(0xFF000000))),
+                                                    color: const Color(
+                                                        0xFF000000))),
                                             const SizedBox(
                                               height: 7,
                                             ),
@@ -230,8 +234,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                 style: GoogleFonts.mulish(
                                                     fontWeight: FontWeight.w300,
                                                     fontSize: 16,
-                                                    color:
-                                                        const Color(0xFF262626))),
+                                                    color: const Color(
+                                                        0xFF262626))),
                                           ],
                                         ),
                                       ),
@@ -257,8 +261,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                 style: GoogleFonts.mulish(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 18,
-                                                    color:
-                                                        const Color(0xFF000000))),
+                                                    color: const Color(
+                                                        0xFF000000))),
                                             const SizedBox(
                                               height: 7,
                                             ),
@@ -266,8 +270,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                 style: GoogleFonts.mulish(
                                                     fontWeight: FontWeight.w300,
                                                     fontSize: 16,
-                                                    color:
-                                                        const Color(0xFF262626))),
+                                                    color: const Color(
+                                                        0xFF262626))),
                                           ],
                                         ),
                                       ),
@@ -308,7 +312,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           child: CommonButton(
                                             title: "Edit",
                                             onPressed: () {
-                                              Get.toNamed(MyRouters.editAccount);
+                                              Get.toNamed(
+                                                  MyRouters.editAccount);
                                             },
                                           ))
                                     ],
@@ -374,13 +379,15 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           child: Text("My Requests",
                                               style: currentDrawer == 0
                                                   ? GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       letterSpacing: 1,
                                                       fontSize: 15,
-                                                      color:
-                                                          const Color(0xFF3797EF))
+                                                      color: const Color(
+                                                          0xFF3797EF))
                                                   : GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       letterSpacing: 1,
                                                       fontSize: 15,
                                                       color: Colors.black)),
@@ -389,13 +396,15 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           child: Text("My recommendations",
                                               style: currentDrawer == 1
                                                   ? GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       letterSpacing: 1,
                                                       fontSize: 15,
-                                                      color:
-                                                          const Color(0xFF3797EF))
+                                                      color: const Color(
+                                                          0xFF3797EF))
                                                   : GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       letterSpacing: 1,
                                                       fontSize: 15,
                                                       color: Colors.black)),
@@ -404,13 +413,15 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           child: Text("Saved recommendations",
                                               style: currentDrawer == 2
                                                   ? GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       letterSpacing: 1,
                                                       fontSize: 15,
-                                                      color:
-                                                          const Color(0xFF3797EF))
+                                                      color: const Color(
+                                                          0xFF3797EF))
                                                   : GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       letterSpacing: 1,
                                                       fontSize: 15,
                                                       color: Colors.black)),
@@ -477,8 +488,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                               10),
                                                                       boxShadow: [
                                                                         BoxShadow(
-                                                                          color: const Color(0xFF5F5F5F)
-                                                                              .withOpacity(0.2),
+                                                                          color:
+                                                                              const Color(0xFF5F5F5F).withOpacity(0.2),
                                                                           offset: const Offset(
                                                                               0.0,
                                                                               0.2),
@@ -499,18 +510,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                           ClipOval(
                                                                             child:
                                                                                 CachedNetworkImage(
-                                                                              width:
-                                                                                  30,
-                                                                              height:
-                                                                                  30,
-                                                                              fit:
-                                                                                  BoxFit.cover,
-                                                                              imageUrl:
-                                                                                  profileController.modal.value.data!.myRequest![index].userId!.profileImage.toString(),
-                                                                              placeholder: (context, url) =>
-                                                                                  Image.asset(AppAssets.girl),
-                                                                              errorWidget: (context, url, error) =>
-                                                                                  Image.asset(AppAssets.girl),
+                                                                              width: 30,
+                                                                              height: 30,
+                                                                              fit: BoxFit.cover,
+                                                                              imageUrl: profileController.modal.value.data!.myRequest![index].userId!.profileImage.toString(),
+                                                                              placeholder: (context, url) => Image.asset(AppAssets.girl),
+                                                                              errorWidget: (context, url, error) => Image.asset(AppAssets.girl),
                                                                             ),
                                                                           ),
                                                                           const SizedBox(
@@ -520,10 +525,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                           Expanded(
                                                                             child:
                                                                                 Column(
-                                                                              mainAxisAlignment:
-                                                                                  MainAxisAlignment.start,
-                                                                              crossAxisAlignment:
-                                                                                  CrossAxisAlignment.start,
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                                               children: [
                                                                                 profileController.modal.value.data!.myRequest![index].userId!.name.toString() == ""
                                                                                     ? Text(
@@ -593,17 +596,25 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                             15,
                                                                       ),
                                                                       CachedNetworkImage(
-                                                                        width:
-                                                                            size.width,
+                                                                        width: size
+                                                                            .width,
                                                                         height:
                                                                             200,
-                                                                        fit:
-                                                                            BoxFit.fill,
-                                                                        imageUrl:
-                                                                            profileController.modal.value.data!.myRequest![index].image.toString(),
-                                                                        placeholder: (context, url) =>
-                                                                            Image.asset(AppAssets.picture),
-                                                                        errorWidget: (context, url, error) =>
+                                                                        fit: BoxFit
+                                                                            .fill,
+                                                                        imageUrl: profileController
+                                                                            .modal
+                                                                            .value
+                                                                            .data!
+                                                                            .myRequest![index]
+                                                                            .image
+                                                                            .toString(),
+                                                                        placeholder:
+                                                                            (context, url) =>
+                                                                                Image.asset(AppAssets.picture),
+                                                                        errorWidget: (context,
+                                                                                url,
+                                                                                error) =>
                                                                             Image.asset(AppAssets.picture),
                                                                       ),
                                                                       const SizedBox(
@@ -615,8 +626,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                             .modal
                                                                             .value
                                                                             .data!
-                                                                            .myRequest![
-                                                                                index]
+                                                                            .myRequest![index]
                                                                             .title
                                                                             .toString(),
                                                                         style: GoogleFonts.mulish(
@@ -634,8 +644,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                             .modal
                                                                             .value
                                                                             .data!
-                                                                            .myRequest![
-                                                                                index]
+                                                                            .myRequest![index]
                                                                             .description
                                                                             .toString(),
                                                                         style: GoogleFonts.mulish(
@@ -649,29 +658,26 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                             10,
                                                                       ),
                                                                       Container(
-                                                                        padding:
-                                                                            const EdgeInsets
-                                                                                .all(
-                                                                                5),
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            5),
                                                                         width:
                                                                             150,
                                                                         height:
                                                                             30,
                                                                         decoration:
                                                                             BoxDecoration(
-                                                                          color: const Color(0xFF3797EF)
-                                                                              .withOpacity(.09),
+                                                                          color:
+                                                                              const Color(0xFF3797EF).withOpacity(.09),
                                                                           borderRadius:
                                                                               BorderRadius.circular(10),
                                                                         ),
                                                                         child:
                                                                             Row(
                                                                           children: [
-                                                                            SvgPicture.asset(
-                                                                                AppAssets.message),
+                                                                            SvgPicture.asset(AppAssets.message),
                                                                             const SizedBox(
-                                                                              width:
-                                                                                  6,
+                                                                              width: 6,
                                                                             ),
                                                                             Text(
                                                                               "Recommendations: 120",
@@ -752,11 +758,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                     // profileController.idController.text = item.id.toString();
                                                                     // Get.back();
                                                                   },
-                                                                  child: ClipOval(
+                                                                  child:
+                                                                      ClipOval(
                                                                     child:
                                                                         CachedNetworkImage(
                                                                       width: 70,
-                                                                      height: 70,
+                                                                      height:
+                                                                          70,
                                                                       fit: BoxFit
                                                                           .fill,
                                                                       imageUrl: categories
@@ -778,16 +786,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                           index]
                                                                       .name
                                                                       .toString(),
-                                                                  style: GoogleFonts
-                                                                      .mulish(
-                                                                          fontWeight:
-                                                                              FontWeight
-                                                                                  .w300,
-                                                                          // letterSpacing: 1,
-                                                                          fontSize:
-                                                                              14,
-                                                                          color: Color(
-                                                                              0xFF26282E)),
+                                                                  style: GoogleFonts.mulish(
+                                                                      fontWeight: FontWeight.w300,
+                                                                      // letterSpacing: 1,
+                                                                      fontSize: 14,
+                                                                      color: Color(0xFF26282E)),
                                                                 )
                                                               ],
                                                             ),
@@ -863,12 +866,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                     children: [
                                                       ListView.builder(
                                                           shrinkWrap: true,
-                                                          itemCount: profileController
-                                                              .modal
-                                                              .value
-                                                              .data!
-                                                              .saveRecommandation!
-                                                              .length,
+                                                          itemCount:
+                                                              profileController
+                                                                  .modal
+                                                                  .value
+                                                                  .data!
+                                                                  .saveRecommandation!
+                                                                  .length,
                                                           physics:
                                                               const NeverScrollableScrollPhysics(),
                                                           itemBuilder:
@@ -888,8 +892,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                               10),
                                                                       boxShadow: [
                                                                         BoxShadow(
-                                                                          color: const Color(0xFF5F5F5F)
-                                                                              .withOpacity(0.2),
+                                                                          color:
+                                                                              const Color(0xFF5F5F5F).withOpacity(0.2),
                                                                           offset: const Offset(
                                                                               0.0,
                                                                               0.2),
@@ -910,18 +914,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                           ClipOval(
                                                                             child:
                                                                                 CachedNetworkImage(
-                                                                              width:
-                                                                                  30,
-                                                                              height:
-                                                                                  30,
-                                                                              fit:
-                                                                                  BoxFit.cover,
-                                                                              imageUrl:
-                                                                                  profileController.modal.value.data!.myRequest![index].userId!.profileImage.toString(),
-                                                                              placeholder: (context, url) =>
-                                                                                  Image.asset(AppAssets.girl),
-                                                                              errorWidget: (context, url, error) =>
-                                                                                  Image.asset(AppAssets.girl),
+                                                                              width: 30,
+                                                                              height: 30,
+                                                                              fit: BoxFit.cover,
+                                                                              imageUrl: profileController.modal.value.data!.myRequest![index].userId!.profileImage.toString(),
+                                                                              placeholder: (context, url) => Image.asset(AppAssets.girl),
+                                                                              errorWidget: (context, url, error) => Image.asset(AppAssets.girl),
                                                                             ),
                                                                           ),
                                                                           const SizedBox(
@@ -931,10 +929,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                           Expanded(
                                                                             child:
                                                                                 Column(
-                                                                              mainAxisAlignment:
-                                                                                  MainAxisAlignment.start,
-                                                                              crossAxisAlignment:
-                                                                                  CrossAxisAlignment.start,
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                                               children: [
                                                                                 profileController.modal.value.data!.myRequest![index].userId!.name.toString() == ""
                                                                                     ? Text(
@@ -1006,18 +1002,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                       Stack(
                                                                           children: [
                                                                             CachedNetworkImage(
-                                                                              width:
-                                                                                  size.width,
-                                                                              height:
-                                                                                  200,
-                                                                              fit:
-                                                                                  BoxFit.fill,
-                                                                              imageUrl:
-                                                                                  profileController.modal.value.data!.saveRecommandation![index].post!.image.toString(),
-                                                                              placeholder: (context, url) =>
-                                                                                  Image.asset(AppAssets.picture),
-                                                                              errorWidget: (context, url, error) =>
-                                                                                  Image.asset(AppAssets.picture),
+                                                                              width: size.width,
+                                                                              height: 200,
+                                                                              fit: BoxFit.fill,
+                                                                              imageUrl: profileController.modal.value.data!.saveRecommandation![index].post!.image.toString(),
+                                                                              placeholder: (context, url) => Image.asset(AppAssets.picture),
+                                                                              errorWidget: (context, url, error) => Image.asset(AppAssets.picture),
                                                                             ),
                                                                             Positioned(
                                                                                 right: 10,
@@ -1055,8 +1045,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                             .modal
                                                                             .value
                                                                             .data!
-                                                                            .saveRecommandation![
-                                                                                index]
+                                                                            .saveRecommandation![index]
                                                                             .post!
                                                                             .title
                                                                             .toString(),
