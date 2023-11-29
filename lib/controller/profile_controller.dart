@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../models/get_profile_model.dart';
 import '../repositories/get_profile_repo.dart';
 
-class ProfileController extends GetxController{
+class ProfileController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
@@ -14,15 +14,14 @@ class ProfileController extends GetxController{
   final idController = TextEditingController();
   var profileDrawer = 0;
 
-
   Rx<GetProfileModel> modal = GetProfileModel().obs;
   Rx<RxStatus> statusOfProfile = RxStatus.empty().obs;
   String? address = "";
+
   getData() {
     getProfileRepo().then((value) async {
       modal.value = value;
       if (value.status == true) {
-
         emailController.text = modal.value.data!.user!.email.toString();
         mobileController.text = modal.value.data!.user!.phone.toString();
         address = modal.value.data!.user!.address.toString();
@@ -38,7 +37,8 @@ class ProfileController extends GetxController{
       print(value.message.toString());
     });
   }
-@override
+
+  @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();

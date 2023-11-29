@@ -206,9 +206,9 @@ class _EditAccountState extends State<EditAccount> {
                               ),),
                             const SizedBox(height: 12,),
                             CommonTextfield(
-                                controller: profileController.nameController,
+                              controller: profileController.nameController,
 
-                                obSecure: false, hintText: "Enter your name",
+                              obSecure: false, hintText: "Enter your name",
                               autofocus: false,
                             ),
                             const SizedBox(height: 20,),

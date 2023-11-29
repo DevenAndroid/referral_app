@@ -1,6 +1,3 @@
-
-
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +9,8 @@ import '../resourses/helper.dart';
 
 Future<HomeModel> getHomeRepo() async {
   try {
-    http.Response response = await http.get(Uri.parse(ApiUrls.home),
+    http.Response response = await http.get(
+      Uri.parse(ApiUrls.home),
       headers: await getAuthHeader(),
     );
 

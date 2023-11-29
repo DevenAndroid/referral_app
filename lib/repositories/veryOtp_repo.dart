@@ -8,9 +8,7 @@ import '../models/verify_otp_model.dart';
 import '../resourses/api_constant.dart';
 import '../resourses/helper.dart';
 
-
-
-Future<VerifyOtpModel> verifyOtpRepo({email,context,otp}) async {
+Future<VerifyOtpModel> verifyOtpRepo({email, context, otp}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   var map = <String, dynamic>{};
@@ -18,12 +16,10 @@ Future<VerifyOtpModel> verifyOtpRepo({email,context,otp}) async {
   map['email'] = email;
   map['otp'] = otp;
 
-
   print(map);
   // try {
   http.Response response = await http.post(Uri.parse(ApiUrls.verifyOtp),
-      headers: await getAuthHeader(),
-      body: jsonEncode(map));
+      headers: await getAuthHeader(), body: jsonEncode(map));
   log("Sign IN DATA${response.body}");
   // http.Response response = await http.post(Uri.parse(ApiUrls.loginUser),
   //     headers: await getAuthHeader(),body: jsonEncode(map) );
@@ -32,11 +28,12 @@ Future<VerifyOtpModel> verifyOtpRepo({email,context,otp}) async {
     Helpers.hideLoader(loader);
     print(jsonDecode(response.body));
     return VerifyOtpModel.fromJson(jsonDecode(response.body));
-
   } else {
     Helpers.hideLoader(loader);
     print(jsonDecode(response.body));
-    return VerifyOtpModel(message: jsonDecode(response.body)["message"], );
+    return VerifyOtpModel(
+      message: jsonDecode(response.body)["message"],
+    );
   }
   // }  catch (e) {
   //   Helpers.hideLoader(loader);

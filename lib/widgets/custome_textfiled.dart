@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -70,7 +69,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Obx(() {
       return TextFormField(
           cursorColor: const Color(0xFF7ED957),
-        // autovalidateMode: AutovalidateMode.onUserInteraction,
+          // autovalidateMode: AutovalidateMode.onUserInteraction,
           textInputAction: TextInputAction.next,
           onFieldSubmitted: widget.onFieldSubmitted,
           inputFormatters: widget.inputFormatters1,
@@ -181,7 +180,7 @@ class _CustomTextField1State extends State<CustomTextField1> {
     return Obx(() {
       return TextFormField(
           cursorColor: const Color(0xFF7ED957),
-        // autovalidateMode: AutovalidateMode.onUserInteraction,
+          // autovalidateMode: AutovalidateMode.onUserInteraction,
           textInputAction: TextInputAction.next,
           onFieldSubmitted: widget.onFieldSubmitted,
           inputFormatters: widget.inputFormatters1,
@@ -215,7 +214,8 @@ class _CustomTextField1State extends State<CustomTextField1> {
             /*errorStyle: const TextStyle(
               overflow: TextOverflow.clip,
             ),*/
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 1),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 1),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: const Color(0xFF34472C).withOpacity(0.21),
@@ -238,7 +238,6 @@ class _CustomTextField1State extends State<CustomTextField1> {
     });
   }
 }
-
 
 class CustomTextField2 extends StatefulWidget {
   final TextEditingController? controller;
@@ -357,26 +356,24 @@ class _CustomTextField2State extends State<CustomTextField2> {
   }
 }
 
-
 // custom button
 
 class CommonButton extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
 
-  const CommonButton({Key? key, required this.title, this.onPressed}) : super(key: key);
+  const CommonButton({Key? key, required this.title, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(9),
-        color: AppTheme.primaryColor
-      ),
+          borderRadius: BorderRadius.circular(9), color: AppTheme.primaryColor),
       child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            minimumSize: Size(AddSize.screenWidth, AddSize.size50*1.0),
+            minimumSize: Size(AddSize.screenWidth, AddSize.size50 * 1.0),
             backgroundColor: Colors.transparent,
             elevation: 0,
             shape: RoundedRectangleBorder(
@@ -384,38 +381,36 @@ class CommonButton extends StatelessWidget {
             ),
             // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
-          child: Text(title,
+          child: Text(
+            title,
             style: GoogleFonts.mulish(
-                fontWeight: FontWeight.w700,
-                fontSize: 15,
-                color: Colors.white
-            ),)),
+                fontWeight: FontWeight.w700, fontSize: 15, color: Colors.white),
+          )),
     );
   }
 }
+
 class CommonButton1 extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
 
-  const CommonButton1({Key? key, required this.title, this.onPressed}) : super(key: key);
+  const CommonButton1({Key? key, required this.title, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          gradient: const LinearGradient(
-              // begin: Alignment.topCenter,
-              // end: Alignment.bottomCenter,
-              colors: [
-               Color(0xFF7ED957),
-                Color(0xff6BD13F)]
-          ),
+        borderRadius: BorderRadius.circular(12),
+        gradient: const LinearGradient(
+            // begin: Alignment.topCenter,
+            // end: Alignment.bottomCenter,
+            colors: [Color(0xFF7ED957), Color(0xff6BD13F)]),
       ),
       child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            minimumSize: Size(AddSize.screenWidth, AddSize.size50*1.2),
+            minimumSize: Size(AddSize.screenWidth, AddSize.size50 * 1.2),
             backgroundColor: Colors.transparent,
             elevation: 0,
             shape: RoundedRectangleBorder(
@@ -423,25 +418,23 @@ class CommonButton1 extends StatelessWidget {
             ),
             // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
-          child: Text(title,
+          child: Text(
+            title,
             style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
-                fontSize: 19,
-                color: Colors.white
-            ),)),
+                fontWeight: FontWeight.w500, fontSize: 19, color: Colors.white),
+          )),
     );
   }
 }
 
-
 AppBar backAppBar(
     {required title,
-      required BuildContext context,
-      String dispose = "",
-      Color? backgroundColor = Colors.white,
-      Color? textColor = Colors.black,
-      Widget? icon,
-      disposeController}) {
+    required BuildContext context,
+    String dispose = "",
+    Color? backgroundColor = Colors.white,
+    Color? textColor = Colors.black,
+    Widget? icon,
+    disposeController}) {
   return AppBar(
     //shadowColor:  Colors.grey[400],
     toolbarHeight: 60,
@@ -455,8 +448,7 @@ AppBar backAppBar(
       style: GoogleFonts.quicksand(
           fontWeight: FontWeight.w700,
           fontSize: 18,
-          color: const Color(0xFF303C5E)
-      ),
+          color: const Color(0xFF303C5E)),
     ),
     leading: Padding(
       padding: EdgeInsets.only(left: AddSize.padding12),
@@ -467,14 +459,12 @@ AppBar backAppBar(
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              icon ??
-                  SvgPicture.asset(AppAssets.arrowBack)
-            ],
+            children: [icon ?? SvgPicture.asset(AppAssets.arrowBack)],
           )),
     ),
   );
 }
+
 class CommonTextFieldWidget extends StatelessWidget {
   final IconData? suffixIcon;
   final IconData? prefixIcon;
@@ -540,7 +530,7 @@ class CommonTextFieldWidget extends StatelessWidget {
           hintText: hint,
           focusColor: Colors.black,
           hintStyle: const TextStyle(
-            color:  Color(0xff2F353F),
+            color: Color(0xff2F353F),
             fontSize: 14,
             fontFamily: 'poppins',
             fontWeight: FontWeight.w300,
@@ -548,7 +538,7 @@ class CommonTextFieldWidget extends StatelessWidget {
           filled: true,
           fillColor: Colors.white,
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.white),
@@ -558,8 +548,7 @@ class CommonTextFieldWidget extends StatelessWidget {
               borderSide: BorderSide(color: Colors.white),
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           border: OutlineInputBorder(
-              borderSide:
-              BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
+              borderSide: BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
               borderRadius: BorderRadius.circular(15.0)),
           suffixIcon: suffix,
           prefixIcon: prefix),
@@ -632,7 +621,7 @@ class CommonTextFieldWidget1 extends StatelessWidget {
           hintText: hint,
           focusColor: Colors.black,
           hintStyle: const TextStyle(
-            color:  Color(0xff2F353F),
+            color: Color(0xff2F353F),
             fontSize: 14,
             fontFamily: 'poppins',
             fontWeight: FontWeight.w300,
@@ -640,7 +629,7 @@ class CommonTextFieldWidget1 extends StatelessWidget {
           filled: true,
           fillColor: Colors.white,
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.white),
@@ -650,14 +639,14 @@ class CommonTextFieldWidget1 extends StatelessWidget {
               borderSide: BorderSide(color: Colors.white),
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           border: OutlineInputBorder(
-              borderSide:
-              BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
+              borderSide: BorderSide(color: Color(0xFFD8DCDD), width: 3.0),
               borderRadius: BorderRadius.circular(15.0)),
           suffixIcon: suffix,
           prefixIcon: prefix),
     );
   }
 }
+
 class RegistrationTextFieldChk extends StatelessWidget {
   final IconData? suffixIcon;
   final IconData? prefixIcon;
@@ -727,25 +716,26 @@ class RegistrationTextFieldChk extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
           filled: true,
-
           fillColor: const Color(0xFFF4F4F4),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xFFE2E2E2),width: 1),
+            borderSide: const BorderSide(color: Color(0xFFE2E2E2), width: 1),
             borderRadius: BorderRadius.circular(6.0),
           ),
           enabledBorder: const OutlineInputBorder(
-              borderSide:  BorderSide(color: Color(0xFFE2E2E2),width: 1),
-              borderRadius:  BorderRadius.all(Radius.circular(6.0))),
+              borderSide: BorderSide(color: Color(0xFFE2E2E2), width: 1),
+              borderRadius: BorderRadius.all(Radius.circular(6.0))),
           border: OutlineInputBorder(
-              borderSide:  const BorderSide(color: Color(0xFFE2E2E2),width: 1),
+              borderSide: const BorderSide(color: Color(0xFFE2E2E2), width: 1),
               borderRadius: BorderRadius.circular(6.0)),
           suffixIcon: suffix,
           prefixIcon: prefix),
     );
   }
 }
+
 class RegistrationTextFieldChk1 extends StatelessWidget {
   final IconData? suffixIcon;
   final IconData? prefixIcon;
@@ -815,25 +805,26 @@ class RegistrationTextFieldChk1 extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
           filled: true,
-
           fillColor: const Color(0xFFF0F0F0),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xFFE2E2E2),width: 1),
+            borderSide: const BorderSide(color: Color(0xFFE2E2E2), width: 1),
             borderRadius: BorderRadius.circular(6.0),
           ),
           enabledBorder: const OutlineInputBorder(
-              borderSide:  BorderSide(color: Color(0xFFE2E2E2),width: 1),
-              borderRadius:  BorderRadius.all(Radius.circular(6.0))),
+              borderSide: BorderSide(color: Color(0xFFE2E2E2), width: 1),
+              borderRadius: BorderRadius.all(Radius.circular(6.0))),
           border: OutlineInputBorder(
-              borderSide:  const BorderSide(color: Color(0xFFE2E2E2),width: 1),
+              borderSide: const BorderSide(color: Color(0xFFE2E2E2), width: 1),
               borderRadius: BorderRadius.circular(6.0)),
           suffixIcon: suffix,
           prefixIcon: prefix),
     );
   }
 }
+
 class RegistrationTextField extends StatelessWidget {
   final IconData? suffixIcon;
   final IconData? prefixIcon;
@@ -903,7 +894,6 @@ class RegistrationTextField extends StatelessWidget {
             fontWeight: FontWeight.w300,
           ),
           filled: true,
-
           fillColor: Color(0xFFFFFFFF),
           contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
@@ -949,27 +939,27 @@ class RegistrationTextField1 extends StatelessWidget {
 
   const RegistrationTextField1(
       {Key? key,
-        this.suffixIcon,
-        this.prefixIcon,
-        this.hint,
-        this.keyboardType,
-        this.textInputAction,
-        this.controller,
-        this.bgColor,
-        this.validator,
-        this.suffix,
-        this.autofillHints,
-        this.prefix,
-        this.minLines = 1,
-        this.maxLines = 1,
-        this.obscureText = false,
-        this.readOnly = false,
-        this.onTap,
-        this.enable,
-        this.length,
-        this.onChanged,
-        this.lableText,
-        this.errorMaxLines})
+      this.suffixIcon,
+      this.prefixIcon,
+      this.hint,
+      this.keyboardType,
+      this.textInputAction,
+      this.controller,
+      this.bgColor,
+      this.validator,
+      this.suffix,
+      this.autofillHints,
+      this.prefix,
+      this.minLines = 1,
+      this.maxLines = 1,
+      this.obscureText = false,
+      this.readOnly = false,
+      this.onTap,
+      this.enable,
+      this.length,
+      this.onChanged,
+      this.lableText,
+      this.errorMaxLines})
       : super(key: key);
 
   @override
@@ -991,7 +981,7 @@ class RegistrationTextField1 extends StatelessWidget {
       inputFormatters: [
         LengthLimitingTextInputFormatter(length),
       ],
-      cursorColor:Colors.green,
+      cursorColor: Colors.green,
       decoration: InputDecoration(
           errorMaxLines: 2,
           hintText: hint,
@@ -1002,14 +992,14 @@ class RegistrationTextField1 extends StatelessWidget {
             fontWeight: FontWeight.w300,
           ),
           labelStyle: GoogleFonts.poppins(
-      color: const Color(0xff2F353F),
-      fontSize: 14,
-      fontWeight: FontWeight.w300,
-    ),
+            color: const Color(0xff2F353F),
+            fontSize: 14,
+            fontWeight: FontWeight.w300,
+          ),
           filled: true,
           fillColor: Colors.grey.shade50,
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey.shade300),
@@ -1026,7 +1016,6 @@ class RegistrationTextField1 extends StatelessWidget {
     );
   }
 }
-
 
 class RegistrationTextField2 extends StatelessWidget {
   final IconData? suffixIcon;
@@ -1102,7 +1091,7 @@ class RegistrationTextField2 extends StatelessWidget {
           filled: true,
           fillColor: Colors.grey.shade50,
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey.shade300),
@@ -1195,7 +1184,7 @@ class RegistrationTextField3 extends StatelessWidget {
           filled: true,
           fillColor: Colors.grey.shade50,
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey.shade300),

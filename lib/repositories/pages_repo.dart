@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +10,8 @@ import '../resourses/helper.dart';
 
 Future<PagesModel> getPagesRepo({required slug}) async {
   try {
-    http.Response response = await http.get(Uri.parse(ApiUrls.pages+slug),
+    http.Response response = await http.get(
+      Uri.parse(ApiUrls.pages + slug),
       headers: await getAuthHeader(),
     );
 

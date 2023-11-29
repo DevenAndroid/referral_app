@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +9,8 @@ import '../resourses/helper.dart';
 
 Future<GetProfileModel> getProfileRepo() async {
   try {
-    http.Response response = await http.get(Uri.parse(ApiUrls.userProfile),
+    http.Response response = await http.get(
+      Uri.parse(ApiUrls.userProfile),
       headers: await getAuthHeader(),
     );
 

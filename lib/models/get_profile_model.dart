@@ -29,12 +29,11 @@ class Data {
   List<SaveRecommandation>? saveRecommandation;
   int? notificationCount;
 
-  Data(
-      {this.user,
-        this.myRequest,
-        this.myRecommandation,
-        this.saveRecommandation,
-        this.notificationCount});
+  Data({this.user,
+    this.myRequest,
+    this.myRecommandation,
+    this.saveRecommandation,
+    this.notificationCount});
 
   Data.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
@@ -102,27 +101,26 @@ class User {
   int? followersCount;
   int? postCount;
 
-  User(
-      {this.id,
-        this.name,
-        this.email,
-        this.phone,
-        this.walletBalance,
-        this.earnedBalance,
-        this.profileImage,
-        this.address,
-        this.referalCode,
-        this.isDriverOnline,
-        this.isVendorOnline,
-        this.deliveryRange,
-        this.selfDelivery,
-        this.asDriverVerified,
-        this.asVendorVerified,
-        this.asMarketingManagerVerified,
-        this.isComplete,
-        this.followingCount,
-        this.followersCount,
-        this.postCount});
+  User({this.id,
+    this.name,
+    this.email,
+    this.phone,
+    this.walletBalance,
+    this.earnedBalance,
+    this.profileImage,
+    this.address,
+    this.referalCode,
+    this.isDriverOnline,
+    this.isVendorOnline,
+    this.deliveryRange,
+    this.selfDelivery,
+    this.asDriverVerified,
+    this.asVendorVerified,
+    this.asMarketingManagerVerified,
+    this.isComplete,
+    this.followingCount,
+    this.followersCount,
+    this.postCount});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -183,15 +181,14 @@ class MyRequest {
   String? image;
   String? postViewersType;
 
-  MyRequest(
-      {this.id,
-        this.userId,
-        this.title,
-        this.description,
-        this.minPrice,
-        this.maxPrice,
-        this.image,
-        this.postViewersType});
+  MyRequest({this.id,
+    this.userId,
+    this.title,
+    this.description,
+    this.minPrice,
+    this.maxPrice,
+    this.image,
+    this.postViewersType});
 
   MyRequest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -231,15 +228,14 @@ class MyRecommandation {
   String? image;
   String? status;
 
-  MyRecommandation(
-      {this.id,
-        this.user,
-        this.title,
-        this.review,
-        this.link,
-        this.categoryId,
-        this.image,
-        this.status});
+  MyRecommandation({this.id,
+    this.user,
+    this.title,
+    this.review,
+    this.link,
+    this.categoryId,
+    this.image,
+    this.status});
 
   MyRecommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -301,14 +297,13 @@ class Post {
   String? image;
   String? status;
 
-  Post(
-      {this.id,
-        this.title,
-        this.review,
-        this.link,
-        this.categoryId,
-        this.image,
-        this.status});
+  Post({this.id,
+    this.title,
+    this.review,
+    this.link,
+    this.categoryId,
+    this.image,
+    this.status});
 
   Post.fromJson(Map<String, dynamic> json) {
     id = json['id'];

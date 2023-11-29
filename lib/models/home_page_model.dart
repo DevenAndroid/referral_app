@@ -100,18 +100,15 @@ class Discover {
   String? maxPrice;
   String? image;
   String? postViewersType;
-  bool? wishlist;
 
-  Discover(
-      {this.id,
-        this.userId,
-        this.title,
-        this.description,
-        this.minPrice,
-        this.maxPrice,
-        this.image,
-        this.postViewersType,
-        this.wishlist});
+  Discover({this.id,
+    this.userId,
+    this.title,
+    this.description,
+    this.minPrice,
+    this.maxPrice,
+    this.image,
+    this.postViewersType});
 
   Discover.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -123,7 +120,6 @@ class Discover {
     maxPrice = json['max_price'];
     image = json['image'];
     postViewersType = json['post_viewers_type'];
-    wishlist = json['wishlist'];
   }
 
   Map<String, dynamic> toJson() {
@@ -138,7 +134,6 @@ class Discover {
     data['max_price'] = this.maxPrice;
     data['image'] = this.image;
     data['post_viewers_type'] = this.postViewersType;
-    data['wishlist'] = this.wishlist;
     return data;
   }
 }
@@ -165,27 +160,26 @@ class UserId {
   int? followersCount;
   int? postCount;
 
-  UserId(
-      {this.id,
-        this.name,
-        this.email,
-        this.phone,
-        this.walletBalance,
-        this.earnedBalance,
-        this.profileImage,
-        this.address,
-        this.referalCode,
-        this.isDriverOnline,
-        this.isVendorOnline,
-        this.deliveryRange,
-        this.selfDelivery,
-        this.asDriverVerified,
-        this.asVendorVerified,
-        this.asMarketingManagerVerified,
-        this.isComplete,
-        this.followingCount,
-        this.followersCount,
-        this.postCount});
+  UserId({this.id,
+    this.name,
+    this.email,
+    this.phone,
+    this.walletBalance,
+    this.earnedBalance,
+    this.profileImage,
+    this.address,
+    this.referalCode,
+    this.isDriverOnline,
+    this.isVendorOnline,
+    this.deliveryRange,
+    this.selfDelivery,
+    this.asDriverVerified,
+    this.asVendorVerified,
+    this.asMarketingManagerVerified,
+    this.isComplete,
+    this.followingCount,
+    this.followersCount,
+    this.postCount});
 
   UserId.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -245,18 +239,15 @@ class Recommandation {
   String? categoryId;
   String? image;
   String? status;
-  bool? wishlist;
 
-  Recommandation(
-      {this.id,
-        this.user,
-        this.title,
-        this.review,
-        this.link,
-        this.categoryId,
-        this.image,
-        this.status,
-        this.wishlist});
+  Recommandation({this.id,
+    this.user,
+    this.title,
+    this.review,
+    this.link,
+    this.categoryId,
+    this.image,
+    this.status});
 
   Recommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -267,7 +258,6 @@ class Recommandation {
     categoryId = json['category_id'];
     image = json['image'];
     status = json['status'];
-    wishlist = json['wishlist'];
   }
 
   Map<String, dynamic> toJson() {
@@ -282,7 +272,6 @@ class Recommandation {
     data['category_id'] = this.categoryId;
     data['image'] = this.image;
     data['status'] = this.status;
-    data['wishlist'] = this.wishlist;
     return data;
   }
 }

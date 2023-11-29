@@ -33,14 +33,14 @@ class _OtpScreenState extends State<OtpScreen> {
   Rx<VerifyOtpModel> otpVerify = VerifyOtpModel().obs;
   Rx<ModelResendOtp> otpResend = ModelResendOtp().obs;
   final formKey6 = GlobalKey<FormState>();
-var email= Get.arguments[0];
+  var email= Get.arguments[0];
   verify(context) {
     if (formKey6.currentState!.validate()) {
 
       verifyOtpRepo(
-        context: context,
-        email:email,
-        otp: otpController.text.trim()
+          context: context,
+          email:email,
+          otp: otpController.text.trim()
       ).then((value) async {
         otpVerify.value = value;
         if (value.status == true) {
@@ -49,7 +49,7 @@ var email= Get.arguments[0];
           if (pref.getBool('complete') == true) {
             Get.toNamed(MyRouters.bottomNavbar);
           }
-           pref.setString('cookie', value.authToken.toString());
+          pref.setString('cookie', value.authToken.toString());
           Get.toNamed(MyRouters.createAccountScreen);
           // Get.offAllNamed(MyRouters.bottomNavbar);
           statusOfOtpVerify.value = RxStatus.success();
@@ -76,7 +76,7 @@ var email= Get.arguments[0];
         otpResend.value = value;
         if (value.status == true) {
           SharedPreferences pref = await SharedPreferences.getInstance();
-           // pref.setString('cookie', value.authToken.toString());
+          // pref.setString('cookie', value.authToken.toString());
           // Get.toNamed(MyRouters.createAccountScreen);
           // Get.offAllNamed(MyRouters.bottomNavbar);
           statusOfOtpResend.value = RxStatus.success();
@@ -161,19 +161,19 @@ var email= Get.arguments[0];
                               SizedBox(height: size.height*.07,),
 
                               SizedBox(height: 10,),
-                          PinCodeFields(
-                            length: 4,
-                            controller: otpController,
-                            borderColor: Colors.black12,
-                            borderWidth: 3,
+                              PinCodeFields(
+                                length: 4,
+                                controller: otpController,
+                                borderColor: Colors.black12,
+                                borderWidth: 3,
 
-                            keyboardType: TextInputType.number,
-                            focusNode: focusNode,
-                            onComplete: (result) {
-                              // Your logic with code
-                              print(result);
-                            },
-                          ),
+                                keyboardType: TextInputType.number,
+                                focusNode: focusNode,
+                                onComplete: (result) {
+                                  // Your logic with code
+                                  print(result);
+                                },
+                              ),
                               SizedBox(height: 30,),
                               Center(
                                 child: Text("Didn't you receive the OTP?",
@@ -200,9 +200,9 @@ var email= Get.arguments[0];
                                 ),
                               ),
                               SizedBox(height: size.height*.07,),
-                               CommonButton(title: "VERIFY OTP",onPressed: (){
-                                 verify(context);
-                                 // Get.toNamed(MyRouters.createAccountScreen);
+                              CommonButton(title: "VERIFY OTP",onPressed: (){
+                                verify(context);
+                                // Get.toNamed(MyRouters.createAccountScreen);
                               },),
                               SizedBox(height: size.height*.1,),
 

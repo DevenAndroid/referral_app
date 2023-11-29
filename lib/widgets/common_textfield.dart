@@ -21,6 +21,7 @@ class CommonTextfield extends StatefulWidget {
   final bool isMulti;
   final bool autofocus;
   final bool enabled;
+  // final bool disable;
   final String? errorText;
   final String? labelText;
   final String? hintText;
@@ -29,7 +30,7 @@ class CommonTextfield extends StatefulWidget {
 
   List<TextInputFormatter>? inputFormatters = [];
 
-  CommonTextfield({
+  CommonTextfield({super.key,
     this.controller,
 
     this.validator,

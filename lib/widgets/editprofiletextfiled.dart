@@ -70,9 +70,10 @@ class EditProfileTextFieldWidget extends StatelessWidget {
           hintText: hint,
           focusColor: AppTheme.primaryColor,
           hintStyle:
-          TextStyle(color: Color(0xffADADB8), fontSize: AddSize.font14),
+              TextStyle(color: Color(0xffADADB8), fontSize: AddSize.font14),
           labelText: label,
-          labelStyle: TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
+          labelStyle:
+              TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
           filled: true,
           fillColor: const Color(0xFFF3F3F3),
           contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -158,10 +159,13 @@ class EditProfileTextFieldWidget1 extends StatelessWidget {
       decoration: InputDecoration(
           hintText: hint,
           focusColor: AppTheme.primaryColor,
-          hintStyle:
-          GoogleFonts.ibmPlexSansArabic(color: Color(0xffACACB7), fontSize: AddSize.font14,fontWeight:FontWeight.w700),
+          hintStyle: GoogleFonts.ibmPlexSansArabic(
+              color: Color(0xffACACB7),
+              fontSize: AddSize.font14,
+              fontWeight: FontWeight.w700),
           labelText: label,
-          labelStyle: TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
+          labelStyle:
+              TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
           filled: true,
           fillColor: AppTheme.backgroundcolor,
           contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

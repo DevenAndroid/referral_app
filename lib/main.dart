@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:referral_app/routers/routers.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: "/",
-      getPages:MyRouters.route,
+      getPages: MyRouters.route,
     );
   }
 }
