@@ -27,13 +27,16 @@ class Data {
   List<MyRequest>? myRequest;
   List<MyRecommandation>? myRecommandation;
   List<SaveRecommandation>? saveRecommandation;
+  List<MyCategories>? myCategories;
   int? notificationCount;
 
-  Data({this.user,
-    this.myRequest,
-    this.myRecommandation,
-    this.saveRecommandation,
-    this.notificationCount});
+  Data(
+      {this.user,
+        this.myRequest,
+        this.myRecommandation,
+        this.saveRecommandation,
+        this.myCategories,
+        this.notificationCount});
 
   Data.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
@@ -55,6 +58,12 @@ class Data {
         saveRecommandation!.add(new SaveRecommandation.fromJson(v));
       });
     }
+    if (json['my_categories'] != null) {
+      myCategories = <MyCategories>[];
+      json['my_categories'].forEach((v) {
+        myCategories!.add(new MyCategories.fromJson(v));
+      });
+    }
     notificationCount = json['notification_count'];
   }
 
@@ -73,6 +82,10 @@ class Data {
     if (this.saveRecommandation != null) {
       data['save_recommandation'] =
           this.saveRecommandation!.map((v) => v.toJson()).toList();
+    }
+    if (this.myCategories != null) {
+      data['my_categories'] =
+          this.myCategories!.map((v) => v.toJson()).toList();
     }
     data['notification_count'] = this.notificationCount;
     return data;
@@ -101,26 +114,27 @@ class User {
   int? followersCount;
   int? postCount;
 
-  User({this.id,
-    this.name,
-    this.email,
-    this.phone,
-    this.walletBalance,
-    this.earnedBalance,
-    this.profileImage,
-    this.address,
-    this.referalCode,
-    this.isDriverOnline,
-    this.isVendorOnline,
-    this.deliveryRange,
-    this.selfDelivery,
-    this.asDriverVerified,
-    this.asVendorVerified,
-    this.asMarketingManagerVerified,
-    this.isComplete,
-    this.followingCount,
-    this.followersCount,
-    this.postCount});
+  User(
+      {this.id,
+        this.name,
+        this.email,
+        this.phone,
+        this.walletBalance,
+        this.earnedBalance,
+        this.profileImage,
+        this.address,
+        this.referalCode,
+        this.isDriverOnline,
+        this.isVendorOnline,
+        this.deliveryRange,
+        this.selfDelivery,
+        this.asDriverVerified,
+        this.asVendorVerified,
+        this.asMarketingManagerVerified,
+        this.isComplete,
+        this.followingCount,
+        this.followersCount,
+        this.postCount});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -180,15 +194,18 @@ class MyRequest {
   String? maxPrice;
   String? image;
   String? postViewersType;
+  bool? wishlist;
 
-  MyRequest({this.id,
-    this.userId,
-    this.title,
-    this.description,
-    this.minPrice,
-    this.maxPrice,
-    this.image,
-    this.postViewersType});
+  MyRequest(
+      {this.id,
+        this.userId,
+        this.title,
+        this.description,
+        this.minPrice,
+        this.maxPrice,
+        this.image,
+        this.postViewersType,
+        this.wishlist});
 
   MyRequest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -200,6 +217,7 @@ class MyRequest {
     maxPrice = json['max_price'];
     image = json['image'];
     postViewersType = json['post_viewers_type'];
+    wishlist = json['wishlist'];
   }
 
   Map<String, dynamic> toJson() {
@@ -214,6 +232,7 @@ class MyRequest {
     data['max_price'] = this.maxPrice;
     data['image'] = this.image;
     data['post_viewers_type'] = this.postViewersType;
+    data['wishlist'] = this.wishlist;
     return data;
   }
 }
@@ -227,15 +246,18 @@ class MyRecommandation {
   String? categoryId;
   String? image;
   String? status;
+  bool? wishlist;
 
-  MyRecommandation({this.id,
-    this.user,
-    this.title,
-    this.review,
-    this.link,
-    this.categoryId,
-    this.image,
-    this.status});
+  MyRecommandation(
+      {this.id,
+        this.user,
+        this.title,
+        this.review,
+        this.link,
+        this.categoryId,
+        this.image,
+        this.status,
+        this.wishlist});
 
   MyRecommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -246,6 +268,7 @@ class MyRecommandation {
     categoryId = json['category_id'];
     image = json['image'];
     status = json['status'];
+    wishlist = json['wishlist'];
   }
 
   Map<String, dynamic> toJson() {
@@ -260,6 +283,7 @@ class MyRecommandation {
     data['category_id'] = this.categoryId;
     data['image'] = this.image;
     data['status'] = this.status;
+    data['wishlist'] = this.wishlist;
     return data;
   }
 }
@@ -297,13 +321,14 @@ class Post {
   String? image;
   String? status;
 
-  Post({this.id,
-    this.title,
-    this.review,
-    this.link,
-    this.categoryId,
-    this.image,
-    this.status});
+  Post(
+      {this.id,
+        this.title,
+        this.review,
+        this.link,
+        this.categoryId,
+        this.image,
+        this.status});
 
   Post.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -324,6 +349,34 @@ class Post {
     data['category_id'] = this.categoryId;
     data['image'] = this.image;
     data['status'] = this.status;
+    return data;
+  }
+}
+
+class MyCategories {
+  int? id;
+  String? taxPercent;
+  String? name;
+  Null? slug;
+  String? image;
+
+  MyCategories({this.id, this.taxPercent, this.name, this.slug, this.image});
+
+  MyCategories.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    taxPercent = json['tax_percent'];
+    name = json['name'];
+    slug = json['slug'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['tax_percent'] = this.taxPercent;
+    data['name'] = this.name;
+    data['slug'] = this.slug;
+    data['image'] = this.image;
     return data;
   }
 }

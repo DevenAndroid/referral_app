@@ -734,8 +734,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           SizedBox(
                                               height: size.height * .15,
                                               child: Obx(() {
-                                                return statusOfCategories
-                                                        .value.isSuccess
+                                                return profileController
+                                                    .statusOfProfile
+                                                    .value
+                                                    .isSuccess
                                                     ? ListView.builder(
                                                         itemCount: categories
                                                             .value.data!.length,
@@ -767,12 +769,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                           70,
                                                                       fit: BoxFit
                                                                           .fill,
-                                                                      imageUrl: categories
-                                                                          .value
-                                                                          .data![
-                                                                              index]
-                                                                          .image
-                                                                          .toString(),
+                                                                      imageUrl:    profileController.modal.value.data!.myCategories![index].image.toString(),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -780,10 +777,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                   height: 2,
                                                                 ),
                                                                 Text(
-                                                                  categories
+                                                                  profileController.modal
                                                                       .value
-                                                                      .data![
-                                                                          index]
+                                                                      .data!.myCategories![index]
                                                                       .name
                                                                       .toString(),
                                                                   style: GoogleFonts.mulish(
@@ -796,8 +792,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                             ),
                                                           );
                                                         })
-                                                    : statusOfCategories
-                                                            .value.isError
+                                                    : profileController
+                                                    .statusOfProfile
+                                                    .value
+                                                    .isError
                                                         ? CommonErrorWidget(
                                                             errorText: "",
                                                             onTap: () {},
