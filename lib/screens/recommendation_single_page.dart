@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../routers/routers.dart';
 import '../widgets/app_assets.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/custome_textfiled.dart';
@@ -17,6 +18,10 @@ class RecommendationSingleScreen extends StatefulWidget {
 
 class _RecommendationSingleScreenState
     extends State<RecommendationSingleScreen> {
+  var image = Get.arguments[0];
+  var title = Get.arguments[1];
+  var review = Get.arguments[2];
+  var id = Get.arguments[3];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -48,11 +53,23 @@ class _RecommendationSingleScreenState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Best color for furniture",
+                            title,
                             style: GoogleFonts.mulish(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20,
                                 color: Color(0xFF000000)),
+                          ),
+                          InkWell(onTap: (){
+
+                            Get.toNamed(MyRouters.userProfileScreen,arguments: [id]);
+                          },
+                            child: Image(
+                                height: 20,
+                                width: 20,
+                                image: AssetImage(
+                                    'assets/icons/chat.png')
+
+                            ),
                           ),
                         ],
                       ),
@@ -60,7 +77,7 @@ class _RecommendationSingleScreenState
                         height: 10,
                       ),
                       Text(
-                        "Lorem Ipsum is simply dummy text of the \nprinting and typesetting industry. ",
+                       review,
                         style: GoogleFonts.mulish(
                             fontWeight: FontWeight.w300,
                             fontSize: 12,
@@ -87,7 +104,12 @@ class _RecommendationSingleScreenState
                       SizedBox(
                         height: 15,
                       ),
-                      Image.asset(AppAssets.sofa)
+
+                      SizedBox(
+                          height: 200,
+                          width: size.width,
+
+                          child: Image.network(image))
                     ]))));
   }
 }

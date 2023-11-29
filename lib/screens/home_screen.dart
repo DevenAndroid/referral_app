@@ -371,12 +371,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .discover![index].image
                                                   .toString(),
                                               placeholder: (context, url) =>
-                                                  Image.asset(
-                                                      AppAssets.picture),
+                                                 SizedBox(),
                                               errorWidget: (context, url,
                                                   error) =>
-                                                  Image.asset(
-                                                      AppAssets.picture),
+                                                  SizedBox(),
                                             ),
                                             Positioned(
                                                 right: 10,
@@ -428,102 +426,140 @@ class _HomeScreenState extends State<HomeScreen> {
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          Container(
-                                            padding: EdgeInsets.all(5),
-                                            width: size.width * .45,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFF3797EF)
-                                                  .withOpacity(.09),
-                                              borderRadius:
-                                              BorderRadius.circular(10),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                SvgPicture.asset(
-                                                    AppAssets.message),
-                                                const SizedBox(
-                                                  width: 6,
+                                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.all(5),
+                                                width: size.width * .45,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFF3797EF)
+                                                      .withOpacity(.09),
+                                                  borderRadius:
+                                                  BorderRadius.circular(10),
                                                 ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    showModalBottomSheet(
-                                                      isScrollControlled: true,
-                                                      context: context,
-                                                      backgroundColor:
-                                                      Colors.white,
-                                                      elevation: 10,
+                                                child: Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        AppAssets.message),
+                                                    const SizedBox(
+                                                      width: 6,
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        showModalBottomSheet(
+                                                          isScrollControlled: true,
+                                                          context: context,
+                                                          backgroundColor:
+                                                          Colors.white,
+                                                          elevation: 10,
 
-                                                      shape:
-                                                      RoundedRectangleBorder(
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            20.0),
-                                                      ),
-                                                      builder: (BuildContext
-                                                      context) {
-                                                        // UDE : SizedBox instead of Container for whitespaces
-                                                        return Center(
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 20),
-                                                            child: SingleChildScrollView(
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                                crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                                children: <
-                                                                    Widget>[
-                                                                  Text(
-                                                                    'recommendation List',
-                                                                    style: GoogleFonts
-                                                                        .mulish(
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                      // letterSpacing: 1,
-                                                                      fontSize:
-                                                                      18,
-                                                                      color: Colors
-                                                                          .black,
-                                                                    ),
-                                                                  ),
-                                                                  ListView.builder(
-                                                                    scrollDirection: Axis.vertical,
+                                                          shape:
+                                                          RoundedRectangleBorder(
+                                                            borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                20.0),
+                                                          ),
+                                                          builder: (BuildContext
+                                                          context) {
+                                                            // UDE : SizedBox instead of Container for whitespaces
+                                                            return Center(
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 20),
+                                                                child: SingleChildScrollView(
+                                                                  child: Column(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                    crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                    children: <
+                                                                        Widget>[
+                                                                      Text(
+                                                                        'recommendation List',
+                                                                        style: GoogleFonts
+                                                                            .mulish(
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .w700,
+                                                                          // letterSpacing: 1,
+                                                                          fontSize:
+                                                                          18,
+                                                                          color: Colors
+                                                                              .black,
+                                                                        ),
+                                                                      ),
+                                                                      ListView.builder(
+                                                                        scrollDirection: Axis.vertical,
 
-                                                                    itemCount: 20,
-                                                                    shrinkWrap: true,
-                                                                    itemBuilder: (context, index) {
-                                                                     return Padding(
-                                                                        padding: const EdgeInsets.only(left: 8.0,top: 10),
-                                                                        child: Row(mainAxisAlignment: MainAxisAlignment.start,
-                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                          children: [
+                                                                        itemCount: 20,
+                                                                        shrinkWrap: true,
+                                                                        itemBuilder: (context, index) {
+                                                                         return Padding(
+                                                                            padding: const EdgeInsets.only(left: 8.0,top: 10),
+                                                                            child: Row(mainAxisAlignment: MainAxisAlignment.start,
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              children: [
 
-                                                                            Image(
-                                                                                height: 20,
-                                                                                width: 20,
-                                                                                image: AssetImage(
-                                                                                    'assets/icons/chat.png')
+                                                                                Image(
+                                                                                    height: 20,
+                                                                                    width: 20,
+                                                                                    image: AssetImage(
+                                                                                        'assets/icons/chat.png')
 
-                                                                            ),
-                                                                            SizedBox(width: 10,),
-                                                                            Container(
-                                                                              padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-                                                                              decoration: BoxDecoration(
-                                                                                  borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10) ),
-                                                                                  color: Color(
-                                                                                      0xffF0F0F0)
-                                                                              ),
-                                                                              child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Row(
+                                                                                ),
+                                                                                SizedBox(width: 10,),
+                                                                                Container(
+                                                                                  padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                                                                                  decoration: BoxDecoration(
+                                                                                      borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10) ),
+                                                                                      color: Color(
+                                                                                          0xffF0F0F0)
+                                                                                  ),
+                                                                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                                                                                     children: [
+                                                                                      Row(
+                                                                                        children: [
+                                                                                          Text(
+                                                                                            'David Paterson',
+                                                                                            style: GoogleFonts
+                                                                                                .mulish(
+                                                                                              fontWeight:
+                                                                                              FontWeight
+                                                                                                  .w600,
+                                                                                              // letterSpacing: 1,
+                                                                                              fontSize:
+                                                                                              14,
+                                                                                              color: Colors
+                                                                                                  .black,
+                                                                                            ),),
+                                                                                          SizedBox(
+                                                                                            width: 10,),
+                                                                                          Text(
+                                                                                            '2 days',
+                                                                                            style: GoogleFonts
+                                                                                                .mulish(
+                                                                                              fontWeight:
+                                                                                              FontWeight
+                                                                                                  .w400,
+                                                                                              // letterSpacing: 1,
+                                                                                              fontSize:
+                                                                                              10,
+                                                                                              color: Colors
+                                                                                                  .black,
+                                                                                            ),),
+                                                                                          SizedBox(width: 50,),
+                                                                                          Icon(Icons.favorite_outline,color: Color(0xff134563),)
+                                                                                        ],
+                                                                                      ),
+                                                                                      SizedBox(
+                                                                                        height: size
+                                                                                            .height *
+                                                                                            .02,),
                                                                                       Text(
-                                                                                        'David Paterson',
+                                                                                        'i think Steel bottle is okay please use',
                                                                                         style: GoogleFonts
                                                                                             .mulish(
                                                                                           fontWeight:
@@ -534,77 +570,57 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                           14,
                                                                                           color: Colors
                                                                                               .black,
-                                                                                        ),),
-                                                                                      SizedBox(
-                                                                                        width: 10,),
-                                                                                      Text(
-                                                                                        '2 days',
-                                                                                        style: GoogleFonts
-                                                                                            .mulish(
-                                                                                          fontWeight:
-                                                                                          FontWeight
-                                                                                              .w400,
-                                                                                          // letterSpacing: 1,
-                                                                                          fontSize:
-                                                                                          10,
-                                                                                          color: Colors
-                                                                                              .black,
-                                                                                        ),),
-                                                                                      SizedBox(width: 50,),
-                                                                                      Icon(Icons.favorite_outline,color: Color(0xff134563),)
+                                                                                        ),)
                                                                                     ],
                                                                                   ),
-                                                                                  SizedBox(
-                                                                                    height: size
-                                                                                        .height *
-                                                                                        .02,),
-                                                                                  Text(
-                                                                                    'i think Steel bottle is okay please use',
-                                                                                    style: GoogleFonts
-                                                                                        .mulish(
-                                                                                      fontWeight:
-                                                                                      FontWeight
-                                                                                          .w600,
-                                                                                      // letterSpacing: 1,
-                                                                                      fontSize:
-                                                                                      14,
-                                                                                      color: Colors
-                                                                                          .black,
-                                                                                    ),)
-                                                                                ],
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                      );
-                                                                    },
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          );
+                                                                        },
 
-                                                                  )
-                                                                  ,SizedBox(
-                                                                    height: 20,)
-                                                                ],
+                                                                      )
+                                                                      ,SizedBox(
+                                                                        height: 20,)
+                                                                    ],
+                                                                  ),
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ),
+                                                            );
+                                                          },
                                                         );
                                                       },
-                                                    );
-                                                  },
-                                                  child: Text(
-                                                    "Recommendations: 120",
-                                                    style:
-                                                    GoogleFonts.mulish(
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .w500,
-                                                        // letterSpacing: 1,
-                                                        fontSize: 12,
-                                                        color: const Color(
-                                                            0xFF3797EF)),
-                                                  ),
+                                                      child: Text(
+                                                        "Recommendations: 120",
+                                                        style:
+                                                        GoogleFonts.mulish(
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w500,
+                                                            // letterSpacing: 1,
+                                                            fontSize: 12,
+                                                            color: const Color(
+                                                                0xFF3797EF)),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+
+                                              Text( home
+                                                  .value
+                                                  .data!
+                                                  .discover![index]
+                                                  .maxPrice
+                                                  .toString(),),
+                                              SizedBox(width: 10,),
+                                              Text( home
+                                                  .value
+                                                  .data!
+                                                  .discover![index]
+                                                  .maxPrice
+                                                  .toString(),)
+                                            ],
                                           ),
                                           SizedBox(
                                             height: 10,
@@ -668,7 +684,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 } else {
                                                   statusOfSingle.value = RxStatus.error();
                                                 }
+setState(() {
 
+});
                                                 // showToast(value.message.toString());
                                               });
                                               // profileController.categoriesController.text = item.name.toString();
@@ -746,12 +764,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemBuilder: (BuildContext context,
                               int index) {
                             // You can replace the Container with your image widget
-                            return CachedNetworkImage(
-                              imageUrl:  single.value.data![index]
-                                  .image
-                                  .toString(),
-                              width: 50,
-                              height: 50,
+                            return InkWell(
+                              onTap: (){
+                                Get.toNamed(MyRouters.recommendationSingleScreen,arguments: [
+                                  single.value.data![index]
+                                      .image
+                                      .toString(),
+                                  single.value.data![index]
+                                      .title
+                                      .toString(),
+                                  single.value.data![index]
+                                      .review
+                                      .toString(),
+                                  single.value.data![index].id.toString(),
+
+
+                                ]);
+                              },
+                              child: CachedNetworkImage(
+                                imageUrl:  single.value.data![index]
+                                    .image
+                                    .toString(),
+                                width: 50,
+                                height: 50,
+                              ),
                             );
                           },
                         ) : statusOfSingle

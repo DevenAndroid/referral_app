@@ -14,6 +14,7 @@ import '../screens/profile_screen.dart';
 import '../screens/recommendation_single_page.dart';
 import '../screens/splash_screen.dart';
 import '../screens/thank_you.dart';
+import '../screens/user_profile_screen.dart';
 
 class MyRouters {
   static var splashScreen = "/splashScreen";
@@ -33,6 +34,7 @@ class MyRouters {
   static var postScreen = "/postScreen";
   static var recommendationSingleScreen = "/recommendationSingleScreen";
   static var categoriesScreen = "/categoriesScreen";
+  static var userProfileScreen = "/userProfileScreen";
 
   static var route = [
     GetPage(name: '/', page: () => const SplashScreen()),
@@ -57,5 +59,6 @@ class MyRouters {
         name: '/recommendationSingleScreen',
         page: () => const RecommendationSingleScreen()),
     GetPage(name: '/categoriesScreen', page: () => const CategoriesScreen()),
+    GetPage(name: '/userProfileScreen', page: () => const UserProfileScreen()),
   ];
 }
