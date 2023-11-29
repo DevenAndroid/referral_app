@@ -14,9 +14,11 @@ import '../controller/wishlist controller.dart';
 import '../models/categories_model.dart';
 import '../models/home_page_model.dart';
 import '../models/remove_reomeendation.dart';
+import '../models/single_product_model.dart';
 import '../repositories/categories_repo.dart';
 import '../repositories/home_pafe_repo.dart';
 import '../repositories/remove_bookmark_repo.dart';
+import '../repositories/single_produc_repo.dart';
 import '../resourses/api_constant.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
@@ -34,7 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Rx<RxStatus> statusOfCategories = RxStatus.empty().obs;
 
   Rx<CategoriesModel> categories = CategoriesModel().obs;
+  Rx<RxStatus> statusOfSingle= RxStatus.empty().obs;
 
+  Rx<SingleProduct> single = SingleProduct().obs;
   chooseCategories1() {
     getCategoriesRepo().then((value) {
       categories.value = value;
@@ -458,6 +462,18 @@ width: size.width,
                                         children: [
                                           InkWell(
                                             onTap: () {
+                                              getSingleRepo(category_id:categories
+                                                  .value.data![index].id.toString() ).then((value) {
+                                                single.value = value;
+
+                                                if (value.status == true) {
+                                                  statusOfSingle.value = RxStatus.success();
+                                                } else {
+                                                  statusOfSingle.value = RxStatus.error();
+                                                }
+
+                                                // showToast(value.message.toString());
+                                              });
                                               // profileController.categoriesController.text = item.name.toString();
                                               // profileController.idController.text = item.id.toString();
                                               // Get.back();
@@ -513,7 +529,43 @@ width: size.width,
                                   child:
                                   CircularProgressIndicator());
                             })),
-                       if(profileController.modal.value.data == null)
+
+
+                        statusOfSingle.value.isSuccess?
+                        GridView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            // Number of columns
+                            crossAxisSpacing: 8.0,
+                            // Spacing between columns
+                            mainAxisSpacing:
+                            2.0, // Spacing between rows
+                          ),
+                          itemCount:  single.value.data!.length,
+                          // Total number of items
+                          itemBuilder: (BuildContext context,
+                              int index) {
+                            // You can replace the Container with your image widget
+                            return CachedNetworkImage(
+                              imageUrl:  single.value.data![index]
+                                  .image
+                                  .toString(),
+                              width: 50,
+                              height: 50,
+                            );
+                          },
+                        ) : statusOfSingle
+                            .value.isError
+                            ? CommonErrorWidget(
+                          errorText: "",
+                          onTap: () {},
+                        )
+                            : const Center(
+                            child:
+                            CircularProgressIndicator()),
                          profileController.statusOfProfile.value.isSuccess?
                         GridView.builder(
                           padding: EdgeInsets.zero,

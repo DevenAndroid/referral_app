@@ -23,6 +23,7 @@ class ApiUrls {
   static const String following = "${apiBaseUrl}following-list";
   static const String unfollow = "${apiBaseUrl}add-remove-follower";
   static const String pages = "${apiBaseUrl}pages?slug=";
+  static const String singleCategories = "${apiBaseUrl}single-category?category_id=";
   static const String addRemoveBookmark = "${apiBaseUrl}add-remove-bookmark";
 
 }
