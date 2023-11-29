@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../controller/profile_controller.dart';
@@ -14,6 +17,7 @@ import '../widgets/app_assets.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_textfield.dart';
 import '../widgets/custome_textfiled.dart';
+import '../widgets/helper.dart';
 import '../widgets/recommendation_popup.dart';
 
 class AskRecommendationScreen extends StatefulWidget {
@@ -27,12 +31,18 @@ class AskRecommendationScreen extends StatefulWidget {
 class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
   double start = 0.0;
   double end = 100.0;
+  File categoryFile = File("");
 
+  RxBool checkboxColor = false.obs;
+
+  bool value = false;
 
   dynamic valueRange = 1;
   int value1 = 1;
   TextEditingController tittleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController maxController = TextEditingController();
+  TextEditingController minController = TextEditingController();
 
   Future pickImage() async {
     try {
@@ -63,13 +73,13 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 40,),
+                    const SizedBox(height: 40,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
 
                         Image.asset(AppAssets.man, height: 30,),
-                        SizedBox(width: 13,),
+                        const SizedBox(width: 13,),
                         Obx(() {
                           return Text(
                             profileController.selectedValue.trim(),
@@ -79,14 +89,14 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                 color: Colors.black),
                           );
                         }),
-                        SizedBox(width: 15,),
+                        const SizedBox(width: 15,),
                         InkWell(
                             onTap: () {
                               setState(() {
                                 showDialogue15(context);
                               });
                             },
-                            child: Icon(Icons.arrow_drop_down)),
+                            child: const Icon(Icons.arrow_drop_down)),
                         Spacer(),
                         SizedBox(
                             width: 80,
@@ -96,8 +106,8 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                               map['title'] = tittleController.text.trim();
                               map['description'] =
                                   descriptionController.text.trim();
-                              map['min_price'] = start.toString();
-                              map['max_price'] = end.toString();
+                              map['min_price'] = minController.text.toString();
+                              map['max_price'] = maxController.text.toString();
                               map['post_viewers_type'] =
                                   profileController.selectedValue.value;
 
@@ -122,7 +132,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
 
                     ),
 
-                    SizedBox(height: 30,),
+                    const SizedBox(height: 30,),
                     TextFormField(
                       style: GoogleFonts.mulish(
                           fontWeight: FontWeight.w700,
@@ -143,15 +153,34 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                       ),
                     ),
 
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     TextFormField(
+
                       style: GoogleFonts.mulish(
                           fontWeight: FontWeight.w300,
                           fontSize: 12,
-                          color: Color(0xFF162224)),
+                          color: const Color(0xFF162224)),
                       controller: descriptionController,
-                      maxLines: 6,
+                      maxLines: 3,
                       decoration: InputDecoration(
+                        disabledBorder: OutlineInputBorder(
+                          borderSide:
+                          const BorderSide(color: AppTheme.shadowColor, width: 1.5),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                          const BorderSide(color: AppTheme.shadowColor, width: 1.5),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color:AppTheme.shadowColor, width: 1.5),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        border: OutlineInputBorder(
+                            borderSide:
+                            const BorderSide(color: AppTheme.secondaryColor, width: 1.5),
+                            borderRadius: BorderRadius.circular(8)),
                         hintText: 'I m looking for a water bottle that fits in my car cupholder and is at least 30 oz',
 
                         hintStyle:
@@ -159,80 +188,192 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                             fontWeight: FontWeight.w300,
                             fontSize: 14,
                             color: Color(0xFF162224)),
-                        // Remove the underline and border
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
                       ),
                     ),
+const SizedBox(height: 20,),
+
+                    InkWell(
+                      onTap: () {
+                        _showActionSheet(context);
+                      },
+                      child: categoryFile.path != ""
+                          ? Container(
+                        padding: EdgeInsets.all(10),
+                        decoration:
+                        BoxDecoration(
+                          borderRadius:
+                          BorderRadius
+                              .circular(10),
+                          border: Border.all(color: Colors.black12),
+                          color: Colors.white,
+
+                        ),
+                        margin: const EdgeInsets
+                            .symmetric(
+                            vertical: 10,
+                            horizontal: 10),
+                        width: double.maxFinite,
+                        height: 180,
+                        alignment:
+                        Alignment.center,
+                        child: Image.file(
+                            categoryFile,
+                            errorBuilder: (_, __, ___) =>
+                                Image.network(
+                                    categoryFile
+                                        .path,
+                                    errorBuilder: (_,
+                                        __,
+                                        ___) =>
+                                    const SizedBox())),
+                      )
+                          : Container(
+                        decoration: BoxDecoration(border: Border.all(color: Colors.black12),color: Colors.white),
+                        padding:
+                        const EdgeInsets.only(
+                            top: 8),
 
 
-                    Container(
-                      width: size.width,
-                      height: size.height * .15,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Color(0xFFE4E4E4)),
-                      ),
-                      child: InkWell(
-                        onTap: () => pickImage(),
-                        child: image.path != ""
-                            ? Image.file(
-                          image,
-                          width: 120,
-                          height: 120,
-                          fit: BoxFit.contain,
-                        )
-                            : Image.asset(AppAssets.camera),
-                      ),
+                        width: double.maxFinite,
+                        height: 130,
 
+                        child: Column(
+                          mainAxisAlignment:
+                          MainAxisAlignment
+                              .center,
+                          children: [
+                            Image.asset(
+                              AppAssets.camera,
+                              height: 60,
+                              width: 50,
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
 
-                    ),
-
-                    SizedBox(height: 30,),
-                    SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        showValueIndicator: ShowValueIndicator.onlyForDiscrete,
-                        trackHeight: 8,
-                        trackShape: const RoundedRectSliderTrackShape(),
-                        activeTrackColor: const Color(0xff3797EF),
-                        inactiveTrackColor: const Color(0xFF3797EF).withOpacity(
-                            0.12),
-                        // thumbShape: const RoundSliderThumbShape(
-                        //   enabledThumbRadius: 7.0,
-                        //   pressedElevation: 8.0,
-                        // ),
-                        thumbColor: Colors.white,
-
-                        overlayColor: const Color(0xFF3797EF).withOpacity(0.12),
-                        // overlayShape: const RoundSliderOverlayShape(overlayRadius: 2.0),
-                        // tickMarkShape: const RoundSliderTickMarkShape(),
-
-                        activeTickMarkColor: const Color(0xff3797EF),
-                        inactiveTickMarkColor: Colors.transparent,
-                        // valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-                        valueIndicatorColor: Colors.white10,
-                        valueIndicatorTextStyle: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
+                            const SizedBox(
+                              height: 11,
+                            ),
+                          ],
                         ),
                       ),
-                      child: RangeSlider(
-                        values: RangeValues(start, end),
-                        labels: RangeLabels(
-                            start.round().toString(), end.round().toString()),
-                        divisions: 10,
-                        onChanged: (value) {
-                          setState(() {
-                            start = value.start;
-                            end = value.end;
-                          });
-                        },
-                        min: 0.0,
-                        max: 100.0,
-                      ),
                     ),
 
+                    const SizedBox(height: 30,),
+                    Text("Max",
+                      style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          color: AppTheme.onboardingColor
+                      ),),
+                    const SizedBox(height: 12,),
+                    CommonTextfield(enabled: !value,
+                      keyboardType: TextInputType.number,
+                        controller: maxController,
+                        obSecure: false, hintText: 'Maximum value ',),
+                    const SizedBox(height: 10,),
+                    Text("Min",
+                      style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          color: AppTheme.onboardingColor
+                      ),),
+                    const SizedBox(height: 12,),
+                    CommonTextfield(
+                         enabled: !value,
+                      keyboardType: TextInputType.number,
+                        controller: minController,
+                        obSecure: false, hintText: "Minimum value"),
+                    // SliderTheme(
+                    //   data: SliderTheme.of(context).copyWith(
+                    //     showValueIndicator: ShowValueIndicator.onlyForDiscrete,
+                    //     trackHeight: 8,
+                    //     trackShape: const RoundedRectSliderTrackShape(),
+                    //     activeTrackColor: const Color(0xff3797EF),
+                    //     inactiveTrackColor: const Color(0xFF3797EF).withOpacity(
+                    //         0.12),
+                    //     // thumbShape: const RoundSliderThumbShape(
+                    //     //   enabledThumbRadius: 7.0,
+                    //     //   pressedElevation: 8.0,
+                    //     // ),
+                    //     thumbColor: Colors.white,
+                    //
+                    //     overlayColor: const Color(0xFF3797EF).withOpacity(0.12),
+                    //     // overlayShape: const RoundSliderOverlayShape(overlayRadius: 2.0),
+                    //     // tickMarkShape: const RoundSliderTickMarkShape(),
+                    //
+                    //     activeTickMarkColor: const Color(0xff3797EF),
+                    //     inactiveTickMarkColor: Colors.transparent,
+                    //     // valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+                    //     valueIndicatorColor: Colors.white10,
+                    //     valueIndicatorTextStyle: const TextStyle(
+                    //       color: Colors.black,
+                    //       fontSize: 20.0,
+                    //     ),
+                    //   ),
+                    //   child: RangeSlider(
+                    //     values: RangeValues(start, end),
+                    //     labels: RangeLabels(
+                    //         start.round().toString(), end.round().toString()),
+                    //     divisions: 10,
+                    //     onChanged: (value) {
+                    //       setState(() {
+                    //         start = value.start;
+                    //         end = value.end;
+                    //       });
+                    //     },
+                    //     min: 0.0,
+                    //     max: 100.0,
+                    //   ),
+                    // ),
+                    const SizedBox(height: 5,),
+                    Row(
+                      children: [
+                        Transform.scale(
+
+                          scale: 1.0,
+                          child: Theme(
+                            data: ThemeData(
+                                checkboxTheme: CheckboxThemeData(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
+                                ),
+                                unselectedWidgetColor: checkboxColor.value == false
+                                    ? const Color(0xFF64646F)
+                                    : const Color(0xFF64646F)
+                            ),
+                            child: Checkbox(
+
+                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                value: value,
+                                activeColor: AppTheme.primaryColor,
+                                visualDensity: VisualDensity.standard,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    value = newValue!;
+                                    checkboxColor.value = !newValue!;
+                                  });
+                                }),
+                          ),
+                        ),
+                        Expanded(
+                            child: RichText(
+                              overflow: TextOverflow.clip,
+                              textAlign: TextAlign.end,
+                              textDirection: TextDirection.rtl,
+                              softWrap: true,
+                              text: TextSpan(
+                                text: 'No Budget',
+                                  style: GoogleFonts.mulish(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13,
+                                      color: AppTheme.onboardingColor
+                                  ),
+                              ),
+                            )),
+                      ],
+                    ),
 
                     /*             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -285,5 +426,104 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
           double doubleVar;
           return RecommendationPopup();
         });
+  }
+  void _showActionSheet(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: const Text(
+          'Select Picture from',
+          style: TextStyle(
+              color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
+        ),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Helper.addImagePicker(
+                  imageSource: ImageSource.camera, imageQuality: 75)
+                  .then((value) async {
+                CroppedFile? croppedFile = await ImageCropper().cropImage(
+                  sourcePath: value.path,
+                  aspectRatioPresets: [
+                    CropAspectRatioPreset.square,
+                    CropAspectRatioPreset.ratio3x2,
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    CropAspectRatioPreset.ratio16x9
+                  ],
+                  uiSettings: [
+                    AndroidUiSettings(
+                        toolbarTitle: 'Cropper',
+                        toolbarColor: Colors.deepOrange,
+                        toolbarWidgetColor: Colors.white,
+                        initAspectRatio: CropAspectRatioPreset.original,
+                        lockAspectRatio: false),
+                    IOSUiSettings(
+                      title: 'Cropper',
+                    ),
+                    WebUiSettings(
+                      context: context,
+                    ),
+                  ],
+                );
+                if (croppedFile != null) {
+                  categoryFile = File(croppedFile.path);
+                  setState(() {});
+                }
+
+                Get.back();
+              });
+            },
+            child: const Text("Camera"),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Helper.addImagePicker(
+                  imageSource: ImageSource.gallery, imageQuality: 75)
+                  .then((value) async {
+                CroppedFile? croppedFile = await ImageCropper().cropImage(
+                  sourcePath: value.path,
+                  aspectRatioPresets: [
+                    CropAspectRatioPreset.square,
+                    CropAspectRatioPreset.ratio3x2,
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    CropAspectRatioPreset.ratio16x9
+                  ],
+                  uiSettings: [
+                    AndroidUiSettings(
+                        toolbarTitle: 'Cropper',
+                        toolbarColor: Colors.deepOrange,
+                        toolbarWidgetColor: Colors.white,
+                        initAspectRatio: CropAspectRatioPreset.original,
+                        lockAspectRatio: false),
+                    IOSUiSettings(
+                      title: 'Cropper',
+                    ),
+                    WebUiSettings(
+                      context: context,
+                    ),
+                  ],
+                );
+                if (croppedFile != null) {
+                  categoryFile = File(croppedFile.path);
+                  setState(() {});
+                }
+
+                Get.back();
+              });
+            },
+            child: const Text('Gallery'),
+          ),
+          CupertinoActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
   }
 }

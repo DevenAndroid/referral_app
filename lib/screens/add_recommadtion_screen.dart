@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../controller/profile_controller.dart';
@@ -15,6 +17,7 @@ import '../widgets/app_assets.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_textfield.dart';
 import '../widgets/custome_textfiled.dart';
+import '../widgets/helper.dart';
 
 class AddRecommendationScreen extends StatefulWidget {
   const AddRecommendationScreen({super.key});
@@ -28,6 +31,9 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
   TextEditingController recommendationController = TextEditingController();
   TextEditingController reviewController = TextEditingController();
   TextEditingController linkController = TextEditingController();
+
+  File categoryFile = File("");
+
 
   Future pickImage() async {
     try {
@@ -152,32 +158,69 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
               SizedBox(
                 height: 15,
               ),
-              Center(
-                child: DottedBorder(
-                  color: AppTheme.secondaryColor,
-                  borderType: BorderType.RRect,
-                  radius: Radius.circular(12),
-                  padding: EdgeInsets.all(6),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                    child: Container(
-                      width: size.width * .3,
-                      height: size.height * .15,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+              InkWell(
+                onTap: () {
+                  _showActionSheet(context);
+                },
+                child: categoryFile.path != ""
+                    ? Container(
+                  padding: EdgeInsets.all(10),
+                  decoration:
+                  BoxDecoration(
+                    borderRadius:
+                    BorderRadius
+                        .circular(10),
+                    border: Border.all(color: Colors.black12),
+                    color: Colors.white,
+
+                  ),
+                  margin: const EdgeInsets
+                      .symmetric(
+                      vertical: 10,
+                      horizontal: 10),
+                  width: double.maxFinite,
+                  height: 180,
+                  alignment:
+                  Alignment.center,
+                  child: Image.file(
+                      categoryFile,
+                      errorBuilder: (_, __, ___) =>
+                          Image.network(
+                              categoryFile
+                                  .path,
+                              errorBuilder: (_,
+                                  __,
+                                  ___) =>
+                              const SizedBox())),
+                )
+                    : Container(
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black12),color: Colors.white),
+                  padding:
+                  const EdgeInsets.only(
+                      top: 8),
+
+
+                  width: double.maxFinite,
+                  height: 130,
+
+                  child: Column(
+                    mainAxisAlignment:
+                    MainAxisAlignment
+                        .center,
+                    children: [
+                      Image.asset(
+                        AppAssets.camera,
+                        height: 60,
+                        width: 50,
                       ),
-                      child: InkWell(
-                        onTap: () => pickImage(),
-                        child: image.path != ""
-                            ? Image.file(
-                                image,
-                                width: 120,
-                                height: 120,
-                                fit: BoxFit.contain,
-                              )
-                            : Image.asset(AppAssets.camera),
+                      const SizedBox(
+                        height: 5,
                       ),
-                    ),
+
+                      const SizedBox(
+                        height: 11,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -213,6 +256,105 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+  void _showActionSheet(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: const Text(
+          'Select Picture from',
+          style: TextStyle(
+              color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
+        ),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Helper.addImagePicker(
+                  imageSource: ImageSource.camera, imageQuality: 75)
+                  .then((value) async {
+                CroppedFile? croppedFile = await ImageCropper().cropImage(
+                  sourcePath: value.path,
+                  aspectRatioPresets: [
+                    CropAspectRatioPreset.square,
+                    CropAspectRatioPreset.ratio3x2,
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    CropAspectRatioPreset.ratio16x9
+                  ],
+                  uiSettings: [
+                    AndroidUiSettings(
+                        toolbarTitle: 'Cropper',
+                        toolbarColor: Colors.deepOrange,
+                        toolbarWidgetColor: Colors.white,
+                        initAspectRatio: CropAspectRatioPreset.original,
+                        lockAspectRatio: false),
+                    IOSUiSettings(
+                      title: 'Cropper',
+                    ),
+                    WebUiSettings(
+                      context: context,
+                    ),
+                  ],
+                );
+                if (croppedFile != null) {
+                  categoryFile = File(croppedFile.path);
+                  setState(() {});
+                }
+
+                Get.back();
+              });
+            },
+            child: const Text("Camera"),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Helper.addImagePicker(
+                  imageSource: ImageSource.gallery, imageQuality: 75)
+                  .then((value) async {
+                CroppedFile? croppedFile = await ImageCropper().cropImage(
+                  sourcePath: value.path,
+                  aspectRatioPresets: [
+                    CropAspectRatioPreset.square,
+                    CropAspectRatioPreset.ratio3x2,
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    CropAspectRatioPreset.ratio16x9
+                  ],
+                  uiSettings: [
+                    AndroidUiSettings(
+                        toolbarTitle: 'Cropper',
+                        toolbarColor: Colors.deepOrange,
+                        toolbarWidgetColor: Colors.white,
+                        initAspectRatio: CropAspectRatioPreset.original,
+                        lockAspectRatio: false),
+                    IOSUiSettings(
+                      title: 'Cropper',
+                    ),
+                    WebUiSettings(
+                      context: context,
+                    ),
+                  ],
+                );
+                if (croppedFile != null) {
+                  categoryFile = File(croppedFile.path);
+                  setState(() {});
+                }
+
+                Get.back();
+              });
+            },
+            child: const Text('Gallery'),
+          ),
+          CupertinoActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
       ),
     );
   }
