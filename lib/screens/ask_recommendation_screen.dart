@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../controller/bottomNav_controller.dart';
 import '../controller/profile_controller.dart';
 import '../repositories/add_ask_recommendation_repo.dart';
 import '../resourses/api_constant.dart';
@@ -32,7 +33,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
   double start = 0.0;
   double end = 100.0;
   File categoryFile = File("");
-
+  final bottomController = Get.put(BottomNavBarController());
   RxBool checkboxColor = false.obs;
 
   bool value = false;
@@ -118,9 +119,9 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                 file1: categoryFile,
                               ).then((value) async {
                                 if (value.status == true) {
-                                  Get.toNamed(
-                                      MyRouters.addRecommendationScreen);
+                                  bottomController.pageIndex.value == 0;
                                   showToast(value.message.toString());
+                                  bottomController.pageIndex.value == 0;
                                 }
                                 else {
                                   showToast(value.message.toString());
@@ -275,6 +276,19 @@ const SizedBox(height: 20,),
                     ),
 
                     const SizedBox(height: 30,),
+                    Text("Min",
+                      style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          color: AppTheme.onboardingColor
+                      ),),
+                    const SizedBox(height: 12,),
+                    CommonTextfield(
+                        enabled: !value,
+                        keyboardType: TextInputType.number,
+                        controller: minController,
+                        obSecure: false, hintText: "Minimum value"),
+                    const SizedBox(height: 10,),
                     Text("Max",
                       style: GoogleFonts.mulish(
                           fontWeight: FontWeight.w600,
@@ -284,21 +298,9 @@ const SizedBox(height: 20,),
                     const SizedBox(height: 12,),
                     CommonTextfield(enabled: !value,
                       keyboardType: TextInputType.number,
-                        controller: maxController,
-                        obSecure: false, hintText: 'Maximum value ',),
-                    const SizedBox(height: 10,),
-                    Text("Min",
-                      style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
-                          color: AppTheme.onboardingColor
-                      ),),
-                    const SizedBox(height: 12,),
-                    CommonTextfield(
-                         enabled: !value,
-                      keyboardType: TextInputType.number,
-                        controller: minController,
-                        obSecure: false, hintText: "Minimum value"),
+                      controller: maxController,
+                      obSecure: false, hintText: 'Maximum value ',),
+
                     // SliderTheme(
                     //   data: SliderTheme.of(context).copyWith(
                     //     showValueIndicator: ShowValueIndicator.onlyForDiscrete,

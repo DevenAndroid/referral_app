@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../screens/add_recommadtion_screen.dart';
+import '../screens/all_user_screen.dart';
 import '../screens/ask_recommendation_screen.dart';
 import '../screens/bottom_nav_bar.dart';
 import '../screens/categories.dart';
@@ -40,6 +41,7 @@ class MyRouters {
   static var userProfileScreen = "/userProfileScreen";
 
   static var searchScreen = "/searchScreen";
+  static var allUserProfileScreen = "/allUserProfileScreen";
 
 
   static var route = [
@@ -50,6 +52,7 @@ class MyRouters {
     GetPage(
         name: '/createAccountScreen', page: () => const CreateAccountScreen()),
     GetPage(name: '/thankYouScreen', page: () => const ThankYouScreen()),
+    GetPage(name: '/allUserProfileScreen', page: () => const AllUserProfileScreen()),
     GetPage(name: '/bottomNavbar', page: () => const BottomNavbar()),
     GetPage(name: '/homeScreen', page: () => const HomeScreen()),
     GetPage(

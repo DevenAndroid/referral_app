@@ -64,8 +64,8 @@ class _RecommendationSingleScreenState
                             Get.toNamed(MyRouters.userProfileScreen,arguments: [id]);
                           },
                             child: Image(
-                                height: 20,
-                                width: 20,
+                                height: 40,
+                                width: 40,
                                 image: AssetImage(
                                     'assets/icons/chat.png')
 
@@ -86,21 +86,7 @@ class _RecommendationSingleScreenState
                       SizedBox(
                         height: 10,
                       ),
-                      Row(
-                        children: [
-                          SvgPicture.asset(AppAssets.location),
-                          SizedBox(
-                            width: 9,
-                          ),
-                          Text(
-                            "56 Glassford Street Glasgow G1 1UL New York ",
-                            style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12,
-                                color: Color(0xFF162224)),
-                          ),
-                        ],
-                      ),
+
                       SizedBox(
                         height: 15,
                       ),

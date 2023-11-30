@@ -545,45 +545,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                                             fontSize: 14,
                                                                                             color: Colors.black),
                                                                                       ),
-                                                                                Row(
-                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                  children: [
-                                                                                    Expanded(
-                                                                                        child: profileController.modal.value.data!.myRequest![index].userId!.address.toString() == ""
-                                                                                            ? Text(
-                                                                                                "address...",
-                                                                                                style: GoogleFonts.mulish(
-                                                                                                    fontWeight: FontWeight.w400,
-                                                                                                    // letterSpacing: 1,
-                                                                                                    fontSize: 14,
-                                                                                                    color: const Color(0xFF878D98)),
-                                                                                              )
-                                                                                            : Text(
-                                                                                                profileController.modal.value.data!.myRequest![index].userId!.address.toString(),
-                                                                                                style: GoogleFonts.mulish(
-                                                                                                    fontWeight: FontWeight.w400,
-                                                                                                    // letterSpacing: 1,
-                                                                                                    fontSize: 14,
-                                                                                                    color: const Color(0xFF878D98)),
-                                                                                              )),
-                                                                                    const SizedBox(
-                                                                                      height: 15,
-                                                                                      child: VerticalDivider(
-                                                                                        width: 8,
-                                                                                        thickness: 1,
-                                                                                        color: Colors.grey,
-                                                                                      ),
-                                                                                    ),
-                                                                                    Text(
-                                                                                      "3 Hour",
-                                                                                      style: GoogleFonts.mulish(
-                                                                                          fontWeight: FontWeight.w300,
-                                                                                          // letterSpacing: 1,
-                                                                                          fontSize: 12,
-                                                                                          color: const Color(0xFF878D98)),
-                                                                                    ),
-                                                                                  ],
-                                                                                )
+
                                                                               ],
                                                                             ),
                                                                           ),
@@ -739,8 +701,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                     .value
                                                     .isSuccess
                                                     ? ListView.builder(
-                                                        itemCount: categories
-                                                            .value.data!.length,
+                                                        itemCount:   profileController.modal.value.data!.myCategories!.length,
                                                         shrinkWrap: true,
                                                         scrollDirection:
                                                             Axis.horizontal,

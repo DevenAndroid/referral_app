@@ -42,7 +42,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
   Rx<RxStatus> statusOfCategories = RxStatus.empty().obs;
 
   Rx<CategoriesModel> categories = CategoriesModel().obs;
@@ -104,15 +104,23 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(_tabListener);
+    profileController.getData();
     all();
     chooseCategories();
     chooseCategories1();
   }
-
+  late TabController _tabController;
   final key = GlobalKey<ScaffoldState>();
-
+  void _tabListener() {
+    setState(() {
+      showFloatingActionButton =
+          _tabController.index == 1; // 1 corresponds to "My recommendations"
+    });
+  }
   var currentDrawer = 0;
-
+  bool showFloatingActionButton = false;
   // String selectedValue = 'friends';
   bool check = false;
   @override
@@ -121,13 +129,51 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
+            floatingActionButton: showFloatingActionButton
+                ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 0)
+                  .copyWith(bottom: 80),
+              child: FloatingActionButton(
+                onPressed: () {
+                  Get.toNamed(MyRouters.addRecommendationScreen);
+                },
+                backgroundColor: Colors.transparent,
+                child: SvgPicture.asset(AppAssets.add1),
+              ),
+            )
+                : const SizedBox(),
             appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
-              leading: Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Image.asset(AppAssets.man),
-              ),
+              leading:
+        Obx(() {
+      return profileController.statusOfProfile.value.isSuccess?
+         Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipOval(
+                  child: CachedNetworkImage(
+
+        height: 100,
+        fit: BoxFit.fill,
+        imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
+    placeholder: (context, url) =>
+    Padding(
+    padding: const EdgeInsets.only(left: 12.0),
+    child: Image.asset(AppAssets.man),),
+    errorWidget: (context, url,
+    error) =>
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12.0),
+                    child: Image.asset(AppAssets.man),
+                  ),),
+                ),
+              ): profileController.statusOfProfile.value.isError
+                  ? CommonErrorWidget(
+                errorText: "",
+                onTap: () {},
+              )
+                  : const Center(
+                  child: CircularProgressIndicator()); }),
               title: Text(
                 "Home",
                 style: GoogleFonts.monomaniacOne(
@@ -148,6 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               ],
               bottom: TabBar(
+                controller: _tabController,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorColor: AppTheme.primaryColor,
                 indicatorPadding: const EdgeInsets.symmetric(horizontal: 15),
@@ -158,6 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 tabs: [
                   Tab(
+
                     child: Text("Discover",
                         style: currentDrawer == 0
                             ? GoogleFonts.mulish(
@@ -190,7 +238,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             body: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TabBarView(children: [
+              child: TabBarView(
+                  controller: _tabController,
+                  children: [
                 SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Padding(
@@ -200,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Obx(() {
-                          return statusOfHome.value.isSuccess
+                          return statusOfHome.value.isSuccess&&profileController.statusOfProfile.value.isSuccess
                               ? ListView.builder(
                               shrinkWrap: true,
                               itemCount: home.value.data!.discover!.length,
@@ -303,74 +353,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           color: Colors
                                                               .black),
                                                     ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        Expanded(
-                                                          child: home
-                                                              .value
-                                                              .data!
-                                                              .discover![
-                                                          index]
-                                                              .userId!
-                                                              .address ==
-                                                              ""
-                                                              ? Text(
-                                                            "address...",
-                                                            style: GoogleFonts.mulish(
-                                                                fontWeight: FontWeight.w400,
-                                                                // letterSpacing: 1,
-                                                                fontSize: 14,
-                                                                color: const Color(0xFF878D98)),
-                                                          )
-                                                              : Text(
-                                                            home
-                                                                .value
-                                                                .data!
-                                                                .discover![
-                                                            index]
-                                                                .userId!
-                                                                .address
-                                                                .toString(),
-                                                            style: GoogleFonts.mulish(
-                                                                fontWeight: FontWeight.w400,
-                                                                // letterSpacing: 1,
-                                                                fontSize: 14,
-                                                                color: const Color(0xFF878D98)),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                          child:
-                                                          VerticalDivider(
-                                                            width: 8,
-                                                            thickness: 1,
-                                                            color:
-                                                            Colors.grey,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          "3 Hour",
-                                                          style: GoogleFonts
-                                                              .mulish(
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w300,
-                                                              // letterSpacing: 1,
-                                                              fontSize:
-                                                              12,
-                                                              color: const Color(
-                                                                  0xFF878D98)),
-                                                        ),
-                                                      ],
-                                                    )
+
                                                   ],
                                                 ),
                                               ),
-                                              InkWell(
-                                              onTap: (){
+                                              Padding(
+                                                padding: const EdgeInsets.only(right: 8.0),
+                                                child: InkWell(
+                                                onTap: (){
                                 // home.value.data!.discover![index].wishlist.toString();
                                 setState(() {
 
@@ -401,25 +391,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child:
                                 home.value.data!.discover![index].wishlist!?
                                 SvgPicture.asset(AppAssets.bookmark1,height: 20,): SvgPicture.asset(AppAssets.bookmark),
-                                )   ],
+                                ),
+                                              )   ],
                                 ),
 
                                           const SizedBox(
                                             height: 15,
                                           ),
                                           Stack(children: [
-                                            CachedNetworkImage(
+                                          home.value.data!
+                                                .discover![index].image ==""?
+
+                                          SizedBox():  CachedNetworkImage(
                                               width: size.width,
-                                              height: 200,
+                                              height:
+
+                                              200,
                                               fit: BoxFit.fill,
                                               imageUrl: home.value.data!
                                                   .discover![index].image
                                                   .toString(),
                                               placeholder: (context, url) =>
-                                                  SizedBox(),
+                                                  SizedBox(height: 0,),
                                               errorWidget: (context, url,
                                                   error) =>
-                                SizedBox(),
+                                SizedBox(height: 0,),
                                             ),
                                             Positioned(
                                                 right: 10,
@@ -653,20 +649,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       ],
                                                 ),
                                               ),
-
-                                              Text( home
-                                                  .value
-                                                  .data!
-                                                  .discover![index]
-                                                  .maxPrice
-                                                  .toString(),),
+                                              Column(
+                                                children: [
+                                                  Text( "Min Price"),                                                  Text( home
+                                                      .value
+                                                      .data!
+                                                      .discover![index]
+                                                      .minPrice
+                                                      .toString(),),
+                                                ],
+                                              ),
                                               SizedBox(width: 10,),
-                                              Text( home
-                                                  .value
-                                                  .data!
-                                                  .discover![index]
-                                                  .maxPrice
-                                                  .toString(),)
+
+                                              Column(
+                                                children: [
+                                                  Text( "Max Price"),
+                                                  Text( home
+                                                      .value
+                                                      .data!
+                                                      .discover![index]
+                                                      .maxPrice
+                                                      .toString(),),
+                                                ],
+                                              ),
+
                                             ],
                                           ),
                                           const SizedBox(
@@ -783,52 +789,64 @@ class _HomeScreenState extends State<HomeScreen> {
                             })),
 
                         statusOfSingle.value.isSuccess
-                            ? GridView.builder(
+                            ? Column(
+                              children: [
+                                if( single.value.data!.isEmpty)
+                                  Text("No Record found"),
+                                GridView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            // Number of columns
-                            crossAxisSpacing: 8.0,
-                            // Spacing between columns
-                            mainAxisSpacing: 2.0, // Spacing between rows
+                                crossAxisCount: 3,
+                                // Number of columns
+                                crossAxisSpacing: 10.0,
+                                // Spacing between columns
+                                mainAxisSpacing: 10.0, // Spacing between rows
                           ),
                           itemCount: single.value.data!.length,
                           // Total number of items
                           itemBuilder: (BuildContext context, int index) {
-                            // You can replace the Container with your image widget
-                            return InkWell(
-                            onTap: (){
-                            Get.toNamed(MyRouters.recommendationSingleScreen,arguments: [
-                            single.value.data![index]
-                                .image
-                                .toString(),
-                            single.value.data![index]
-                                .title
-                                .toString(),
-                            single.value.data![index]
-                                .review
-                                .toString(),
-                            single.value.data![index].id.toString(),
-
-
-                            ],
-
-
-
-                            );
-                            print("object");
-                            },
-                              child: CachedNetworkImage(
-                                imageUrl: single.value.data![index].image
+                                // You can replace the Container with your image widget
+                                return InkWell(
+                                onTap: (){
+                                Get.toNamed(MyRouters.recommendationSingleScreen,arguments: [
+                                single.value.data![index]
+                                    .image
                                     .toString(),
-                                width: 50,
-                                height: 50,
-                              ),
-                            );
+                                single.value.data![index]
+                                    .title
+                                    .toString(),
+                                single.value.data![index]
+                                    .review
+                                    .toString(),
+                                single.value.data![index].id.toString(),
+
+
+                                ],
+
+
+
+                                );
+                                print("object");
+                                },
+                                  child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.black),
+                                        borderRadius: BorderRadius.circular(10)
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl: single.value.data![index].image
+                                          .toString(),
+                                     fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                );
                           },
-                        )
+                        ),
+                              ],
+                            )
                             : statusOfSingle.value.isError
                             ? CommonErrorWidget(
                           errorText: "",
@@ -846,20 +864,26 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               // Number of columns
-                              crossAxisSpacing: 8.0,
+                              crossAxisSpacing: 10.0,
                               // Spacing between columns
-                              mainAxisSpacing: 2.0, // Spacing between rows
+                              mainAxisSpacing: 10.0, // Spacing between rows
                             ),
                             itemCount: allRecommendation.value.data!.length,
                             // Total number of items
                             itemBuilder: (BuildContext context, int index) {
                               // You can replace the Container with your image widget
-                              return CachedNetworkImage(
-                                imageUrl: allRecommendation
-                                    .value.data![index].image
-                                    .toString(),
-                                width: 50,
-                                height: 50,
+                              return Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: allRecommendation
+                                      .value.data![index].image
+                                      .toString(),
+                                 fit: BoxFit.fill,
+                                ),
                               );
                             },
                           )

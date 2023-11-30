@@ -69,7 +69,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ),
           centerTitle: true,
           title: Text(
-            "Choose Bank",
+            "Choose Catrgories",
             style: GoogleFonts.poppins(
                 color: const Color(0xFF1D1D1D),
                 fontSize: 20,

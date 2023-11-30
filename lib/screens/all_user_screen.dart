@@ -19,23 +19,23 @@ import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
 import '../widgets/custome_textfiled.dart';
 
-class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({super.key});
+class AllUserProfileScreen extends StatefulWidget {
+  const AllUserProfileScreen({super.key});
 
   @override
-  State<UserProfileScreen> createState() => UserProfileScreenState();
+  State<AllUserProfileScreen> createState() => AllUserProfileScreenState();
 }
 
-class UserProfileScreenState extends State<UserProfileScreen>
+class AllUserProfileScreenState extends State<AllUserProfileScreen>
     with SingleTickerProviderStateMixin {
   Rx<RxStatus> statusOfUser = RxStatus.empty().obs;
 
   Rx<ModelUserProfile> userProfile = ModelUserProfile().obs;
-var id = Get.arguments[0];
+  var id = Get.arguments[0];
   UserProfile() {
-    userProfileRepo(recommandation_id: id,type: "recommandation").then((value) {
+    userProfileRepo(recommandation_id: id,type: "user").then((value) {
       userProfile.value = value;
-
+print(id);
       if (value.status == true) {
         statusOfUser.value = RxStatus.success();
       } else {
@@ -57,7 +57,7 @@ var id = Get.arguments[0];
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_tabListener);
-     // Get.arguments[0];
+    // Get.arguments[0];
     // profileController.getData();
     UserProfile();
     // chooseCategories1();
@@ -153,7 +153,7 @@ var id = Get.arguments[0];
                                         height: 50,
                                         fit: BoxFit.cover,
                                         imageUrl:
-                                            userProfile
+                                        userProfile
                                             .value
                                             .data!
                                             .user!
@@ -443,262 +443,262 @@ var id = Get.arguments[0];
                                     Obx(() {
                                       return
                                         statusOfUser
-                                          .value
-                                          .isSuccess
-                                          ? Column(
-                                        children: [
-                                          ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount:
-                                              userProfile
-                                                  .value
-                                                  .data!
-                                                  .myRequest!
-                                                  .length,
-                                              physics:
-                                              const NeverScrollableScrollPhysics(),
-                                              itemBuilder:
-                                                  (context, index) {
-                                                return Column(
-                                                  children: [
-                                                    Container(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .all(
-                                                          10),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors
-                                                              .white,
-                                                          borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color:
-                                                              const Color(0xFF5F5F5F).withOpacity(0.2),
-                                                              offset: const Offset(
-                                                                  0.0,
-                                                                  0.2),
-                                                              blurRadius:
-                                                              2,
-                                                            ),
-                                                          ]),
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              ClipOval(
-                                                                child:
-                                                                CachedNetworkImage(
-                                                                  width: 30,
-                                                                  height: 30,
-                                                                  fit: BoxFit.cover,
-                                                                  imageUrl: userProfile.value.data!.myRequest![index].userId!.profileImage.toString(),
-                                                                  placeholder: (context, url) => Image.asset(AppAssets.girl),
-                                                                  errorWidget: (context, url, error) => Image.asset(AppAssets.girl),
-                                                                ),
+                                            .value
+                                            .isSuccess
+                                            ? Column(
+                                          children: [
+                                            ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount:
+                                                userProfile
+                                                    .value
+                                                    .data!
+                                                    .myRequest!
+                                                    .length,
+                                                physics:
+                                                const NeverScrollableScrollPhysics(),
+                                                itemBuilder:
+                                                    (context, index) {
+                                                  return Column(
+                                                    children: [
+                                                      Container(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .all(
+                                                            10),
+                                                        decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .white,
+                                                            borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color:
+                                                                const Color(0xFF5F5F5F).withOpacity(0.2),
+                                                                offset: const Offset(
+                                                                    0.0,
+                                                                    0.2),
+                                                                blurRadius:
+                                                                2,
                                                               ),
-                                                              const SizedBox(
-                                                                width:
-                                                                20,
-                                                              ),
-                                                              Expanded(
-                                                                child:
-                                                                Column(
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    userProfile.value.data!.myRequest![index].userId!.name.toString() == ""
-                                                                        ? Text(
-                                                                      "Name...",
-                                                                      style: GoogleFonts.mulish(
-                                                                          fontWeight: FontWeight.w700,
-                                                                          // letterSpacing: 1,
-                                                                          fontSize: 14,
-                                                                          color: Colors.black),
-                                                                    )
-                                                                        : Text(
-                                                                      userProfile.value.data!.myRequest![index].userId!.name.toString(),
-                                                                      style: GoogleFonts.mulish(
-                                                                          fontWeight: FontWeight.w700,
-                                                                          // letterSpacing: 1,
-                                                                          fontSize: 14,
-                                                                          color: Colors.black),
-                                                                    ),
-                                                                    Row(
-                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                      children: [
-                                                                        Expanded(
-                                                                            child:  userProfile.value.data!.myRequest![index].userId!.address.toString() == ""
-                                                                                ? Text(
-                                                                              "address...",
-                                                                              style: GoogleFonts.mulish(
-                                                                                  fontWeight: FontWeight.w400,
-                                                                                  // letterSpacing: 1,
-                                                                                  fontSize: 14,
-                                                                                  color: const Color(0xFF878D98)),
-                                                                            )
-                                                                                : Text(
-                                                                              userProfile.value.data!.myRequest![index].userId!.address.toString(),
-                                                                              style: GoogleFonts.mulish(
-                                                                                  fontWeight: FontWeight.w400,
-                                                                                  // letterSpacing: 1,
-                                                                                  fontSize: 14,
-                                                                                  color: const Color(0xFF878D98)),
-                                                                            )),
-                                                                        const SizedBox(
-                                                                          height: 15,
-                                                                          child: VerticalDivider(
-                                                                            width: 8,
-                                                                            thickness: 1,
-                                                                            color: Colors.grey,
-                                                                          ),
-                                                                        ),
-                                                                        Text(
-                                                                          "3 Hour",
-                                                                          style: GoogleFonts.mulish(
-                                                                              fontWeight: FontWeight.w300,
-                                                                              // letterSpacing: 1,
-                                                                              fontSize: 12,
-                                                                              color: const Color(0xFF878D98)),
-                                                                        ),
-                                                                      ],
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SvgPicture.asset(
-                                                                  AppAssets.bookmark),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height:
-                                                            15,
-                                                          ),
-                                                          CachedNetworkImage(
-                                                            width: size
-                                                                .width,
-                                                            height:
-                                                            200,
-                                                            fit: BoxFit
-                                                                .fill,
-                                                            imageUrl:  userProfile
-                                                                .value
-                                                                .data!
-                                                                .myRequest![index]
-                                                                .image
-                                                                .toString(),
-                                                            placeholder:
-                                                                (context, url) =>
-                                                                Image.asset(AppAssets.picture),
-                                                            errorWidget: (context,
-                                                                url,
-                                                                error) =>
-                                                                Image.asset(AppAssets.picture),
-                                                          ),
-                                                          const SizedBox(
-                                                            height:
-                                                            10,
-                                                          ),
-                                                          Text(
-                                                            userProfile.value
-                                                                .data!
-                                                                .myRequest![index]
-                                                                .title
-                                                                .toString(),
-                                                            style: GoogleFonts.mulish(
-                                                                fontWeight: FontWeight.w700,
-                                                                // letterSpacing: 1,
-                                                                fontSize: 17,
-                                                                color: Colors.black),
-                                                          ),
-                                                          const SizedBox(
-                                                            height:
-                                                            10,
-                                                          ),
-                                                          Text(
-                                                            userProfile.value
-                                                                .data!
-                                                                .myRequest![index]
-                                                                .description
-                                                                .toString(),
-                                                            style: GoogleFonts.mulish(
-                                                                fontWeight: FontWeight.w300,
-                                                                // letterSpacing: 1,
-                                                                fontSize: 14,
-                                                                color: const Color(0xFF6F7683)),
-                                                          ),
-                                                          const SizedBox(
-                                                            height:
-                                                            10,
-                                                          ),
-                                                          Container(
-                                                            padding: const EdgeInsets
-                                                                .all(
-                                                                5),
-                                                            width:
-                                                            180,
-                                                            height:
-                                                            30,
-                                                            decoration:
-                                                            BoxDecoration(
-                                                              color:
-                                                              const Color(0xFF3797EF).withOpacity(.09),
-                                                              borderRadius:
-                                                              BorderRadius.circular(10),
-                                                            ),
-                                                            child:
+                                                            ]),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                          children: [
                                                             Row(
                                                               children: [
-                                                                SvgPicture.asset(AppAssets.message),
+                                                                ClipOval(
+                                                                  child:
+                                                                  CachedNetworkImage(
+                                                                    width: 30,
+                                                                    height: 30,
+                                                                    fit: BoxFit.cover,
+                                                                    imageUrl: userProfile.value.data!.myRequest![index].userId!.profileImage.toString(),
+                                                                    placeholder: (context, url) => Image.asset(AppAssets.girl),
+                                                                    errorWidget: (context, url, error) => Image.asset(AppAssets.girl),
+                                                                  ),
+                                                                ),
                                                                 const SizedBox(
-                                                                  width: 6,
+                                                                  width:
+                                                                  20,
                                                                 ),
-                                                                Text(
-                                                                  "Recommendations: 120",
-                                                                  style: GoogleFonts.mulish(
-                                                                      fontWeight: FontWeight.w500,
-                                                                      // letterSpacing: 1,
-                                                                      fontSize: 12,
-                                                                      color: const Color(0xFF3797EF)),
+                                                                Expanded(
+                                                                  child:
+                                                                  Column(
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      userProfile.value.data!.myRequest![index].userId!.name.toString() == ""
+                                                                          ? Text(
+                                                                        "Name...",
+                                                                        style: GoogleFonts.mulish(
+                                                                            fontWeight: FontWeight.w700,
+                                                                            // letterSpacing: 1,
+                                                                            fontSize: 14,
+                                                                            color: Colors.black),
+                                                                      )
+                                                                          : Text(
+                                                                        userProfile.value.data!.myRequest![index].userId!.name.toString(),
+                                                                        style: GoogleFonts.mulish(
+                                                                            fontWeight: FontWeight.w700,
+                                                                            // letterSpacing: 1,
+                                                                            fontSize: 14,
+                                                                            color: Colors.black),
+                                                                      ),
+                                                                      Row(
+                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                        children: [
+                                                                          Expanded(
+                                                                              child:  userProfile.value.data!.myRequest![index].userId!.address.toString() == ""
+                                                                                  ? Text(
+                                                                                "address...",
+                                                                                style: GoogleFonts.mulish(
+                                                                                    fontWeight: FontWeight.w400,
+                                                                                    // letterSpacing: 1,
+                                                                                    fontSize: 14,
+                                                                                    color: const Color(0xFF878D98)),
+                                                                              )
+                                                                                  : Text(
+                                                                                userProfile.value.data!.myRequest![index].userId!.address.toString(),
+                                                                                style: GoogleFonts.mulish(
+                                                                                    fontWeight: FontWeight.w400,
+                                                                                    // letterSpacing: 1,
+                                                                                    fontSize: 14,
+                                                                                    color: const Color(0xFF878D98)),
+                                                                              )),
+                                                                          const SizedBox(
+                                                                            height: 15,
+                                                                            child: VerticalDivider(
+                                                                              width: 8,
+                                                                              thickness: 1,
+                                                                              color: Colors.grey,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "3 Hour",
+                                                                            style: GoogleFonts.mulish(
+                                                                                fontWeight: FontWeight.w300,
+                                                                                // letterSpacing: 1,
+                                                                                fontSize: 12,
+                                                                                color: const Color(0xFF878D98)),
+                                                                          ),
+                                                                        ],
+                                                                      )
+                                                                    ],
+                                                                  ),
                                                                 ),
+                                                                SvgPicture.asset(
+                                                                    AppAssets.bookmark),
                                                               ],
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height:
-                                                            10,
-                                                          ),
-                                                        ],
+                                                            const SizedBox(
+                                                              height:
+                                                              15,
+                                                            ),
+                                                            CachedNetworkImage(
+                                                              width: size
+                                                                  .width,
+                                                              height:
+                                                              200,
+                                                              fit: BoxFit
+                                                                  .fill,
+                                                              imageUrl:  userProfile
+                                                                  .value
+                                                                  .data!
+                                                                  .myRequest![index]
+                                                                  .image
+                                                                  .toString(),
+                                                              placeholder:
+                                                                  (context, url) =>
+                                                                  Image.asset(AppAssets.picture),
+                                                              errorWidget: (context,
+                                                                  url,
+                                                                  error) =>
+                                                                  Image.asset(AppAssets.picture),
+                                                            ),
+                                                            const SizedBox(
+                                                              height:
+                                                              10,
+                                                            ),
+                                                            Text(
+                                                              userProfile.value
+                                                                  .data!
+                                                                  .myRequest![index]
+                                                                  .title
+                                                                  .toString(),
+                                                              style: GoogleFonts.mulish(
+                                                                  fontWeight: FontWeight.w700,
+                                                                  // letterSpacing: 1,
+                                                                  fontSize: 17,
+                                                                  color: Colors.black),
+                                                            ),
+                                                            const SizedBox(
+                                                              height:
+                                                              10,
+                                                            ),
+                                                            Text(
+                                                              userProfile.value
+                                                                  .data!
+                                                                  .myRequest![index]
+                                                                  .description
+                                                                  .toString(),
+                                                              style: GoogleFonts.mulish(
+                                                                  fontWeight: FontWeight.w300,
+                                                                  // letterSpacing: 1,
+                                                                  fontSize: 14,
+                                                                  color: const Color(0xFF6F7683)),
+                                                            ),
+                                                            const SizedBox(
+                                                              height:
+                                                              10,
+                                                            ),
+                                                            Container(
+                                                              padding: const EdgeInsets
+                                                                  .all(
+                                                                  5),
+                                                              width:
+                                                              180,
+                                                              height:
+                                                              30,
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                color:
+                                                                const Color(0xFF3797EF).withOpacity(.09),
+                                                                borderRadius:
+                                                                BorderRadius.circular(10),
+                                                              ),
+                                                              child:
+                                                              Row(
+                                                                children: [
+                                                                  SvgPicture.asset(AppAssets.message),
+                                                                  const SizedBox(
+                                                                    width: 6,
+                                                                  ),
+                                                                  Text(
+                                                                    "Recommendations: 120",
+                                                                    style: GoogleFonts.mulish(
+                                                                        fontWeight: FontWeight.w500,
+                                                                        // letterSpacing: 1,
+                                                                        fontSize: 12,
+                                                                        color: const Color(0xFF3797EF)),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height:
+                                                              10,
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 15,
-                                                    )
-                                                  ],
-                                                );
-                                              }),
-                                          const SizedBox(
-                                            height: 350,
-                                          )
-                                        ],
-                                      )
-                                          : statusOfUser
-                                          .value
-                                          .isError
-                                          ? CommonErrorWidget(
-                                        errorText: "",
-                                        onTap: () {},
-                                      )
-                                          : const Center(
-                                          child:
-                                          CircularProgressIndicator());
+                                                      const SizedBox(
+                                                        height: 15,
+                                                      )
+                                                    ],
+                                                  );
+                                                }),
+                                            const SizedBox(
+                                              height: 350,
+                                            )
+                                          ],
+                                        )
+                                            : statusOfUser
+                                            .value
+                                            .isError
+                                            ? CommonErrorWidget(
+                                          errorText: "",
+                                          onTap: () {},
+                                        )
+                                            : const Center(
+                                            child:
+                                            CircularProgressIndicator());
                                     })
                                   ],
                                 ),
