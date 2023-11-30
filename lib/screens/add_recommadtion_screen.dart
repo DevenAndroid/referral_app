@@ -18,7 +18,8 @@ import '../widgets/app_theme.dart';
 import '../widgets/common_textfield.dart';
 import '../widgets/custome_textfiled.dart';
 import '../widgets/helper.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' as htmlParser;
 class AddRecommendationScreen extends StatefulWidget {
   const AddRecommendationScreen({super.key});
 
@@ -31,9 +32,31 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
   TextEditingController recommendationController = TextEditingController();
   TextEditingController reviewController = TextEditingController();
   TextEditingController linkController = TextEditingController();
-
+  String _imageUrl = '';
   File categoryFile = File("");
 
+
+  Future<String?> getImageUrlFromAmazon(String productUrl) async {
+    try {
+      final response = await http.get(Uri.parse("https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014C5S7S/?_encoding=UTF8&pd_rd_w=Xibxh&content-id=amzn1.sym.64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_p=64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_r=1DD2JN3VYV13DGZPWR52&pd_rd_wg=wjvuL&pd_rd_r=baf78e1f-9861-4b19-8c00-b95400991097&ref_=pd_gw_crs_zg_bs_7141123011"));
+
+      if (response.statusCode == 200) {
+        final document = htmlParser.parse(response.body);
+
+        // This is a simplified example. You should inspect the actual HTML structure of the Amazon page
+        // and update this code accordingly.
+        final imageElement = document.querySelector('#imageBlock img');
+
+        if (imageElement != null) {
+          return imageElement.attributes['src'];
+        }
+      }
+    } catch (e) {
+      print('Error fetching image: $e');
+    }
+
+    return null;
+  }
 
   Future pickImage() async {
     try {
@@ -132,6 +155,10 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                 height: 12,
               ),
               CommonTextfield(
+                onChanged: (value) {
+                  _imageUrl = linkController.text;
+                  getImageUrlFromAmazon(_imageUrl);
+                },
                   controller: linkController,
                   obSecure: false,
                   hintText: "Link"),
@@ -150,7 +177,8 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
               ),
               CommonTextfield(
                   onTap: () {
-                    Get.toNamed(MyRouters.categoriesScreen);
+
+                  Get.toNamed(MyRouters.categoriesScreen);
                   },
                   controller: profileController.categoriesController,
                   obSecure: false,
@@ -158,7 +186,16 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
               SizedBox(
                 height: 15,
               ),
-              InkWell(
+              _imageUrl.isNotEmpty
+                  ? Center(
+                    child: Image.network(
+                _imageUrl,
+                height: 200,
+                width: 200,
+                fit: BoxFit.cover,
+              ),
+                  )
+                  :      InkWell(
                 onTap: () {
                   _showActionSheet(context);
                 },
@@ -224,34 +261,37 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                   ),
                 ),
               ),
+
               SizedBox(
                 height: 22,
               ),
               CommonButton(
                 title: "Next",
                 onPressed: () {
-                  Map map = <String, String>{};
-                  map['title'] = recommendationController.text.trim();
-                  map['review'] = reviewController.text.trim();
-                  map['link'] = linkController.text.trim();
-                  map['status'] = "publish";
-                  map['category_id'] =
-                      profileController.idController.text.trim();
-
-                  addRecommendationRepo(
-                    fieldName1: 'image',
-                    mapData: map,
-                    context: context,
-                    file1: categoryFile,
-                  ).then((value) async {
-                    if (value.status == true) {
-                      Get.back();
-                      // Get.toNamed(MyRouters.followingScreen);
-                      showToast(value.message.toString());
-                    } else {
-                      showToast(value.message.toString());
-                    }
-                  });
+                  getImageUrlFromAmazon("https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014C5S7S/?_encoding=UTF8&pd_rd_w=Xibxh&content-id=amzn1.sym.64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_p=64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_r=1DD2JN3VYV13DGZPWR52&pd_rd_wg=wjvuL&pd_rd_r=baf78e1f-9861-4b19-8c00-b95400991097&ref_=pd_gw_crs_zg_bs_7141123011");
+                  // Map map = <String, String>{};
+                  // map['title'] = recommendationController.text.trim();
+                  // map['review'] = reviewController.text.trim();
+                  // map['link'] = linkController.text.trim();
+                  // map['status'] = "publish";
+                  // map['category_id'] =
+                  //     profileController.idController.text.trim();
+                  //
+                  // addRecommendationRepo(
+                  //   fieldName1: 'image',
+                  //   mapData: map,
+                  //   context: context,
+                  //   file1: categoryFile,
+                  // ).then((value) async {
+                  //   if (value.status == true) {
+                  //     Get.back();
+                  //     // Get.toNamed(MyRouters.followingScreen);
+                  //     showToast(value.message.toString());
+                  //   } else {
+                  //     showToast(value.message.toString());
+                  //   }
+                  // }
+                  // );
                 },
               )
             ],

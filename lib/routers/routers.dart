@@ -7,6 +7,7 @@ import '../screens/create_account.dart';
 import '../screens/edit_account_screen.dart';
 import '../screens/following_screen.dart';
 import '../screens/home_screen.dart';
+import '../screens/image.dart';
 import '../screens/login_screen.dart';
 import '../screens/otp_screen.dart';
 import '../screens/post_screen.dart';
@@ -42,7 +43,8 @@ class MyRouters {
 
 
   static var route = [
-    GetPage(name: '/', page: () => const SplashScreen()),
+      // GetPage(name: '/', page: () =>  Imagescreen()),
+     GetPage(name: '/', page: () => const SplashScreen()),
     GetPage(name: '/loginScreen', page: () => const LoginScreen()),
     GetPage(name: '/otpScreen', page: () => const OtpScreen()),
     GetPage(

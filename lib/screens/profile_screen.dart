@@ -662,7 +662,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                             .all(
                                                                             5),
                                                                         width:
-                                                                            180,
+                                                                            150,
                                                                         height:
                                                                             30,
                                                                         decoration:
