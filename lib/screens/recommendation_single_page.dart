@@ -53,7 +53,7 @@ class _RecommendationSingleScreenState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            title,
+                            title.capitalizeFirst.toString(),
                             style: GoogleFonts.mulish(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20,
@@ -77,7 +77,7 @@ class _RecommendationSingleScreenState
                         height: 10,
                       ),
                       Text(
-                       review,
+                       review.capitalizeFirst.toString(),
                         style: GoogleFonts.mulish(
                             fontWeight: FontWeight.w300,
                             fontSize: 12,
