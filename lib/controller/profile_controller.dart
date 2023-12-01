@@ -9,7 +9,7 @@ class ProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  RxString selectedValue = 'friends'.obs;
+  RxString selectedValue = 'Public'.obs;
   final categoriesController = TextEditingController();
   final idController = TextEditingController();
   var profileDrawer = 0;

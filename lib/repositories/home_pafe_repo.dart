@@ -7,18 +7,19 @@ import '../models/home_page_model.dart';
 import '../resourses/api_constant.dart';
 import '../resourses/helper.dart';
 
-Future<HomeModel> getHomeRepo() async {
+Future<HomeModel> getHomeRepo({required int pagination,required int page}) async {
   try {
     http.Response response = await http.get(
-      Uri.parse(ApiUrls.home),
+      Uri.parse('${ApiUrls.home}?pagination=$pagination&page=$page'),
       headers: await getAuthHeader(),
     );
 
+
+    print("Home>>>>>${response.body}");
+
     if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
       return HomeModel.fromJson(jsonDecode(response.body));
     } else {
-      print(jsonDecode(response.body));
       return HomeModel(
           message: jsonDecode(response.body)["message"],
           status: false,

@@ -29,9 +29,42 @@ class _ProfileScreenState extends State<ProfileScreen>
   Rx<RxStatus> statusOfHome = RxStatus.empty().obs;
 
   Rx<HomeModel> home = HomeModel().obs;
+  RxString type = ''.obs;
+  RxBool isDataLoading = false.obs;
+  RxBool isPaginationLoading = true.obs;
+  RxBool loadMore = true.obs;
+  RxInt page = 1.obs;
+  RxInt pagination = 10.obs;
 
-  chooseCategories() {
-    getHomeRepo().then((value) {
+
+  Future<dynamic> chooseCategories({isFirstTime = false, context}) async {
+    if(isFirstTime){
+      page.value = 1;
+    }
+    if (isPaginationLoading.value && loadMore.value){
+      isPaginationLoading.value = false;
+    }
+    getHomeRepo(page: page.value,pagination: pagination.value).then((value) {
+        home.value = value;
+         isPaginationLoading.value = true;
+
+
+      if (value.status == true) {
+        statusOfHome.value = RxStatus.success();
+        page.value++;
+      /*  if(isFirstTime){
+          home.value.data!.addAll(value.data!);
+        }*/
+        loadMore.value = value.link!.next ?? false;
+      } else {
+        statusOfHome.value = RxStatus.error();
+      }
+
+      // showToast(value.message.toString());
+    });
+  }
+/*  chooseCategories() {
+    getHomeRepo(pagination: ).then((value) {
       home.value = value;
 
       if (value.status == true) {
@@ -42,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
       // showToast(value.message.toString());
     });
-  }
+  }*/
 
   final profileController = Get.put(ProfileController());
 
@@ -623,8 +656,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                         padding: const EdgeInsets
                                                                             .all(
                                                                             5),
-                                                                        width:
-                                                                            150,
                                                                         height:
                                                                             30,
                                                                         decoration:

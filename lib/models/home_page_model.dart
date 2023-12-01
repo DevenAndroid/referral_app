@@ -2,13 +2,17 @@ class HomeModel {
   bool? status;
   String? message;
   Data? data;
+  Meta? meta;
+  Link? link;
 
-  HomeModel({this.status, this.message, this.data});
+  HomeModel({this.status, this.message, this.data, this.meta, this.link});
 
   HomeModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
+    link = json['link'] != null ? new Link.fromJson(json['link']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -18,24 +22,23 @@ class HomeModel {
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
+    if (this.meta != null) {
+      data['meta'] = this.meta!.toJson();
+    }
+    if (this.link != null) {
+      data['link'] = this.link!.toJson();
+    }
     return data;
   }
 }
 
 class Data {
-  List<SliderData>? sliderData;
   List<Discover>? discover;
   List<Recommandation>? recommandation;
 
-  Data({this.sliderData, this.discover, this.recommandation});
+  Data({this.discover, this.recommandation});
 
   Data.fromJson(Map<String, dynamic> json) {
-    if (json['sliderData'] != null) {
-      sliderData = <SliderData>[];
-      json['sliderData'].forEach((v) {
-        sliderData!.add(new SliderData.fromJson(v));
-      });
-    }
     if (json['discover'] != null) {
       discover = <Discover>[];
       json['discover'].forEach((v) {
@@ -52,9 +55,6 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.sliderData != null) {
-      data['sliderData'] = this.sliderData!.map((v) => v.toJson()).toList();
-    }
     if (this.discover != null) {
       data['discover'] = this.discover!.map((v) => v.toJson()).toList();
     }
@@ -62,31 +62,6 @@ class Data {
       data['recommandation'] =
           this.recommandation!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class SliderData {
-  int? id;
-  String? title;
-  String? link;
-  String? image;
-
-  SliderData({this.id, this.title, this.link, this.image});
-
-  SliderData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    link = json['link'];
-    image = json['image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['link'] = this.link;
-    data['image'] = this.image;
     return data;
   }
 }
@@ -101,6 +76,7 @@ class Discover {
   String? image;
   String? postViewersType;
   bool? wishlist;
+  String? date;
 
   Discover(
       {this.id,
@@ -111,7 +87,8 @@ class Discover {
         this.maxPrice,
         this.image,
         this.postViewersType,
-        this.wishlist});
+        this.wishlist,
+        this.date});
 
   Discover.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -124,6 +101,7 @@ class Discover {
     image = json['image'];
     postViewersType = json['post_viewers_type'];
     wishlist = json['wishlist'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -139,6 +117,7 @@ class Discover {
     data['image'] = this.image;
     data['post_viewers_type'] = this.postViewersType;
     data['wishlist'] = this.wishlist;
+    data['date'] = this.date;
     return data;
   }
 }
@@ -246,6 +225,7 @@ class Recommandation {
   String? image;
   String? status;
   bool? wishlist;
+  String? date;
 
   Recommandation(
       {this.id,
@@ -256,7 +236,8 @@ class Recommandation {
         this.categoryId,
         this.image,
         this.status,
-        this.wishlist});
+        this.wishlist,
+        this.date});
 
   Recommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -268,6 +249,7 @@ class Recommandation {
     image = json['image'];
     status = json['status'];
     wishlist = json['wishlist'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -283,6 +265,51 @@ class Recommandation {
     data['image'] = this.image;
     data['status'] = this.status;
     data['wishlist'] = this.wishlist;
+    data['date'] = this.date;
+    return data;
+  }
+}
+
+class Meta {
+  int? totalPage;
+  int? currentPage;
+  int? totalItem;
+  int? perPage;
+
+  Meta({this.totalPage, this.currentPage, this.totalItem, this.perPage});
+
+  Meta.fromJson(Map<String, dynamic> json) {
+    totalPage = json['total_page'];
+    currentPage = json['current_page'];
+    totalItem = json['total_item'];
+    perPage = json['per_page'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['total_page'] = this.totalPage;
+    data['current_page'] = this.currentPage;
+    data['total_item'] = this.totalItem;
+    data['per_page'] = this.perPage;
+    return data;
+  }
+}
+
+class Link {
+  bool? next;
+  bool? prev;
+
+  Link({this.next, this.prev});
+
+  Link.fromJson(Map<String, dynamic> json) {
+    next = json['next'];
+    prev = json['prev'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['next'] = this.next;
+    data['prev'] = this.prev;
     return data;
   }
 }

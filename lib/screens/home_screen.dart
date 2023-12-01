@@ -42,7 +42,53 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+
+  RxList<Discover> discoverList = <Discover>[].obs;
+
+  RxInt page = 1.obs;
+  RxInt pagination = 10.obs;
+  Rx<HomeModel> paginationModel = HomeModel().obs;
+  RxBool isDataLoading = false.obs;
+  RxBool isPaginationLoading = true.obs;
+  RxBool loadMore = true.obs;
+  Future<dynamic> chooseCategories({
+    isFirstTime = false,
+  }) async {
+    if (isFirstTime) {
+      page.value = 1;
+    }
+    if (isPaginationLoading.value && loadMore.value) {
+      isPaginationLoading.value = false;
+    }
+
+
+
+    getHomeRepo(page: page.value, pagination: pagination.value).then((value) {
+     // loadMore.value = false;
+     home.value = value;
+      isPaginationLoading.value = true;
+      if (value.data != null ) {
+     //   loadMore.value = true;
+        if(home.value.data!.discover!.isNotEmpty){
+          discoverList.addAll(home.value.data!.discover!);
+        }
+
+        statusOfHome.value = RxStatus.success();
+        page.value++;
+        loadMore.value = value.link!.next ?? false;
+     //   home.value.data!.discover!.clear();
+      } else {
+        statusOfHome.value = RxStatus.error();
+      }
+    });
+  }
+  /*
+  Future<HomeModel> getFeedBack() async {
+    HomeModel kk = await
+  }
+*/
+
   Rx<RxStatus> statusOfCategories = RxStatus.empty().obs;
 
   Rx<CategoriesModel> categories = CategoriesModel().obs;
@@ -86,24 +132,22 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   Rx<RxStatus> statusOfRemove = RxStatus.empty().obs;
   Rx<HomeModel> home = HomeModel().obs;
   bool like = false;
-  chooseCategories() {
-    getHomeRepo().then((value) {
-      home.value = value;
+  RxString type = ''.obs;
 
-      if (value.status == true) {
-        statusOfHome.value = RxStatus.success();
-      } else {
-        statusOfHome.value = RxStatus.error();
-      }
-
-      // showToast(value.message.toString());
-    });
+  final scrollController = ScrollController();
+  void _scrollListener() {
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+    } else{
+      print("call >>>> ${page.value}");
+      chooseCategories().then((value) => setState(() {}));
+    }
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    scrollController.addListener(_scrollListener);
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_tabListener);
     profileController.getData();
@@ -111,76 +155,74 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     chooseCategories();
     chooseCategories1();
   }
+
   late TabController _tabController;
   final key = GlobalKey<ScaffoldState>();
   void _tabListener() {
     setState(() {
-      showFloatingActionButton =
-          _tabController.index == 1; // 1 corresponds to "My recommendations"
+      showFloatingActionButton = _tabController.index == 1; // 1 corresponds to "My recommendations"
     });
   }
+
   var currentDrawer = 0;
   bool showFloatingActionButton = false;
   // String selectedValue = 'friends';
   bool check = false;
+
+
   @override
   Widget build(BuildContext context) {
+    chooseCategories();
     var size = MediaQuery.of(context).size;
     return DefaultTabController(
         length: 2,
         child: Scaffold(
             floatingActionButton: showFloatingActionButton
                 ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0)
-                  .copyWith(bottom: 80),
-              child: FloatingActionButton(
-                onPressed: () {
-                  Get.toNamed(MyRouters.addRecommendationScreen);
-                },
-                backgroundColor: Colors.transparent,
-                child: SvgPicture.asset(AppAssets.add1),
-              ),
-            )
+                    padding: const EdgeInsets.symmetric(vertical: 0).copyWith(bottom: 80),
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        Get.toNamed(MyRouters.addRecommendationScreen);
+                      },
+                      backgroundColor: Colors.transparent,
+                      child: SvgPicture.asset(AppAssets.add1),
+                    ),
+                  )
                 : const SizedBox(),
             appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
-              leading:
-        Obx(() {
-      return profileController.statusOfProfile.value.isSuccess?
-         Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ClipOval(
-                  child: CachedNetworkImage(
-
-        height: 100,
-        fit: BoxFit.fill,
-        imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
-    placeholder: (context, url) =>
-    Padding(
-    padding: const EdgeInsets.only(left: 12.0),
-    child: Image.asset(AppAssets.man),),
-    errorWidget: (context, url,
-    error) =>
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12.0),
-                    child: Image.asset(AppAssets.man),
-                  ),),
-                ),
-              ): profileController.statusOfProfile.value.isError
-                  ? CommonErrorWidget(
-                errorText: "",
-                onTap: () {},
-              )
-                  : const Center(
-                  child: CircularProgressIndicator()); }),
+              leading: Obx(() {
+                return profileController.statusOfProfile.value.isSuccess
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            height: 100,
+                            fit: BoxFit.fill,
+                            imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
+                            placeholder: (context, url) => Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: Image.asset(AppAssets.man),
+                            ),
+                            errorWidget: (context, url, error) => Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: Image.asset(AppAssets.man),
+                            ),
+                          ),
+                        ),
+                      )
+                    : profileController.statusOfProfile.value.isError
+                        ? CommonErrorWidget(
+                            errorText: "",
+                            onTap: () {},
+                          )
+                        : const Center(child: CircularProgressIndicator());
+              }),
               title: Text(
                 "Home",
                 style: GoogleFonts.monomaniacOne(
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 1,
-                    fontSize: 25,
-                    color: const Color(0xFF262626)),
+                    fontWeight: FontWeight.w400, letterSpacing: 1, fontSize: 25, color: const Color(0xFF262626)),
               ),
               centerTitle: true,
               actions: [
@@ -205,43 +247,29 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 },
                 tabs: [
                   Tab(
-
                     child: Text("Discover",
                         style: currentDrawer == 0
                             ? GoogleFonts.mulish(
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1,
-                            fontSize: 15,
-                            color: const Color(0xFF3797EF))
+                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
                             : GoogleFonts.mulish(
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1,
-                            fontSize: 15,
-                            color: Colors.black)),
+                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
                   ),
                   Tab(
                     child: Text("Recommendation",
                         style: currentDrawer == 1
                             ? GoogleFonts.mulish(
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1,
-                            fontSize: 15,
-                            color: const Color(0xFF3797EF))
+                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
                             : GoogleFonts.mulish(
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1,
-                            fontSize: 15,
-                            color: Colors.black)),
+                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
                   ),
                 ],
               ),
             ),
             body: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TabBarView(
-                  controller: _tabController,
-                  children: [
+              child: TabBarView(controller: _tabController, children: [
                 SingleChildScrollView(
+                  controller: scrollController,
                   physics: const BouncingScrollPhysics(),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -250,333 +278,267 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Obx(() {
-                          return statusOfHome.value.isSuccess&&profileController.statusOfProfile.value.isSuccess
+                          return statusOfHome.value.isSuccess
                               ? ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: home.value.data!.discover!.length,
-                              physics: const BouncingScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                          BorderRadius.circular(10),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: const Color(0xFF5F5F5F)
-                                                  .withOpacity(0.2),
-                                              offset:
-                                              const Offset(0.0, 0.2),
-                                              blurRadius: 2,
-                                            ),
-                                          ]),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              ClipOval(
-                                                child: CachedNetworkImage(
-                                                  width: 30,
-                                                  height: 30,
-                                                  fit: BoxFit.cover,
-                                                  imageUrl: home
-                                                      .value
-                                                      .data!
-                                                      .discover![index]
-                                                      .userId!
-                                                      .profileImage
-                                                      .toString(),
-                                                  placeholder: (context,
-                                                      url) =>
-                                                      Image.asset(
-                                                          AppAssets.girl),
-                                                  errorWidget: (context,
-                                                      url, error) =>
-                                                      Image.asset(
-                                                          AppAssets.girl),
+                              //    controller: scrollController,
+                                  shrinkWrap: true,
+                                  itemCount: discoverList.length,
+                                  physics: const BouncingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(10),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: const Color(0xFF5F5F5F).withOpacity(0.2),
+                                                  offset: const Offset(0.0, 0.2),
+                                                  blurRadius: 2,
                                                 ),
+                                              ]),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  ClipOval(
+                                                    child: CachedNetworkImage(
+                                                      width: 30,
+                                                      height: 30,
+                                                      fit: BoxFit.cover,
+                                                      imageUrl: discoverList[index].userId!.profileImage
+                                                          .toString(),
+                                                      placeholder: (context, url) => Image.asset(AppAssets.girl),
+                                                      errorWidget: (context, url, error) => Image.asset(AppAssets.girl),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 20,
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        discoverList[index].userId!.name == ""
+                                                            ? Text(
+                                                                "Name...",
+                                                                style: GoogleFonts.mulish(
+                                                                    fontWeight: FontWeight.w700,
+                                                                    // letterSpacing: 1,
+                                                                    fontSize: 14,
+                                                                    color: Colors.black),
+                                                              )
+                                                            : Text(
+                                                          discoverList[index].userId!.name
+                                                                    .toString()
+                                                                    .capitalizeFirst
+                                                                    .toString(),
+                                                                style: GoogleFonts.mulish(
+                                                                    fontWeight: FontWeight.w700,
+                                                                    // letterSpacing: 1,
+                                                                    fontSize: 14,
+                                                                    color: Colors.black),
+                                                              ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 8.0),
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        // home.value.data!.discover![index].wishlist.toString();
+                                                        setState(() {});
+
+                                                        bookmarkRepo(
+                                                          context: context,
+                                                          post_id: discoverList[index].id.toString(),
+                                                        ).then((value) async {
+                                                          modalRemove.value = value;
+                                                          if (value.status == true) {
+                                                            statusOfRemove.value = RxStatus.success();
+                                                            chooseCategories();
+                                                            print(discoverList[index].wishlist!);
+                                                            // like=true;
+                                                            showToast(value.message.toString());
+                                                          } else {
+                                                            statusOfRemove.value = RxStatus.error();
+                                                            // like=false;
+                                                            showToast(value.message.toString());
+                                                          }
+                                                        });
+                                                      },
+                                                      child: discoverList[index].wishlist!
+                                                          ? SvgPicture.asset(
+                                                              AppAssets.bookmark1,
+                                                              height: 20,
+                                                            )
+                                                          : SvgPicture.asset(AppAssets.bookmark),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
                                               const SizedBox(
-                                                width: 20,
+                                                height: 15,
                                               ),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  children: [
-                                                    home
-                                                        .value
-                                                        .data!
-                                                        .discover![
-                                                    index]
-                                                        .userId!
-                                                        .name ==
-                                                        ""
-                                                        ? Text(
-                                                      "Name...",
-                                                      style: GoogleFonts
-                                                          .mulish(
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w700,
-                                                          // letterSpacing: 1,
-                                                          fontSize:
-                                                          14,
-                                                          color: Colors
-                                                              .black),
-                                                    )
-                                                        : Text(
-                                                      home
-                                                          .value
-                                                          .data!
-                                                          .discover![
-                                                      index]
-                                                          .userId!
-                                                          .name
-                                                          .toString().capitalizeFirst.toString(),
-                                                      style: GoogleFonts
-                                                          .mulish(
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w700,
-                                                          // letterSpacing: 1,
-                                                          fontSize:
-                                                          14,
-                                                          color: Colors
-                                                              .black),
-                                                    ),
-
-                                                  ],
-                                                ),
+                                              Stack(children: [
+                                                discoverList[index].image == ""
+                                                    ? SizedBox()
+                                                    : ClipRRect(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        child: CachedNetworkImage(
+                                                          width: size.width,
+                                                          height: 200,
+                                                          fit: BoxFit.fill,
+                                                          imageUrl:
+                                                          discoverList[index].image.toString(),
+                                                          placeholder: (context, url) => SizedBox(
+                                                            height: 0,
+                                                          ),
+                                                          errorWidget: (context, url, error) => SizedBox(
+                                                            height: 0,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                Positioned(
+                                                    right: 10,
+                                                    top: 15,
+                                                    child: InkWell(
+                                                        onTap: () {
+                                                          Share.share(
+                                                            discoverList[index].image.toString(),
+                                                          );
+                                                        },
+                                                        child: SvgPicture.asset(AppAssets.forward)))
+                                              ]),
+                                              const SizedBox(
+                                                height: 10,
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(right: 8.0),
-                                                child: InkWell(
-                                                onTap: (){
-                                // home.value.data!.discover![index].wishlist.toString();
-                                setState(() {
-
-                                });
-
-                                bookmarkRepo(
-                                context: context,
-                                post_id: home.value.data!.discover![index].id.toString(),
-                                ).then((value) async {
-                                modalRemove.value = value;
-                                if (value.status == true) {
-                                statusOfRemove.value = RxStatus.success();
-                                chooseCategories();
-                                print(home.value.data!.discover![index].wishlist! );
-                                // like=true;
-                                showToast(value.message.toString());
-                                } else {
-                                statusOfRemove.value = RxStatus.error();
-                                // like=false;
-                                showToast(value.message.toString());
-
-
-                                }
-                                }
-
-                                );
-                                },
-                                child:
-                                home.value.data!.discover![index].wishlist!?
-                                SvgPicture.asset(AppAssets.bookmark1,height: 20,): SvgPicture.asset(AppAssets.bookmark),
-                                ),
-                                              )   ],
-                                ),
-
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
-                                          Stack(children: [
-                                          home.value.data!
-                                                .discover![index].image ==""?
-
-                                          SizedBox():  ClipRRect(
-                                            borderRadius: BorderRadius.circular(10),
-                                            child: CachedNetworkImage(
-                                                width: size.width,
-                                                height:
-
-                                                200,
-                                                fit: BoxFit.fill,
-                                                imageUrl: home.value.data!
-                                                    .discover![index].image
+                                              Text(
+                                                discoverList[index].title
+                                                    .toString()
+                                                    .capitalizeFirst
                                                     .toString(),
-                                                placeholder: (context, url) =>
-                                                    SizedBox(height: 0,),
-                                                errorWidget: (context, url,
-                                                    error) =>
-                                SizedBox(height: 0,),
+                                                style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w700,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 17,
+                                                    color: Colors.black),
                                               ),
-                                          ),
-                                            Positioned(
-                                                right: 10,
-                                                top: 15,
-                                                child: InkWell(
-                                                    onTap: () {
-                                                      Share.share(
-                                                        home
-                                                            .value
-                                                            .data!
-                                                            .discover![
-                                                        index]
-                                                            .image
-                                                            .toString(),
-                                                      );
-                                                    },
-                                                    child: SvgPicture.asset(
-                                                        AppAssets.forward)))
-                                          ]),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            home.value.data!
-                                                .discover![index].title
-                                                .toString().capitalizeFirst.toString(),
-                                            style: GoogleFonts.mulish(
-                                                fontWeight: FontWeight.w700,
-                                                // letterSpacing: 1,
-                                                fontSize: 17,
-                                                color: Colors.black),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            home
-                                                .value
-                                                .data!
-                                                .discover![index]
-                                                .description
-                                                .toString().capitalizeFirst.toString(),
-                                            style: GoogleFonts.mulish(
-                                                fontWeight: FontWeight.w300,
-                                                // letterSpacing: 1,
-                                                fontSize: 14,
-                                                color: const Color(0xFF6F7683)),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Container(
-                                                padding: EdgeInsets.all(5),
-                                                width: size.width * .45,
-                                                height: 30,
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xFF3797EF)
-                                                      .withOpacity(.09),
-                                                  borderRadius:
-                                                  BorderRadius.circular(10),
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    SvgPicture.asset(
-                                                        AppAssets.message),
-                                                    const SizedBox(
-                                                      width: 6,
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                discoverList[index].description
+                                                    .toString()
+                                                    .capitalizeFirst
+                                                    .toString(),
+                                                style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w300,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 14,
+                                                    color: const Color(0xFF6F7683)),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.all(5),
+                                                    width: size.width * .45,
+                                                    height: 30,
+                                                    decoration: BoxDecoration(
+                                                      color: Color(0xFF3797EF).withOpacity(.09),
+                                                      borderRadius: BorderRadius.circular(10),
                                                     ),
+                                                    child: Row(
+                                                      children: [
+                                                        SvgPicture.asset(AppAssets.message),
+                                                        const SizedBox(
+                                                          width: 6,
+                                                        ),
                                                         InkWell(
                                                           onTap: () {
                                                             showModalBottomSheet(
-                                                               constraints: BoxConstraints(maxHeight: context.getSize.height  *.9, minHeight: context.getSize.height  *.4),
-                                                              isScrollControlled:
-                                                                  true,
+                                                              constraints: BoxConstraints(
+                                                                  maxHeight: context.getSize.height * .9,
+                                                                  minHeight: context.getSize.height * .4),
+                                                              isScrollControlled: true,
                                                               context: context,
-                                                              backgroundColor:
-                                                                  Colors.white,
+                                                              backgroundColor: Colors.white,
                                                               elevation: 10,
-
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20.0),
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(20.0),
                                                               ),
-
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
+                                                              builder: (BuildContext context) {
                                                                 // UDE : SizedBox instead of Container for whitespaces
                                                                 return Center(
-                                                                  child:
-                                                                      SingleChildScrollView(
-                                                                        physics: const NeverScrollableScrollPhysics(),
-                                                                        child: Padding(
-                                                                    padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal:
-                                                                              12,
-                                                                          vertical:
-                                                                              20),
-                                                                    child:
-                                                                          Column(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .start,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment
-                                                                                .start,
+                                                                  child: SingleChildScrollView(
+                                                                    physics: const NeverScrollableScrollPhysics(),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.symmetric(
+                                                                          horizontal: 12, vertical: 20),
+                                                                      child: Column(
+                                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                                         children: <Widget>[
                                                                           Text(
                                                                             'recommendation List',
-                                                                            style:
-                                                                                GoogleFonts.mulish(
-                                                                              fontWeight:
-                                                                                  FontWeight.w700,
+                                                                            style: GoogleFonts.mulish(
+                                                                              fontWeight: FontWeight.w700,
                                                                               // letterSpacing: 1,
-                                                                              fontSize:
-                                                                                  18,
-                                                                              color:
-                                                                                  Colors.black,
+                                                                              fontSize: 18,
+                                                                              color: Colors.black,
                                                                             ),
                                                                           ),
-                                                                          ListView
-                                                                              .builder(
-                                                                            physics:
-                                                                                AlwaysScrollableScrollPhysics(),
-                                                                            itemCount:
-                                                                                4,
-                                                                            shrinkWrap:
-                                                                                true,
-                                                                            itemBuilder:
-                                                                                (context, index) {
+                                                                          ListView.builder(
+                                                                            physics: AlwaysScrollableScrollPhysics(),
+                                                                            itemCount: 4,
+                                                                            shrinkWrap: true,
+                                                                            itemBuilder: (context, index) {
                                                                               return Padding(
-                                                                                padding: const EdgeInsets.only(left: 8.0, top: 10),
+                                                                                padding: const EdgeInsets.only(
+                                                                                    left: 8.0, top: 10),
                                                                                 child: Row(
                                                                                   mainAxisAlignment: MainAxisAlignment.start,
-                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  crossAxisAlignment:
+                                                                                      CrossAxisAlignment.start,
                                                                                   children: [
-                                                                                    Image(height: 20, width: 20, image: AssetImage('assets/icons/chat.png')),
+                                                                                    Image(
+                                                                                        height: 20,
+                                                                                        width: 20,
+                                                                                        image: AssetImage(
+                                                                                            'assets/icons/chat.png')),
                                                                                     SizedBox(
                                                                                       width: 10,
                                                                                     ),
                                                                                     Container(
-                                                                                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                                                                      decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)), color: Color(0xffF0F0F0)),
+                                                                                      padding: EdgeInsets.symmetric(
+                                                                                          vertical: 10, horizontal: 10),
+                                                                                      decoration: BoxDecoration(
+                                                                                          borderRadius: BorderRadius.only(
+                                                                                              topRight: Radius.circular(10),
+                                                                                              bottomLeft:
+                                                                                                  Radius.circular(10),
+                                                                                              bottomRight:
+                                                                                                  Radius.circular(10)),
+                                                                                          color: Color(0xffF0F0F0)),
                                                                                       child: Column(
-                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                        crossAxisAlignment:
+                                                                                            CrossAxisAlignment.start,
                                                                                         children: [
                                                                                           Row(
                                                                                             children: [
                                                                                               Text(
                                                                                                 'David Paterson',
                                                                                                 style: GoogleFonts.mulish(
-                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                  fontWeight:
+                                                                                                      FontWeight.w600,
                                                                                                   // letterSpacing: 1,
                                                                                                   fontSize: 14,
                                                                                                   color: Colors.black,
@@ -588,7 +550,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                               Text(
                                                                                                 '2 days',
                                                                                                 style: GoogleFonts.mulish(
-                                                                                                  fontWeight: FontWeight.w400,
+                                                                                                  fontWeight:
+                                                                                                      FontWeight.w400,
                                                                                                   // letterSpacing: 1,
                                                                                                   fontSize: 10,
                                                                                                   color: Colors.black,
@@ -624,79 +587,67 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                             },
                                                                           ),
                                                                           SizedBox(
-                                                                            height:
-                                                                                20,
+                                                                            height: 20,
                                                                           )
                                                                         ],
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                      ),
                                                                 );
                                                               },
                                                             );
                                                           },
                                                           child: Text(
                                                             "Recommendations: 120",
-                                                            style: GoogleFonts
-                                                                .mulish(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: const Color(
-                                                                        0xFF3797EF)),
+                                                            style: GoogleFonts.mulish(
+                                                                fontWeight: FontWeight.w500,
+                                                                // letterSpacing: 1,
+                                                                fontSize: 12,
+                                                                color: const Color(0xFF3797EF)),
                                                           ),
                                                         ),
                                                       ],
-                                                ),
-                                              ),
-                                              Column(
-                                                children: [
-                                                  Text( "Min Price"),                                                  Text( home
-                                                      .value
-                                                      .data!
-                                                      .discover![index]
-                                                      .minPrice
-                                                      .toString(),),
+                                                    ),
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      Text("Min Price"),
+                                                      Text(
+                                                        discoverList[index].minPrice.toString(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      Text("Max Price"),
+                                                      Text(
+                                                        discoverList[index].maxPrice.toString(),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
-                                              SizedBox(width: 10,),
-
-                                              Column(
-                                                children: [
-                                                  Text( "Max Price"),
-                                                  Text( home
-                                                      .value
-                                                      .data!
-                                                      .discover![index]
-                                                      .maxPrice
-                                                      .toString(),),
-                                                ],
+                                              const SizedBox(
+                                                height: 10,
                                               ),
-
                                             ],
                                           ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 15,
-                                    )
-                                  ],
-                                );
-                              })
+                                        ),
+                                        const SizedBox(
+                                          height: 15,
+                                        )
+                                      ],
+                                    );
+                                  })
                               : statusOfHome.value.isError
-                              ? CommonErrorWidget(
-                            errorText: "",
-                            onTap: () {},
-                          )
-                              : const Center(
-                              child: CircularProgressIndicator());
+                                  ? CommonErrorWidget(
+                                      errorText: "",
+                                      onTap: () {},
+                                    )
+                                  : const Center(child: CircularProgressIndicator());
                         })
                       ],
                     ),
@@ -711,192 +662,157 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         SizedBox(
                             height: size.height * .15,
                             child: Obx(() {
-                              return statusOfCategories.value.isSuccess &&
-                                  profileController
-                                      .statusOfProfile.value.isSuccess
+                              return statusOfCategories.value.isSuccess && profileController.statusOfProfile.value.isSuccess
                                   ? ListView.builder(
-                                  itemCount: categories.value.data!.length,
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  physics:
-                                  const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              getSingleRepo(
-                                                  category_id:
-                                                  categories
-                                                      .value
-                                                      .data![index]
-                                                      .id
-                                                      .toString())
-                                                  .then((value) {
-                                                single.value = value;
+                                      itemCount: categories.value.data!.length,
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      physics: const AlwaysScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  getSingleRepo(category_id: categories.value.data![index].id.toString())
+                                                      .then((value) {
+                                                    single.value = value;
 
-                                                if (value.status == true) {
-                                                  print(categories.value.data![index].id.toString());
-                                                  statusOfSingle.value = RxStatus.success();
-                                                  check = true;
-                                                  setState(() {
-
+                                                    if (value.status == true) {
+                                                      print(categories.value.data![index].id.toString());
+                                                      statusOfSingle.value = RxStatus.success();
+                                                      check = true;
+                                                      setState(() {});
+                                                    } else {
+                                                      statusOfSingle.value = RxStatus.error();
+                                                    }
+                                                    setState(() {});
+                                                    // showToast(value.message.toString());
                                                   });
-                                                } else {
-                                                  statusOfSingle.value = RxStatus.error();
-                                                }
-                                                setState(() {});
-                                                // showToast(value.message.toString());
-                                              });
-                                              // profileController.categoriesController.text = item.name.toString();
-                                              // profileController.idController.text = item.id.toString();
-                                              // Get.back();
-                                            },
-                                            child: ClipOval(
-                                              child: CachedNetworkImage(
-                                                width: 70,
-                                                height: 70,
-                                                fit: BoxFit.fill,
-                                                imageUrl: categories.value
-                                                    .data![index].image
-                                                    .toString(),
+                                                  // profileController.categoriesController.text = item.name.toString();
+                                                  // profileController.idController.text = item.id.toString();
+                                                  // Get.back();
+                                                },
+                                                child: ClipOval(
+                                                  child: CachedNetworkImage(
+                                                    width: 70,
+                                                    height: 70,
+                                                    fit: BoxFit.fill,
+                                                    imageUrl: categories.value.data![index].image.toString(),
+                                                  ),
+                                                ),
                                               ),
-                                            ),
+                                              const SizedBox(
+                                                height: 2,
+                                              ),
+                                              Text(
+                                                categories.value.data![index].name.toString(),
+                                                style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w300,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 14,
+                                                    color: const Color(0xFF26282E)),
+                                              )
+                                            ],
                                           ),
-                                          const SizedBox(
-                                            height: 2,
-                                          ),
-                                          Text(
-                                            categories
-                                                .value.data![index].name
-                                                .toString(),
-                                            style: GoogleFonts.mulish(
-                                                fontWeight: FontWeight.w300,
-                                                // letterSpacing: 1,
-                                                fontSize: 14,
-                                                color: const Color(0xFF26282E)),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  })
+                                        );
+                                      })
                                   : statusOfCategories.value.isError
-                                  ? CommonErrorWidget(
-                                errorText: "",
-                                onTap: () {},
-                              )
-                                  : const Center(
-                                  child: CircularProgressIndicator());
+                                      ? CommonErrorWidget(
+                                          errorText: "",
+                                          onTap: () {},
+                                        )
+                                      : const Center(child: CircularProgressIndicator());
                             })),
 
                         statusOfSingle.value.isSuccess
                             ? Column(
-                              children: [
-                                if( single.value.data!.isEmpty)
-                                  Text("No Record found"),
-                                GridView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                // Number of columns
-                                crossAxisSpacing: 10.0,
-                                // Spacing between columns
-                                mainAxisSpacing: 10.0, // Spacing between rows
-                          ),
-                          itemCount: single.value.data!.length,
-                          // Total number of items
-                          itemBuilder: (BuildContext context, int index) {
-                                // You can replace the Container with your image widget
-                                return InkWell(
-                                onTap: (){
-                                Get.toNamed(MyRouters.recommendationSingleScreen,arguments: [
-                                single.value.data![index]
-                                    .image
-                                    .toString(),
-                                single.value.data![index]
-                                    .title
-                                    .toString(),
-                                single.value.data![index]
-                                    .review
-                                    .toString(),
-                                single.value.data![index].id.toString(),
-
-
-                                ],
-
-
-
-                                );
-                                print("object");
-                                },
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.black),
-                                        borderRadius: BorderRadius.circular(10)
+                                children: [
+                                  if (single.value.data!.isEmpty) Text("No Record found"),
+                                  GridView.builder(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      // Number of columns
+                                      crossAxisSpacing: 10.0,
+                                      // Spacing between columns
+                                      mainAxisSpacing: 10.0, // Spacing between rows
                                     ),
-                                    child: CachedNetworkImage(
-                                      imageUrl: single.value.data![index].image
-                                          .toString(),
-                                     fit: BoxFit.fill,
-                                    ),
+                                    itemCount: single.value.data!.length,
+                                    // Total number of items
+                                    itemBuilder: (BuildContext context, int index) {
+                                      // You can replace the Container with your image widget
+                                      return InkWell(
+                                        onTap: () {
+                                          Get.toNamed(
+                                            MyRouters.recommendationSingleScreen,
+                                            arguments: [
+                                              single.value.data![index].image.toString(),
+                                              single.value.data![index].title.toString(),
+                                              single.value.data![index].review.toString(),
+                                              single.value.data![index].id.toString(),
+                                            ],
+                                          );
+                                          print("object");
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.black),
+                                              borderRadius: BorderRadius.circular(10)),
+                                          child: CachedNetworkImage(
+                                            imageUrl: single.value.data![index].image.toString(),
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                          },
-                        ),
-                              ],
-                            )
+                                ],
+                              )
                             : statusOfSingle.value.isError
-                            ? CommonErrorWidget(
-                          errorText: "",
-                          onTap: () {},
-                        )
-                            : const Center(child: SizedBox()),
+                                ? CommonErrorWidget(
+                                    errorText: "",
+                                    onTap: () {},
+                                  )
+                                : const Center(child: SizedBox()),
 
                         //////////////////////////
-                        if(check == false)
+                        if (check == false)
                           statusOfAllRecommendation.value.isSuccess
                               ? GridView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              // Number of columns
-                              crossAxisSpacing: 10.0,
-                              // Spacing between columns
-                              mainAxisSpacing: 10.0, // Spacing between rows
-                            ),
-                            itemCount: allRecommendation.value.data!.length,
-                            // Total number of items
-                            itemBuilder: (BuildContext context, int index) {
-                              // You can replace the Container with your image widget
-                              return Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: CachedNetworkImage(
-                                  imageUrl: allRecommendation
-                                      .value.data![index].image
-                                      .toString(),
-                                 fit: BoxFit.fill,
-                                ),
-                              );
-                            },
-                          )
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    // Number of columns
+                                    crossAxisSpacing: 10.0,
+                                    // Spacing between columns
+                                    mainAxisSpacing: 10.0, // Spacing between rows
+                                  ),
+                                  itemCount: allRecommendation.value.data!.length,
+                                  // Total number of items
+                                  itemBuilder: (BuildContext context, int index) {
+                                    // You can replace the Container with your image widget
+                                    return Container(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(10)),
+                                      child: CachedNetworkImage(
+                                        imageUrl: allRecommendation.value.data![index].image.toString(),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    );
+                                  },
+                                )
                               : statusOfAllRecommendation.value.isError
-                              ? CommonErrorWidget(
-                            errorText: "",
-                            onTap: () {},
-                          )
-                              : const Center(
-                              child: CircularProgressIndicator()),
+                                  ? CommonErrorWidget(
+                                      errorText: "",
+                                      onTap: () {},
+                                    )
+                                  : const Center(child: CircularProgressIndicator()),
                       ],
                     ),
                   ),
