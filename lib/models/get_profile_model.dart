@@ -195,6 +195,7 @@ class MyRequest {
   String? image;
   String? postViewersType;
   bool? wishlist;
+  String? date;
 
   MyRequest(
       {this.id,
@@ -205,7 +206,8 @@ class MyRequest {
         this.maxPrice,
         this.image,
         this.postViewersType,
-        this.wishlist});
+        this.wishlist,
+        this.date});
 
   MyRequest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -218,6 +220,7 @@ class MyRequest {
     image = json['image'];
     postViewersType = json['post_viewers_type'];
     wishlist = json['wishlist'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -233,6 +236,7 @@ class MyRequest {
     data['image'] = this.image;
     data['post_viewers_type'] = this.postViewersType;
     data['wishlist'] = this.wishlist;
+    data['date'] = this.date;
     return data;
   }
 }
@@ -247,6 +251,7 @@ class MyRecommandation {
   String? image;
   String? status;
   bool? wishlist;
+  String? date;
 
   MyRecommandation(
       {this.id,
@@ -257,7 +262,8 @@ class MyRecommandation {
         this.categoryId,
         this.image,
         this.status,
-        this.wishlist});
+        this.wishlist,
+        this.date});
 
   MyRecommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -269,6 +275,7 @@ class MyRecommandation {
     image = json['image'];
     status = json['status'];
     wishlist = json['wishlist'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -284,6 +291,7 @@ class MyRecommandation {
     data['image'] = this.image;
     data['status'] = this.status;
     data['wishlist'] = this.wishlist;
+    data['date'] = this.date;
     return data;
   }
 }

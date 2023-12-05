@@ -14,9 +14,12 @@ Future<AllUserModel> getUserRepo() async {
       Uri.parse(ApiUrls.allUsers),
       headers: await getAuthHeader(),
     );
-
+    print('Reason Phrase--${response.reasonPhrase}');
+    print('status code--${response.statusCode}');
+    print('AllUsers--${response.body}');
+    print(response.statusCode);
     if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
+      print('AllUsers Repository>>>>>>>>>>>>--${response.body.toString()}');
       return AllUserModel.fromJson(jsonDecode(response.body));
     } else {
       print(jsonDecode(response.body));
@@ -26,6 +29,34 @@ Future<AllUserModel> getUserRepo() async {
           data: null);
     }
   } catch (e) {
+    //throw Exception(e);
+    return AllUserModel(message: e.toString(), status: false, data: null);
+  }
+}
+
+
+Future<AllUserModel> getUserPaginateRepo({required pagination,required pa}) async {
+  try {
+    http.Response response = await http.get(
+      Uri.parse(ApiUrls.allUsers),
+      headers: await getAuthHeader(),
+    );
+    print('Reason Phrase--${response.reasonPhrase}');
+    print('status code--${response.statusCode}');
+    print('AllUsers--${response.body}');
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print('AllUsers Repository>>>>>>>>>>>>--${response.body.toString()}');
+      return AllUserModel.fromJson(jsonDecode(response.body));
+    } else {
+      print(jsonDecode(response.body));
+      return AllUserModel(
+          message: jsonDecode(response.body)["message"],
+          status: false,
+          data: null);
+    }
+  } catch (e) {
+    //throw Exception(e);
     return AllUserModel(message: e.toString(), status: false, data: null);
   }
 }

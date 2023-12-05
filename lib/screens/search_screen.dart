@@ -10,7 +10,6 @@ import '../../widgets/common_error_widget.dart';
 import '../controller/profile_controller.dart';
 import '../models/all_recommendation_model.dart';
 import '../models/all_user_model.dart';
-import '../models/categories_model.dart';
 import '../models/search_model.dart';
 import '../repositories/all_recommendation_repo.dart';
 import '../repositories/all_useer_repo.dart';
@@ -177,7 +176,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     SingleChildScrollView(
                       child: Obx(() {
-                        List<UserList> searchData1=[];
+                        List<Data> searchData1=[];
                         if(statusOfAllRecommendation.value.isSuccess && userList.value.data!= null){
                           String search = search2Controller.text.trim().toLowerCase();
                           if(search.isNotEmpty) {

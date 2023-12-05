@@ -8,6 +8,7 @@ import 'package:referral_app/widgets/app_assets.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
 import '../models/categories_model.dart';
 import '../models/home_page_model.dart';
@@ -26,12 +27,56 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
+  final homeController = Get.put(HomeController());
+
   Rx<RxStatus> statusOfHome = RxStatus.empty().obs;
 
   Rx<HomeModel> home = HomeModel().obs;
+  RxString type = ''.obs;
+  RxBool isDataLoading = false.obs;
+  RxBool isPaginationLoading = true.obs;
+  RxBool loadMore = true.obs;
+  RxInt page = 1.obs;
+  RxInt pagination = 10.obs;
+  RxBool isDataLoading2 = false.obs;
+
+  getData(){
+    isDataLoading2.value = false;
+    homeRepo().then((value) {
+      isDataLoading2.value = true;
+      home.value = value;
+    });
+  }
+
+ /* Future<dynamic> chooseCategories({isFirstTime = false, context}) async {
+    if(isFirstTime){
+      page.value = 1;
+    }
+    if (isPaginationLoading.value && loadMore.value){
+      isPaginationLoading.value = false;
+    }
+    getHomeRepo(page: page.value,pagination: pagination.value).then((value) {
+        home.value = value;
+         isPaginationLoading.value = true;
+
+
+      if (value.status == true) {
+        statusOfHome.value = RxStatus.success();
+        page.value++;
+        if(isFirstTime){
+          home.value.data!.addAll(value.data!);
+        }
+        loadMore.value = value.link!.next ?? false;
+      } else {
+        statusOfHome.value = RxStatus.error();
+      }
+
+      // showToast(value.message.toString());
+    });
+  }*/
 
   chooseCategories() {
-    getHomeRepo().then((value) {
+    homeRepo().then((value) {
       home.value = value;
 
       if (value.status == true) {
@@ -57,6 +102,9 @@ class _ProfileScreenState extends State<ProfileScreen>
     _tabController.addListener(_tabListener);
     profileController.getData();
     chooseCategories();
+    getData();
+    //homeController.getData();
+
     chooseCategories1();
   }
 
@@ -460,6 +508,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                     .isSuccess
                                                 ? Column(
                                                     children: [
+                                                      if(profileController
+                                                          .modal
+                                                          .value
+                                                          .data!
+                                                          .myRequest!.isEmpty)
+                                                        Text("No data found "),
                                                       ListView.builder(
                                                           shrinkWrap: true,
                                                           itemCount:
@@ -623,8 +677,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                         padding: const EdgeInsets
                                                                             .all(
                                                                             5),
-                                                                        width:
-                                                                            150,
                                                                         height:
                                                                             30,
                                                                         decoration:
@@ -715,6 +767,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                     .all(8.0),
                                                             child: Column(
                                                               children: [
+
                                                                 InkWell(
                                                                   onTap: () {
                                                                     // profileController.categoriesController.text = item.name.toString();
@@ -765,41 +818,52 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                             child:
                                                                 CircularProgressIndicator());
                                               })),
-                                          GridView.builder(
-                                            padding: EdgeInsets.zero,
-                                            shrinkWrap: true,
+                                          Column(
+                                            children: [
+                if(profileController
+                    .modal
+                    .value
+                    .data!
+                    .myRecommandation!.isEmpty)
+                Text("No data found "),
+                                              GridView.builder(
+                                                padding: EdgeInsets.zero,
+                                                shrinkWrap: true,
 
-                                            gridDelegate:
-                                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 3,
-                                              // Number of columns
-                                              crossAxisSpacing: 8.0,
-                                              // Spacing between columns
-                                              mainAxisSpacing:
-                                                  2.0, // Spacing between rows
-                                            ),
-                                            itemCount: profileController
-                                                .modal
-                                                .value
-                                                .data!
-                                                .myRecommandation!
-                                                .length,
-                                            // Total number of items
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              // You can replace the Container with your image widget
-                                              return CachedNetworkImage(
-                                                imageUrl: profileController
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 3,
+                                                  // Number of columns
+                                                  crossAxisSpacing: 8.0,
+                                                  // Spacing between columns
+                                                  mainAxisSpacing:
+                                                      2.0, // Spacing between rows
+                                                ),
+                                                itemCount: profileController
                                                     .modal
                                                     .value
                                                     .data!
-                                                    .myRecommandation![index]
-                                                    .image
-                                                    .toString(),
-                                                width: 50,
-                                                height: 50,
-                                              );
-                                            },
+                                                    .myRecommandation!
+                                                    .length,
+                                                // Total number of items
+                                                itemBuilder: (BuildContext context,
+                                                    int index) {
+
+                                                  // You can replace the Container with your image widget
+                                                  return CachedNetworkImage(
+                                                    imageUrl: profileController
+                                                        .modal
+                                                        .value
+                                                        .data!
+                                                        .myRecommandation![index]
+                                                        .image
+                                                        .toString(),
+                                                    width: 50,
+                                                    height: 50,
+                                                  );
+                                                },
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
@@ -823,6 +887,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                     .isSuccess
                                                 ? Column(
                                                     children: [
+                                                      if(profileController
+                                                          .modal
+                                                          .value
+                                                          .data!
+                                                          .saveRecommandation!.isEmpty)
+                                                        Text("No data found "),
                                                       ListView.builder(
                                                           shrinkWrap: true,
                                                           itemCount:
@@ -838,6 +908,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                               (context, index) {
                                                             return Column(
                                                               children: [
+
+                                                                profileController.modal.value.data!.saveRecommandation![index].post!=null?
                                                                 Container(
                                                                   padding:
                                                                       const EdgeInsets
@@ -872,14 +944,16 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                         children: [
                                                                           ClipOval(
                                                                             child:
+                                                                    profileController.modal.value.data!.saveRecommandation![index].post!=null?
                                                                                 CachedNetworkImage(
                                                                               width: 30,
                                                                               height: 30,
                                                                               fit: BoxFit.cover,
-                                                                              imageUrl: profileController.modal.value.data!.myRequest![index].userId!.profileImage.toString(),
+                                                                              imageUrl:
+                                                                              profileController.modal.value.data!.saveRecommandation![index].post!.image.toString(),
                                                                               placeholder: (context, url) => Image.asset(AppAssets.girl),
                                                                               errorWidget: (context, url, error) => Image.asset(AppAssets.girl),
-                                                                            ),
+                                                                            ):Image.asset(AppAssets.girl),
                                                                           ),
                                                                           const SizedBox(
                                                                             width:
@@ -891,7 +965,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                                               children: [
-                                                                                profileController.modal.value.data!.myRequest![index].userId!.name.toString() == ""
+                                                                              profileController.modal.value.data!.saveRecommandation![index].post!.review.toString() == ""
                                                                                     ? Text(
                                                                                         "Name...",
                                                                                         style: GoogleFonts.mulish(
@@ -901,52 +975,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                                             color: Colors.black),
                                                                                       )
                                                                                     : Text(
-                                                                                        profileController.modal.value.data!.myRequest![index].userId!.name.toString(),
+                                                                                profileController.modal.value.data!.saveRecommandation![index].post!.review.toString(),
                                                                                         style: GoogleFonts.mulish(
                                                                                             fontWeight: FontWeight.w700,
                                                                                             // letterSpacing: 1,
                                                                                             fontSize: 14,
                                                                                             color: Colors.black),
                                                                                       ),
-                                                                                Row(
-                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                  children: [
-                                                                                    Expanded(
-                                                                                        child: profileController.modal.value.data!.myRequest![index].userId!.address.toString() == ""
-                                                                                            ? Text(
-                                                                                                "address...",
-                                                                                                style: GoogleFonts.mulish(
-                                                                                                    fontWeight: FontWeight.w400,
-                                                                                                    // letterSpacing: 1,
-                                                                                                    fontSize: 14,
-                                                                                                    color: const Color(0xFF878D98)),
-                                                                                              )
-                                                                                            : Text(
-                                                                                                profileController.modal.value.data!.myRequest![index].userId!.address.toString(),
-                                                                                                style: GoogleFonts.mulish(
-                                                                                                    fontWeight: FontWeight.w400,
-                                                                                                    // letterSpacing: 1,
-                                                                                                    fontSize: 14,
-                                                                                                    color: const Color(0xFF878D98)),
-                                                                                              )),
-                                                                                    const SizedBox(
-                                                                                      height: 15,
-                                                                                      child: VerticalDivider(
-                                                                                        width: 8,
-                                                                                        thickness: 1,
-                                                                                        color: Colors.grey,
-                                                                                      ),
-                                                                                    ),
-                                                                                    Text(
-                                                                                      "3 Hour",
-                                                                                      style: GoogleFonts.mulish(
-                                                                                          fontWeight: FontWeight.w300,
-                                                                                          // letterSpacing: 1,
-                                                                                          fontSize: 12,
-                                                                                          color: const Color(0xFF878D98)),
-                                                                                    ),
-                                                                                  ],
-                                                                                )
+
                                                                               ],
                                                                             ),
                                                                           ),
@@ -1058,7 +1094,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                ),
+                                                                ): Text("No data found "),
                                                                 const SizedBox(
                                                                   height: 15,
                                                                 )

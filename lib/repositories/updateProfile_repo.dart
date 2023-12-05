@@ -32,7 +32,7 @@ Future<UpdateProfileModel> UpdateProfileRepo({
     if (file1.path != "")
       request.files.add(await multipartFile(fieldName1, file1));
 
-    log(request.fields.toString());
+    log('progfile Imagesssss:---'+request.fields.toString());
     log(request.files.toString());
 
     final response = await request.send();
