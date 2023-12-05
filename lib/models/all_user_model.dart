@@ -1,19 +1,23 @@
 class AllUserModel {
   bool? status;
   String? message;
-  List<UserList>? data;
+  List<Data>? data ;
+  Meta? meta;
+  Link? link;
 
-  AllUserModel({this.status, this.message, this.data});
+  AllUserModel({this.status, this.message, this.data, this.meta, this.link});
 
   AllUserModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <UserList>[];
+      data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new UserList.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
+    meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
+    link = json['link'] != null ? new Link.fromJson(json['link']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -23,83 +27,149 @@ class AllUserModel {
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
+    if (this.meta != null) {
+      data['meta'] = this.meta!.toJson();
+    }
+    if (this.link != null) {
+      data['link'] = this.link!.toJson();
+    }
     return data;
   }
 }
 
-class UserList {
+class Data {
   int? id;
   String? name;
-  String? phone;
   String? email;
-  String? address;
-  int? otp;
-  String? otpCreatedAt;
-  int? otpVerified;
+  String? phone;
+  String? walletBalance;
+  String? earnedBalance;
   String? profileImage;
-  Null? deviceId;
-  Null? deviceToken;
-  int? status;
-  int? isComplete;
-  String? createdAt;
-  String? updatedAt;
-  Null? deletedAt;
+  String? address;
+  String? referalCode;
+  bool? isDriverOnline;
+  bool? isVendorOnline;
+  Null? deliveryRange;
+  bool? selfDelivery;
+  bool? asDriverVerified;
+  bool? asVendorVerified;
+  bool? asMarketingManagerVerified;
+  bool? isProfileComplete;
+  int? followingCount;
+  int? followersCount;
+  int? postCount;
 
-  UserList(
+  Data(
       {this.id,
         this.name,
-        this.phone,
         this.email,
-        this.address,
-        this.otp,
-        this.otpCreatedAt,
-        this.otpVerified,
+        this.phone,
+        this.walletBalance,
+        this.earnedBalance,
         this.profileImage,
-        this.deviceId,
-        this.deviceToken,
-        this.status,
-        this.isComplete,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt});
+        this.address,
+        this.referalCode,
+        this.isDriverOnline,
+        this.isVendorOnline,
+        this.deliveryRange,
+        this.selfDelivery,
+        this.asDriverVerified,
+        this.asVendorVerified,
+        this.asMarketingManagerVerified,
+        this.isProfileComplete,
+        this.followingCount,
+        this.followersCount,
+        this.postCount});
 
-  UserList.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    phone = json['phone'];
     email = json['email'];
-    address = json['address'];
-    otp = json['otp'];
-    otpCreatedAt = json['otp_created_at'];
-    otpVerified = json['otp_verified'];
+    phone = json['phone'];
+    walletBalance = json['wallet_balance'];
+    earnedBalance = json['earned_balance'];
     profileImage = json['profile_image'];
-    deviceId = json['device_id'];
-    deviceToken = json['device_token'];
-    status = json['status'];
-    isComplete = json['is_complete'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
+    address = json['address'];
+    referalCode = json['referal_code'];
+    isDriverOnline = json['is_driver_online'];
+    isVendorOnline = json['is_vendor_online'];
+    deliveryRange = json['delivery_range'];
+    selfDelivery = json['self_delivery'];
+    asDriverVerified = json['as_driver_verified'];
+    asVendorVerified = json['as_vendor_verified'];
+    asMarketingManagerVerified = json['as_marketing_manager_verified'];
+    isProfileComplete = json['is_profile_complete'];
+    followingCount = json['following_count'];
+    followersCount = json['followers_count'];
+    postCount = json['post_count'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['phone'] = this.phone;
     data['email'] = this.email;
-    data['address'] = this.address;
-    data['otp'] = this.otp;
-    data['otp_created_at'] = this.otpCreatedAt;
-    data['otp_verified'] = this.otpVerified;
+    data['phone'] = this.phone;
+    data['wallet_balance'] = this.walletBalance;
+    data['earned_balance'] = this.earnedBalance;
     data['profile_image'] = this.profileImage;
-    data['device_id'] = this.deviceId;
-    data['device_token'] = this.deviceToken;
-    data['status'] = this.status;
-    data['is_complete'] = this.isComplete;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    data['address'] = this.address;
+    data['referal_code'] = this.referalCode;
+    data['is_driver_online'] = this.isDriverOnline;
+    data['is_vendor_online'] = this.isVendorOnline;
+    data['delivery_range'] = this.deliveryRange;
+    data['self_delivery'] = this.selfDelivery;
+    data['as_driver_verified'] = this.asDriverVerified;
+    data['as_vendor_verified'] = this.asVendorVerified;
+    data['as_marketing_manager_verified'] = this.asMarketingManagerVerified;
+    data['is_profile_complete'] = this.isProfileComplete;
+    data['following_count'] = this.followingCount;
+    data['followers_count'] = this.followersCount;
+    data['post_count'] = this.postCount;
+    return data;
+  }
+}
+
+class Meta {
+  int? totalPage;
+  int? currentPage;
+  int? totalItem;
+  int? perPage;
+
+  Meta({this.totalPage, this.currentPage, this.totalItem, this.perPage});
+
+  Meta.fromJson(Map<String, dynamic> json) {
+    totalPage = json['total_page'];
+    currentPage = json['current_page'];
+    totalItem = json['total_item'];
+    perPage = json['per_page'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['total_page'] = this.totalPage;
+    data['current_page'] = this.currentPage;
+    data['total_item'] = this.totalItem;
+    data['per_page'] = this.perPage;
+    return data;
+  }
+}
+
+class Link {
+  bool? next;
+  bool? prev;
+
+  Link({this.next, this.prev});
+
+  Link.fromJson(Map<String, dynamic> json) {
+    next = json['next'];
+    prev = json['prev'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['next'] = this.next;
+    data['prev'] = this.prev;
     return data;
   }
 }

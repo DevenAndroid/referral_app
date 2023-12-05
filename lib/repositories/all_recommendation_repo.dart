@@ -16,6 +16,7 @@ Future<AllRecommendationModel> getAllRepo() async {
     );
 
     if (response.statusCode == 200) {
+      print('All Recommendation Repository>>>>>>>${response.body}');
       print(jsonDecode(response.body));
       return AllRecommendationModel.fromJson(jsonDecode(response.body));
     } else {

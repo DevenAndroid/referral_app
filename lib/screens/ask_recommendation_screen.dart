@@ -73,7 +73,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
   }
 
   final int minValue = 0;
-  final int maxValue = 1000;
+  final int maxValue = 100000;
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -148,9 +148,8 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                       file1: categoryFile,
                                     ).then((value) async {
                                       if (value.status == true) {
-                                        bottomController.pageIndex.value == 0;
+                                        bottomController.updateIndexValue(0);
                                         showToast(value.message.toString());
-                                        bottomController.pageIndex.value == 0;
                                       }
                                       else {
                                         showToast(value.message.toString());

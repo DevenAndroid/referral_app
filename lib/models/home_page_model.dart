@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class HomeModel {
   bool? status;
   String? message;
