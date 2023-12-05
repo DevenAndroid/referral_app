@@ -65,6 +65,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       setState(() {
         this.image = imageTemporary;
       });
+      //print('image'+image);
     } on PlatformException catch (e) {
       print('Field to pick img : $e');
     }
@@ -481,7 +482,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               fieldName1: 'profile_image',
                               mapData: map,
                               context: context,
-                              file1: image,
+                              file1: categoryFile,
                             ).then((value) async {
                               if (value.status == true) {
                                 if(value.data!.isComplete ==true) {

@@ -16,7 +16,7 @@ class CommonErrorWidget extends StatelessWidget {
     return SizedBox(
       width: double.maxFinite,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        //mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             errorText,

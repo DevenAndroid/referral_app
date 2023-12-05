@@ -1,7 +1,7 @@
 class AllRecommendationModel {
   bool? status;
   String? message;
-  List<AllRecommendation>? data;
+  List<AllRecommendation>? data = [];
   Meta? meta;
   Link? link;
 

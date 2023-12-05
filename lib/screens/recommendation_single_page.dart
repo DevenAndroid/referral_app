@@ -25,6 +25,7 @@ class _RecommendationSingleScreenState
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var heightt= MediaQuery.of(context).size.height;
     return Scaffold(
         body: SingleChildScrollView(
             child: Padding(
@@ -53,7 +54,7 @@ class _RecommendationSingleScreenState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            title.capitalizeFirst.toString(),
+                            title.toString(),
                             style: GoogleFonts.mulish(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20,
@@ -77,7 +78,7 @@ class _RecommendationSingleScreenState
                         height: 10,
                       ),
                       Text(
-                       review.capitalizeFirst.toString(),
+                       review.toString(),
                         style: GoogleFonts.mulish(
                             fontWeight: FontWeight.w300,
                             fontSize: 12,
@@ -88,14 +89,18 @@ class _RecommendationSingleScreenState
                       ),
 
                       SizedBox(
-                        height: 15,
+                        height: 20,
                       ),
 
-                      SizedBox(
-                          height: 200,
-                          width: size.width,
-
-                          child: Image.network(image))
+                       Container(
+                         height: 400,
+                         width: size.width,
+                         child: Image.network(image,fit: BoxFit.fill,),
+                       ),
+                        // SizedBox(
+                        //     //height: heightt * .40,
+                        //     //width: size.width,
+                        //     child: Image.network(image,fit: BoxFit.cover,height: heightt * .40,width: size.width,))
                     ]))));
   }
 }
