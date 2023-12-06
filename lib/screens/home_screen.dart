@@ -827,8 +827,22 @@ class _HomeScreenState extends State<HomeScreen>
                                                             ),
                                                             Column(
                                                               children: [
-                                                                Text(
-                                                                    "Min Price"),
+                                                                homeController
+                                                                    .homeModel
+                                                                    .value
+                                                                    .data!
+                                                                    .discover![
+                                                                index]
+                                                                    .minPrice.toString().isNotEmpty ?
+                                                                const Text(
+                                                                    "Min Price") : const SizedBox(),
+                                                                homeController
+                                                                    .homeModel
+                                                                    .value
+                                                                    .data!
+                                                                    .discover![
+                                                                index]
+                                                                    .minPrice.toString().isNotEmpty ?
                                                                 Text(
                                                                   homeController
                                                                       .homeModel
@@ -838,16 +852,32 @@ class _HomeScreenState extends State<HomeScreen>
                                                                           index]
                                                                       .minPrice
                                                                       .toString(),
-                                                                ),
+                                                                ) : const SizedBox(),
                                                               ],
                                                             ),
-                                                            SizedBox(
+                                                            const SizedBox(
                                                               width: 10,
                                                             ),
                                                             Column(
                                                               children: [
-                                                                Text(
-                                                                    "Max Price"),
+                                                                homeController
+                                                                    .homeModel
+                                                                    .value
+                                                                    .data!
+                                                                    .discover![
+                                                                index]
+                                                                    .maxPrice
+                                                                    .toString().isNotEmpty ?
+                                                                const Text(
+                                                                    "Max Price") : const SizedBox(),
+                                                                homeController
+                                                                    .homeModel
+                                                                    .value
+                                                                    .data!
+                                                                    .discover![
+                                                                index]
+                                                                    .maxPrice
+                                                                    .toString().isNotEmpty ?
                                                                 Text(
                                                                   homeController
                                                                       .homeModel
@@ -857,7 +887,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                                           index]
                                                                       .maxPrice
                                                                       .toString(),
-                                                                ),
+                                                                ) : const SizedBox(),
                                                               ],
                                                             ),
                                                           ],

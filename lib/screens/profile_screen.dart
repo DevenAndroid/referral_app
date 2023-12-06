@@ -741,6 +741,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   SingleChildScrollView(
                                     physics:
                                         const AlwaysScrollableScrollPhysics(),
+                                    scrollDirection: Axis.vertical,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
@@ -887,12 +888,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                     .isSuccess
                                                 ? Column(
                                                     children: [
-                                                      if(profileController
-                                                          .modal
-                                                          .value
-                                                          .data!
-                                                          .saveRecommandation!.isEmpty)
-                                                        Text("No data found "),
                                                       ListView.builder(
                                                           shrinkWrap: true,
                                                           itemCount:
@@ -908,8 +903,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                               (context, index) {
                                                             return Column(
                                                               children: [
-
-                                                                profileController.modal.value.data!.saveRecommandation![index].post!=null?
+                                                                profileController.modal.value.data!.saveRecommandation !=null ?
                                                                 Container(
                                                                   padding:
                                                                       const EdgeInsets
@@ -959,6 +953,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                             width:
                                                                                 20,
                                                                           ),
+
                                                                           Expanded(
                                                                             child:
                                                                                 Column(
