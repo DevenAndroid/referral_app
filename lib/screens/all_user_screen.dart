@@ -117,15 +117,23 @@ print(id);
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
-                              height: 20,
+                              height: 30,
                             ),
-                            Text("My Profile",
-                                style: GoogleFonts.mulish(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 18,
-                                    color: const Color(0xFF262626))),
+                            Row(
+                              children: [
+
+                                Icon(Icons.arrow_back),
+
+                                SizedBox(width: 20,),
+                                Text("Profile",
+                                    style: GoogleFonts.mulish(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 18,
+                                        color: const Color(0xFF262626))),
+                              ],
+                            ),
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Row(
                               mainAxisAlignment:
@@ -269,35 +277,21 @@ print(id);
                             SizedBox(
                               height: 10,
                             ),
-                            Text(
-                                userProfile.value.data!.user!.name
-                                    .toString(),
-                                style: GoogleFonts.mulish(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 20,
-                                    color: const Color(0xFF262626))),
-                            const SizedBox(
-                              height: 10,
-                            ),
                             Row(
                               children: [
-                                SvgPicture.asset(AppAssets.call),
-                                SizedBox(
-                                  width: 6,
-                                ),
                                 Text(
-                                    userProfile.value.data!.user!.phone
+                                    userProfile.value.data!.user!.name
                                         .toString(),
                                     style: GoogleFonts.mulish(
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
                                         color: const Color(0xFF262626))),
                                 const Spacer(),
                                 SizedBox(
-                                    width: 70,
-                                    height: 30,
+                                    width: 100,
+                                    height: 35,
                                     child: CommonButton(
-                                      title: "Edit",
+                                      title: "Follow",
                                       onPressed: () {
                                         Get.toNamed(
                                             MyRouters.editAccount);
@@ -306,8 +300,9 @@ print(id);
                               ],
                             ),
                             const SizedBox(
-                              height: 5,
+                              height: 10,
                             ),
+
                             // Row(
                             //   children: [
                             //     SvgPicture.asset(AppAssets.location1),
@@ -348,13 +343,12 @@ print(id);
                                 isScrollable: true,
                                 labelColor: Colors.blue,
                                 labelStyle: TextStyle(color: Colors.blue),
+                                dividerColor: Colors.transparent,
                                 physics:
                                 const AlwaysScrollableScrollPhysics(),
                                 // indicatorSize: TabBarIndicatorSize.tab,
                                 indicatorColor: AppTheme.primaryColor,
-                                indicatorPadding:
-                                const EdgeInsets.symmetric(
-                                    horizontal: 12),
+
                                 // automaticIndicatorColorAdjustment: true,
                                 onTap: (value) {
                                   currentDrawer = value;
@@ -363,7 +357,7 @@ print(id);
                                 },
                                 tabs: [
                                   Tab(
-                                    child: Text("My Requests",
+                                    child: Text("Requests",
                                         style: currentDrawer == 0
                                             ? GoogleFonts.mulish(
                                             fontWeight:
@@ -380,7 +374,7 @@ print(id);
                                             color: Colors.black)),
                                   ),
                                   Tab(
-                                    child: Text("My recommendations",
+                                    child: Text("Recommendations",
                                         style: currentDrawer == 1
                                             ? GoogleFonts.mulish(
                                             fontWeight:
@@ -396,23 +390,23 @@ print(id);
                                             fontSize: 15,
                                             color: Colors.black)),
                                   ),
-                                  Tab(
-                                    child: Text("Saved recommendations",
-                                        style: currentDrawer == 2
-                                            ? GoogleFonts.mulish(
-                                            fontWeight:
-                                            FontWeight.w600,
-                                            letterSpacing: 1,
-                                            fontSize: 15,
-                                            color: const Color(
-                                                0xFF3797EF))
-                                            : GoogleFonts.mulish(
-                                            fontWeight:
-                                            FontWeight.w600,
-                                            letterSpacing: 1,
-                                            fontSize: 15,
-                                            color: Colors.black)),
-                                  ),
+                                  // Tab(
+                                  //   child: Text("Saved recommendations",
+                                  //       style: currentDrawer == 2
+                                  //           ? GoogleFonts.mulish(
+                                  //           fontWeight:
+                                  //           FontWeight.w600,
+                                  //           letterSpacing: 1,
+                                  //           fontSize: 15,
+                                  //           color: const Color(
+                                  //               0xFF3797EF))
+                                  //           : GoogleFonts.mulish(
+                                  //           fontWeight:
+                                  //           FontWeight.w600,
+                                  //           letterSpacing: 1,
+                                  //           fontSize: 15,
+                                  //           color: Colors.black)),
+                                  // ),
                                 ],
                               ),
                             ]),

@@ -230,27 +230,37 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           ),
                                         ),
                                       ),
-                                      Column(
-                                        children: [
-                                          Text(
-                                              profileController.modal.value
-                                                  .data!.user!.postCount
-                                                  .toString(),
-                                              style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 18,
-                                                  color:
-                                                      const Color(0xFF000000))),
-                                          const SizedBox(
-                                            height: 7,
-                                          ),
-                                          Text("Posts",
-                                              style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w300,
-                                                  fontSize: 16,
-                                                  color:
-                                                      const Color(0xFF262626))),
-                                        ],
+                                      InkWell(
+                                        onTap: (){
+
+                                          Get.toNamed(MyRouters.profilePostScreen,arguments: [
+                                            profileController.modal.value
+                                                .data!.user!.postCount
+                                                .toString(),
+                                          ]);
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                                profileController.modal.value
+                                                    .data!.user!.postCount
+                                                    .toString(),
+                                                style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 18,
+                                                    color:
+                                                        const Color(0xFF000000))),
+                                            const SizedBox(
+                                              height: 7,
+                                            ),
+                                            Text("Posts",
+                                                style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w300,
+                                                    fontSize: 16,
+                                                    color:
+                                                        const Color(0xFF262626))),
+                                          ],
+                                        ),
                                       ),
                                       InkWell(
                                         onTap: () {
@@ -355,10 +365,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                                               color: const Color(0xFF262626))),
                                       const Spacer(),
                                       SizedBox(
-                                          width: 70,
-                                          height: 30,
+                                          width: 130,
+                                          height: 40,
                                           child: CommonButton(
-                                            title: "Edit",
+                                            title: "Logout",
                                             onPressed: () {
                                               Get.toNamed(
                                                   MyRouters.editAccount);
@@ -406,6 +416,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                     TabBar(
                                       controller: _tabController,
                                       padding: EdgeInsets.zero,
+
                                       isScrollable: true,
                                       labelColor: Colors.blue,
                                       labelStyle: TextStyle(color: Colors.blue),
@@ -413,9 +424,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           const AlwaysScrollableScrollPhysics(),
                                       // indicatorSize: TabBarIndicatorSize.tab,
                                       indicatorColor: AppTheme.primaryColor,
-                                      indicatorPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 12),
+
                                       // automaticIndicatorColorAdjustment: true,
                                       onTap: (value) {
                                         currentDrawer = value;
@@ -424,6 +433,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       },
                                       tabs: [
                                         Tab(
+
                                           child: Text("My Requests",
                                               style: currentDrawer == 0
                                                   ? GoogleFonts.mulish(
