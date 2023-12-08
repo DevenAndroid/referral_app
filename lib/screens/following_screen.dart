@@ -28,8 +28,8 @@ class FollowingScreen extends StatefulWidget {
 class _FollowingScreenState extends State<FollowingScreen> {
   Rx<RxStatus> statusOfFollower = RxStatus.empty().obs;
   Rx<FollowerListModel> followerList = FollowerListModel().obs;
-  var followers = Get.arguments[0];
-  var following = Get.arguments[1];
+  String followers = '';
+  String following = '';
 
   listFollower() {
     getFollowersRepo().then((value) {
@@ -72,6 +72,8 @@ class _FollowingScreenState extends State<FollowingScreen> {
     profileController.getData();
     listFollowing();
     listFollower();
+    followers = Get.arguments[0];
+    following = Get.arguments[1];
   }
 
   final profileController = Get.put(ProfileController());

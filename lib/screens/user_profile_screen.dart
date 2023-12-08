@@ -891,7 +891,7 @@ var id = Get.arguments[0];
                                                                   width: 30,
                                                                   height: 30,
                                                                   fit: BoxFit.cover,
-                                                                  imageUrl: userProfile.value.data!.myRequest![index].userId!.profileImage.toString(),
+                                                                  imageUrl: userProfile.value.data!.saveRecommandation![index].post.toString(),
                                                                   placeholder: (context, url) => Image.asset(AppAssets.girl),
                                                                   errorWidget: (context, url, error) => Image.asset(AppAssets.girl),
                                                                 ),
@@ -999,7 +999,7 @@ var id = Get.arguments[0];
                                                                             size: 20,
                                                                           ),
                                                                           Text(
-                                                                            " Views " + userProfile.value.data!.saveRecommandation![index].post!.review.toString(),
+                                                                            " Views ${userProfile.value.data!.saveRecommandation![index].post!.review}",
                                                                             style: GoogleFonts.mulish(
                                                                                 fontWeight: FontWeight.w500,
                                                                                 // letterSpacing: 1,

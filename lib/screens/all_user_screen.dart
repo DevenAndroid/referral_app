@@ -332,23 +332,84 @@ print(id);
                                       child:  userProfile
                                           .value
                                           .data!
-                                          .user!.followersCount == true
+                                          .user!.isFollow == true
                                           ?  SizedBox(
-                                          width: 100,
-                                          height: 35,
-                                          child: CommonButton(
-                                            title: "Follow",
-                                            onPressed: () {
-                                            },
-                                          ))
-                                          :   SizedBox(
-                                          width: 100,
+                                          width: 120,
                                           height: 35,
                                           child: CommonButton(
                                             title: "Following",
                                             onPressed: () {
 
+                                              addRemoveRepo(
+                                                context: context,
+                                                following_id:  userProfile
+                                                    .value
+                                                    .data!
+                                                    .user!
+                                                    .id
+                                                    .toString(),
+                                              ).then((value) async {
+                                                // userProfile.value = value;
+                                                if (value.status == true) {
 
+                                                  print('wishlist-----');
+                                                  statusOfRemove.value = RxStatus.success();
+                                                  //homeController.getPaginate();
+
+                                                  // like=true;
+                                                  showToast(value.message.toString());
+                                                } else {
+                                                  statusOfRemove.value = RxStatus.error();
+                                                  // like=false;
+                                                  showToast(value.message.toString());
+                                                }
+                                              });
+                                              setState(() {
+                                                userProfile
+                                                    .value
+                                                    .data!
+                                                    .user!.isFollow =false;
+                                              });
+                                            },
+                                          ))
+                                          :   SizedBox(
+                                          width: 120,
+                                          height: 35,
+                                          child: CommonButton(
+                                            title: "Follow",
+                                            onPressed: () {
+
+                                              addRemoveRepo(
+                                                context: context,
+                                                following_id:  userProfile
+                                                    .value
+                                                    .data!
+                                                    .user!
+                                                    .id
+                                                    .toString(),
+                                              ).then((value) async {
+                                                // userProfile.value = value;
+                                                if (value.status == true) {
+                                                  print('wishlist-----');
+                                                  statusOfRemove.value = RxStatus.success();
+                                                  //homeController.getPaginate();
+
+                                                  // like=true;
+                                                  showToast(value.message.toString());
+                                                } else {
+                                                  statusOfRemove.value = RxStatus.error();
+                                                  // like=false;
+                                                  showToast(value.message.toString());
+                                                }
+                                              });
+
+
+                                              setState(() {
+                                                userProfile
+                                                    .value
+                                                    .data!
+                                                    .user!.isFollow = true ;
+                                              });
 
                                             },
                                           ))
