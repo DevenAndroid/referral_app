@@ -573,7 +573,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                             ),
                                                                           ),
                                                                           const SizedBox(
-                                                                            width:
+                                                                             width:
                                                                                 20,
                                                                           ),
                                                                           Expanded(
@@ -887,12 +887,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                     .isSuccess
                                                 ? Column(
                                                     children: [
-                                                      if(profileController
-                                                          .modal
-                                                          .value
-                                                          .data!
-                                                          .saveRecommandation!.isEmpty)
-                                                        Text("No data found "),
+                                                      profileController.modal.value.data!.saveRecommandation![0].post!=null?
                                                       ListView.builder(
                                                           shrinkWrap: true,
                                                           itemCount:
@@ -909,7 +904,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                             return Column(
                                                               children: [
 
-                                                                profileController.modal.value.data!.saveRecommandation![index].post!=null?
+
                                                                 Container(
                                                                   padding:
                                                                       const EdgeInsets
@@ -1094,13 +1089,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                ): Text("No data found "),
+                                                                ),
                                                                 const SizedBox(
                                                                   height: 15,
                                                                 )
                                                               ],
                                                             );
-                                                          }),
+                                                          }) : Center(child: Text('No data Found')),
                                                       const SizedBox(
                                                         height: 350,
                                                       )

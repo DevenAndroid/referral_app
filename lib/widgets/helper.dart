@@ -25,6 +25,21 @@ class Helper {
     }
   }
 
+  Future<File?> addImagePicker1({ImageSource imageSource = ImageSource.gallery,
+    int imageQuality = 50}) async {
+    try {
+      final item = await ImagePicker()
+          .pickImage(source: imageSource, imageQuality: imageQuality);
+      if (item == null) {
+        return null;
+      } else {
+        return File(item.path);
+      }
+    } on PlatformException catch (e) {
+      throw Exception(e);
+    }
+  }
+
   static OverlayEntry overlayLoader(context) {
     OverlayEntry loader = OverlayEntry(builder: (context) {
       final size = MediaQuery.of(context).size;

@@ -95,7 +95,10 @@ class _RecommendationSingleScreenState
                        Container(
                          height: 400,
                          width: size.width,
-                         child: Image.network(image,fit: BoxFit.fill,),
+                         decoration: BoxDecoration(
+                           image: DecorationImage(image: NetworkImage(image),)
+                         ),
+                         // child: Image.network(image,fit: BoxFit.fill,),
                        ),
                         // SizedBox(
                         //     //height: heightt * .40,

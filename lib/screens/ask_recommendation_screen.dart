@@ -243,7 +243,11 @@ const SizedBox(height: 20,),
 
                       InkWell(
                         onTap: () {
-                          _showActionSheet(context);
+                         Helper.addImagePicker(imageSource: ImageSource.gallery).then((value) {
+                            if (value == null) return;
+                            categoryFile = value;
+                          });
+                          //_showActionSheet(context);
                         },
                         child: categoryFile.path != ""
                             ? Container(
@@ -277,6 +281,7 @@ const SizedBox(height: 20,),
                                       const SizedBox())),
                         )
                             : Container(
+
                           decoration: BoxDecoration(border: Border.all(color: Colors.black12),color: Colors.white),
                           padding:
                           const EdgeInsets.only(
@@ -501,7 +506,7 @@ const SizedBox(height: 20,),
               Helper.addImagePicker(
                   imageSource: ImageSource.camera, imageQuality: 75)
                   .then((value) async {
-                CroppedFile? croppedFile = await ImageCropper().cropImage(
+            /*    CroppedFile? croppedFile = await ImageCropper().cropImage(
                   sourcePath: value.path,
                   aspectRatioPresets: [
                     CropAspectRatioPreset.square,
@@ -524,11 +529,11 @@ const SizedBox(height: 20,),
                       context: context,
                     ),
                   ],
-                );
-                if (croppedFile != null) {
+                );*/
+             /*   if (croppedFile != null) {
                   categoryFile = File(croppedFile.path);
                   setState(() {});
-                }
+                }*/
 
                 Get.back();
               });
@@ -537,13 +542,17 @@ const SizedBox(height: 20,),
           ),
           CupertinoActionSheetAction(
             onPressed: () {
-              Helper.addImagePicker(
+              Helper.addImagePicker(imageSource: ImageSource.gallery).then((value) {
+                if (value == null) return;
+                categoryFile = value;
+              });
+            /*  Helper.addImagePicker(
                   imageSource: ImageSource.gallery, imageQuality: 75)
                   .then((value) async {
                 CroppedFile? croppedFile = await ImageCropper().cropImage(
                   sourcePath: value.path,
                   aspectRatioPresets: [
-                    CropAspectRatioPreset.square,
+                   // CropAspectRatioPreset.square,
                     CropAspectRatioPreset.ratio3x2,
                     CropAspectRatioPreset.original,
                     CropAspectRatioPreset.ratio4x3,
@@ -570,7 +579,7 @@ const SizedBox(height: 20,),
                 }
 
                 Get.back();
-              });
+              });*/
             },
             child: const Text('Gallery'),
           ),
