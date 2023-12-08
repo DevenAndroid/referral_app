@@ -73,14 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 90,
                         ),
                         Center(
-                          child: Text(
-                            "Social Network",
-                            style: GoogleFonts.monomaniacOne(
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 3,
-                                fontSize: 40,
-                                color: Colors.white),
-                          ),
+                        child: Image(image: AssetImage('assets/icons/oginsignuplogo.png'),height: size.height*.08,)
                         )
                       ],
                     ),

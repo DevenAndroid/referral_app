@@ -9,12 +9,15 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controller/profile_controller.dart';
+import '../models/add_remove_recommendation.dart';
 import '../models/categories_model.dart';
 import '../models/home_page_model.dart';
 import '../models/model_user_profile.dart';
+import '../repositories/add_remove_follow_repo.dart';
 import '../repositories/categories_repo.dart';
 import '../repositories/get_user_profile.dart';
 import '../repositories/home_pafe_repo.dart';
+import '../resourses/api_constant.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
 import '../widgets/custome_textfiled.dart';
@@ -31,6 +34,9 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen>
   Rx<RxStatus> statusOfUser = RxStatus.empty().obs;
 
   Rx<ModelUserProfile> userProfile = ModelUserProfile().obs;
+  Rx<ModelAddRemoveFollow> modalRemove = ModelAddRemoveFollow().obs;
+
+  Rx<RxStatus> statusOfRemove = RxStatus.empty().obs;
   var id = Get.arguments[0];
   UserProfile() {
     userProfileRepo(recommandation_id: id,type: "user").then((value) {
@@ -117,15 +123,27 @@ print(id);
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
-                              height: 20,
+                              height: 30,
                             ),
-                            Text("My Profile",
-                                style: GoogleFonts.mulish(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 18,
-                                    color: const Color(0xFF262626))),
+                            Row(
+                              children: [
+
+                                InkWell(
+                                    onTap:(){
+                                      Get.back();
+                      },
+                                    child: Icon(Icons.arrow_back)),
+
+                                SizedBox(width: 20,),
+                                Text("Profile",
+                                    style: GoogleFonts.mulish(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 18,
+                                        color: const Color(0xFF262626))),
+                              ],
+                            ),
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Row(
                               mainAxisAlignment:
@@ -269,45 +287,81 @@ print(id);
                             SizedBox(
                               height: 10,
                             ),
-                            Text(
-                                userProfile.value.data!.user!.name
-                                    .toString(),
-                                style: GoogleFonts.mulish(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 20,
-                                    color: const Color(0xFF262626))),
-                            const SizedBox(
-                              height: 10,
-                            ),
                             Row(
                               children: [
-                                SvgPicture.asset(AppAssets.call),
-                                SizedBox(
-                                  width: 6,
-                                ),
                                 Text(
-                                    userProfile.value.data!.user!.phone
+                                    userProfile.value.data!.user!.name
                                         .toString(),
                                     style: GoogleFonts.mulish(
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
                                         color: const Color(0xFF262626))),
                                 const Spacer(),
-                                SizedBox(
-                                    width: 70,
-                                    height: 30,
-                                    child: CommonButton(
-                                      title: "Edit",
-                                      onPressed: () {
-                                        Get.toNamed(
-                                            MyRouters.editAccount);
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Obx(() {
+                                    return InkWell(
+                                      onTap: () {
+                                        // home.value.data!.discover![index].wishlist.toString();
+
+                                        addRemoveRepo(
+                                          context: context,
+                                          following_id:  userProfile
+                                              .value
+                                              .data!
+                                              .user!
+                                              .id
+                                              .toString(),
+                                        ).then((value) async {
+                                          // userProfile.value = value;
+                                          if (value.status == true) {
+                                            print('wishlist-----');
+                                            statusOfRemove.value = RxStatus.success();
+                                            //homeController.getPaginate();
+
+                                            // like=true;
+                                            showToast(value.message.toString());
+                                          } else {
+                                            statusOfRemove.value = RxStatus.error();
+                                            // like=false;
+                                            showToast(value.message.toString());
+                                          }
+                                        });
+                                        setState(() {});
                                       },
-                                    ))
+                                      child:  userProfile
+                                          .value
+                                          .data!
+                                          .user!.followersCount == true
+                                          ?  SizedBox(
+                                          width: 100,
+                                          height: 35,
+                                          child: CommonButton(
+                                            title: "Follow",
+                                            onPressed: () {
+                                            },
+                                          ))
+                                          :   SizedBox(
+                                          width: 100,
+                                          height: 35,
+                                          child: CommonButton(
+                                            title: "Following",
+                                            onPressed: () {
+
+
+
+                                            },
+                                          ))
+                                    );
+                                  }),
+                                )
+
                               ],
                             ),
                             const SizedBox(
-                              height: 5,
+                              height: 10,
                             ),
+
                             // Row(
                             //   children: [
                             //     SvgPicture.asset(AppAssets.location1),
@@ -348,13 +402,12 @@ print(id);
                                 isScrollable: true,
                                 labelColor: Colors.blue,
                                 labelStyle: TextStyle(color: Colors.blue),
+                                dividerColor: Colors.transparent,
                                 physics:
                                 const AlwaysScrollableScrollPhysics(),
                                 // indicatorSize: TabBarIndicatorSize.tab,
                                 indicatorColor: AppTheme.primaryColor,
-                                indicatorPadding:
-                                const EdgeInsets.symmetric(
-                                    horizontal: 12),
+
                                 // automaticIndicatorColorAdjustment: true,
                                 onTap: (value) {
                                   currentDrawer = value;
@@ -363,7 +416,7 @@ print(id);
                                 },
                                 tabs: [
                                   Tab(
-                                    child: Text("My Requests",
+                                    child: Text("Requests",
                                         style: currentDrawer == 0
                                             ? GoogleFonts.mulish(
                                             fontWeight:
@@ -380,7 +433,7 @@ print(id);
                                             color: Colors.black)),
                                   ),
                                   Tab(
-                                    child: Text("My recommendations",
+                                    child: Text("Recommendations",
                                         style: currentDrawer == 1
                                             ? GoogleFonts.mulish(
                                             fontWeight:
@@ -396,23 +449,23 @@ print(id);
                                             fontSize: 15,
                                             color: Colors.black)),
                                   ),
-                                  Tab(
-                                    child: Text("Saved recommendations",
-                                        style: currentDrawer == 2
-                                            ? GoogleFonts.mulish(
-                                            fontWeight:
-                                            FontWeight.w600,
-                                            letterSpacing: 1,
-                                            fontSize: 15,
-                                            color: const Color(
-                                                0xFF3797EF))
-                                            : GoogleFonts.mulish(
-                                            fontWeight:
-                                            FontWeight.w600,
-                                            letterSpacing: 1,
-                                            fontSize: 15,
-                                            color: Colors.black)),
-                                  ),
+                                  // Tab(
+                                  //   child: Text("Saved recommendations",
+                                  //       style: currentDrawer == 2
+                                  //           ? GoogleFonts.mulish(
+                                  //           fontWeight:
+                                  //           FontWeight.w600,
+                                  //           letterSpacing: 1,
+                                  //           fontSize: 15,
+                                  //           color: const Color(
+                                  //               0xFF3797EF))
+                                  //           : GoogleFonts.mulish(
+                                  //           fontWeight:
+                                  //           FontWeight.w600,
+                                  //           letterSpacing: 1,
+                                  //           fontSize: 15,
+                                  //           color: Colors.black)),
+                                  // ),
                                 ],
                               ),
                             ]),

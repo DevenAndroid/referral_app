@@ -22,6 +22,7 @@ class _RecommendationSingleScreenState
   var title = Get.arguments[1];
   var review = Get.arguments[2];
   var id = Get.arguments[3];
+  var link = Get.arguments[4];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -80,14 +81,20 @@ class _RecommendationSingleScreenState
                       Text(
                        review.toString(),
                         style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.w300,
+                            fontWeight: FontWeight.w400,
                             fontSize: 12,
                             color: Color(0xFF162224)),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-
+                      Text(
+                        link.toString(),
+                        style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            color: Color(0xFF3797EF)),
+                      ),
                       SizedBox(
                         height: 20,
                       ),

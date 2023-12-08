@@ -77,213 +77,218 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(14.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 25,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Add Your Recommendation",
-                    style: GoogleFonts.mulish(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                        color: Color(0xFF3797EF)),
-                  ),
-                  GestureDetector(
-                      onTap: (){
-                        Get.back();
-                      },
-                      child: Icon(Icons.clear))
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                "Recommendation",
-                style: GoogleFonts.mulish(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                    color: AppTheme.onboardingColor),
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              CommonTextfield(
-                  controller: recommendationController,
-                  obSecure: false,
-                  hintText: "best color for furniture"),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                "Review",
-                style: GoogleFonts.mulish(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                    color: AppTheme.onboardingColor),
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              CommonTextfield(
-                  isMulti: true,
-                  controller: reviewController,
-                  obSecure: false,
-                  hintText:
-                      "Lorem Ipsum is simply dummy text of the printing and "),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                "Product Online link",
-                style: GoogleFonts.mulish(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                    color: AppTheme.onboardingColor),
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              CommonTextfield(
+    return GestureDetector(
+      onTap: (){
+        FocusManager.instance.primaryFocus!.unfocus();
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 25,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Add Your Recommendation",
+                      style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                          color: Color(0xFF3797EF)),
+                    ),
+                    GestureDetector(
+                        onTap: (){
+                          Get.back();
+                        },
+                        child: Icon(Icons.clear))
+                  ],
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  "Recommendation",
+                  style: GoogleFonts.mulish(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                      color: AppTheme.onboardingColor),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                CommonTextfield(
+                    controller: recommendationController,
+                    obSecure: false,
+                    hintText: "best color for furniture"),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Review",
+                  style: GoogleFonts.mulish(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                      color: AppTheme.onboardingColor),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                CommonTextfield(
+                    isMulti: true,
+                    controller: reviewController,
+                    obSecure: false,
+                    hintText:
+                        "Lorem Ipsum is simply dummy text of the printing and "),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Product Online link",
+                  style: GoogleFonts.mulish(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                      color: AppTheme.onboardingColor),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                CommonTextfield(
 
-                  controller: linkController,
-                  obSecure: false,
-                  hintText: "Link"),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                "Category",
-                style: GoogleFonts.mulish(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                    color: AppTheme.onboardingColor),
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              CommonTextfield(
+                    controller: linkController,
+                    obSecure: false,
+                    hintText: "Link"),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Category",
+                  style: GoogleFonts.mulish(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                      color: AppTheme.onboardingColor),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                CommonTextfield(
+                    onTap: () {
+
+                    Get.toNamed(MyRouters.categoriesScreen);
+                    },
+                    controller: profileController.categoriesController,
+                    obSecure: false,
+                    hintText: "Furniture"),
+                SizedBox(
+                  height: 15,
+                ),
+
+                       InkWell(
                   onTap: () {
-
-                  Get.toNamed(MyRouters.categoriesScreen);
+                    _showActionSheet(context);
                   },
-                  controller: profileController.categoriesController,
-                  obSecure: false,
-                  hintText: "Furniture"),
-              SizedBox(
-                height: 15,
-              ),
+                  child: categoryFile.path != ""
+                      ? Container(
+                    padding: EdgeInsets.all(10),
+                    decoration:
+                    BoxDecoration(
+                      borderRadius:
+                      BorderRadius
+                          .circular(10),
+                      border: Border.all(color: Colors.black12),
+                      color: Colors.white,
 
-                     InkWell(
-                onTap: () {
-                  _showActionSheet(context);
-                },
-                child: categoryFile.path != ""
-                    ? Container(
-                  padding: EdgeInsets.all(10),
-                  decoration:
-                  BoxDecoration(
-                    borderRadius:
-                    BorderRadius
-                        .circular(10),
-                    border: Border.all(color: Colors.black12),
-                    color: Colors.white,
-
-                  ),
-                  margin: const EdgeInsets
-                      .symmetric(
-                      vertical: 10,
-                      horizontal: 10),
-                  width: double.maxFinite,
-                  height: 180,
-                  alignment:
-                  Alignment.center,
-                  child: Image.file(
-                      categoryFile,
-                      errorBuilder: (_, __, ___) =>
-                          Image.network(
-                              categoryFile
-                                  .path,
-                              errorBuilder: (_,
-                                  __,
-                                  ___) =>
-                              const SizedBox())),
-                )
-                    : Container(
-                  decoration: BoxDecoration(border: Border.all(color: Colors.black12),color: Colors.white),
-                  padding:
-                  const EdgeInsets.only(
-                      top: 8),
+                    ),
+                    margin: const EdgeInsets
+                        .symmetric(
+                        vertical: 10,
+                        horizontal: 10),
+                    width: double.maxFinite,
+                    height: 180,
+                    alignment:
+                    Alignment.center,
+                    child: Image.file(
+                        categoryFile,
+                        errorBuilder: (_, __, ___) =>
+                            Image.network(
+                                categoryFile
+                                    .path,
+                                errorBuilder: (_,
+                                    __,
+                                    ___) =>
+                                const SizedBox())),
+                  )
+                      : Container(
+                    decoration: BoxDecoration(border: Border.all(color: Colors.black12),color: Colors.white),
+                    padding:
+                    const EdgeInsets.only(
+                        top: 8),
 
 
-                  width: double.maxFinite,
-                  height: 130,
+                    width: double.maxFinite,
+                    height: 130,
 
-                  child: Column(
-                    mainAxisAlignment:
-                    MainAxisAlignment
-                        .center,
-                    children: [
-                      Image.asset(
-                        AppAssets.camera,
-                        height: 60,
-                        width: 50,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                    child: Column(
+                      mainAxisAlignment:
+                      MainAxisAlignment
+                          .center,
+                      children: [
+                        Image.asset(
+                          AppAssets.camera,
+                          height: 60,
+                          width: 50,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
 
-                      const SizedBox(
-                        height: 11,
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 11,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
 
-              SizedBox(
-                height: 22,
-              ),
-              CommonButton(
-                title: "Next",
-                onPressed: () {
-                  // getImageUrlFromAmazon("https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014C5S7S/?_encoding=UTF8&pd_rd_w=Xibxh&content-id=amzn1.sym.64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_p=64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_r=1DD2JN3VYV13DGZPWR52&pd_rd_wg=wjvuL&pd_rd_r=baf78e1f-9861-4b19-8c00-b95400991097&ref_=pd_gw_crs_zg_bs_7141123011");
-              Map map = <String, String>{};
-              map['title'] = recommendationController.text.trim();
-              map['review'] = reviewController.text.trim();
-              map['link'] = linkController.text.trim();
-              map['status'] = "publish";
-              map['category_id'] =
-                  profileController.idController.text.trim();
+                SizedBox(
+                  height: 22,
+                ),
+                CommonButton(
+                  title: "Next",
+                  onPressed: () {
+                    // getImageUrlFromAmazon("https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014C5S7S/?_encoding=UTF8&pd_rd_w=Xibxh&content-id=amzn1.sym.64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_p=64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_r=1DD2JN3VYV13DGZPWR52&pd_rd_wg=wjvuL&pd_rd_r=baf78e1f-9861-4b19-8c00-b95400991097&ref_=pd_gw_crs_zg_bs_7141123011");
+                Map map = <String, String>{};
+                map['title'] = recommendationController.text.trim();
+                map['review'] = reviewController.text.trim();
+                map['link'] = linkController.text.trim();
+                map['status'] = "publish";
+                map['category_id'] =
+                    profileController.idController.text.trim();
 
-              addRecommendationRepo(
-                fieldName1: 'image',
-                mapData: map,
-                context: context,
-                file1: categoryFile,
-              ).then((value) async {
-                if (value.status == true) {
-                  Get.back();
-                  // Get.toNamed(MyRouters.followingScreen);
-                  showToast(value.message.toString());
-                } else {
-                  showToast(value.message.toString());
+                addRecommendationRepo(
+                  fieldName1: 'image',
+                  mapData: map,
+                  context: context,
+                  file1: categoryFile,
+                ).then((value) async {
+                  if (value.status == true) {
+                    Get.back();
+                    // Get.toNamed(MyRouters.followingScreen);
+                    showToast(value.message.toString());
+                  } else {
+                    showToast(value.message.toString());
+                  }
                 }
-              }
-              );
-                },
-              )
-            ],
+                );
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),

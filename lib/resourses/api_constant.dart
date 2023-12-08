@@ -29,6 +29,8 @@ class ApiUrls {
   static const String userData = "${apiBaseUrl}single-user?recommandation_id=";
   static const String addRemoveBookmark = "${apiBaseUrl}add-remove-bookmark";
   static const String allUsers = "${apiBaseUrl}all-users";
+  static const String reviewList = "${apiBaseUrl}review-list?recommandation_id=";
+  static const String addRemoveFollower = "${apiBaseUrl}add-remove-follower";
 
 }
 

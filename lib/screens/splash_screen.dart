@@ -48,14 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Text(
-              "Social Network",
-              style: GoogleFonts.monomaniacOne(
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 3,
-                  fontSize: 40,
-                  color: const Color(0xFF262626)),
-            ),
+            child: Image(image: AssetImage('assets/icons/splash.png'),)
           )
         ],
       ),
