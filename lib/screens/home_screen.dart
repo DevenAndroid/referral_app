@@ -449,7 +449,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                     setState(() {});
                                                                   },
                                                                   child: homeController.homeModel.value.data!
-                                                                              .discover![index].wishlist == true
+                                                                              .discover![index].wishlist ==
+                                                                          true
                                                                       ? SvgPicture.asset(
                                                                           AppAssets.bookmark1,
                                                                           height: 20,
@@ -581,8 +582,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                     ),
                                                                                     ListView.builder(
                                                                                       physics:
-                                                                                          AlwaysScrollableScrollPhysics(),
-                                                                                      itemCount: 4,
+                                                                                          const AlwaysScrollableScrollPhysics(),
+                                                                                      itemCount: 7,
                                                                                       shrinkWrap: true,
                                                                                       itemBuilder: (context, index) {
                                                                                         return Padding(
@@ -613,14 +614,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                             topRight: Radius
                                                                                                                 .circular(
                                                                                                                     10),
-                                                                                                            bottomLeft:
-                                                                                                                Radius
-                                                                                                                    .circular(
-                                                                                                                        10),
-                                                                                                            bottomRight:
-                                                                                                                Radius
-                                                                                                                    .circular(
-                                                                                                                        10)),
+                                                                                                          topLeft: Radius.circular(10),
+
+
+                                                                                                        ),
                                                                                                     color:
                                                                                                         Color(0xffF0F0F0)),
                                                                                                 child: Column(
@@ -663,71 +660,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                           width: 50,
                                                                                                         ),
                                                                                                         InkWell(
-                                                                                                          onTap: () {
-                                                                                                            // home.value.data!.discover![index].wishlist.toString();
-
-                                                                                                            getReviewListRepo(
-                                                                                                              context:
-                                                                                                                  context,
-                                                                                                              id: modelReviewList
-                                                                                                                  .value
-                                                                                                                  .data![
-                                                                                                                      index]
-                                                                                                                  .id
-                                                                                                                  .toString(),
-                                                                                                            ).then(
-                                                                                                                (value) async {
-                                                                                                              modelReviewList
-                                                                                                                      .value =
-                                                                                                                  value;
-                                                                                                              if (value
-                                                                                                                      .status ==
-                                                                                                                  true) {
-                                                                                                                print(
-                                                                                                                    'wishlist-----');
-
-                                                                                                                statusOfReviewList.value = RxStatus.success();
-                                                                                                                //homeController.getPaginate();
-
-                                                                                                                // like=true;
-                                                                                                                showToast(value
-                                                                                                                    .message
-                                                                                                                    .toString());
-                                                                                                              } else {
-                                                                                                                statusOfReviewList
-                                                                                                                        .value =
-                                                                                                                    RxStatus
-                                                                                                                        .error();
-                                                                                                                // like=false;
-                                                                                                                showToast(value
-                                                                                                                    .message
-                                                                                                                    .toString());
-                                                                                                              }
-                                                                                                            });
-                                                                                                            setState(() {});
-                                                                                                          },
-                                                                                                          child: modelReviewList
-                                                                                                                      .value
-                                                                                                                      .data![
-                                                                                                                          index]
-                                                                                                                      .favourite ==
-                                                                                                                  true
-                                                                                                              ? SvgPicture
-                                                                                                                  .asset(
-                                                                                                                  AppAssets
-                                                                                                                      .bookmark1,
-                                                                                                                  height: 20,
-                                                                                                                )
-                                                                                                              : SvgPicture.asset(
-                                                                                                                  AppAssets
-                                                                                                                      .bookmark),
-                                                                                                        )
-                                                                                                        // Icon(
-                                                                                                        //   Icons
-                                                                                                        //       .favorite_outline,
-                                                                                                        //   color: Color(
-                                                                                                        //       0xff134563),
-                                                                                                        // )
+                                                                                                            onTap: () {
+                                                                                                              // home.value.data!.discover![index].wishlist.toString();
+                                                                                                            },
+                                                                                                            child: Icon(
+                                                                                                              Icons
+                                                                                                                  .favorite_outline,
+                                                                                                              color: Color(
+                                                                                                                  0xff134563),
+                                                                                                            ))
                                                                                                       ],
                                                                                                     ),
                                                                                                     SizedBox(

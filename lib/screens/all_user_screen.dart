@@ -9,12 +9,15 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controller/profile_controller.dart';
+import '../models/add_remove_recommendation.dart';
 import '../models/categories_model.dart';
 import '../models/home_page_model.dart';
 import '../models/model_user_profile.dart';
+import '../repositories/add_remove_follow_repo.dart';
 import '../repositories/categories_repo.dart';
 import '../repositories/get_user_profile.dart';
 import '../repositories/home_pafe_repo.dart';
+import '../resourses/api_constant.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
 import '../widgets/custome_textfiled.dart';
@@ -31,6 +34,9 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen>
   Rx<RxStatus> statusOfUser = RxStatus.empty().obs;
 
   Rx<ModelUserProfile> userProfile = ModelUserProfile().obs;
+  Rx<ModelAddRemoveFollow> modalRemove = ModelAddRemoveFollow().obs;
+
+  Rx<RxStatus> statusOfRemove = RxStatus.empty().obs;
   var id = Get.arguments[0];
   UserProfile() {
     userProfileRepo(recommandation_id: id,type: "user").then((value) {
@@ -122,7 +128,11 @@ print(id);
                             Row(
                               children: [
 
-                                Icon(Icons.arrow_back),
+                                InkWell(
+                                    onTap:(){
+                                      Get.back();
+                      },
+                                    child: Icon(Icons.arrow_back)),
 
                                 SizedBox(width: 20,),
                                 Text("Profile",
@@ -287,16 +297,65 @@ print(id);
                                         fontSize: 20,
                                         color: const Color(0xFF262626))),
                                 const Spacer(),
-                                SizedBox(
-                                    width: 100,
-                                    height: 35,
-                                    child: CommonButton(
-                                      title: "Follow",
-                                      onPressed: () {
-                                        Get.toNamed(
-                                            MyRouters.editAccount);
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Obx(() {
+                                    return InkWell(
+                                      onTap: () {
+                                        // home.value.data!.discover![index].wishlist.toString();
+
+                                        addRemoveRepo(
+                                          context: context,
+                                          following_id:  userProfile
+                                              .value
+                                              .data!
+                                              .user!
+                                              .id
+                                              .toString(),
+                                        ).then((value) async {
+                                          // userProfile.value = value;
+                                          if (value.status == true) {
+                                            print('wishlist-----');
+                                            statusOfRemove.value = RxStatus.success();
+                                            //homeController.getPaginate();
+
+                                            // like=true;
+                                            showToast(value.message.toString());
+                                          } else {
+                                            statusOfRemove.value = RxStatus.error();
+                                            // like=false;
+                                            showToast(value.message.toString());
+                                          }
+                                        });
+                                        setState(() {});
                                       },
-                                    ))
+                                      child:  userProfile
+                                          .value
+                                          .data!
+                                          .user!.followersCount == true
+                                          ?  SizedBox(
+                                          width: 100,
+                                          height: 35,
+                                          child: CommonButton(
+                                            title: "Follow",
+                                            onPressed: () {
+                                            },
+                                          ))
+                                          :   SizedBox(
+                                          width: 100,
+                                          height: 35,
+                                          child: CommonButton(
+                                            title: "Following",
+                                            onPressed: () {
+
+
+
+                                            },
+                                          ))
+                                    );
+                                  }),
+                                )
+
                               ],
                             ),
                             const SizedBox(
