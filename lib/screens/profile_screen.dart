@@ -351,16 +351,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                               color: const Color(0xFF262626))),
 
                                       SizedBox(
-                                          width: 130,
+                                          width: 100,
                                           height: 40,
                                           child: CommonButton(
-                                            title: "Logout",
+                                            title: "Edit",
                                             onPressed: () async {
-                                              SharedPreferences prefs =
-                                                  await SharedPreferences.getInstance();
-                                              await prefs.clear();
-                                              Get.toNamed(
-                                                  MyRouters.loginScreen);
+
                                             },
                                           ))
                                     ],

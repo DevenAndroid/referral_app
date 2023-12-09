@@ -117,7 +117,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                               child: const Icon(Icons.arrow_drop_down)),
                           Spacer(),
                           SizedBox(
-                              width: 80,
+                              width: 100,
                               height: 32,
                               child: CommonButton(title: "Post", onPressed: () {
                                /* if (minController.text.length >= maxController.text.length) {

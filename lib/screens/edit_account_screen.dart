@@ -399,8 +399,12 @@ class _EditAccountState extends State<EditAccount> {
                               },),
                               SizedBox(height: 26,),
                               CommonButton(title: "Logout",onPressed: () async {
-
-                                getLogout();
+                                SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                                await prefs.clear();
+                                Get.toNamed(
+                                    MyRouters.loginScreen);
+                               // getLogout();
                                     }
                               )
 
