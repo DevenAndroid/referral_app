@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:referral_app/routers/routers.dart';
 import 'package:referral_app/widgets/app_assets.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controller/homeController.dart';
@@ -354,9 +355,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           height: 40,
                                           child: CommonButton(
                                             title: "Logout",
-                                            onPressed: () {
+                                            onPressed: () async {
+                                              SharedPreferences prefs =
+                                                  await SharedPreferences.getInstance();
+                                              await prefs.clear();
                                               Get.toNamed(
-                                                  MyRouters.editAccount);
+                                                  MyRouters.loginScreen);
                                             },
                                           ))
                                     ],
