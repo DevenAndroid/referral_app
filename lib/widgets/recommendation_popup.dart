@@ -18,11 +18,12 @@ class _RecommendationPopupState extends State<RecommendationPopup> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+
       child: Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         // insetPadding: EdgeInsets.symmetric(),
         insetPadding: EdgeInsets.symmetric(
-            horizontal: 10, vertical: MediaQuery.of(context).size.height * .3),
+            horizontal: 10, vertical: MediaQuery.of(context).size.height * .28),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
