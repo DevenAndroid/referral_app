@@ -920,15 +920,45 @@ print(id);
                                       itemBuilder: (BuildContext context,
                                           int index) {
                                         // You can replace the Container with your image widget
-                                        return CachedNetworkImage(
-                                          imageUrl: userProfile
-                                              .value
-                                              .data!
-                                              .myRecommandation![index]
-                                              .image
-                                              .toString(),
-                                          width: 50,
-                                          height: 50,
+                                        return InkWell(
+                                          onTap: () {
+                                            Get.toNamed(
+                                              MyRouters.singleScreen,
+                                              arguments: [
+                                                userProfile
+                                                    .value
+                                                    .data!
+                                                    .myRecommandation![index].image.toString(),
+                                                userProfile
+                                                    .value
+                                                    .data!
+                                                    .myRecommandation![index].title.toString(),
+                                                userProfile
+                                                    .value
+                                                    .data!
+                                                    .myRecommandation![index].review.toString(),
+                                                userProfile
+                                                    .value
+                                                    .data!
+                                                    .myRecommandation![index].id.toString(),
+                                                userProfile
+                                                    .value
+                                                    .data!
+                                                    .myRecommandation![index].link.toString(),
+                                              ],
+                                            );
+                                            print("object");
+                                          },
+                                          child: CachedNetworkImage(
+                                            imageUrl: userProfile
+                                                .value
+                                                .data!
+                                                .myRecommandation![index]
+                                                .image
+                                                .toString(),
+                                            width: 60,
+                                            height: 60,
+                                          ),
                                         );
                                       },
                                     ),

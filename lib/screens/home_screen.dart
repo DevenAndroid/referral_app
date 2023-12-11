@@ -271,10 +271,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         ),
                       )
                     : profileController.statusOfProfile.value.isError
-                        ? CommonErrorWidget(
-                            errorText: "",
-                            onTap: () {},
-                          )
+                        ? Image.asset(AppAssets.man)
                         : const Center(child: CircularProgressIndicator());
               }),
               title: Text(
@@ -458,45 +455,44 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                       : SvgPicture.asset(AppAssets.bookmark),
                                                                 );
                                                               }),
-                                                            )
+                                                            ),
+                                                            InkWell(
+                                                                onTap: () {
+                                                                  Share.share(
+                                                                    homeController
+                                                                        .homeModel
+                                                                        .value
+                                                                        .data!
+                                                                        .discover![index]
+                                                                        .image
+                                                                        .toString(),
+                                                                  );
+                                                                },
+                                                                child: SvgPicture.asset(AppAssets.forward))
                                                           ],
                                                         ),
                                                         const SizedBox(
                                                           height: 15,
                                                         ),
-                                                        Stack(children: [
-                                                          homeController.homeModel.value.data!.discover![index].image == ""
-                                                              ? SizedBox()
-                                                              : ClipRRect(
-                                                                  borderRadius: BorderRadius.circular(10),
-                                                                  child: CachedNetworkImage(
-                                                                    width: size.width,
-                                                                    height: 200,
-                                                                    fit: BoxFit.fill,
-                                                                    imageUrl: homeController
-                                                                        .homeModel.value.data!.discover![index].image
-                                                                        .toString(),
-                                                                    placeholder: (context, url) => SizedBox(
-                                                                      height: 0,
-                                                                    ),
-                                                                    errorWidget: (context, url, error) => SizedBox(
-                                                                      height: 0,
-                                                                    ),
+                                                        homeController.homeModel.value.data!.discover![index].image == ""
+                                                            ? SizedBox()
+                                                            : ClipRRect(
+                                                                borderRadius: BorderRadius.circular(10),
+                                                                child: CachedNetworkImage(
+                                                                  width: size.width,
+                                                                  height: 200,
+                                                                  fit: BoxFit.fill,
+                                                                  imageUrl: homeController
+                                                                      .homeModel.value.data!.discover![index].image
+                                                                      .toString(),
+                                                                  placeholder: (context, url) => SizedBox(
+                                                                    height: 0,
+                                                                  ),
+                                                                  errorWidget: (context, url, error) => SizedBox(
+                                                                    height: 0,
                                                                   ),
                                                                 ),
-                                                          Positioned(
-                                                              right: 10,
-                                                              top: 15,
-                                                              child: InkWell(
-                                                                  onTap: () {
-                                                                    Share.share(
-                                                                      homeController
-                                                                          .homeModel.value.data!.discover![index].image
-                                                                          .toString(),
-                                                                    );
-                                                                  },
-                                                                  child: SvgPicture.asset(AppAssets.forward)))
-                                                        ]),
+                                                              ),
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
@@ -717,49 +713,56 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                 ],
                                                               ),
                                                             ),
-                                                            Column(
+
+
+                                                            Row(
+
                                                               children: [
-                                                                homeController
+                                                              Column(
+                                                                children: [
+                                                                  homeController
+                                                                      .homeModel.value.data!.discover![index].minPrice
+                                                                      .toString()
+                                                                      .isNotEmpty
+                                                                      ? const Text("Min Price")
+                                                                      : Text('No Budget'),
+                                                                  homeController
+                                                                      .homeModel.value.data!.discover![index].minPrice
+                                                                      .toString()
+                                                                      .isNotEmpty
+                                                                      ? Text(
+                                                                    homeController
                                                                         .homeModel.value.data!.discover![index].minPrice
-                                                                        .toString()
-                                                                        .isNotEmpty
-                                                                    ? const Text("Min Price")
-                                                                    : const SizedBox(),
-                                                                homeController
-                                                                        .homeModel.value.data!.discover![index].minPrice
-                                                                        .toString()
-                                                                        .isNotEmpty
-                                                                    ? Text(
-                                                                        homeController
-                                                                            .homeModel.value.data!.discover![index].minPrice
-                                                                            .toString(),
-                                                                      )
-                                                                    : const SizedBox(),
-                                                              ],
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Column(
-                                                              children: [
-                                                                homeController
+                                                                        .toString(),
+                                                                  )
+                                                                      : const SizedBox(),
+                                                                ],
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Column(
+                                                                children: [
+                                                                  homeController
+                                                                      .homeModel.value.data!.discover![index].maxPrice
+                                                                      .toString()
+                                                                      .isNotEmpty
+                                                                      ? const Text("Max Price")
+                                                                      : const SizedBox(),
+                                                                  homeController
+                                                                      .homeModel.value.data!.discover![index].maxPrice
+                                                                      .toString()
+                                                                      .isNotEmpty
+                                                                      ? Text(
+                                                                    homeController
                                                                         .homeModel.value.data!.discover![index].maxPrice
-                                                                        .toString()
-                                                                        .isNotEmpty
-                                                                    ? const Text("Max Price")
-                                                                    : const SizedBox(),
-                                                                homeController
-                                                                        .homeModel.value.data!.discover![index].maxPrice
-                                                                        .toString()
-                                                                        .isNotEmpty
-                                                                    ? Text(
-                                                                        homeController
-                                                                            .homeModel.value.data!.discover![index].maxPrice
-                                                                            .toString(),
-                                                                      )
-                                                                    : const SizedBox(),
-                                                              ],
-                                                            ),
+                                                                        .toString(),
+                                                                  )
+                                                                      : const SizedBox(),
+                                                                ],
+                                                              ),
+                                                            ],)
+
                                                           ],
                                                         ),
                                                         const SizedBox(

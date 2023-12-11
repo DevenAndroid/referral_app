@@ -1,9 +1,10 @@
+import 'dart:developer';
 import 'dart:io';
-
-import 'package:dotted_border/dotted_border.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -20,43 +21,51 @@ import '../widgets/custome_textfiled.dart';
 import '../widgets/helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as htmlParser;
+
 class AddRecommendationScreen extends StatefulWidget {
   const AddRecommendationScreen({super.key});
 
   @override
-  State<AddRecommendationScreen> createState() =>
-      _AddRecommendationScreenState();
+  State<AddRecommendationScreen> createState() => _AddRecommendationScreenState();
 }
 
 class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
   TextEditingController recommendationController = TextEditingController();
   TextEditingController reviewController = TextEditingController();
   TextEditingController linkController = TextEditingController();
+
+  Future<http.Response>? _imageResponse;
   String _imageUrl = '';
-  File categoryFile = File("");
 
-
-  Future<String?> getImageUrlFromAmazon(String productUrl) async {
-    try {
-      final response = await http.get(Uri.parse("https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014C5S7S/?_encoding=UTF8&pd_rd_w=Xibxh&content-id=amzn1.sym.64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_p=64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_r=1DD2JN3VYV13DGZPWR52&pd_rd_wg=wjvuL&pd_rd_r=baf78e1f-9861-4b19-8c00-b95400991097&ref_=pd_gw_crs_zg_bs_7141123011"));
+  void _fetchImage(String url) async {
+    if (url.isNotEmpty) {
+      // Fetch HTML content of the webpage
+      final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
+        // Parse HTML content to extract image URL
         final document = htmlParser.parse(response.body);
+        final images = document.getElementsByTagName('img');
 
-        // This is a simplified example. You should inspect the actual HTML structure of the Amazon page
-        // and update this code accordingly.
-        final imageElement = document.querySelector('#imageBlock img');
-
-        if (imageElement != null) {
-          return imageElement.attributes['src'];
+        if (images.isNotEmpty) {
+          final imageUrl = images[8].attributes['src'];
+          setState(() {
+            _imageUrl = imageUrl!;
+          });
+        } else {
+          setState(() {
+            _imageUrl = "No image found on the webpage";
+          });
         }
+      } else {
+        setState(() {
+          _imageUrl = "Failed to fetch webpage content";
+        });
       }
-    } catch (e) {
-      print('Error fetching image: $e');
     }
-
-    return null;
   }
+
+  File categoryFile = File("");
 
   Future pickImage() async {
     try {
@@ -77,8 +86,9 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    log(categoryFile.path.toString());
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusManager.instance.primaryFocus!.unfocus();
       },
       child: Scaffold(
@@ -89,7 +99,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 Row(
@@ -97,195 +107,162 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                   children: [
                     Text(
                       "Add Your Recommendation",
-                      style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                          color: Color(0xFF3797EF)),
+                      style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 16, color: const Color(0xFF3797EF)),
                     ),
                     GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Get.back();
                         },
-                        child: Icon(Icons.clear))
+                        child: const Icon(Icons.clear))
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Text(
                   "Recommendation",
-                  style: GoogleFonts.mulish(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                      color: AppTheme.onboardingColor),
+                  style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.onboardingColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
-                CommonTextfield(
-                    controller: recommendationController,
-                    obSecure: false,
-                    hintText: "best color for furniture"),
-                SizedBox(
+                CommonTextfield(controller: recommendationController, obSecure: false, hintText: "best color for furniture"),
+                const SizedBox(
                   height: 15,
                 ),
                 Text(
                   "Review",
-                  style: GoogleFonts.mulish(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                      color: AppTheme.onboardingColor),
+                  style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.onboardingColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 CommonTextfield(
                     isMulti: true,
                     controller: reviewController,
                     obSecure: false,
-                    hintText:
-                        "Lorem Ipsum is simply dummy text of the printing and "),
-                SizedBox(
+                    hintText: "Lorem Ipsum is simply dummy text of the printing and "),
+                const SizedBox(
                   height: 15,
                 ),
                 Text(
                   "Product Online link",
-                  style: GoogleFonts.mulish(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                      color: AppTheme.onboardingColor),
+                  style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.onboardingColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 CommonTextfield(
-
-                    controller: linkController,
-                    obSecure: false,
-                    hintText: "Link"),
-                SizedBox(
+                  controller: linkController,
+                  obSecure: false,
+                  hintText: "Link",
+                  onChanged: (url) {
+                    setState(() {
+                      _fetchImage(url);
+                    });
+                  },
+                ),
+                const SizedBox(
                   height: 15,
                 ),
                 Text(
                   "Category",
-                  style: GoogleFonts.mulish(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                      color: AppTheme.onboardingColor),
+                  style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.onboardingColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 CommonTextfield(
                     onTap: () {
-
-                    Get.toNamed(MyRouters.categoriesScreen);
+                      Get.toNamed(MyRouters.categoriesScreen);
                     },
                     controller: profileController.categoriesController,
                     obSecure: false,
                     hintText: "Furniture"),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
-
-                       InkWell(
-                  onTap: () {
-                    _showActionSheet(context);
-                  },
-                  child: categoryFile.path != ""
-                      ? Container(
-                    padding: EdgeInsets.all(10),
-                    decoration:
-                    BoxDecoration(
-                      borderRadius:
-                      BorderRadius
-                          .circular(10),
-                      border: Border.all(color: Colors.black12),
-                      color: Colors.white,
-
-                    ),
-                    margin: const EdgeInsets
-                        .symmetric(
-                        vertical: 10,
-                        horizontal: 10),
-                    width: double.maxFinite,
-                    height: 180,
-                    alignment:
-                    Alignment.center,
-                    child: Image.file(
-                        categoryFile,
-                        errorBuilder: (_, __, ___) =>
-                            Image.network(
-                                categoryFile
-                                    .path,
-                                errorBuilder: (_,
-                                    __,
-                                    ___) =>
-                                const SizedBox())),
-                  )
-                      : Container(
-                    decoration: BoxDecoration(border: Border.all(color: Colors.black12),color: Colors.white),
-                    padding:
-                    const EdgeInsets.only(
-                        top: 8),
-
-
-                    width: double.maxFinite,
-                    height: 130,
-
-                    child: Column(
-                      mainAxisAlignment:
-                      MainAxisAlignment
-                          .center,
-                      children: [
-                        Image.asset(
-                          AppAssets.camera,
-                          height: 60,
-                          width: 50,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-
-                        const SizedBox(
-                          height: 11,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                SizedBox(
+                _imageUrl.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: _imageUrl,
+                        placeholder: (context, url) => const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      )
+                    : InkWell(
+                        onTap: () {
+                          _showActionSheet(context);
+                        },
+                        child: categoryFile.path != ""
+                            ? Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: Colors.black12),
+                                  color: Colors.white,
+                                ),
+                                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                width: double.maxFinite,
+                                height: 180,
+                                alignment: Alignment.center,
+                                child: Image.file(categoryFile,
+                                    errorBuilder: (_, __, ___) =>
+                                        Image.network(categoryFile.path, errorBuilder: (_, __, ___) => const SizedBox())),
+                              )
+                            : Container(
+                                decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
+                                padding: const EdgeInsets.only(top: 8),
+                                width: double.maxFinite,
+                                height: 130,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      AppAssets.camera,
+                                      height: 60,
+                                      width: 50,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    const SizedBox(
+                                      height: 11,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                      ),
+                const SizedBox(
                   height: 22,
                 ),
                 CommonButton(
                   title: "Next",
                   onPressed: () {
                     // getImageUrlFromAmazon("https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014C5S7S/?_encoding=UTF8&pd_rd_w=Xibxh&content-id=amzn1.sym.64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_p=64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_r=1DD2JN3VYV13DGZPWR52&pd_rd_wg=wjvuL&pd_rd_r=baf78e1f-9861-4b19-8c00-b95400991097&ref_=pd_gw_crs_zg_bs_7141123011");
-                Map map = <String, String>{};
-                map['title'] = recommendationController.text.trim();
-                map['review'] = reviewController.text.trim();
-                map['link'] = linkController.text.trim();
-                map['status'] = "publish";
-                map['category_id'] =
-                    profileController.idController.text.trim();
+                    Map map = <String, String>{};
+                    map['title'] = recommendationController.text.trim();
+                    map['review'] = reviewController.text.trim();
+                    map['link'] = linkController.text.trim();
+                    map['status'] = "publish";
+                    map['category_id'] = profileController.idController.text.trim();
 
-                addRecommendationRepo(
-                  fieldName1: 'image',
-                  mapData: map,
-                  context: context,
-                  file1: categoryFile,
-                ).then((value) async {
-                  if (value.status == true) {
-                    Get.back();
-                    // Get.toNamed(MyRouters.followingScreen);
-                    showToast(value.message.toString());
-                  } else {
-                    showToast(value.message.toString());
-                  }
-                }
-                );
-                  },
+                      addRecommendationRepo(
+                        fieldName1: 'image',
+                        mapData: map,
+                        context: context,
+                        file1:  _imageUrl.isNotEmpty?categoryFile:File( _imageUrl),
+                      ).then((value) async {
+                        if (value.status == true) {
+                          Get.back();
+                          // Get.toNamed(MyRouters.followingScreen);
+                          showToast(value.message.toString());
+                        } else {
+                          showToast(value.message.toString());
+                        }
+                      });
+
+                    
+                    }
+
                 )
               ],
             ),
@@ -294,21 +271,19 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
       ),
     );
   }
+
   void _showActionSheet(BuildContext context) {
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => CupertinoActionSheet(
         title: const Text(
           'Select Picture from',
-          style: TextStyle(
-              color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
+          style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
         ),
         actions: <CupertinoActionSheetAction>[
           CupertinoActionSheetAction(
             onPressed: () {
-              Helper.addImagePicker(
-                  imageSource: ImageSource.camera, imageQuality: 75)
-                  .then((value) async {
+              Helper.addImagePicker(imageSource: ImageSource.camera, imageQuality: 75).then((value) async {
                 CroppedFile? croppedFile = await ImageCropper().cropImage(
                   sourcePath: value.path,
                   aspectRatioPresets: [
@@ -345,9 +320,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
           ),
           CupertinoActionSheetAction(
             onPressed: () {
-              Helper.addImagePicker(
-                  imageSource: ImageSource.gallery, imageQuality: 75)
-                  .then((value) async {
+              Helper.addImagePicker(imageSource: ImageSource.gallery, imageQuality: 75).then((value) async {
                 CroppedFile? croppedFile = await ImageCropper().cropImage(
                   sourcePath: value.path,
                   aspectRatioPresets: [
