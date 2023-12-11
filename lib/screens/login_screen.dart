@@ -81,12 +81,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   Positioned(
                     top: 220,
                     child: Container(
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       width: size.width,
                       height: size.height,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(15),
                             topLeft: Radius.circular(15)),
                         boxShadow: [

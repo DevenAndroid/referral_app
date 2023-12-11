@@ -132,52 +132,26 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                   });
                                 },
                                 child: const Icon(Icons.arrow_drop_down)),
-                            SizedBox(width: width * .38,),
-                            Expanded(
-                              child: Container(
-                                height: height * .05,
-                                child: CommonButton(title: "Post", onPressed: () {
-                                 /* if (minController.text.length >= maxController.text.length) {
-                                    showToast('Min value cannot be grater than Max value');
-                                  }
-                                  else{
+Spacer(),
+                            Container(
 
-                                  }*/
-                                  if(formKey.currentState!.validate()){
-                                    if(minController.text.isNotEmpty && maxController.text.isNotEmpty){
-                                      int valueA = int.parse(minController.text);
-                                      int valueB = int.parse(maxController.text);
-                                      if(valueA > valueB){
-                                        showToast('Min value cannot be grater than Max value');
-                                      }
-                                      else{
-                                        Map map = <String, String>{};
-                                        map['title'] = tittleController.text.trim();
-                                        map['description'] =
-                                            descriptionController.text.trim();
-                                        map['min_price'] = minController.text.toString();
-                                        map['max_price'] = maxController.text.toString();
-                                        map['post_viewers_type'] =
-                                            profileController.selectedValue.value;
-                                        map['no_budget'] = value2 ? '1' : '0';
+                              width:110,
+                              height: 40,
 
-                                        askRecommendationRepo(
-                                          fieldName1: 'image',
-                                          mapData: map,
-                                          context: context,
-                                          file1: categoryFile,
-                                        ).then((value) async {
-                                          if (value.status == true) {
-                                            bottomController.updateIndexValue(0);
-                                            showToast(value.message.toString());
-                                          }
-                                          else {
-                                            showToast(value.message.toString());
-                                          }
-                                        });
-                                      }
+                              child: CommonButton(title: "Post", onPressed: () {
+                               /* if (minController.text.length >= maxController.text.length) {
+                                  showToast('Min value cannot be grater than Max value');
+                                }
+                                else{
+
+                                }*/
+                                if(formKey.currentState!.validate()){
+                                  if(minController.text.isNotEmpty && maxController.text.isNotEmpty){
+                                    int valueA = int.parse(minController.text);
+                                    int valueB = int.parse(maxController.text);
+                                    if(valueA > valueB){
+                                      showToast('Min value cannot be grater than Max value');
                                     }
-
                                     else{
                                       Map map = <String, String>{};
                                       map['title'] = tittleController.text.trim();
@@ -204,11 +178,38 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                         }
                                       });
                                     }
-
                                   }
 
-                                },),
-                              ),
+                                  else{
+                                    Map map = <String, String>{};
+                                    map['title'] = tittleController.text.trim();
+                                    map['description'] =
+                                        descriptionController.text.trim();
+                                    map['min_price'] = minController.text.toString();
+                                    map['max_price'] = maxController.text.toString();
+                                    map['post_viewers_type'] =
+                                        profileController.selectedValue.value;
+                                    map['no_budget'] = value2 ? '1' : '0';
+
+                                    askRecommendationRepo(
+                                      fieldName1: 'image',
+                                      mapData: map,
+                                      context: context,
+                                      file1: categoryFile,
+                                    ).then((value) async {
+                                      if (value.status == true) {
+                                        bottomController.updateIndexValue(0);
+                                        showToast(value.message.toString());
+                                      }
+                                      else {
+                                        showToast(value.message.toString());
+                                      }
+                                    });
+                                  }
+
+                                }
+
+                              },),
                             )
 
                           ],
@@ -293,10 +294,11 @@ const SizedBox(height: 20,),
                         InkWell(
                           onTap: () {
                             _showActionSheet(context);
+                            FocusManager.instance.primaryFocus!.unfocus();
                           },
                           child: categoryFile.path != ""
                               ? Container(
-                            padding: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(11),
                             decoration:
                             BoxDecoration(
                               borderRadius:
