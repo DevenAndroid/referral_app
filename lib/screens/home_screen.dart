@@ -710,7 +710,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                       style: GoogleFonts.mulish(
                                                                           fontWeight: FontWeight.w500,
                                                                           // letterSpacing: 1,
-                                                                          fontSize: 12,
+                                                                          fontSize: 11,
                                                                           color: const Color(0xFF3797EF)),
                                                                     ),
                                                                   ),

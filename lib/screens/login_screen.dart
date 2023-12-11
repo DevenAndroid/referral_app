@@ -64,22 +64,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Stack(children: [
                   Container(
                     height: size.height * .4,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: AppTheme.primaryColor,
                     ),
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 90,
+                        const SizedBox(
+                          height: 100,
                         ),
                         Center(
-                        child: Image(image: AssetImage('assets/icons/oginsignuplogo.png'),height: size.height*.08,)
+                        child: Image(image: const AssetImage('assets/icons/oginsignuplogo.png'),height: size.height*.08,)
                         )
                       ],
                     ),
                   ),
                   Positioned(
-                    top: 220,
+                    top: 250,
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       width: size.width,
@@ -116,12 +116,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           Text(
                             "Enter Your Email ID",
-                            style: GoogleFonts.roboto(
-                                fontWeight: FontWeight.w400,
+                            style: GoogleFonts.mulish(
+                                fontWeight: FontWeight.w600,
                                 fontSize: 13,
                                 color: AppTheme.onboardingColor),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           CommonTextfield(
@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               obSecure: false,
                               hintText: "info@gmail.com"),
                           SizedBox(
-                            height: size.height * .07,
+                            height: size.height * .04,
                           ),
                           CommonButton(
                             title: "SEND OTP",
@@ -159,14 +159,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           ),
                           SizedBox(
-                            height: size.height * .1,
+                            height: size.height * .12,
                           ),
                           Center(
                             child: Text(
                               "We will send you a one time SMS massage",
                               style: GoogleFonts.mulish(
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 2,
+                                  fontWeight: FontWeight.w300,
+letterSpacing: .7,
                                   fontSize: 14,
                                   color: AppTheme.onboardingColor),
                             ),

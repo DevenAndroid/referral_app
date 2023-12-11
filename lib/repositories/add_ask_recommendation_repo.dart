@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 
 import '../models/ask_recommendation_model.dart';
-import '../models/updateProfile_molde.dart';
 import '../resourses/api_constant.dart';
 import '../resourses/helper.dart';
 
@@ -37,6 +36,8 @@ Future<AskRecommendationModel> askRecommendationRepo({
     log(request.files.toString());
 
     final response = await request.send();
+    print(await response.stream.bytesToString());
+
     Helpers.hideLoader(loader);
     if (response.statusCode == 200) {
       Helpers.hideLoader(loader);
