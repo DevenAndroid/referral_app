@@ -369,17 +369,24 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                       children: [
                                                         Row(
                                                           children: [
-                                                            ClipOval(
-                                                              child: CachedNetworkImage(
-                                                                width: 30,
-                                                                height: 30,
-                                                                fit: BoxFit.cover,
-                                                                imageUrl: homeController.homeModel.value.data!
-                                                                    .discover![index].userId!.profileImage
-                                                                    .toString(),
-                                                                placeholder: (context, url) => Image.asset(AppAssets.girl),
-                                                                errorWidget: (context, url, error) =>
-                                                                    Image.asset(AppAssets.girl),
+                                                            InkWell(
+                                                              onTap: (){
+
+                                                                Get.toNamed(MyRouters.allUserProfileScreen,arguments: [homeController.homeModel.value.data!
+                                                                    .discover![index].userId!.id.toString()]);
+                                                              },
+                                                              child: ClipOval(
+                                                                child: CachedNetworkImage(
+                                                                  width: 30,
+                                                                  height: 30,
+                                                                  fit: BoxFit.cover,
+                                                                  imageUrl: homeController.homeModel.value.data!
+                                                                      .discover![index].userId!.profileImage
+                                                                      .toString(),
+                                                                  placeholder: (context, url) => Image.asset(AppAssets.girl),
+                                                                  errorWidget: (context, url, error) =>
+                                                                      Image.asset(AppAssets.girl),
+                                                                ),
                                                               ),
                                                             ),
                                                             const SizedBox(
