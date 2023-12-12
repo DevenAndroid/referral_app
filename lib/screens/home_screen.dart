@@ -117,6 +117,20 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       // showToast(value.message.toString());
     });
   }
+  allData() {
+    getSingle1Repo().then((value) {
+      single.value = value;
+      if (value.status == true) {
+        statusOfSingle.value = RxStatus.success();
+        check = true;
+        setState(() {});
+      } else {
+        statusOfSingle.value = RxStatus.error();
+      }
+      setState(() {});
+      // showToast(value.message.toString());
+    });
+  }
 
   chooseCategories() {
     getHomeRepo(page: 1, pagination: 10).then((value) {
@@ -204,6 +218,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     /* homeController..getFeedBack().then((value) (value1){
         if(value1.)
     })*/
+    allData();
     homeController.getPaginate();
     homeController.getData();
     all();
@@ -968,39 +983,59 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
                             //////////////////////////
                             if (check == false)
-                              statusOfAllRecommendation.value.isSuccess
-                                  ? GridView.builder(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        // Number of columns
-                                        crossAxisSpacing: 10.0,
-                                        // Spacing between columns
-                                        mainAxisSpacing: 10.0, // Spacing between rows
-                                      ),
-                                      itemCount: allRecommendation.value.data!.length,
-                                      // Total number of items
-                                      itemBuilder: (BuildContext context, int index) {
-                                        // You can replace the Container with your image widget
-                                        return Container(
+                              statusOfSingle.value.isSuccess
+                                  ? Column(
+                                children: [
+                                  if (single.value.data!.isEmpty) Text("No Record found"),
+                                  GridView.builder(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      // Number of columns
+                                      crossAxisSpacing: 10.0,
+                                      // Spacing between columns
+                                      mainAxisSpacing: 10.0, // Spacing between rows
+                                    ),
+                                    itemCount: single.value.data!.length,
+                                    // Total number of items
+                                    itemBuilder: (BuildContext context, int index) {
+                                      // You can replace the Container with your image widget
+                                      return InkWell(
+                                        onTap: () {
+                                          Get.toNamed(
+                                            MyRouters.recommendationSingleScreen,
+                                            arguments: [
+                                              single.value.data![index].image.toString(),
+                                              single.value.data![index].title.toString(),
+                                              single.value.data![index].review.toString(),
+                                              single.value.data![index].id.toString(),
+                                              single.value.data![index].link.toString(),
+                                            ],
+                                          );
+                                          print("object");
+                                        },
+                                        child: Container(
                                           padding: EdgeInsets.all(10),
                                           decoration: BoxDecoration(
                                               border: Border.all(color: Colors.black),
                                               borderRadius: BorderRadius.circular(10)),
                                           child: CachedNetworkImage(
-                                            imageUrl: allRecommendation.value.data![index].image.toString(),
+                                            imageUrl: single.value.data![index].image.toString(),
                                             fit: BoxFit.fill,
                                           ),
-                                        );
-                                      },
-                                    )
-                                  : statusOfAllRecommendation.value.isError
-                                      ? CommonErrorWidget(
-                                          errorText: "",
-                                          onTap: () {},
-                                        )
-                                      : const Center(child: CircularProgressIndicator()),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              )
+                                  : statusOfSingle.value.isError
+                                  ? CommonErrorWidget(
+                                errorText: "",
+                                onTap: () {},
+                              )
+                                  : const Center(child: SizedBox()),
                           ],
                         ),
                       ),
