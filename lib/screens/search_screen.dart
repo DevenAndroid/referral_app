@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 import '../../resourses/api_constant.dart';
 import '../../widgets/common_error_widget.dart';
 import '../controller/profile_controller.dart';
@@ -61,9 +60,6 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-
-
-
   var currentDrawer = 0;
 
   @override
@@ -73,18 +69,20 @@ class _SearchScreenState extends State<SearchScreen> {
     listUsers();
 
     all();
-
   }
+
   final profileController = Get.put(ProfileController());
+
   // final controller = Get.put(registerController());
   final TextEditingController search1Controller = TextEditingController();
   final TextEditingController search2Controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return DefaultTabController(
-      length: 2,
-      child: Scaffold(
+        length: 2,
+        child: Scaffold(
           backgroundColor: const Color(0xFFFFFFFF),
           appBar: AppBar(
             elevation: 0,
@@ -102,10 +100,7 @@ class _SearchScreenState extends State<SearchScreen> {
             centerTitle: true,
             title: Text(
               "Search",
-              style: GoogleFonts.poppins(
-                  color: const Color(0xFF1D1D1D),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500),
+              style: GoogleFonts.poppins(color: const Color(0xFF1D1D1D), fontSize: 20, fontWeight: FontWeight.w500),
             ),
             bottom: TabBar(
               indicatorSize: TabBarIndicatorSize.tab,
@@ -121,34 +116,22 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Text("Peoples",
                       style: currentDrawer == 0
                           ? GoogleFonts.mulish(
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1,
-                          fontSize: 15,
-                          color: const Color(0xFF3797EF))
+                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
                           : GoogleFonts.mulish(
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1,
-                          fontSize: 15,
-                          color: Colors.black)),
+                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
                 ),
                 Tab(
                   child: Text("Recommendation",
                       style: currentDrawer == 1
                           ? GoogleFonts.mulish(
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1,
-                          fontSize: 15,
-                          color: const Color(0xFF3797EF))
+                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
                           : GoogleFonts.mulish(
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1,
-                          fontSize: 15,
-                          color: Colors.black)),
+                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
                 ),
               ],
             ),
           ),
-          body:  TabBarView(children: [
+          body: TabBarView(children: [
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -160,276 +143,207 @@ class _SearchScreenState extends State<SearchScreen> {
                       controller: search2Controller,
                       obSecure: false,
                       hintText: "Search for a Peoples",
-                      prefix: Padding(
-                          padding: const EdgeInsets.all(13.0),
-                          child: Icon(Icons.search)
-                      ),
-                      onTap: (){
-                        setState(() {
-
-                        });
+                      prefix: Padding(padding: const EdgeInsets.all(13.0), child: Icon(Icons.search)),
+                      onTap: () {
+                        setState(() {});
                       },
-                      onChanged: (gt){
-
+                      onChanged: (gt) {
                         setState(() {});
                       },
                     ),
                     SingleChildScrollView(
                       child: Obx(() {
-                        List<Data> searchData1=[];
-                        if(statusOfAllRecommendation.value.isSuccess && userList.value.data!= null){
+                        List<Data> searchData1 = [];
+                        if (statusOfAllRecommendation.value.isSuccess && userList.value.data != null) {
                           String search = search2Controller.text.trim().toLowerCase();
-                          if(search.isNotEmpty) {
-                            searchData1 = userList.value.data!.where((element) => element.name.toString().toLowerCase().contains(search)
-                            ).toList();
+                          if (search.isNotEmpty) {
+                            searchData1 = userList.value.data!
+                                .where((element) => element.name.toString().toLowerCase().contains(search))
+                                .toList();
                           } else {
                             searchData1 = userList.value.data!;
                           }
                         }
                         return statusOfUser.value.isSuccess
                             ? Column(
-                          children: [
-                            if (searchData1.isEmpty)
-                              Center(
-                                child: Text(
-                                  "No User Found",
-                                  style: GoogleFonts.mulish(
-                                      fontWeight: FontWeight.w400,
-                                      // letterSpacing: 1,
-                                      fontSize: 17,
-                                      color: Colors.black),
-                                ),
-                              ),
-                            SizedBox(height: 10,),
-                            ListView.builder(
-                                shrinkWrap: true,
-                                itemCount:  searchData1.length,
-                                physics:
-                                const BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  final item = searchData1[index];
-                                  return Column(
-                                    children: [
-                                      InkWell(
-                                        onTap: (){
-                                          Get.toNamed(MyRouters.allUserProfileScreen,arguments: [item.id.toString() ]);
-                                        },
-                                        child: Container(
-                                          padding:
-                                          EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                              BorderRadius
-                                                  .circular(10),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: const Color(
-                                                      0xFF5F5F5F)
-                                                      .withOpacity(
-                                                      0.2),
-                                                  offset:
-                                                  const Offset(
-                                                      0.0, 0.2),
-                                                  blurRadius: 2,
-                                                ),
-                                              ]),
-                                          child: Row(
-                                            children: [
-                                              ClipOval(
-                                                child:
-                                                CachedNetworkImage(
-                                                  width: 50,
-                                                  height: 50,
-                                                  fit: BoxFit.cover,
-                                                  imageUrl:item.
-
-                                                      profileImage
-                                                      .toString(),
-                                                  placeholder:
-                                                      (context,
-                                                      url) =>
-                                                      Image
-                                                          .asset(
-                                                        AppAssets.img,
-                                                        height: 40,
-                                                      ),
-                                                  errorWidget: (context,
-                                                      url,
-                                                      error) =>
-                                                      Image.asset(
-                                                        AppAssets.img,
-                                                        height: 40,
-                                                      ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Text(
-                                                item
-
-                                                    .name
-                                                    .toString(),
-                                                style: GoogleFonts
-                                                    .mulish(
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w400,
-                                                    // letterSpacing: 1,
-                                                    fontSize:
-                                                    17,
-                                                    color: Colors
-                                                        .black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                children: [
+                                  if (searchData1.isEmpty)
+                                    Center(
+                                      child: Text(
+                                        "No User Found",
+                                        style: GoogleFonts.mulish(
+                                            fontWeight: FontWeight.w400,
+                                            // letterSpacing: 1,
+                                            fontSize: 17,
+                                            color: Colors.black),
                                       ),
-                                      SizedBox(
-                                        height: 15,
-                                      )
-                                    ],
-                                  );
-                                }),
-                          ],
-                        )
+                                    ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: searchData1.length,
+                                      physics: const BouncingScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        final item = searchData1[index];
+                                        return Column(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Get.toNamed(MyRouters.allUserProfileScreen, arguments: [item.id.toString()]);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: const Color(0xFF5F5F5F).withOpacity(0.2),
+                                                        offset: const Offset(0.0, 0.2),
+                                                        blurRadius: 2,
+                                                      ),
+                                                    ]),
+                                                child: Row(
+                                                  children: [
+                                                    ClipOval(
+                                                      child: CachedNetworkImage(
+                                                        width: 50,
+                                                        height: 50,
+                                                        fit: BoxFit.cover,
+                                                        imageUrl: item.profileImage.toString(),
+
+                                                        errorWidget: (context, url, error) => Image.asset(
+                                                          AppAssets.img,
+                                                          height: 40,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    Text(
+                                                      item.name.toString(),
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w400,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 17,
+                                                          color: Colors.black),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 15,
+                                            )
+                                          ],
+                                        );
+                                      }),
+                                ],
+                              )
                             : statusOfUser.value.isError
-                            ? CommonErrorWidget(
-                          errorText: "",
-                          onTap: () {},
-                        )
-                            : const Center(
-                            child: Center(
-                                child:
-                                CircularProgressIndicator()));
+                                ? CommonErrorWidget(
+                                    errorText: "",
+                                    onTap: () {},
+                                  )
+                                : const Center(child: Center(child: CircularProgressIndicator()));
                       }),
                     )
                   ],
                 ),
               ),
             ),
-          SingleChildScrollView(
-    child: Padding(
-    padding: const EdgeInsets.all(12.0),
-    child: Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-
-    CommonTextfield(
-    controller: search1Controller,
-    obSecure: false,
-    hintText: "Search for a Recommendation",
-    prefix: Padding(
-    padding: const EdgeInsets.all(13.0),
-    child: Icon(Icons.search)
-    ),
-    onTap: (){
-    setState(() {
-
-    });
-    },
-    onChanged: (gt){
-
-    setState(() {});
-    },
-    ),
-    const SizedBox(
-    height: 20,
-    ),
-    Obx(() {
-    List<AllRecommendation> searchData=[];
-    if(statusOfAllRecommendation.value.isSuccess && allRecommendation.value.data!= null){
-    String search = search1Controller.text.trim().toLowerCase();
-    if(search.isNotEmpty) {
-    searchData = allRecommendation.value.data!.where((element) => element.title.toString().toLowerCase().contains(search)
-    ).toList();
-    } else {
-    searchData = allRecommendation.value.data!;
-    }
-    }
-    return   statusOfAllRecommendation.value.isSuccess
-    ? Column(
-    children: [
-    if(searchData.isEmpty)
-    Text("No data Found"),
-
-    GridView.builder(
-    padding: EdgeInsets.zero,
-    shrinkWrap: true,
-    gridDelegate:
-    const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 3,
-    // Number of columns
-    crossAxisSpacing: 10.0,
-    // Spacing between columns
-    mainAxisSpacing: 10.0, // Spacing between rows
-    ),
-    itemCount: searchData.length,
-    // Total number of items
-    itemBuilder: (BuildContext context, int index) {
-    final item = searchData[index];
-    // You can replace the Container with your image widget
-    return
-
-    InkWell(
-    onTap: (){
-    Get.toNamed(MyRouters.recommendationSingleScreen,arguments: [
-    item
-        .image
-        .toString(),
-    item
-        .title
-        .toString(),
-    item
-        .review
-        .toString(),
-    item.id.toString(),
-
-
-    ],
-
-
-
-    );
-    },
-    child: Container(
-    padding: EdgeInsets.all(10),
-    decoration: BoxDecoration(
-    border: Border.all(color: Colors.black),
-    borderRadius: BorderRadius.circular(10)
-    ),
-    child: CachedNetworkImage(
-    imageUrl: item.image.toString(),
-    fit: BoxFit.fill,
-    ),
-    ),
-    );
-    },
-    ),
-    ],
-    )
-        : statusOfAllRecommendation.value.isError
-    ? CommonErrorWidget(
-    errorText: "",
-    onTap: () {},
-    )
-        : const Center(
-    child: CircularProgressIndicator());
-    })
-    ]))),
-
-
-          ]
-
-
-
-
-
-
-
-      ),
-    ));
+            SingleChildScrollView(
+                child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CommonTextfield(
+                            controller: search1Controller,
+                            obSecure: false,
+                            hintText: "Search for a Recommendation",
+                            prefix: Padding(padding: const EdgeInsets.all(13.0), child: Icon(Icons.search)),
+                            onTap: () {
+                              setState(() {});
+                            },
+                            onChanged: (gt) {
+                              setState(() {});
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Obx(() {
+                            List<AllRecommendation> searchData = [];
+                            if (statusOfAllRecommendation.value.isSuccess && allRecommendation.value.data != null) {
+                              String search = search1Controller.text.trim().toLowerCase();
+                              if (search.isNotEmpty) {
+                                searchData = allRecommendation.value.data!
+                                    .where((element) => element.title.toString().toLowerCase().contains(search))
+                                    .toList();
+                              } else {
+                                searchData = allRecommendation.value.data!;
+                              }
+                            }
+                            return statusOfAllRecommendation.value.isSuccess
+                                ? Column(
+                                    children: [
+                                      if (searchData.isEmpty) Text("No data Found"),
+                                      GridView.builder(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3,
+                                          // Number of columns
+                                          crossAxisSpacing: 10.0,
+                                          // Spacing between columns
+                                          mainAxisSpacing: 10.0, // Spacing between rows
+                                        ),
+                                        itemCount: searchData.length,
+                                        // Total number of items
+                                        itemBuilder: (BuildContext context, int index) {
+                                          final item = searchData[index];
+                                          // You can replace the Container with your image widget
+                                          return InkWell(
+                                            onTap: () {
+                                              Get.toNamed(
+                                                MyRouters.recommendationSingleScreen,
+                                                arguments: [
+                                                  item.image.toString(),
+                                                  item.title.toString(),
+                                                  item.review.toString(),
+                                                  item.id.toString(),
+                                                ],
+                                              );
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(color: Colors.black),
+                                                  borderRadius: BorderRadius.circular(10)),
+                                              child: CachedNetworkImage(
+                                                imageUrl: item.image.toString(),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                : statusOfAllRecommendation.value.isError
+                                    ? CommonErrorWidget(
+                                        errorText: "",
+                                        onTap: () {},
+                                      )
+                                    : const Center(child: CircularProgressIndicator());
+                          })
+                        ]))),
+          ]),
+        ));
   }
 }

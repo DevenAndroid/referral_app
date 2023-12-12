@@ -13,8 +13,8 @@ class ModelUserProfile {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -69,25 +69,25 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
-    if (this.myRequest != null) {
-      data['my_request'] = this.myRequest!.map((v) => v.toJson()).toList();
+    if (myRequest != null) {
+      data['my_request'] = myRequest!.map((v) => v.toJson()).toList();
     }
-    if (this.myRecommandation != null) {
+    if (myRecommandation != null) {
       data['my_recommandation'] =
-          this.myRecommandation!.map((v) => v.toJson()).toList();
+          myRecommandation!.map((v) => v.toJson()).toList();
     }
-    if (this.saveRecommandation != null) {
+    if (saveRecommandation != null) {
       data['save_recommandation'] =
-          this.saveRecommandation!.map((v) => v.toJson()).toList();
+          saveRecommandation!.map((v) => v.toJson()).toList();
     }
-    if (this.myCategories != null) {
+    if (myCategories != null) {
       data['my_categories'] =
-          this.myCategories!.map((v) => v.toJson()).toList();
+          myCategories!.map((v) => v.toJson()).toList();
     }
-    data['notification_count'] = this.notificationCount;
+    data['notification_count'] = notificationCount;
     return data;
   }
 }
@@ -164,27 +164,27 @@ class User {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['wallet_balance'] = this.walletBalance;
-    data['earned_balance'] = this.earnedBalance;
-    data['profile_image'] = this.profileImage;
-    data['address'] = this.address;
-    data['referal_code'] = this.referalCode;
-    data['is_driver_online'] = this.isDriverOnline;
-    data['is_vendor_online'] = this.isVendorOnline;
-    data['delivery_range'] = this.deliveryRange;
-    data['self_delivery'] = this.selfDelivery;
-    data['as_driver_verified'] = this.asDriverVerified;
-    data['as_vendor_verified'] = this.asVendorVerified;
-    data['as_marketing_manager_verified'] = this.asMarketingManagerVerified;
-    data['is_complete'] = this.isComplete;
-    data['following_count'] = this.followingCount;
-    data['followers_count'] = this.followersCount;
-    data['post_count'] = this.postCount;
-    data['is_follow'] = this.isFollow;
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['wallet_balance'] = walletBalance;
+    data['earned_balance'] = earnedBalance;
+    data['profile_image'] = profileImage;
+    data['address'] = address;
+    data['referal_code'] = referalCode;
+    data['is_driver_online'] = isDriverOnline;
+    data['is_vendor_online'] = isVendorOnline;
+    data['delivery_range'] = deliveryRange;
+    data['self_delivery'] = selfDelivery;
+    data['as_driver_verified'] = asDriverVerified;
+    data['as_vendor_verified'] = asVendorVerified;
+    data['as_marketing_manager_verified'] = asMarketingManagerVerified;
+    data['is_complete'] = isComplete;
+    data['following_count'] = followingCount;
+    data['followers_count'] = followersCount;
+    data['post_count'] = postCount;
+    data['is_follow'] = isFollow;
     return data;
   }
 }
@@ -226,17 +226,17 @@ class MyRequest {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    if (this.userId != null) {
-      data['user_id'] = this.userId!.toJson();
+    data['id'] = id;
+    if (userId != null) {
+      data['user_id'] = userId!.toJson();
     }
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['min_price'] = this.minPrice;
-    data['max_price'] = this.maxPrice;
-    data['image'] = this.image;
-    data['post_viewers_type'] = this.postViewersType;
-    data['wishlist'] = this.wishlist;
+    data['title'] = title;
+    data['description'] = description;
+    data['min_price'] = minPrice;
+    data['max_price'] = maxPrice;
+    data['image'] = image;
+    data['post_viewers_type'] = postViewersType;
+    data['wishlist'] = wishlist;
     return data;
   }
 }
@@ -277,17 +277,17 @@ class MyRecommandation {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    data['id'] = id;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
-    data['title'] = this.title;
-    data['review'] = this.review;
-    data['link'] = this.link;
-    data['category_id'] = this.categoryId;
-    data['image'] = this.image;
-    data['status'] = this.status;
-    data['wishlist'] = this.wishlist;
+    data['title'] = title;
+    data['review'] = review;
+    data['link'] = link;
+    data['category_id'] = categoryId;
+    data['image'] = image;
+    data['status'] = status;
+    data['wishlist'] = wishlist;
     return data;
   }
 }
@@ -307,11 +307,11 @@ class SaveRecommandation {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    if (this.post != null) {
-      data['post'] = this.post!.toJson();
+    data['id'] = id;
+    if (post != null) {
+      data['post'] = post!.toJson();
     }
-    data['date'] = this.date;
+    data['date'] = date;
     return data;
   }
 }
@@ -346,13 +346,13 @@ class Post {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['review'] = this.review;
-    data['link'] = this.link;
-    data['category_id'] = this.categoryId;
-    data['image'] = this.image;
-    data['status'] = this.status;
+    data['id'] = id;
+    data['title'] = title;
+    data['review'] = review;
+    data['link'] = link;
+    data['category_id'] = categoryId;
+    data['image'] = image;
+    data['status'] = status;
     return data;
   }
 }
@@ -376,11 +376,11 @@ class MyCategories {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['tax_percent'] = this.taxPercent;
-    data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['image'] = this.image;
+    data['id'] = id;
+    data['tax_percent'] = taxPercent;
+    data['name'] = name;
+    data['slug'] = slug;
+    data['image'] = image;
     return data;
   }
 }
