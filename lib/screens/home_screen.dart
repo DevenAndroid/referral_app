@@ -422,21 +422,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                 ],
                                                               ),
                                                             ),
-
-                                                            InkWell(
-                                                                onTap: () {
-                                                                  Share.share(
-                                                                    homeController
-                                                                        .homeModel
-                                                                        .value
-                                                                        .data!
-                                                                        .discover![index]
-                                                                        .image
-                                                                        .toString(),
-                                                                  );
-                                                                },
-                                                                child: SvgPicture.asset(AppAssets.forward)),
-                                                            SizedBox(width: 15,),
                                                             Padding(
                                                               padding: const EdgeInsets.only(right: 8.0),
                                                               child: Obx(() {
@@ -449,7 +434,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                       post_id: homeController
                                                                           .homeModel.value.data!.discover![index].id
                                                                           .toString(),
-                                                                      type: "askrecommandation",
+                                                                        type: "askrecommandation",
                                                                     ).then((value) async {
                                                                       modalRemove.value = value;
                                                                       if (value.status == true) {
@@ -469,16 +454,29 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                     setState(() {});
                                                                   },
                                                                   child: homeController.homeModel.value.data!
-                                                                      .discover![index].wishlist ==
-                                                                      true
+                                                                              .discover![index].wishlist ==
+                                                                          true
                                                                       ? SvgPicture.asset(
-                                                                    AppAssets.bookmark1,
-                                                                    height: 20,
-                                                                  )
+                                                                          AppAssets.bookmark1,
+                                                                          height: 20,
+                                                                        )
                                                                       : SvgPicture.asset(AppAssets.bookmark),
                                                                 );
                                                               }),
                                                             ),
+                                                            InkWell(
+                                                                onTap: () {
+                                                                  Share.share(
+                                                                    homeController
+                                                                        .homeModel
+                                                                        .value
+                                                                        .data!
+                                                                        .discover![index]
+                                                                        .image
+                                                                        .toString(),
+                                                                  );
+                                                                },
+                                                                child: SvgPicture.asset(AppAssets.forward))
                                                           ],
                                                         ),
                                                         const SizedBox(
@@ -952,7 +950,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                   border: Border.all(color: Colors.black),
                                                   borderRadius: BorderRadius.circular(10)),
                                               child: CachedNetworkImage(
-                                                imageUrl: allRecommendation.value.data![index].image.toString(),
+                                                imageUrl: single.value.data![index].image.toString(),
                                                 fit: BoxFit.fill,
                                               ),
                                             ),
@@ -986,7 +984,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                       itemBuilder: (BuildContext context, int index) {
                                         // You can replace the Container with your image widget
                                         return Container(
-                                          padding: const EdgeInsets.all(10),
+                                          padding: EdgeInsets.all(10),
                                           decoration: BoxDecoration(
                                               border: Border.all(color: Colors.black),
                                               borderRadius: BorderRadius.circular(10)),
