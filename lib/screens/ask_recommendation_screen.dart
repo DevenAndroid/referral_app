@@ -290,6 +290,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                     InkWell(
                       onTap: () {
                         _showActionSheet(context);
+                        FocusManager.instance.primaryFocus!.unfocus();
                       },
                       child: categoryFile.path != ""
                           ? Container(

@@ -10,12 +10,13 @@ import '../resourses/helper.dart';
 
 
 
-Future<RemoveRecommendationModel> bookmarkRepo({post_id,context,}) async {
+Future<RemoveRecommendationModel> bookmarkRepo({post_id,type,context,}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   var map = <String, dynamic>{};
 
   map['post_id'] = post_id;
+  map['type'] = type;
 
 
   print(map);
