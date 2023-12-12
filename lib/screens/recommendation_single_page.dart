@@ -3,6 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/homeController.dart';
+import '../models/home_page_model.dart';
+import '../models/remove_reomeendation.dart';
+import '../repositories/remove_bookmark_repo.dart';
+import '../resourses/api_constant.dart';
 import '../routers/routers.dart';
 import '../widgets/app_assets.dart';
 import '../widgets/app_theme.dart';
@@ -18,6 +23,13 @@ class RecommendationSingleScreen extends StatefulWidget {
 
 class _RecommendationSingleScreenState
     extends State<RecommendationSingleScreen> {
+
+  final homeController = Get.put(HomeController());
+  RxList<Recommandation> recommandationList = <Recommandation>[].obs;
+
+  Rx<RxStatus> statusOfRemove = RxStatus.empty().obs;
+
+  Rx<RemoveRecommendationModel> modalRemove = RemoveRecommendationModel().obs;
   var image = Get.arguments[0];
   var title = Get.arguments[1];
   var review = Get.arguments[2];
@@ -78,12 +90,58 @@ class _RecommendationSingleScreenState
                       SizedBox(
                         height: 10,
                       ),
-                      Text(
-                       review.toString(),
-                        style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Color(0xFF162224)),
+                      Row(  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                           review.toString(),
+                            style: GoogleFonts.mulish(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Color(0xFF162224)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Obx(() {
+                              return InkWell(
+                                onTap: () {
+                                  // home.value.data!.discover![index].wishlist.toString();
+
+                                  bookmarkRepo(
+                                    context: context,
+                                    post_id: homeController
+                                        .homeModel.value.data!.recommandation![0].id
+                                        .toString(),
+                                    type: "recommandation",
+                                  ).then((value) async {
+                                    modalRemove.value = value;
+                                    if (value.status == true) {
+                                      print('wishlist-----');
+                                      homeController.getData();
+                                      statusOfRemove.value = RxStatus.success();
+                                      //homeController.getPaginate();
+
+                                      // like=true;
+                                      showToast(value.message.toString());
+                                    } else {
+                                      statusOfRemove.value = RxStatus.error();
+                                      // like=false;
+                                      showToast(value.message.toString());
+                                    }
+                                  });
+                                  setState(() {});
+                                },
+                                child: homeController.homeModel.value.data!
+                                    .recommandation![0].wishlist ==
+                                    true
+                                    ? SvgPicture.asset(
+                                  AppAssets.bookmark1,
+                                  height: 20,
+                                )
+                                    : SvgPicture.asset(AppAssets.bookmark),
+                              );
+                            }),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 10,

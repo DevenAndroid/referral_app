@@ -434,6 +434,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                       post_id: homeController
                                                                           .homeModel.value.data!.discover![index].id
                                                                           .toString(),
+                                                                        type: "askrecommandation",
                                                                     ).then((value) async {
                                                                       modalRemove.value = value;
                                                                       if (value.status == true) {
