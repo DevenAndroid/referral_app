@@ -261,15 +261,8 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                     context: context,
                                                     following_id: userProfile.value.data!.user!.id.toString(),
                                                   ).then((value) async {
+                                                    // userProfile.value = value;
                                                     if (value.status == true) {
-                                                      setState(() {
-                                                        if(userProfile.value.data!.user!.isFollow ==false){
-                                                          userProfile.value.data!.user!.isFollow = true;
-                                                        }else{
-                                                          userProfile.value.data!.user!.isFollow = false;
-                                                        }
-                                                      });
-                                                      UserProfile();
                                                       print('wishlist-----');
                                                       statusOfRemove.value = RxStatus.success();
                                                       //homeController.getPaginate();
@@ -280,6 +273,13 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                       statusOfRemove.value = RxStatus.error();
                                                       // like=false;
                                                       showToast(value.message.toString());
+                                                    }
+                                                  });
+                                                  setState(() {
+                                                    if(userProfile.value.data!.user!.isFollow ==false){
+                                                      userProfile.value.data!.user!.isFollow = true;
+                                                    }else{
+                                                      userProfile.value.data!.user!.isFollow = false;
                                                     }
                                                   });
                                                 },
