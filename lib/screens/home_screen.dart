@@ -370,10 +370,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                         Row(
                                                           children: [
                                                             InkWell(
-                                                              onTap: (){
-
-                                                                Get.toNamed(MyRouters.allUserProfileScreen,arguments: [homeController.homeModel.value.data!
-                                                                    .discover![index].userId!.id.toString()]);
+                                                              onTap: () {
+                                                                Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                                                  homeController
+                                                                      .homeModel.value.data!.discover![index].userId!.id
+                                                                      .toString()
+                                                                ]);
                                                               },
                                                               child: ClipOval(
                                                                 child: CachedNetworkImage(
@@ -434,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                       post_id: homeController
                                                                           .homeModel.value.data!.discover![index].id
                                                                           .toString(),
-                                                                        type: "askrecommandation",
+                                                                      type: "askrecommandation",
                                                                     ).then((value) async {
                                                                       modalRemove.value = value;
                                                                       if (value.status == true) {
@@ -464,26 +466,50 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                 );
                                                               }),
                                                             ),
-                                                            InkWell(
-                                                                onTap: () {
-                                                                  Share.share(
-                                                                    homeController
-                                                                        .homeModel
-                                                                        .value
-                                                                        .data!
-                                                                        .discover![index]
-                                                                        .image
-                                                                        .toString(),
-                                                                  );
-                                                                },
-                                                                child: SvgPicture.asset(AppAssets.forward))
+                                                            const SizedBox(
+                                                              height: 15,
+                                                            ),
+                                                            Stack(children: [
+                                                              homeController.homeModel.value.data!.discover![index].image ==
+                                                                      ""
+                                                                  ? const SizedBox()
+                                                                  : ClipRRect(
+                                                                      borderRadius: BorderRadius.circular(10),
+                                                                      child: CachedNetworkImage(
+                                                                        width: size.width,
+                                                                        height: 200,
+                                                                        fit: BoxFit.fill,
+                                                                        imageUrl: homeController
+                                                                            .homeModel.value.data!.discover![index].image
+                                                                            .toString(),
+                                                                        placeholder: (context, url) => const SizedBox(
+                                                                          height: 0,
+                                                                        ),
+                                                                        errorWidget: (context, url, error) => const SizedBox(
+                                                                          height: 0,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                              Positioned(
+                                                                  right: 10,
+                                                                  top: 15,
+                                                                  child: InkWell(
+                                                                      onTap: () {
+                                                                        Share.share(
+                                                                          homeController
+                                                                              .homeModel.value.data!.discover![index].image
+                                                                              .toString(),
+                                                                        );
+                                                                      },
+                                                                      child: SvgPicture.asset(AppAssets.forward)))
+                                                            ]),
                                                           ],
                                                         ),
                                                         const SizedBox(
                                                           height: 15,
                                                         ),
                                                         homeController.homeModel.value.data!.discover![index].image == ""
-                                                            ? SizedBox()
+                                                            ? const SizedBox()
                                                             : ClipRRect(
                                                                 borderRadius: BorderRadius.circular(10),
                                                                 child: CachedNetworkImage(
@@ -493,10 +519,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                   imageUrl: homeController
                                                                       .homeModel.value.data!.discover![index].image
                                                                       .toString(),
-                                                                  placeholder: (context, url) => SizedBox(
+                                                                  placeholder: (context, url) => const SizedBox(
                                                                     height: 0,
                                                                   ),
-                                                                  errorWidget: (context, url, error) => SizedBox(
+                                                                  errorWidget: (context, url, error) => const SizedBox(
                                                                     height: 0,
                                                                   ),
                                                                 ),
@@ -536,11 +562,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
                                                             Container(
-                                                              padding: EdgeInsets.all(5),
+                                                              padding: const EdgeInsets.all(5),
                                                               width: size.width * .45,
                                                               height: 30,
                                                               decoration: BoxDecoration(
-                                                                color: Color(0xFF3797EF).withOpacity(.09),
+                                                                color: const Color(0xFF3797EF).withOpacity(.09),
                                                                 borderRadius: BorderRadius.circular(10),
                                                               ),
                                                               child: Row(
@@ -599,29 +625,29 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                             crossAxisAlignment:
                                                                                                 CrossAxisAlignment.start,
                                                                                             children: [
-                                                                                              Image(
+                                                                                              const Image(
                                                                                                   height: 20,
                                                                                                   width: 20,
                                                                                                   image: AssetImage(
                                                                                                       'assets/icons/chat.png')),
-                                                                                              SizedBox(
+                                                                                              const SizedBox(
                                                                                                 width: 10,
                                                                                               ),
                                                                                               Container(
                                                                                                 padding:
-                                                                                                    EdgeInsets.symmetric(
+                                                                                                    const EdgeInsets.symmetric(
                                                                                                         vertical: 10,
                                                                                                         horizontal: 10),
-                                                                                                decoration: BoxDecoration(
+                                                                                                decoration: const BoxDecoration(
                                                                                                     borderRadius:
                                                                                                         BorderRadius.only(
-                                                                                                            topRight: Radius
-                                                                                                                .circular(
-                                                                                                                    10),
-                                                                                                          topLeft: Radius.circular(10),
-
-
-                                                                                                        ),
+                                                                                                      topRight:
+                                                                                                          Radius.circular(
+                                                                                                              10),
+                                                                                                      topLeft:
+                                                                                                          Radius.circular(
+                                                                                                              10),
+                                                                                                    ),
                                                                                                     color:
                                                                                                         Color(0xffF0F0F0)),
                                                                                                 child: Column(
@@ -644,7 +670,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                                 Colors.black,
                                                                                                           ),
                                                                                                         ),
-                                                                                                        SizedBox(
+                                                                                                        const SizedBox(
                                                                                                           width: 10,
                                                                                                         ),
                                                                                                         Text(
@@ -660,14 +686,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                                 Colors.black,
                                                                                                           ),
                                                                                                         ),
-                                                                                                        SizedBox(
+                                                                                                        const SizedBox(
                                                                                                           width: 50,
                                                                                                         ),
                                                                                                         InkWell(
                                                                                                             onTap: () {
                                                                                                               // home.value.data!.discover![index].wishlist.toString();
                                                                                                             },
-                                                                                                            child: Icon(
+                                                                                                            child: const Icon(
                                                                                                               Icons
                                                                                                                   .favorite_outline,
                                                                                                               color: Color(
@@ -698,7 +724,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                         );
                                                                                       },
                                                                                     ),
-                                                                                    SizedBox(
+                                                                                    const SizedBox(
                                                                                       height: 20,
                                                                                     )
                                                                                   ],
@@ -721,56 +747,53 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                 ],
                                                               ),
                                                             ),
-
-
                                                             Row(
-
                                                               children: [
-                                                              Column(
-                                                                children: [
-                                                                  homeController
-                                                                      .homeModel.value.data!.discover![index].minPrice
-                                                                      .toString()
-                                                                      .isNotEmpty
-                                                                      ? const Text("Min Price")
-                                                                      : Text('No Budget'),
-                                                                  homeController
-                                                                      .homeModel.value.data!.discover![index].minPrice
-                                                                      .toString()
-                                                                      .isNotEmpty
-                                                                      ? Text(
+                                                                Column(
+                                                                  children: [
                                                                     homeController
-                                                                        .homeModel.value.data!.discover![index].minPrice
-                                                                        .toString(),
-                                                                  )
-                                                                      : const SizedBox(),
-                                                                ],
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Column(
-                                                                children: [
-                                                                  homeController
-                                                                      .homeModel.value.data!.discover![index].maxPrice
-                                                                      .toString()
-                                                                      .isNotEmpty
-                                                                      ? const Text("Max Price")
-                                                                      : const SizedBox(),
-                                                                  homeController
-                                                                      .homeModel.value.data!.discover![index].maxPrice
-                                                                      .toString()
-                                                                      .isNotEmpty
-                                                                      ? Text(
+                                                                            .homeModel.value.data!.discover![index].minPrice
+                                                                            .toString()
+                                                                            .isNotEmpty
+                                                                        ? const Text("Min Price")
+                                                                        : const Text('No Budget'),
                                                                     homeController
-                                                                        .homeModel.value.data!.discover![index].maxPrice
-                                                                        .toString(),
-                                                                  )
-                                                                      : const SizedBox(),
-                                                                ],
-                                                              ),
-                                                            ],)
-
+                                                                            .homeModel.value.data!.discover![index].minPrice
+                                                                            .toString()
+                                                                            .isNotEmpty
+                                                                        ? Text(
+                                                                            homeController.homeModel.value.data!
+                                                                                .discover![index].minPrice
+                                                                                .toString(),
+                                                                          )
+                                                                        : const SizedBox(),
+                                                                  ],
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Column(
+                                                                  children: [
+                                                                    homeController
+                                                                            .homeModel.value.data!.discover![index].maxPrice
+                                                                            .toString()
+                                                                            .isNotEmpty
+                                                                        ? const Text("Max Price")
+                                                                        : const SizedBox(),
+                                                                    homeController
+                                                                            .homeModel.value.data!.discover![index].maxPrice
+                                                                            .toString()
+                                                                            .isNotEmpty
+                                                                        ? Text(
+                                                                            homeController.homeModel.value.data!
+                                                                                .discover![index].maxPrice
+                                                                                .toString(),
+                                                                          )
+                                                                        : const SizedBox(),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            )
                                                           ],
                                                         ),
                                                         const SizedBox(
@@ -810,27 +833,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      getSingle1Repo().then((value) {
-                                        single.value = value;
-                                        if (value.status == true) {
-                                          statusOfSingle.value = RxStatus.success();
-                                          check = true;
-                                          setState(() {});
-                                        } else {
-                                          statusOfSingle.value = RxStatus.error();
-                                        }
-                                        setState(() {});
-                                        // showToast(value.message.toString());
+                                      check = false;
+                                      all();
+                                      setState(() {
+
                                       });
-                                      // getCategoriesRepo();
-                                      //  all();
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.only(bottom: height * .04),
                                       child: Container(
                                         decoration:
                                             BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
-                                        child: CircleAvatar(
+                                        child: const CircleAvatar(
                                             radius: 35,
                                             backgroundColor: Colors.transparent,
                                             child: Text(
@@ -840,7 +854,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   SizedBox(
@@ -865,7 +879,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                     category_id: categories.value.data![index].id.toString())
                                                                 .then((value) {
                                                               single.value = value;
-
                                                               if (value.status == true) {
                                                                 statusOfSingle.value = RxStatus.success();
                                                                 check = true;
@@ -911,11 +924,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 ],
                               ),
                             ),
-
+                            if(check == true)
                             statusOfSingle.value.isSuccess
                                 ? Column(
                                     children: [
-                                      if (single.value.data!.isEmpty) Text("No Record found"),
+                                      if (single.value.data!.isEmpty) const Text("No Record found"),
                                       GridView.builder(
                                         padding: EdgeInsets.zero,
                                         shrinkWrap: true,
@@ -945,7 +958,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                               print("object");
                                             },
                                             child: Container(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               decoration: BoxDecoration(
                                                   border: Border.all(color: Colors.black),
                                                   borderRadius: BorderRadius.circular(10)),
@@ -965,13 +978,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                         onTap: () {},
                                       )
                                     : const Center(child: SizedBox()),
-
-                            //////////////////////////
                             if (check == false)
                               statusOfAllRecommendation.value.isSuccess
                                   ? GridView.builder(
                                       padding: EdgeInsets.zero,
+                                      physics: const BouncingScrollPhysics(),
                                       shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
                                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 3,
                                         // Number of columns
@@ -983,14 +996,28 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                       // Total number of items
                                       itemBuilder: (BuildContext context, int index) {
                                         // You can replace the Container with your image widget
-                                        return Container(
-                                          padding: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(color: Colors.black),
-                                              borderRadius: BorderRadius.circular(10)),
-                                          child: CachedNetworkImage(
-                                            imageUrl: allRecommendation.value.data![index].image.toString(),
-                                            fit: BoxFit.fill,
+                                        return InkWell(
+                                          onTap: (){
+                                            Get.toNamed(
+                                              MyRouters.recommendationSingleScreen,
+                                              arguments: [
+                                                allRecommendation.value.data![index].image.toString(),
+                                                allRecommendation.value.data![index].title.toString(),
+                                                allRecommendation.value.data![index].review.toString(),
+                                                allRecommendation.value.data![index].id.toString(),
+                                                allRecommendation.value.data![index].link.toString(),
+                                              ],
+                                            );
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.black),
+                                                borderRadius: BorderRadius.circular(10)),
+                                            child: CachedNetworkImage(
+                                              imageUrl: allRecommendation.value.data![index].image.toString(),
+                                              fit: BoxFit.fill,
+                                            ),
                                           ),
                                         );
                                       },
