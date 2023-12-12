@@ -1009,12 +1009,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                               Row(
                                                                                 children: [
                                                                                   ClipOval(
-                                                                                    child: profileController.modal.value.data!.saveRecommandation![index].post != null
+                                                                                    child: profileController.modal.value.data!.saveRecommandation![index].userId!.profileImage != null
                                                                                         ? CachedNetworkImage(
                                                                                             width: 30,
                                                                                             height: 30,
                                                                                             fit: BoxFit.cover,
-                                                                                            imageUrl: profileController.modal.value.data!.saveRecommandation![index].post!.toString(),
+                                                                                            imageUrl:  profileController.modal.value.data!.saveRecommandation![index].userId!.profileImage.toString(),
                                                                                             placeholder: (context, url) => Image.asset(AppAssets.girl),
                                                                                             errorWidget: (context, url, error) => Image.asset(AppAssets.girl),
                                                                                           )
@@ -1028,7 +1028,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                                                       children: [
-                                                                                        profileController.modal.value.data!.saveRecommandation![index].post!.review.toString() == "" && profileController.modal.value.data!.saveRecommandation![index].post!.review == null
+                                                                                        profileController.modal.value.data!.saveRecommandation![index].userId!.name.toString() == "" && profileController.modal.value.data!.saveRecommandation![index].userId!.name == null
                                                                                             ? Text(
                                                                                                 "Name...",
                                                                                                 style: GoogleFonts.mulish(
@@ -1038,7 +1038,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                                     color: Colors.black),
                                                                                               )
                                                                                             : Text(
-                                                                                                profileController.modal.value.data!.saveRecommandation![index].post!.review.toString(),
+                                                                                                profileController.modal.value.data!.saveRecommandation![index].userId!.name.toString(),
                                                                                                 style: GoogleFonts.mulish(
                                                                                                     fontWeight: FontWeight.w700,
                                                                                                     // letterSpacing: 1,

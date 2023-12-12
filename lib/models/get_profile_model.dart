@@ -113,6 +113,7 @@ class User {
   int? followingCount;
   int? followersCount;
   int? postCount;
+  bool? isFollow;
 
   User(
       {this.id,
@@ -134,7 +135,8 @@ class User {
         this.isComplete,
         this.followingCount,
         this.followersCount,
-        this.postCount});
+        this.postCount,
+        this.isFollow});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -157,6 +159,7 @@ class User {
     followingCount = json['following_count'];
     followersCount = json['followers_count'];
     postCount = json['post_count'];
+    isFollow = json['is_follow'];
   }
 
   Map<String, dynamic> toJson() {
@@ -181,6 +184,7 @@ class User {
     data['following_count'] = this.followingCount;
     data['followers_count'] = this.followersCount;
     data['post_count'] = this.postCount;
+    data['is_follow'] = this.isFollow;
     return data;
   }
 }
@@ -195,6 +199,7 @@ class MyRequest {
   String? image;
   String? postViewersType;
   bool? wishlist;
+  int? noBudget;
   String? date;
 
   MyRequest(
@@ -207,6 +212,7 @@ class MyRequest {
         this.image,
         this.postViewersType,
         this.wishlist,
+        this.noBudget,
         this.date});
 
   MyRequest.fromJson(Map<String, dynamic> json) {
@@ -220,6 +226,7 @@ class MyRequest {
     image = json['image'];
     postViewersType = json['post_viewers_type'];
     wishlist = json['wishlist'];
+    noBudget = json['no_budget'];
     date = json['date'];
   }
 
@@ -236,6 +243,7 @@ class MyRequest {
     data['image'] = this.image;
     data['post_viewers_type'] = this.postViewersType;
     data['wishlist'] = this.wishlist;
+    data['no_budget'] = this.noBudget;
     data['date'] = this.date;
     return data;
   }
@@ -298,13 +306,16 @@ class MyRecommandation {
 
 class SaveRecommandation {
   int? id;
+  User? userId;
   Post? post;
   String? date;
 
-  SaveRecommandation({this.id, this.post, this.date});
+  SaveRecommandation({this.id, this.userId, this.post, this.date});
 
   SaveRecommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    userId =
+    json['user_id'] != null ? new User.fromJson(json['user_id']) : null;
     post = json['post'] != null ? new Post.fromJson(json['post']) : null;
     date = json['date'];
   }
@@ -312,6 +323,9 @@ class SaveRecommandation {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    if (this.userId != null) {
+      data['user_id'] = this.userId!.toJson();
+    }
     if (this.post != null) {
       data['post'] = this.post!.toJson();
     }
@@ -323,28 +337,43 @@ class SaveRecommandation {
 class Post {
   int? id;
   String? title;
+  String? description;
+  String? minPrice;
+  String? maxPrice;
+  String? noBudget;
+  String? image;
+  String? postViewersType;
   String? review;
   String? link;
   String? categoryId;
-  String? image;
   String? status;
 
   Post(
       {this.id,
         this.title,
+        this.description,
+        this.minPrice,
+        this.maxPrice,
+        this.noBudget,
+        this.image,
+        this.postViewersType,
         this.review,
         this.link,
         this.categoryId,
-        this.image,
         this.status});
 
   Post.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
+    description = json['description'];
+    minPrice = json['min_price'];
+    maxPrice = json['max_price'];
+    noBudget = json['no_budget'];
+    image = json['image'];
+    postViewersType = json['post_viewers_type'];
     review = json['review'];
     link = json['link'];
     categoryId = json['category_id'];
-    image = json['image'];
     status = json['status'];
   }
 
@@ -352,10 +381,15 @@ class Post {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
+    data['description'] = this.description;
+    data['min_price'] = this.minPrice;
+    data['max_price'] = this.maxPrice;
+    data['no_budget'] = this.noBudget;
+    data['image'] = this.image;
+    data['post_viewers_type'] = this.postViewersType;
     data['review'] = this.review;
     data['link'] = this.link;
     data['category_id'] = this.categoryId;
-    data['image'] = this.image;
     data['status'] = this.status;
     return data;
   }
