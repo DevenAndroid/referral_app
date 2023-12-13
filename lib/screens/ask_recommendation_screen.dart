@@ -112,26 +112,26 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                         Obx(() {
                           return profileController.statusOfProfile.value.isSuccess
                               ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ClipOval(
-                              child: CachedNetworkImage(
-                                height: 30,
-                                fit: BoxFit.fill,
-                                imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
-                                placeholder: (context, url) => Padding(
-                                  padding: const EdgeInsets.only(left: 12.0),
-                                  child: Image.asset(AppAssets.man),
-                                ),
-                                errorWidget: (context, url, error) => Padding(
-                                  padding: const EdgeInsets.only(left: 12.0),
-                                  child: Image.asset(AppAssets.man),
-                                ),
-                              ),
-                            ),
-                          )
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipOval(
+                                    child: CachedNetworkImage(
+                                      height: 30,
+                                      fit: BoxFit.fill,
+                                      imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
+                                      placeholder: (context, url) => Padding(
+                                        padding: const EdgeInsets.only(left: 12.0),
+                                        child: Image.asset(AppAssets.man),
+                                      ),
+                                      errorWidget: (context, url, error) => Padding(
+                                        padding: const EdgeInsets.only(left: 12.0),
+                                        child: Image.asset(AppAssets.man),
+                                      ),
+                                    ),
+                                  ),
+                                )
                               : profileController.statusOfProfile.value.isError
-                              ? Image.asset(AppAssets.man)
-                              : const Center(child: CircularProgressIndicator());
+                                  ? Image.asset(AppAssets.man)
+                                  : const Center(child: CircularProgressIndicator());
                         }),
                         const SizedBox(
                           width: 13,
@@ -171,15 +171,14 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                   int valueB = int.parse(maxController.text);
                                   if (valueA > valueB) {
                                     showToast('Min value cannot be grater than Max value');
-                                  }
-                                  else {
+                                  } else {
                                     Map map = <String, String>{};
                                     map['title'] = tittleController.text.trim();
                                     map['description'] = descriptionController.text.trim();
                                     map['min_price'] = minController.text.toString();
                                     map['max_price'] = maxController.text.toString();
                                     map['post_viewers_type'] = profileController.selectedValue.value;
-                                    map['no_budget'] = value2 ==true? '1' : '0';
+                                    map['no_budget'] = value2 == true ? '1' : '0';
 
                                     askRecommendationRepo(
                                       fieldName1: 'image',
@@ -196,15 +195,14 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                       }
                                     });
                                   }
-                                }
-                                else {
+                                } else {
                                   Map map = <String, String>{};
                                   map['title'] = tittleController.text.trim();
                                   map['description'] = descriptionController.text.trim();
                                   map['min_price'] = minController.text.toString();
                                   map['max_price'] = maxController.text.toString();
                                   map['post_viewers_type'] = profileController.selectedValue.value;
-                                  map['no_budget'] =  value2 ==true ? '1' : '0';
+                                  map['no_budget'] = value2 == true ? '1' : '0';
 
                                   askRecommendationRepo(
                                     fieldName1: 'image',
@@ -469,7 +467,9 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                         )),
                       ],
                     ),
-
+                    SizedBox(
+                      height: 50,
+                    )
                     /*             Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
