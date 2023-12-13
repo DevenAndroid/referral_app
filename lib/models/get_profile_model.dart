@@ -306,16 +306,13 @@ class MyRecommandation {
 
 class SaveRecommandation {
   int? id;
-  User? userId;
   Post? post;
   String? date;
 
-  SaveRecommandation({this.id, this.userId, this.post, this.date});
+  SaveRecommandation({this.id, this.post, this.date});
 
   SaveRecommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    userId =
-    json['user_id'] != null ? new User.fromJson(json['user_id']) : null;
     post = json['post'] != null ? new Post.fromJson(json['post']) : null;
     date = json['date'];
   }
@@ -323,9 +320,6 @@ class SaveRecommandation {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    if (this.userId != null) {
-      data['user_id'] = this.userId!.toJson();
-    }
     if (this.post != null) {
       data['post'] = this.post!.toJson();
     }
@@ -336,6 +330,7 @@ class SaveRecommandation {
 
 class Post {
   int? id;
+  User? user;
   String? title;
   String? description;
   String? minPrice;
@@ -350,6 +345,7 @@ class Post {
 
   Post(
       {this.id,
+        this.user,
         this.title,
         this.description,
         this.minPrice,
@@ -364,6 +360,7 @@ class Post {
 
   Post.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
     title = json['title'];
     description = json['description'];
     minPrice = json['min_price'];
@@ -380,6 +377,9 @@ class Post {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
     data['title'] = this.title;
     data['description'] = this.description;
     data['min_price'] = this.minPrice;

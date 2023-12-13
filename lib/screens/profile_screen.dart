@@ -14,8 +14,10 @@ import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
 import '../models/categories_model.dart';
 import '../models/home_page_model.dart';
+import '../models/single_product_model.dart';
 import '../repositories/categories_repo.dart';
 import '../repositories/home_pafe_repo.dart';
+import '../repositories/single_produc_repo.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
 import '../widgets/custome_textfiled.dart';
@@ -98,6 +100,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   bool showFloatingActionButton = false;
   late TabController _tabController;
 
+  Rx<RxStatus> statusOfSingle = RxStatus.empty().obs;
+  Rx<SingleProduct> single = SingleProduct().obs;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -137,6 +142,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   }
 
   var currentDrawer = 0;
+
+  bool check = false;
 
   @override
   Widget build(BuildContext context) {
@@ -244,6 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           Get.toNamed(MyRouters.followingScreen, arguments: [
                                             profileController.modal.value.data!.user!.followersCount.toString(),
                                             profileController.modal.value.data!.user!.followingCount.toString(),
+                                            profileController.modal.value.data!.user!.id.toString(),
                                           ]);
                                         },
                                         child: Column(
@@ -270,6 +278,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           Get.toNamed(MyRouters.followingScreen, arguments: [
                                             profileController.modal.value.data!.user!.followersCount.toString(),
                                             profileController.modal.value.data!.user!.followingCount.toString(),
+                                            profileController.modal.value.data!.user!.id.toString(),
                                           ]);
                                         },
                                         child: Column(
@@ -353,6 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     TabBar(
                                       controller: _tabController,
                                       padding: EdgeInsets.zero,
+                                      dividerColor: Colors.transparent,
 
                                       isScrollable: true,
                                       labelColor: Colors.blue,
@@ -515,10 +525,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                           imageUrl: profileController
                                                                               .modal.value.data!.myRequest![index].image
                                                                               .toString(),
-                                                                          placeholder: (context, url) => SizedBox(
+                                                                          placeholder: (context, url) => const SizedBox(
                                                                             height: 0,
                                                                           ),
-                                                                          errorWidget: (context, url, error) => SizedBox(
+                                                                          errorWidget: (context, url, error) =>
+                                                                              const SizedBox(
                                                                             height: 0,
                                                                           ),
                                                                         ),
@@ -551,29 +562,77 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                 const SizedBox(
                                                                   height: 10,
                                                                 ),
-                                                                Container(
-                                                                  padding: const EdgeInsets.all(5),
-                                                                  height: 30,
-                                                                  decoration: BoxDecoration(
-                                                                    color: const Color(0xFF3797EF).withOpacity(.09),
-                                                                    borderRadius: BorderRadius.circular(10),
-                                                                  ),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      SvgPicture.asset(AppAssets.message),
-                                                                      const SizedBox(
-                                                                        width: 6,
+                                                                Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets.all(5),
+                                                                      height: 30,
+                                                                      decoration: BoxDecoration(
+                                                                        color: const Color(0xFF3797EF).withOpacity(.09),
+                                                                        borderRadius: BorderRadius.circular(10),
                                                                       ),
-                                                                      Text(
-                                                                        "Recommendations: 120",
-                                                                        style: GoogleFonts.mulish(
-                                                                            fontWeight: FontWeight.w500,
-                                                                            // letterSpacing: 1,
-                                                                            fontSize: 12,
-                                                                            color: const Color(0xFF3797EF)),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          SvgPicture.asset(AppAssets.message),
+                                                                          const SizedBox(
+                                                                            width: 6,
+                                                                          ),
+                                                                          Text(
+                                                                            "Recommendations: 120",
+                                                                            style: GoogleFonts.mulish(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                // letterSpacing: 1,
+                                                                                fontSize: 12,
+                                                                                color: const Color(0xFF3797EF)),
+                                                                          ),
+                                                                        ],
                                                                       ),
-                                                                    ],
-                                                                  ),
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        Column(
+                                                                          children: [
+                                                                            profileController.modal.value.data!
+                                                                                    .myRequest![index].minPrice
+                                                                                    .toString()
+                                                                                    .isNotEmpty
+                                                                                ? const Text("Min Price")
+                                                                                : const Text('No Budget'),
+                                                                            profileController.modal.value.data!
+                                                                                    .myRequest![index].minPrice
+                                                                                    .toString()
+                                                                                    .isNotEmpty
+                                                                                ? Text(profileController.modal.value.data!
+                                                                                    .myRequest![index].minPrice
+                                                                                    .toString())
+                                                                                : const SizedBox(),
+                                                                          ],
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width: 10,
+                                                                        ),
+                                                                        Column(
+                                                                          children: [
+                                                                            profileController.modal.value.data!
+                                                                                    .myRequest![index].maxPrice
+                                                                                    .toString()
+                                                                                    .isNotEmpty
+                                                                                ? const Text("Max Price")
+                                                                                : SizedBox(),
+                                                                            profileController.modal.value.data!
+                                                                                    .myRequest![index].maxPrice
+                                                                                    .toString()
+                                                                                    .isNotEmpty
+                                                                                ? Text(profileController.modal.value.data!
+                                                                                    .myRequest![index].maxPrice
+                                                                                    .toString())
+                                                                                : const SizedBox(),
+                                                                          ],
+                                                                        )
+                                                                      ],
+                                                                    )
+                                                                  ],
                                                                 ),
                                                                 const SizedBox(
                                                                   height: 10,
@@ -612,7 +671,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       SizedBox(
                                           height: size.height * .15,
                                           child: Obx(() {
-                                            return profileController.statusOfProfile.value.isSuccess
+                                            return profileController.statusOfProfile.value.isSuccess &&
+                                                    statusOfCategories.value.isSuccess
                                                 ? ListView.builder(
                                                     itemCount: profileController.modal.value.data!.myCategories!.length,
                                                     shrinkWrap: true,
@@ -625,9 +685,22 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                           children: [
                                                             InkWell(
                                                               onTap: () {
-                                                                // profileController.categoriesController.text = item.name.toString();
-                                                                // profileController.idController.text = item.id.toString();
-                                                                // Get.back();
+                                                                getSingleRepo(
+                                                                        category_id: profileController
+                                                                            .modal.value.data!.myCategories![index].id
+                                                                            .toString())
+                                                                    .then((value) {
+                                                                  single.value = value;
+                                                                  if (value.status == true) {
+                                                                    statusOfSingle.value = RxStatus.success();
+                                                                    check = true;
+                                                                    setState(() {});
+                                                                  } else {
+                                                                    statusOfSingle.value = RxStatus.error();
+                                                                  }
+                                                                  setState(() {});
+                                                                  // showToast(value.message.toString());
+                                                                });
                                                               },
                                                               child: ClipOval(
                                                                 child: CachedNetworkImage(
@@ -718,248 +791,238 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   ),
                                 ),
                               ),
-                              if (profileController.modal.value.data!.saveRecommandation!.isNotEmpty)
-                                SingleChildScrollView(
-                                  physics: const AlwaysScrollableScrollPhysics(),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Obx(() {
-                                          return profileController.statusOfProfile.value.isSuccess
-                                              ? Column(
-                                                  children: [
-                                                    ListView.builder(
-                                                        shrinkWrap: true,
-                                                        itemCount:
-                                                            profileController.modal.value.data!.saveRecommandation!.length,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        itemBuilder: (context, index) {
-                                                          return Column(
-                                                            children: [
-                                                              profileController.modal.value.data!.saveRecommandation !=
-                                                                          null &&
-                                                                      profileController.modal.value.data!
-                                                                              .saveRecommandation![index].post !=
-                                                                          null
-                                                                  ? Container(
-                                                                      padding: const EdgeInsets.all(10),
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors.white,
-                                                                          borderRadius: BorderRadius.circular(10),
-                                                                          boxShadow: [
-                                                                            BoxShadow(
-                                                                              color:
-                                                                                  const Color(0xFF5F5F5F).withOpacity(0.2),
-                                                                              offset: const Offset(0.0, 0.2),
-                                                                              blurRadius: 2,
+                              // if (profileController.modal.value.data!.saveRecommandation!.isNotEmpty)
+                              SingleChildScrollView(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Obx(() {
+                                        return profileController.statusOfProfile.value.isSuccess
+                                            ? Column(
+                                                children: [
+                                                  ListView.builder(
+                                                      shrinkWrap: true,
+                                                      itemCount:
+                                                          profileController.modal.value.data!.saveRecommandation!.length,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      itemBuilder: (context, index) {
+                                                        return Column(
+                                                          children: [
+                                                            profileController.modal.value.data!.saveRecommandation != null &&
+                                                                    profileController.modal.value.data!
+                                                                            .saveRecommandation![index].post !=
+                                                                        null
+                                                                ? Container(
+                                                                    padding: const EdgeInsets.all(10),
+                                                                    decoration: BoxDecoration(
+                                                                        color: Colors.white,
+                                                                        borderRadius: BorderRadius.circular(10),
+                                                                        boxShadow: [
+                                                                          BoxShadow(
+                                                                            color: const Color(0xFF5F5F5F).withOpacity(0.2),
+                                                                            offset: const Offset(0.0, 0.2),
+                                                                            blurRadius: 2,
+                                                                          ),
+                                                                        ]),
+                                                                    child: Column(
+                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        Row(
+                                                                          children: [
+                                                                            ClipOval(
+                                                                              child: profileController
+                                                                                          .modal
+                                                                                          .value
+                                                                                          .data!
+                                                                                          .saveRecommandation![index]
+                                                                                          .post!
+                                                                                          .user!
+                                                                                          .profileImage !=
+                                                                                      null
+                                                                                  ? CachedNetworkImage(
+                                                                                      width: 30,
+                                                                                      height: 30,
+                                                                                      fit: BoxFit.cover,
+                                                                                      imageUrl: profileController
+                                                                                          .modal
+                                                                                          .value
+                                                                                          .data!
+                                                                                          .saveRecommandation![index].post!
+                                                                                          .user!
+                                                                                          .profileImage
+                                                                                          .toString(),
+                                                                                      // placeholder: (context, url) =>
+                                                                                      //     Image.asset(AppAssets.girl),
+                                                                                      // errorWidget: (context, url, error) =>
+                                                                                      //     Image.asset(AppAssets.girl),
+                                                                                    )
+                                                                                  : Image.asset(AppAssets.girl),
                                                                             ),
-                                                                          ]),
-                                                                      child: Column(
-                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Row(
-                                                                            children: [
-                                                                              ClipOval(
-                                                                                child: profileController
-                                                                                            .modal
-                                                                                            .value
-                                                                                            .data!
-                                                                                            .saveRecommandation![index]
-                                                                                            .userId!
-                                                                                            .profileImage !=
-                                                                                        null
-                                                                                    ? CachedNetworkImage(
-                                                                                        width: 30,
-                                                                                        height: 30,
-                                                                                        fit: BoxFit.cover,
-                                                                                        imageUrl: profileController
-                                                                                            .modal
-                                                                                            .value
-                                                                                            .data!
-                                                                                            .saveRecommandation![index]
-                                                                                            .userId!
-                                                                                            .profileImage
-                                                                                            .toString(),
-                                                                                        placeholder: (context, url) =>
-                                                                                            Image.asset(AppAssets.girl),
-                                                                                        errorWidget: (context, url, error) =>
-                                                                                            Image.asset(AppAssets.girl),
-                                                                                      )
-                                                                                    : Image.asset(AppAssets.girl),
+                                                                            const SizedBox(
+                                                                              width: 20,
+                                                                            ),
+                                                                            Expanded(
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  profileController
+                                                                                                  .modal
+                                                                                                  .value
+                                                                                                  .data!
+                                                                                                  .saveRecommandation![index].post!
+                                                                                                  .user!
+                                                                                                  .name
+                                                                                                  .toString() ==
+                                                                                              "" &&
+                                                                                          profileController
+                                                                                                  .modal
+                                                                                                  .value
+                                                                                                  .data!
+                                                                                                  .saveRecommandation![index].post!
+                                                                                                  .user!
+                                                                                                  .name ==
+                                                                                              null
+                                                                                      ? Text(
+                                                                                          "Name...",
+                                                                                          style: GoogleFonts.mulish(
+                                                                                              fontWeight: FontWeight.w700,
+                                                                                              // letterSpacing: 1,
+                                                                                              fontSize: 14,
+                                                                                              color: Colors.black),
+                                                                                        )
+                                                                                      : Text(
+                                                                                          profileController
+                                                                                              .modal
+                                                                                              .value
+                                                                                              .data!
+                                                                                              .saveRecommandation![index].post!
+                                                                                              .user!
+                                                                                              .name
+                                                                                              .toString(),
+                                                                                          style: GoogleFonts.mulish(
+                                                                                              fontWeight: FontWeight.w700,
+                                                                                              // letterSpacing: 1,
+                                                                                              fontSize: 14,
+                                                                                              color: Colors.black),
+                                                                                        ),
+                                                                                ],
                                                                               ),
-                                                                              const SizedBox(
-                                                                                width: 20,
-                                                                              ),
-                                                                              Expanded(
-                                                                                child: Column(
-                                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                                  crossAxisAlignment:
-                                                                                      CrossAxisAlignment.start,
-                                                                                  children: [
-                                                                                    profileController
-                                                                                                    .modal
-                                                                                                    .value
-                                                                                                    .data!
-                                                                                                    .saveRecommandation![
-                                                                                                        index]
-                                                                                                    .userId!
-                                                                                                    .name
-                                                                                                    .toString() ==
-                                                                                                "" &&
-                                                                                            profileController
-                                                                                                    .modal
-                                                                                                    .value
-                                                                                                    .data!
-                                                                                                    .saveRecommandation![
-                                                                                                        index]
-                                                                                                    .userId!
-                                                                                                    .name ==
-                                                                                                null
-                                                                                        ? Text(
-                                                                                            "Name...",
-                                                                                            style: GoogleFonts.mulish(
-                                                                                                fontWeight: FontWeight.w700,
-                                                                                                // letterSpacing: 1,
-                                                                                                fontSize: 14,
-                                                                                                color: Colors.black),
-                                                                                          )
-                                                                                        : Text(
-                                                                                            profileController
-                                                                                                .modal
-                                                                                                .value
-                                                                                                .data!
-                                                                                                .saveRecommandation![index]
-                                                                                                .userId!
-                                                                                                .name
-                                                                                                .toString(),
-                                                                                            style: GoogleFonts.mulish(
-                                                                                                fontWeight: FontWeight.w700,
-                                                                                                // letterSpacing: 1,
-                                                                                                fontSize: 14,
-                                                                                                color: Colors.black),
-                                                                                          ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                              SvgPicture.asset(AppAssets.bookmark1),
-                                                                            ],
-                                                                          ),
-                                                                          const SizedBox(
-                                                                            height: 15,
-                                                                          ),
-                                                                          profileController
+                                                                            ),
+                                                                            SvgPicture.asset(AppAssets.bookmark1),
+                                                                          ],
+                                                                        ),
+                                                                        const SizedBox(
+                                                                          height: 15,
+                                                                        ),
+                                                                        profileController
+                                                                                    .modal
+                                                                                    .value
+                                                                                    .data!
+                                                                                    .saveRecommandation![index]
+                                                                                    .post!
+                                                                                    .image ==
+                                                                                ""
+                                                                            ? SizedBox()
+                                                                            : ClipRRect(
+                                                                                borderRadius: BorderRadius.circular(10),
+                                                                                child: CachedNetworkImage(
+                                                                                  width: size.width,
+                                                                                  height: 200,
+                                                                                  fit: BoxFit.fill,
+                                                                                  imageUrl: profileController
                                                                                       .modal
                                                                                       .value
                                                                                       .data!
                                                                                       .saveRecommandation![index]
                                                                                       .post!
-                                                                                      .image ==
-                                                                                  ""
-                                                                              ? SizedBox()
-                                                                              : ClipRRect(
-                                                                                  borderRadius: BorderRadius.circular(10),
-                                                                                  child: CachedNetworkImage(
-                                                                                    width: size.width,
-                                                                                    height: 200,
-                                                                                    fit: BoxFit.fill,
-                                                                                    imageUrl: profileController
-                                                                                        .modal
-                                                                                        .value
-                                                                                        .data!
-                                                                                        .saveRecommandation![index]
-                                                                                        .post!
-                                                                                        .image
-                                                                                        .toString(),
-                                                                                    placeholder: (context, url) => SizedBox(
-                                                                                      height: 0,
-                                                                                    ),
-                                                                                    errorWidget: (context, url, error) =>
-                                                                                        SizedBox(
-                                                                                      height: 0,
-                                                                                    ),
+                                                                                      .image
+                                                                                      .toString(),
+                                                                                  placeholder: (context, url) => SizedBox(
+                                                                                    height: 0,
+                                                                                  ),
+                                                                                  errorWidget: (context, url, error) =>
+                                                                                      SizedBox(
+                                                                                    height: 0,
                                                                                   ),
                                                                                 ),
-                                                                          const SizedBox(
-                                                                            height: 10,
-                                                                          ),
-                                                                          Text(
+                                                                              ),
+                                                                        const SizedBox(
+                                                                          height: 10,
+                                                                        ),
+                                                                        Text(
+                                                                          profileController.modal.value.data!
+                                                                              .saveRecommandation![index].post!.title
+                                                                              .toString(),
+                                                                          style: GoogleFonts.mulish(
+                                                                              fontWeight: FontWeight.w700,
+                                                                              // letterSpacing: 1,
+                                                                              fontSize: 17,
+                                                                              color: Colors.black),
+                                                                        ),
+                                                                        const SizedBox(
+                                                                          height: 10,
+                                                                        ),
+                                                                        GestureDetector(
+                                                                          onTap: () async {
+                                                                            //output: Hello%20Flutter
+                                                                            Uri mail = Uri.parse(
+                                                                              "https://" +
+                                                                                  profileController.modal.value.data!
+                                                                                      .saveRecommandation![index].post!.link
+                                                                                      .toString(),
+                                                                            );
+                                                                            if (await launchUrl(mail)) {
+                                                                              //email app opened
+                                                                            } else {
+                                                                              //email app is not opened
+                                                                            }
+                                                                          },
+                                                                          child: Text(
                                                                             profileController.modal.value.data!
-                                                                                .saveRecommandation![index].post!.title
+                                                                                .saveRecommandation![index].post!.description
                                                                                 .toString(),
                                                                             style: GoogleFonts.mulish(
-                                                                                fontWeight: FontWeight.w700,
+                                                                                fontWeight: FontWeight.w300,
                                                                                 // letterSpacing: 1,
-                                                                                fontSize: 17,
-                                                                                color: Colors.black),
+                                                                                fontSize: 14,
+                                                                                color: const Color(0xFF6F7683)),
                                                                           ),
-                                                                          const SizedBox(
-                                                                            height: 10,
-                                                                          ),
-                                                                          GestureDetector(
-                                                                            onTap: () async {
-                                                                              //output: Hello%20Flutter
-                                                                              Uri mail = Uri.parse(
-                                                                                "https://" +
-                                                                                    profileController
-                                                                                        .modal
-                                                                                        .value
-                                                                                        .data!
-                                                                                        .saveRecommandation![index]
-                                                                                        .post!
-                                                                                        .link
-                                                                                        .toString(),
-                                                                              );
-                                                                              if (await launchUrl(mail)) {
-                                                                                //email app opened
-                                                                              } else {
-                                                                                //email app is not opened
-                                                                              }
-                                                                            },
-                                                                            child: Text(
-                                                                              profileController.modal.value.data!
-                                                                                  .saveRecommandation![index].post!.link
-                                                                                  .toString(),
-                                                                              style: GoogleFonts.mulish(
-                                                                                  fontWeight: FontWeight.w300,
-                                                                                  decoration: TextDecoration.underline,
-                                                                                  // letterSpacing: 1,
-                                                                                  fontSize: 14,
-                                                                                  color: const Color(0xFF6F7683)),
-                                                                            ),
-                                                                          ),
-                                                                          const SizedBox(
-                                                                            height: 10,
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    )
-                                                                  : const Text("No data found "),
-                                                              const SizedBox(
-                                                                height: 15,
-                                                              )
-                                                            ],
-                                                          );
-                                                        }),
-                                                    const SizedBox(
-                                                      height: 350,
-                                                    )
-                                                  ],
-                                                )
-                                              : profileController.statusOfProfile.value.isError
-                                                  ? CommonErrorWidget(
-                                                      errorText: "",
-                                                      onTap: () {},
-                                                    )
-                                                  : const Center(child: CircularProgressIndicator());
-                                        })
-                                      ],
-                                    ),
+                                                                        ),
+                                                                        const SizedBox(
+                                                                          height: 10,
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                : const Text("No data found "),
+                                                            const SizedBox(
+                                                              height: 15,
+                                                            )
+                                                          ],
+                                                        );
+                                                      }),
+                                                  const SizedBox(
+                                                    height: 350,
+                                                  )
+                                                ],
+                                              )
+                                            : profileController.statusOfProfile.value.isError
+                                                ? CommonErrorWidget(
+                                                    errorText: "",
+                                                    onTap: () {},
+                                                  )
+                                                : const Center(child: CircularProgressIndicator());
+                                      })
+                                    ],
                                   ),
                                 ),
+                              ),
                             ]),
                           ),
                         ],

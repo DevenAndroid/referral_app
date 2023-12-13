@@ -213,11 +213,15 @@ class _SearchScreenState extends State<SearchScreen> {
                                                         height: 50,
                                                         fit: BoxFit.cover,
                                                         imageUrl: item.profileImage.toString(),
-
-                                                        errorWidget: (context, url, error) => Image.asset(
-                                                          AppAssets.img,
-                                                          height: 40,
-                                                        ),
+                                                        errorWidget: (_, __, ___) =>  Image.asset(
+                                    AppAssets.man,
+                                    color: Colors.grey.shade200,
+                                  ),
+                                  placeholder: (_, __) =>
+                                      Image.asset(
+                                        AppAssets.man,
+                                        color: Colors.grey.shade200,
+                                      ),
                                                       ),
                                                     ),
                                                     const SizedBox(
@@ -317,6 +321,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                   item.title.toString(),
                                                   item.review.toString(),
                                                   item.id.toString(),
+                                                  item.link.toString(),
                                                 ],
                                               );
                                             },

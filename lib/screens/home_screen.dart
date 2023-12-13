@@ -259,10 +259,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                             height: 100,
                             fit: BoxFit.fill,
                             imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
-                            placeholder: (context, url) => Padding(
-                              padding: const EdgeInsets.only(left: 12.0),
-                              child: Image.asset(AppAssets.man),
-                            ),
                             errorWidget: (context, url, error) => Padding(
                               padding: const EdgeInsets.only(left: 12.0),
                               child: Image.asset(AppAssets.man),
@@ -385,9 +381,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                   imageUrl: homeController.homeModel.value.data!
                                                                       .discover![index].userId!.profileImage
                                                                       .toString(),
-                                                                  placeholder: (context, url) => Image.asset(AppAssets.girl),
-                                                                  errorWidget: (context, url, error) =>
-                                                                      Image.asset(AppAssets.girl),
+                                                                  errorWidget: (_, __, ___) =>  Image.asset(
+                                                                    AppAssets.man,
+                                                                    color: Colors.grey.shade200,
+                                                                  ),
+                                                                  placeholder: (_, __) =>
+                                                                      Image.asset(
+                                                                        AppAssets.man,
+                                                                        color: Colors.grey.shade200,
+                                                                      ),
                                                                 ),
                                                               ),
                                                             ),
@@ -467,42 +469,17 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               }),
                                                             ),
                                                             const SizedBox(
-                                                              height: 15,
+                                                              width: 15,
                                                             ),
-                                                            Stack(children: [
-                                                              homeController.homeModel.value.data!.discover![index].image ==
-                                                                      ""
-                                                                  ? const SizedBox()
-                                                                  : ClipRRect(
-                                                                      borderRadius: BorderRadius.circular(10),
-                                                                      child: CachedNetworkImage(
-                                                                        width: size.width,
-                                                                        height: 200,
-                                                                        fit: BoxFit.fill,
-                                                                        imageUrl: homeController
-                                                                            .homeModel.value.data!.discover![index].image
-                                                                            .toString(),
-                                                                        placeholder: (context, url) => const SizedBox(
-                                                                          height: 0,
-                                                                        ),
-                                                                        errorWidget: (context, url, error) => const SizedBox(
-                                                                          height: 0,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                              Positioned(
-                                                                  right: 10,
-                                                                  top: 15,
-                                                                  child: InkWell(
-                                                                      onTap: () {
-                                                                        Share.share(
-                                                                          homeController
-                                                                              .homeModel.value.data!.discover![index].image
-                                                                              .toString(),
-                                                                        );
-                                                                      },
-                                                                      child: SvgPicture.asset(AppAssets.forward)))
-                                                            ]),
+                                                            InkWell(
+                                                                onTap: () {
+                                                                  Share.share(
+                                                                    homeController
+                                                                        .homeModel.value.data!.discover![index].image
+                                                                        .toString(),
+                                                                  );
+                                                                },
+                                                                child: SvgPicture.asset(AppAssets.forward))
                                                           ],
                                                         ),
                                                         const SizedBox(

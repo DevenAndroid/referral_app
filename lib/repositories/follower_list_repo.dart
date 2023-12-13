@@ -8,10 +8,10 @@ import '../models/get_profile_model.dart';
 import '../resourses/api_constant.dart';
 import '../resourses/helper.dart';
 
-Future<FollowerListModel> getFollowersRepo() async {
+Future<FollowerListModel> getFollowersRepo({required BuildContext context , required userid}) async {
   try {
     http.Response response = await http.get(
-      Uri.parse(ApiUrls.followers),
+      Uri.parse("${ApiUrls.followers}?user_id=$userid"),
       headers: await getAuthHeader(),
     );
 

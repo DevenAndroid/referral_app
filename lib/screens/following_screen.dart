@@ -30,9 +30,10 @@ class _FollowingScreenState extends State<FollowingScreen> {
   Rx<FollowerListModel> followerList = FollowerListModel().obs;
   String followers = '';
   String following = '';
+  String id = '';
 
   listFollower() {
-    getFollowersRepo().then((value) {
+    getFollowersRepo(context: context, userid:id ).then((value) {
       followerList.value = value;
 
       if (value.status == true) {
@@ -40,8 +41,6 @@ class _FollowingScreenState extends State<FollowingScreen> {
       } else {
         statusOfFollower.value = RxStatus.error();
       }
-
-      // showToast(value.message.toString());
     });
   }
 
@@ -49,7 +48,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
   Rx<FollowingListModel> followingList = FollowingListModel().obs;
 
   listFollowing() {
-    getFollowingRepo().then((value) {
+    getFollowingRepo(context: context, userid:  id).then((value) {
       followingList.value = value;
 
       if (value.status == true) {
@@ -70,10 +69,9 @@ class _FollowingScreenState extends State<FollowingScreen> {
     // TODO: implement initState
     super.initState();
     profileController.getData();
+    var id = Get.arguments[0];
     listFollowing();
     listFollower();
-    followers = Get.arguments[0];
-    following = Get.arguments[1];
   }
 
   final profileController = Get.put(ProfileController());
@@ -91,17 +89,11 @@ class _FollowingScreenState extends State<FollowingScreen> {
               title: profileController.profileDrawer == 0
                   ? Text(
                       "Followers",
-                      style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                          color: Color(0xFF262626)),
+                      style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: Color(0xFF262626)),
                     )
                   : Text(
                       "Following",
-                      style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                          color: Color(0xFF262626)),
+                      style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: Color(0xFF262626)),
                     ),
               leading: InkWell(
                 onTap: () {
@@ -126,29 +118,17 @@ class _FollowingScreenState extends State<FollowingScreen> {
                     child: Text("Followers " + followers.toString(),
                         style: profileController.profileDrawer == 0
                             ? GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1,
-                                fontSize: 15,
-                                color: Color(0xFF3797EF))
+                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Color(0xFF3797EF))
                             : GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1,
-                                fontSize: 15,
-                                color: Colors.black)),
+                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
                   ),
                   Tab(
                     child: Text("Following " + following.toString(),
                         style: profileController.profileDrawer == 1
                             ? GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1,
-                                fontSize: 15,
-                                color: Color(0xFF3797EF))
+                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Color(0xFF3797EF))
                             : GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1,
-                                fontSize: 15,
-                                color: Colors.black)),
+                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
                   ),
                 ],
               ),
@@ -191,84 +171,53 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                             ),
                                           ListView.builder(
                                               shrinkWrap: true,
-                                              itemCount: followerList
-                                                  .value.data!.length,
-                                              physics:
-                                                  const BouncingScrollPhysics(),
+                                              itemCount: followerList.value.data!.length,
+                                              physics: const BouncingScrollPhysics(),
                                               itemBuilder: (context, index) {
                                                 return Column(
                                                   children: [
                                                     Container(
-                                                      padding:
-                                                          EdgeInsets.all(10),
+                                                      padding: EdgeInsets.all(10),
                                                       decoration: BoxDecoration(
                                                           color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
+                                                          borderRadius: BorderRadius.circular(10),
                                                           boxShadow: [
                                                             BoxShadow(
-                                                              color: const Color(
-                                                                      0xFF5F5F5F)
-                                                                  .withOpacity(
-                                                                      0.2),
-                                                              offset:
-                                                                  const Offset(
-                                                                      0.0, 0.2),
+                                                              color: const Color(0xFF5F5F5F).withOpacity(0.2),
+                                                              offset: const Offset(0.0, 0.2),
                                                               blurRadius: 2,
                                                             ),
                                                           ]),
                                                       child: Row(
                                                         children: [
                                                           ClipOval(
-                                                            child:
-                                                                CachedNetworkImage(
+                                                            child: CachedNetworkImage(
                                                               width: 50,
                                                               height: 50,
                                                               fit: BoxFit.cover,
                                                               imageUrl: followerList
-                                                                  .value
-                                                                  .data![index]
-                                                                  .following!
-                                                                  .profileImage
+                                                                  .value.data![index].following!.profileImage
                                                                   .toString(),
-                                                              placeholder:
-                                                                  (context,
-                                                                          url) =>
-                                                                      Image
-                                                                          .asset(
+                                                              errorWidget: (_, __, ___) => Image.asset(
                                                                 AppAssets.img,
-                                                                height: 40,
+                                                                color: Colors.grey.shade200,
                                                               ),
-                                                              errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                  Image.asset(
+                                                              placeholder: (_, __) => Image.asset(
                                                                 AppAssets.img,
-                                                                height: 40,
+                                                                color: Colors.grey.shade200,
                                                               ),
                                                             ),
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             width: 20,
                                                           ),
                                                           Text(
-                                                            followerList
-                                                                .value
-                                                                .data![index]
-                                                                .following!
-                                                                .name
-                                                                .toString(),
-                                                            style: GoogleFonts
-                                                                .mulish(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize:
-                                                                        17,
-                                                                    color: Colors
-                                                                        .black),
+                                                            followerList.value.data![index].following!.name.toString(),
+                                                            style: GoogleFonts.mulish(
+                                                                fontWeight: FontWeight.w400,
+                                                                // letterSpacing: 1,
+                                                                fontSize: 17,
+                                                                color: Colors.black),
                                                           ),
                                                         ],
                                                       ),
@@ -286,10 +235,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                             errorText: "",
                                             onTap: () {},
                                           )
-                                        : const Center(
-                                            child: Center(
-                                                child:
-                                                    CircularProgressIndicator()));
+                                        : const Center(child: Center(child: CircularProgressIndicator()));
                               }),
                             )
                           ],
@@ -319,150 +265,85 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                             ),
                                           ListView.builder(
                                               shrinkWrap: true,
-                                              itemCount: followingList
-                                                  .value.data!.length,
-                                              physics:
-                                                  const BouncingScrollPhysics(),
+                                              itemCount: followingList.value.data!.length,
+                                              physics: const BouncingScrollPhysics(),
                                               itemBuilder: (context, index) {
                                                 return Column(
                                                   children: [
                                                     Container(
-                                                      padding:
-                                                          EdgeInsets.all(10),
+                                                      padding: EdgeInsets.all(10),
                                                       decoration: BoxDecoration(
                                                           color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
+                                                          borderRadius: BorderRadius.circular(10),
                                                           boxShadow: [
                                                             BoxShadow(
-                                                              color: const Color(
-                                                                      0xFF5F5F5F)
-                                                                  .withOpacity(
-                                                                      0.2),
-                                                              offset:
-                                                                  const Offset(
-                                                                      0.0, 0.2),
+                                                              color: const Color(0xFF5F5F5F).withOpacity(0.2),
+                                                              offset: const Offset(0.0, 0.2),
                                                               blurRadius: 2,
                                                             ),
                                                           ]),
                                                       child: Row(
                                                         children: [
                                                           ClipOval(
-                                                            child:
-                                                                CachedNetworkImage(
+                                                            child: CachedNetworkImage(
                                                               width: 50,
                                                               height: 50,
                                                               fit: BoxFit.cover,
                                                               imageUrl: followingList
-                                                                  .value
-                                                                  .data![index]
-                                                                  .following!
-                                                                  .profileImage
+                                                                  .value.data![index].following!.profileImage
                                                                   .toString(),
-                                                              placeholder:
-                                                                  (context,
-                                                                          url) =>
-                                                                      Image
-                                                                          .asset(
-                                                                AppAssets.img,
-                                                                height: 40,
+                                                              errorWidget: (_, __, ___) => Image.asset(
+                                                                AppAssets.man,
+                                                                color: Colors.grey.shade200,
                                                               ),
-                                                              errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                  Image.asset(
-                                                                AppAssets.img,
-                                                                height: 40,
+                                                              placeholder: (_, __) => Image.asset(
+                                                                AppAssets.man,
+                                                                color: Colors.grey.shade200,
                                                               ),
                                                             ),
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             width: 20,
                                                           ),
                                                           Text(
-                                                            followingList
-                                                                .value
-                                                                .data![index]
-                                                                .following!
-                                                                .name
-                                                                .toString(),
-                                                            style: GoogleFonts
-                                                                .mulish(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize:
-                                                                        17,
-                                                                    color: Colors
-                                                                        .black),
+                                                            followingList.value.data![index].following!.name.toString(),
+                                                            style: GoogleFonts.mulish(
+                                                                fontWeight: FontWeight.w400,
+                                                                // letterSpacing: 1,
+                                                                fontSize: 17,
+                                                                color: Colors.black),
                                                           ),
                                                           Spacer(),
                                                           InkWell(
                                                             onTap: () {
                                                               unFollowRepo(
-                                                                context:
-                                                                    context,
-                                                                following_id:
-                                                                    followingList
-                                                                        .value
-                                                                        .data![
-                                                                            index]
-                                                                        .following!
-                                                                        .id
-                                                                        .toString(),
-                                                              ).then(
-                                                                  (value) async {
-                                                                unfollowModel
-                                                                        .value =
-                                                                    value;
-                                                                if (value
-                                                                        .status ==
-                                                                    true) {
-                                                                  statusOfUnfollow
-                                                                          .value =
-                                                                      RxStatus
-                                                                          .success();
+                                                                context: context,
+                                                                following_id: followingList.value.data![index].following!.id
+                                                                    .toString(),
+                                                              ).then((value) async {
+                                                                unfollowModel.value = value;
+                                                                if (value.status == true) {
+                                                                  statusOfUnfollow.value = RxStatus.success();
                                                                   listFollowing();
-                                                                  showToast(value
-                                                                      .message
-                                                                      .toString());
+                                                                  showToast(value.message.toString());
                                                                 } else {
-                                                                  statusOfUnfollow
-                                                                          .value =
-                                                                      RxStatus
-                                                                          .error();
-                                                                  showToast(value
-                                                                      .message
-                                                                      .toString());
+                                                                  statusOfUnfollow.value = RxStatus.error();
+                                                                  showToast(value.message.toString());
                                                                 }
                                                               });
                                                             },
                                                             child: Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(5),
+                                                              padding: EdgeInsets.all(5),
                                                               decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5),
-                                                                  border: Border.all(
-                                                                      color: AppTheme
-                                                                          .secondaryColor)),
+                                                                  borderRadius: BorderRadius.circular(5),
+                                                                  border: Border.all(color: AppTheme.secondaryColor)),
                                                               child: Text(
                                                                 "Unfollow",
-                                                                style: GoogleFonts
-                                                                    .mulish(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        // letterSpacing: 1,
-                                                                        fontSize:
-                                                                            15,
-                                                                        color: AppTheme
-                                                                            .secondaryColor),
+                                                                style: GoogleFonts.mulish(
+                                                                    fontWeight: FontWeight.w500,
+                                                                    // letterSpacing: 1,
+                                                                    fontSize: 15,
+                                                                    color: AppTheme.secondaryColor),
                                                               ),
                                                             ),
                                                           )
@@ -482,10 +363,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                             errorText: "",
                                             onTap: () {},
                                           )
-                                        : const Center(
-                                            child: Center(
-                                                child:
-                                                    CircularProgressIndicator()));
+                                        : const Center(child: Center(child: CircularProgressIndicator()));
                               }),
                             )
                           ],

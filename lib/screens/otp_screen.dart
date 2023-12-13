@@ -112,12 +112,12 @@ class _OtpScreenState extends State<OtpScreen> {
                 child: Stack(
                     children:[ Container(
                       height: size.height*.4,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: AppTheme.primaryColor,
                       ),
                       child: Column(
                         children: [
-                          SizedBox(height: 90,),
+                          const SizedBox(height: 90,),
                           Center(
                             child: Text("Social Network",
                               style: GoogleFonts.monomaniacOne(
@@ -133,16 +133,16 @@ class _OtpScreenState extends State<OtpScreen> {
                       Positioned(
                         top: 220,
                         child: Container(
-                          padding: EdgeInsets.all(12),
+                          padding: const EdgeInsets.all(12),
                           width: size.width,
                           height: size.height,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.only(topRight: Radius.circular(15),topLeft:  Radius.circular(15)),
+                            borderRadius: const BorderRadius.only(topRight: Radius.circular(15),topLeft:  Radius.circular(15)),
                             boxShadow: [
                               BoxShadow(
-                                color: Color(0xFF5F5F5F).withOpacity(0.4),
-                                offset: Offset(0.0, 0.5),
+                                color: const Color(0xFF5F5F5F).withOpacity(0.4),
+                                offset: const Offset(0.0, 0.5),
                                 blurRadius: 5,),
                             ],
                           ),
@@ -156,11 +156,11 @@ class _OtpScreenState extends State<OtpScreen> {
                                     fontWeight: FontWeight.w700,
 
                                     fontSize: 18,
-                                    color:  Color(0xFF000000)
+                                    color:  const Color(0xFF000000)
                                 ),),
                               SizedBox(height: size.height*.07,),
 
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
                               PinCodeFields(
                                 length: 4,
                                 controller: otpController,
@@ -174,17 +174,17 @@ class _OtpScreenState extends State<OtpScreen> {
                                   print(result);
                                 },
                               ),
-                              SizedBox(height: 30,),
+                              const SizedBox(height: 30,),
                               Center(
                                 child: Text("Didn't you receive the OTP?",
                                   style: GoogleFonts.mulish(
                                       fontWeight: FontWeight.w400,
 
                                       fontSize: 16,
-                                      color:  Color(0xFF3D4260)
+                                      color:  const Color(0xFF3D4260)
                                   ),),
                               ),
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
                               Center(
                                 child: InkWell(
                                   onTap: (){

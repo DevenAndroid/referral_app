@@ -204,9 +204,33 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                                 width: double.maxFinite,
                                 height: 180,
                                 alignment: Alignment.center,
-                                child: Image.file(categoryFile,
-                                    errorBuilder: (_, __, ___) =>
-                                        Image.network(categoryFile.path, errorBuilder: (_, __, ___) => const SizedBox())),
+                                child: Stack(
+                                  children: [
+                                    Image.file(categoryFile,
+                                        errorBuilder: (_, __, ___) => Image.network(categoryFile.path,
+                                            errorBuilder: (_, __, ___) => const SizedBox())),
+                                    Positioned(
+                                        top: 10,
+                                        right: 10,
+                                        child: GestureDetector(
+                                            onTap: () {},
+                                            child: Container(
+                                                height: 25,
+                                                width: 25,
+                                                decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                                                child: GestureDetector(
+                                                  onTap: (){
+                                                    setState(() {
+
+                                                    });
+                                                  },
+                                                  child: const Icon(
+                                                    Icons.close,
+                                                    size: 15,
+                                                  ),
+                                                ))))
+                                  ],
+                                ),
                               )
                             : Container(
                                 decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
@@ -235,21 +259,21 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                   height: 22,
                 ),
                 CommonButton(
-                  title: "Next",
-                  onPressed: () {
-                    // getImageUrlFromAmazon("https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014C5S7S/?_encoding=UTF8&pd_rd_w=Xibxh&content-id=amzn1.sym.64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_p=64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_r=1DD2JN3VYV13DGZPWR52&pd_rd_wg=wjvuL&pd_rd_r=baf78e1f-9861-4b19-8c00-b95400991097&ref_=pd_gw_crs_zg_bs_7141123011");
-                    Map map = <String, String>{};
-                    map['title'] = recommendationController.text.trim();
-                    map['review'] = reviewController.text.trim();
-                    map['link'] = linkController.text.trim();
-                    map['status'] = "publish";
-                    map['category_id'] = profileController.idController.text.trim();
+                    title: "Next",
+                    onPressed: () {
+                      // getImageUrlFromAmazon("https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014C5S7S/?_encoding=UTF8&pd_rd_w=Xibxh&content-id=amzn1.sym.64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_p=64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_r=1DD2JN3VYV13DGZPWR52&pd_rd_wg=wjvuL&pd_rd_r=baf78e1f-9861-4b19-8c00-b95400991097&ref_=pd_gw_crs_zg_bs_7141123011");
+                      Map map = <String, String>{};
+                      map['title'] = recommendationController.text.trim();
+                      map['review'] = reviewController.text.trim();
+                      map['link'] = linkController.text.trim();
+                      map['status'] = "publish";
+                      map['category_id'] = profileController.idController.text.trim();
 
                       addRecommendationRepo(
                         fieldName1: 'image',
                         mapData: map,
                         context: context,
-                        file1:  _imageUrl.isNotEmpty?categoryFile:File( _imageUrl),
+                        file1: _imageUrl.isNotEmpty ? categoryFile : File(_imageUrl),
                       ).then((value) async {
                         if (value.status == true) {
                           Get.back();
@@ -259,11 +283,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                           showToast(value.message.toString());
                         }
                       });
-
-                    
-                    }
-
-                )
+                    })
               ],
             ),
           ),

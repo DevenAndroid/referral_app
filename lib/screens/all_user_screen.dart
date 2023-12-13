@@ -190,6 +190,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                           Get.toNamed(MyRouters.followingScreen, arguments: [
                                             userProfile.value.data!.user!.followersCount.toString(),
                                             userProfile.value.data!.user!.followingCount.toString(),
+                                            userProfile.value.data!.user!.id.toString(),
                                           ]);
                                         },
                                         child: Column(
@@ -279,6 +280,10 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                     if(userProfile.value.data!.user!.isFollow ==false){
                                                       userProfile.value.data!.user!.isFollow = true;
                                                     }else{
+
+
+
+
                                                       userProfile.value.data!.user!.isFollow = false;
                                                     }
                                                   });
