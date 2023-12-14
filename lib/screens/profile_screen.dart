@@ -63,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     if (isPaginationLoading.value && loadMore.value){
       isPaginationLoading.value = false;
     }
-    getHomeRepo(page: page.value,pagination: pagination.value).then((value) {
+    getHomeRepo(page: page.value,paginfluation: pagination.value).then((value) {
         home.value = value;
          isPaginationLoading.value = true;
 
