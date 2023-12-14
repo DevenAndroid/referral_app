@@ -21,8 +21,8 @@ class ApiUrls {
   static const String userProfile = "${apiBaseUrl}user-profile";
   static const String allRecommendation = "${apiBaseUrl}all-recommandation";
   static const String logout = "${apiBaseUrl}logout";
-  static const String followers = "${apiBaseUrl}followers-list";
-  static const String following = "${apiBaseUrl}following-list";
+  static const String following = "${apiBaseUrl}following-list?user_id=";
+  static const String followers = "${apiBaseUrl}followers-list?user_id=";
   static const String unfollow = "${apiBaseUrl}add-remove-follower";
   static const String pages = "${apiBaseUrl}pages?slug=";
   static const String singleCategories = "${apiBaseUrl}single-category?category_id=";

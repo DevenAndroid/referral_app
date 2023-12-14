@@ -116,6 +116,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                   child: ClipOval(
                                     child: CachedNetworkImage(
                                       height: 30,
+                                      width: 30,
                                       fit: BoxFit.fill,
                                       imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
                                       placeholder: (context, url) => Padding(
@@ -152,7 +153,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                               });
                             },
                             child: const Icon(Icons.arrow_drop_down)),
-                        Spacer(),
+                        const Spacer(),
                         Container(
                           width: 110,
                           height: 40,
@@ -373,7 +374,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                 keyboardType: TextInputType.number,
                                 controller: maxController,
                                 obSecure: false,
-                                hintText: 'Maximum value ',
+                                hintText: 'Maximum value',
                                 validator: (value) {
                                   return validateValue(value, minValue, maxValue);
                                 },
