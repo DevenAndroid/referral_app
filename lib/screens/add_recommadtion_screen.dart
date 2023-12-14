@@ -273,7 +273,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                         fieldName1: 'image',
                         mapData: map,
                         context: context,
-                        file1: _imageUrl.isNotEmpty ? categoryFile : File(_imageUrl),
+                        file1: categoryFile,
                       ).then((value) async {
                         if (value.status == true) {
                           Get.back();
@@ -282,7 +282,8 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                         } else {
                           showToast(value.message.toString());
                         }
-                      });
+                      }
+                      );
                     })
               ],
             ),
