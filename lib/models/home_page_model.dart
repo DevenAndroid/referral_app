@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class HomeModel {
   bool? status;
   String? message;
@@ -78,6 +76,8 @@ class Discover {
   String? image;
   String? postViewersType;
   bool? wishlist;
+  int? noBudget;
+  int? reviewCount;
   String? date;
 
   Discover(
@@ -90,6 +90,8 @@ class Discover {
         this.image,
         this.postViewersType,
         this.wishlist,
+        this.noBudget,
+        this.reviewCount,
         this.date});
 
   Discover.fromJson(Map<String, dynamic> json) {
@@ -103,6 +105,8 @@ class Discover {
     image = json['image'];
     postViewersType = json['post_viewers_type'];
     wishlist = json['wishlist'];
+    noBudget = json['no_budget'];
+    reviewCount = json['review_count'];
     date = json['date'];
   }
 
@@ -119,6 +123,8 @@ class Discover {
     data['image'] = this.image;
     data['post_viewers_type'] = this.postViewersType;
     data['wishlist'] = this.wishlist;
+    data['no_budget'] = this.noBudget;
+    data['review_count'] = this.reviewCount;
     data['date'] = this.date;
     return data;
   }
@@ -145,6 +151,7 @@ class UserId {
   int? followingCount;
   int? followersCount;
   int? postCount;
+  bool? isFollow;
 
   UserId(
       {this.id,
@@ -166,7 +173,8 @@ class UserId {
         this.isComplete,
         this.followingCount,
         this.followersCount,
-        this.postCount});
+        this.postCount,
+        this.isFollow});
 
   UserId.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -189,6 +197,7 @@ class UserId {
     followingCount = json['following_count'];
     followersCount = json['followers_count'];
     postCount = json['post_count'];
+    isFollow = json['is_follow'];
   }
 
   Map<String, dynamic> toJson() {
@@ -213,6 +222,7 @@ class UserId {
     data['following_count'] = this.followingCount;
     data['followers_count'] = this.followersCount;
     data['post_count'] = this.postCount;
+    data['is_follow'] = this.isFollow;
     return data;
   }
 }
@@ -220,6 +230,7 @@ class UserId {
 class Recommandation {
   int? id;
   UserId? user;
+  int? askrecommandationId;
   String? title;
   String? review;
   String? link;
@@ -232,6 +243,7 @@ class Recommandation {
   Recommandation(
       {this.id,
         this.user,
+        this.askrecommandationId,
         this.title,
         this.review,
         this.link,
@@ -244,6 +256,7 @@ class Recommandation {
   Recommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     user = json['user'] != null ? new UserId.fromJson(json['user']) : null;
+    askrecommandationId = json['askrecommandation_id'];
     title = json['title'];
     review = json['review'];
     link = json['link'];
@@ -260,6 +273,7 @@ class Recommandation {
     if (this.user != null) {
       data['user'] = this.user!.toJson();
     }
+    data['askrecommandation_id'] = this.askrecommandationId;
     data['title'] = this.title;
     data['review'] = this.review;
     data['link'] = this.link;
