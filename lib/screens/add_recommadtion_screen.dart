@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
 import '../repositories/add_recommendation_repo.dart';
 import '../resourses/api_constant.dart';
@@ -82,6 +83,8 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
 
   File image = File("");
   final profileController = Get.put(ProfileController());
+
+  final homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -204,33 +207,9 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                                 width: double.maxFinite,
                                 height: 180,
                                 alignment: Alignment.center,
-                                child: Stack(
-                                  children: [
-                                    Image.file(categoryFile,
-                                        errorBuilder: (_, __, ___) => Image.network(categoryFile.path,
-                                            errorBuilder: (_, __, ___) => const SizedBox())),
-                                    Positioned(
-                                        top: 10,
-                                        right: 10,
-                                        child: GestureDetector(
-                                            onTap: () {},
-                                            child: Container(
-                                                height: 25,
-                                                width: 25,
-                                                decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                                                child: GestureDetector(
-                                                  onTap: (){
-                                                    setState(() {
-
-                                                    });
-                                                  },
-                                                  child: const Icon(
-                                                    Icons.close,
-                                                    size: 15,
-                                                  ),
-                                                ))))
-                                  ],
-                                ),
+                                child: Image.file(categoryFile,
+                                    errorBuilder: (_, __, ___) => Image.network(categoryFile.path,
+                                        errorBuilder: (_, __, ___) => const SizedBox())),
                               )
                             : Container(
                                 decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
@@ -268,6 +247,8 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                       map['link'] = linkController.text.trim();
                       map['status'] = "publish";
                       map['category_id'] = profileController.idController.text.trim();
+                      map['askrecommandation_id'] = homeController
+                          .homeModel.value.data!.discover![0].id.toString();
 
                       addRecommendationRepo(
                         fieldName1: 'image',
