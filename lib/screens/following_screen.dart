@@ -28,14 +28,13 @@ class FollowingScreen extends StatefulWidget {
 class _FollowingScreenState extends State<FollowingScreen> {
   Rx<RxStatus> statusOfFollower = RxStatus.empty().obs;
   Rx<FollowerListModel> followerList = FollowerListModel().obs;
-  String followers = '';
-  String following = '';
-  String id = '';
+  // String followers = '';
+  // String following = '';
+  //
 
   listFollower() {
     getFollowersRepo(context: context, userid:id ).then((value) {
       followerList.value = value;
-
       if (value.status == true) {
         statusOfFollower.value = RxStatus.success();
       } else {
@@ -56,20 +55,20 @@ class _FollowingScreenState extends State<FollowingScreen> {
       } else {
         statusOfFollowing.value = RxStatus.error();
       }
-
-      // showToast(value.message.toString());
     });
   }
 
   Rx<RxStatus> statusOfUnfollow = RxStatus.empty().obs;
   Rx<UnfollowModel> unfollowModel = UnfollowModel().obs;
-
+  var follower  = Get.arguments[0];
+  var following = Get.arguments[1];
+  var id = Get.arguments[2];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     profileController.getData();
-    var id = Get.arguments[0];
+
     listFollowing();
     listFollower();
   }
@@ -115,7 +114,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                 },
                 tabs: [
                   Tab(
-                    child: Text("Followers " + followers.toString(),
+                    child: Text("Followers $follower",
                         style: profileController.profileDrawer == 0
                             ? GoogleFonts.mulish(
                                 fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Color(0xFF3797EF))
@@ -123,7 +122,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                 fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
                   ),
                   Tab(
-                    child: Text("Following " + following.toString(),
+                    child: Text("Following $following",
                         style: profileController.profileDrawer == 1
                             ? GoogleFonts.mulish(
                                 fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Color(0xFF3797EF))

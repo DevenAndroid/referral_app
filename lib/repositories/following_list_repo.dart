@@ -11,7 +11,7 @@ import '../resourses/helper.dart';
 Future<FollowingListModel> getFollowingRepo({required BuildContext context , required userid}) async {
   try {
     http.Response response = await http.get(
-      Uri.parse(ApiUrls.following),
+        Uri.parse(ApiUrls.following+userid),
       headers: await getAuthHeader(),
     );
 
