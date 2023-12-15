@@ -259,15 +259,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                             height: 100,
                             fit: BoxFit.fill,
                             imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
-                            errorWidget: (context, url, error) => Padding(
-                              padding: const EdgeInsets.only(left: 12.0),
-                              child: Image.asset(AppAssets.man),
-                            ),
+                            errorWidget: (context, url, error) => SizedBox()
                           ),
                         ),
                       )
                     : profileController.statusOfProfile.value.isError
-                        ? Image.asset(AppAssets.man)
+                        ? SizedBox()
                         : const Center(child: CircularProgressIndicator());
               }),
               title: Text(
