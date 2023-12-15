@@ -367,7 +367,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                   height: 30,
                                                                   fit: BoxFit.cover,
                                                                   imageUrl: homeController.homeModel.value.data!
-                                                                      .discover![index].userId!.profileImage!= null ?   AppAssets.man :
+                                                                      .discover![index].userId== null ?   AppAssets.man :
 
                                                                   homeController.homeModel.value.data!
                                                                       .discover![index].userId!.profileImage
@@ -391,7 +391,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                 children: [
                                                                   homeController.homeModel.value.data!.discover![index]
-                                                                              .userId!.name ==
+                                                                              .userId?.name ==
                                                                           ""
                                                                       ? Text(
                                                                           "Name...",
