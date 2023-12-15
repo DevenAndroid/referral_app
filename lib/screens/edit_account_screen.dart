@@ -208,10 +208,12 @@ class _EditAccountState extends State<EditAccount> {
                                     MainAxisAlignment
                                         .center,
                                     children: [
-                                      Image.asset(
-                                        AppAssets.camera,
-                                        height: 60,
-                                        width: 50,
+                                      CachedNetworkImage(
+
+                                        imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
+                                        height: 100,
+                                        width: 100,
+                                        fit: BoxFit.contain,
                                       ),
                                       const SizedBox(
                                         height: 5,
@@ -383,7 +385,7 @@ class _EditAccountState extends State<EditAccount> {
                                   fieldName1: 'profile_image',
                                   mapData: map,
                                   context: context,
-                                  file1: image,
+                                  file1: categoryFile,
                                 ).then((value) async {
                                   if (value.status == true) {
                                     profileController.getData();

@@ -143,10 +143,10 @@ class _ProfilePostState extends State<ProfilePost> {
                     const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       // Number of columns
-                      crossAxisSpacing: 8.0,
+                      crossAxisSpacing: 10.0,
                       // Spacing between columns
                       mainAxisSpacing:
-                      2.0, // Spacing between rows
+                      10.0, // Spacing between rows
                     ),
                     itemCount: profileController
                         .modal
@@ -159,16 +159,21 @@ class _ProfilePostState extends State<ProfilePost> {
                         int index) {
 
                       // You can replace the Container with your image widget
-                      return CachedNetworkImage(
-                        imageUrl: profileController
-                            .modal
-                            .value
-                            .data!
-                            .myRecommandation![index]
-                            .image
-                            .toString(),
-                        width: 50,
-                        height: 50,
+                      return  Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: CachedNetworkImage(
+                          imageUrl: profileController
+                              .modal
+                              .value
+                              .data!
+                              .myRecommandation![index]
+                              .image
+                              .toString(),
+                         fit: BoxFit.fill,
+                        ),
                       );
                     },
                   ),
