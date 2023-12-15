@@ -259,7 +259,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                   height: 22,
                 ),
                 CommonButton(
-                    title: "Next",
+                    title: "Post",
                     onPressed: () {
                       // getImageUrlFromAmazon("https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014C5S7S/?_encoding=UTF8&pd_rd_w=Xibxh&content-id=amzn1.sym.64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_p=64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_r=1DD2JN3VYV13DGZPWR52&pd_rd_wg=wjvuL&pd_rd_r=baf78e1f-9861-4b19-8c00-b95400991097&ref_=pd_gw_crs_zg_bs_7141123011");
                       Map map = <String, String>{};

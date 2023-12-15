@@ -697,28 +697,27 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           itemBuilder: (context, index) {
                                             return Padding(
                                               padding: const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      getSingleRepo(
-                                                          category_id: profileController
-                                                              .modal.value.data!.myCategories![index].id
-                                                              .toString())
-                                                          .then((value) {
-                                                        single.value = value;
-                                                        if (value.status == true) {
-                                                          statusOfSingle.value = RxStatus.success();
-                                                          check = true;
-                                                          setState(() {});
-                                                        } else {
-                                                          statusOfSingle.value = RxStatus.error();
-                                                        }
-                                                        setState(() {});
-                                                        // showToast(value.message.toString());
-                                                      });
-                                                    },
-                                                    child: ClipOval(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  getSingleRepo(
+                                                      category_id: profileController
+                                                          .modal.value.data!.myCategories![index].id
+                                                          .toString())
+                                                      .then((value) {
+                                                    single.value = value;
+                                                    if (value.status == true) {
+                                                      statusOfSingle.value = RxStatus.success();
+                                                      check = false;
+                                                      setState(() {});
+                                                    } else {
+                                                      statusOfSingle.value = RxStatus.error();
+                                                    }
+                                                    setState(() {});
+                                                  });
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    ClipOval(
                                                       child: CachedNetworkImage(
                                                         width: 70,
                                                         height: 70,
@@ -728,20 +727,20 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                             .toString(),
                                                       ),
                                                     ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 2,
-                                                  ),
-                                                  Text(
-                                                    profileController.modal.value.data!.myCategories![index].name
-                                                        .toString(),
-                                                    style: GoogleFonts.mulish(
-                                                        fontWeight: FontWeight.w300,
-                                                        // letterSpacing: 1,
-                                                        fontSize: 14,
-                                                        color: const Color(0xFF26282E)),
-                                                  )
-                                                ],
+                                                    const SizedBox(
+                                                      height: 2,
+                                                    ),
+                                                    Text(
+                                                      profileController.modal.value.data!.myCategories![index].name
+                                                          .toString(),
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w300,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          color: const Color(0xFF26282E)),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             );
                                           })
