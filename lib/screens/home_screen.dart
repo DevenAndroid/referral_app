@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   Rx<ModelReviewList> modelReviewList = ModelReviewList().obs;
 
   reviewList(id) {
-    modelReviewList.value.data!.clear();
+    // modelReviewList.value.data!.clear();
     getReviewListRepo(context: context, id: id).then((value) {
       modelReviewList.value = value;
 
@@ -367,11 +367,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                   height: 30,
                                                                   fit: BoxFit.cover,
                                                                   imageUrl: homeController.homeModel.value.data!
-                                                                      .discover![index].userId== null ?   AppAssets.man :
-
-                                                                  homeController.homeModel.value.data!
-                                                                      .discover![index].userId!.profileImage
-                                                                      .toString(),
+                                                                              .discover![index].userId ==
+                                                                          null
+                                                                      ? AppAssets.man
+                                                                      : homeController.homeModel.value.data!.discover![index]
+                                                                          .userId!.profileImage
+                                                                          .toString(),
                                                                   errorWidget: (_, __, ___) => Image.asset(
                                                                     AppAssets.man,
                                                                     color: Colors.grey.shade200,
@@ -528,253 +529,270 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                         Row(
                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
-                                                            Container(
-                                                              padding: const EdgeInsets.all(5),
-                                                              width: size.width * .45,
-                                                              height: 30,
-                                                              decoration: BoxDecoration(
-                                                                color: const Color(0xFF3797EF).withOpacity(.09),
-                                                                borderRadius: BorderRadius.circular(10),
-                                                              ),
-                                                              child: Row(
-                                                                children: [
-                                                                  SvgPicture.asset(AppAssets.message),
-                                                                  const SizedBox(
-                                                                    width: 6,
+                                                            InkWell(
+                                                              onTap: () {
+                                                                reviewList(homeController
+                                                                    .homeModel.value.data!.discover![index].id
+                                                                    .toString());
+                                                                showModalBottomSheet(
+                                                                  enableDrag: true,
+                                                                  isDismissible: true,
+                                                                  constraints: BoxConstraints(
+                                                                    maxHeight: context.getSize.height * .9,
                                                                   ),
-                                                                  InkWell(
-                                                                    onTap: () {
-                                                                      reviewList(homeController
-                                                                          .homeModel.value.data!.discover![index].id
-                                                                          .toString());
-                                                                      showModalBottomSheet(
-                                                                        enableDrag: true,
-                                                                        isDismissible: true,
-                                                                        constraints: BoxConstraints(
-                                                                          maxHeight: context.getSize.height * .9,
-                                                                        ),
-                                                                        isScrollControlled: true,
-                                                                        context: context,
-                                                                        backgroundColor: Colors.white,
-                                                                        elevation: 10,
-                                                                        shape: const RoundedRectangleBorder(
-                                                                          borderRadius: BorderRadius.only(
-                                                                              topRight: Radius.circular(10),
-                                                                              topLeft: Radius.circular(10)),
-                                                                        ),
-                                                                        builder: (BuildContext context) {
-                                                                          // UDE : SizedBox instead of Container for whitespaces
-                                                                          return SingleChildScrollView(
-                                                                            child: Padding(
-                                                                              padding: const EdgeInsets.symmetric(
-                                                                                  horizontal: 12, vertical: 20),
-                                                                              child: Column(
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: <Widget>[
-                                                                                  Row(
-                                                                                    mainAxisAlignment:
-                                                                                        MainAxisAlignment.spaceBetween,
-                                                                                    children: [
-                                                                                      Text(
-                                                                                        'recommendation List',
-                                                                                        style: GoogleFonts.mulish(
-                                                                                          fontWeight: FontWeight.w700,
-                                                                                          // letterSpacing: 1,
-                                                                                          fontSize: 18,
-                                                                                          color: Colors.black,
-                                                                                        ),
-                                                                                      ),
-                                                                                      GestureDetector(
-                                                                                          onTap: () {
-                                                                                            Get.back();
-                                                                                          },
-                                                                                          child: const Icon(Icons.close))
-                                                                                    ],
+                                                                  isScrollControlled: true,
+                                                                  context: context,
+                                                                  backgroundColor: Colors.white,
+                                                                  elevation: 10,
+                                                                  shape: const RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.only(
+                                                                        topRight: Radius.circular(10),
+                                                                        topLeft: Radius.circular(10)),
+                                                                  ),
+                                                                  builder: (BuildContext context) {
+                                                                    // UDE : SizedBox instead of Container for whitespaces
+                                                                    return SingleChildScrollView(
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.symmetric(
+                                                                            horizontal: 12, vertical: 20),
+                                                                        child: Column(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: <Widget>[
+                                                                            Row(
+                                                                              mainAxisAlignment:
+                                                                                  MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Text(
+                                                                                  'Recommendation List',
+                                                                                  style: GoogleFonts.mulish(
+                                                                                    fontWeight: FontWeight.w700,
+                                                                                    // letterSpacing: 1,
+                                                                                    fontSize: 18,
+                                                                                    color: Colors.black,
                                                                                   ),
-                                                                                  statusOfReviewList.value.isLoading
-                                                                                      ? statusOfReviewList.value.isSuccess
-                                                                                          ? SingleChildScrollView(
-                                                                                              child: Obx(() {
-                                                                                                return Column(
+                                                                                ),
+                                                                                GestureDetector(
+                                                                                    onTap: () {
+                                                                                      Get.back();
+                                                                                    },
+                                                                                    child: const Icon(Icons.close)),
+                                                                                SizedBox(
+                                                                                  height: 10,
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                            statusOfReviewList.value.isSuccess
+                                                                                ? SingleChildScrollView(
+                                                                                    child: Obx(() {
+                                                                                      return Column(
+                                                                                        children: [
+                                                                                          ListView.builder(
+                                                                                            physics: const ScrollPhysics(),
+                                                                                            itemCount: modelReviewList
+                                                                                                .value.data!.length,
+                                                                                            scrollDirection: Axis.vertical,
+                                                                                            shrinkWrap: true,
+                                                                                            itemBuilder: (context, index) {
+                                                                                              return Padding(
+                                                                                                padding:
+                                                                                                    const EdgeInsets.only(
+                                                                                                        left: 8.0, top: 10),
+                                                                                                child: Row(
+                                                                                                  mainAxisAlignment:
+                                                                                                      MainAxisAlignment
+                                                                                                          .start,
+                                                                                                  crossAxisAlignment:
+                                                                                                      CrossAxisAlignment
+                                                                                                          .start,
                                                                                                   children: [
-                                                                                                    ListView.builder(
-                                                                                                      physics:
-                                                                                                          const ScrollPhysics(),
-                                                                                                      itemCount:
-                                                                                                          modelReviewList
-                                                                                                              .value
-                                                                                                              .data!
-                                                                                                              .length,
-                                                                                                      scrollDirection:
-                                                                                                          Axis.vertical,
-                                                                                                      shrinkWrap: true,
-                                                                                                      itemBuilder:
-                                                                                                          (context, index) {
-                                                                                                        return Padding(
-                                                                                                          padding:
-                                                                                                              const EdgeInsets
-                                                                                                                  .only(
-                                                                                                                  left: 8.0,
-                                                                                                                  top: 10),
-                                                                                                          child: Row(
-                                                                                                            mainAxisAlignment:
-                                                                                                                MainAxisAlignment
-                                                                                                                    .start,
-                                                                                                            crossAxisAlignment:
-                                                                                                                CrossAxisAlignment
-                                                                                                                    .start,
+                                                                                                    ClipOval(
+                                                                                                      child:
+                                                                                                          CachedNetworkImage(
+                                                                                                        width: 30,
+                                                                                                        height: 30,
+                                                                                                        fit: BoxFit.cover,
+                                                                                                        imageUrl:
+                                                                                                            modelReviewList
+                                                                                                                .value
+                                                                                                                .data![index]
+                                                                                                                .user!
+                                                                                                                .profileImage
+                                                                                                                .toString(),
+                                                                                                        placeholder: (context,
+                                                                                                                url) =>
+                                                                                                            const SizedBox(),
+                                                                                                        errorWidget: (context,
+                                                                                                                url,
+                                                                                                                error) =>
+                                                                                                            const SizedBox(),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    const SizedBox(
+                                                                                                      width: 10,
+                                                                                                    ),
+                                                                                                    Container(
+                                                                                                      padding:
+                                                                                                          const EdgeInsets
+                                                                                                              .symmetric(
+                                                                                                              vertical: 10,
+                                                                                                              horizontal:
+                                                                                                                  10),
+                                                                                                      decoration: const BoxDecoration(
+                                                                                                          borderRadius: BorderRadius.only(
+                                                                                                              bottomRight: Radius
+                                                                                                                  .circular(
+                                                                                                                      10),
+                                                                                                              bottomLeft: Radius
+                                                                                                                  .circular(
+                                                                                                                      10),
+                                                                                                              topRight: Radius
+                                                                                                                  .circular(
+                                                                                                                      10)),
+                                                                                                          color: Color(
+                                                                                                              0xffF0F0F0)),
+                                                                                                      child: Column(
+                                                                                                        crossAxisAlignment:
+                                                                                                            CrossAxisAlignment
+                                                                                                                .start,
+                                                                                                        children: [
+                                                                                                          Row(
                                                                                                             children: [
-                                                                                                              ClipOval(
-                                                                                                                child:
-                                                                                                                    CachedNetworkImage(
-                                                                                                                  width: 30,
-                                                                                                                  height: 30,
-                                                                                                                  fit: BoxFit
-                                                                                                                      .cover,
-                                                                                                                  imageUrl: modelReviewList
-                                                                                                                      .value
-                                                                                                                      .data![
-                                                                                                                          index]
-                                                                                                                      .user!
-                                                                                                                      .profileImage
-                                                                                                                      .toString(),
-                                                                                                                  placeholder:
-                                                                                                                      (context, url) =>
-                                                                                                                          const SizedBox(),
-                                                                                                                  errorWidget: (context,
-                                                                                                                          url,
-                                                                                                                          error) =>
-                                                                                                                      const SizedBox(),
+                                                                                                              Text(
+                                                                                                                modelReviewList
+                                                                                                                    .value
+                                                                                                                    .data![
+                                                                                                                        index]
+                                                                                                                    .user!
+                                                                                                                    .name
+                                                                                                                    .toString(),
+                                                                                                                style: GoogleFonts
+                                                                                                                    .mulish(
+                                                                                                                  fontWeight:
+                                                                                                                      FontWeight
+                                                                                                                          .w600,
+                                                                                                                  // letterSpacing: 1,
+                                                                                                                  fontSize:
+                                                                                                                      14,
+                                                                                                                  color: Colors
+                                                                                                                      .black,
                                                                                                                 ),
                                                                                                               ),
                                                                                                               const SizedBox(
                                                                                                                 width: 10,
                                                                                                               ),
-                                                                                                              Container(
-                                                                                                                padding: const EdgeInsets
-                                                                                                                    .symmetric(
-                                                                                                                    vertical:
-                                                                                                                        10,
-                                                                                                                    horizontal:
-                                                                                                                        10),
-                                                                                                                decoration: const BoxDecoration(
-                                                                                                                    borderRadius: BorderRadius.only(
-                                                                                                                        bottomRight: Radius.circular(
-                                                                                                                            10),
-                                                                                                                        bottomLeft: Radius.circular(
-                                                                                                                            10),
-                                                                                                                        topRight: Radius.circular(
-                                                                                                                            10)),
-                                                                                                                    color: Color(
-                                                                                                                        0xffF0F0F0)),
-                                                                                                                child:
-                                                                                                                    Column(
-                                                                                                                  crossAxisAlignment:
-                                                                                                                      CrossAxisAlignment
-                                                                                                                          .start,
-                                                                                                                  children: [
-                                                                                                                    Row(
-                                                                                                                      children: [
-                                                                                                                        Text(
-                                                                                                                          modelReviewList.value.data![index].user!.name.toString(),
-                                                                                                                          style: GoogleFonts.mulish(
-                                                                                                                            fontWeight: FontWeight.w600,
-                                                                                                                            // letterSpacing: 1,
-                                                                                                                            fontSize: 14,
-                                                                                                                            color: Colors.black,
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                        const SizedBox(
-                                                                                                                          width: 10,
-                                                                                                                        ),
-                                                                                                                        Text(
-                                                                                                                          modelReviewList.value.data![index].date.toString(),
-                                                                                                                          style: GoogleFonts.mulish(
-                                                                                                                            fontWeight: FontWeight.w400,
-                                                                                                                            // letterSpacing: 1,
-                                                                                                                            fontSize: 10,
-                                                                                                                            color: Colors.black,
-                                                                                                                          ),
-                                                                                                                        ),
-                                                                                                                        const SizedBox(
-                                                                                                                          width: 50,
-                                                                                                                        ),
-                                                                                                                        InkWell(
-                                                                                                                            onTap: () {
-                                                                                                                              // home.value.data!.discover![index].wishlist.toString();
-                                                                                                                            },
-                                                                                                                            child: const Icon(
-                                                                                                                              Icons.favorite_outline,
-                                                                                                                              color: Color(0xff134563),
-                                                                                                                            ))
-                                                                                                                      ],
-                                                                                                                    ),
-                                                                                                                    SizedBox(
-                                                                                                                      height:
-                                                                                                                          size.height * .02,
-                                                                                                                    ),
-                                                                                                                    Text(
-                                                                                                                      modelReviewList
-                                                                                                                          .value
-                                                                                                                          .data![index]
-                                                                                                                          .review
-                                                                                                                          .toString(),
-                                                                                                                      style:
-                                                                                                                          GoogleFonts.mulish(
-                                                                                                                        fontWeight:
-                                                                                                                            FontWeight.w600,
-                                                                                                                        // letterSpacing: 1,
-                                                                                                                        fontSize:
-                                                                                                                            14,
-                                                                                                                        color:
-                                                                                                                            Colors.black,
-                                                                                                                      ),
-                                                                                                                    )
-                                                                                                                  ],
+                                                                                                              Text(
+                                                                                                                modelReviewList
+                                                                                                                    .value
+                                                                                                                    .data![
+                                                                                                                        index]
+                                                                                                                    .date
+                                                                                                                    .toString(),
+                                                                                                                style: GoogleFonts
+                                                                                                                    .mulish(
+                                                                                                                  fontWeight:
+                                                                                                                      FontWeight
+                                                                                                                          .w400,
+                                                                                                                  // letterSpacing: 1,
+                                                                                                                  fontSize:
+                                                                                                                      10,
+                                                                                                                  color: Colors
+                                                                                                                      .black,
                                                                                                                 ),
-                                                                                                              )
+                                                                                                              ),
+                                                                                                              const SizedBox(
+                                                                                                                width: 50,
+                                                                                                              ),
+                                                                                                              InkWell(
+                                                                                                                  onTap: () {
+                                                                                                                    // home.value.data!.discover![index].wishlist.toString();
+                                                                                                                  },
+                                                                                                                  child:
+                                                                                                                      const Icon(
+                                                                                                                    Icons
+                                                                                                                        .favorite_outline,
+                                                                                                                    color: Color(
+                                                                                                                        0xff134563),
+                                                                                                                  ))
                                                                                                             ],
                                                                                                           ),
-                                                                                                        );
-                                                                                                      },
-                                                                                                    ),
-                                                                                                    const SizedBox(
-                                                                                                      height: 25,
-                                                                                                    ),
-                                                                                                    GestureDetector(
-                                                                                                      onTap: () {
-                                                                                                        Get.toNamed(MyRouters
-                                                                                                            .addRecommendationScreen);
-                                                                                                      },
-                                                                                                      child: const CommonButton(
-                                                                                                          title:
-                                                                                                              "Send Recommendation"),
-                                                                                                    ),
-                                                                                                    const SizedBox(
-                                                                                                      height: 20,
+                                                                                                          SizedBox(
+                                                                                                            height:
+                                                                                                                size.height *
+                                                                                                                    .02,
+                                                                                                          ),
+                                                                                                          Text(
+                                                                                                            modelReviewList
+                                                                                                                .value
+                                                                                                                .data![index]
+                                                                                                                .review
+                                                                                                                .toString(),
+                                                                                                            style:
+                                                                                                                GoogleFonts
+                                                                                                                    .mulish(
+                                                                                                              fontWeight:
+                                                                                                                  FontWeight
+                                                                                                                      .w600,
+                                                                                                              // letterSpacing: 1,
+                                                                                                              fontSize: 14,
+                                                                                                              color: Colors
+                                                                                                                  .black,
+                                                                                                            ),
+                                                                                                          )
+                                                                                                        ],
+                                                                                                      ),
                                                                                                     )
                                                                                                   ],
-                                                                                                );
-                                                                                              }),
-                                                                                            )
-                                                                                          : const Center(
-                                                                                              child:
-                                                                                                  Text('No Data Available'))
-                                                                                      : const Center(
-                                                                                          child: CircularProgressIndicator(),
-                                                                                        ),
-                                                                                  const SizedBox(
-                                                                                    height: 20,
+                                                                                                ),
+                                                                                              );
+                                                                                            },
+                                                                                          ),
+                                                                                          const SizedBox(
+                                                                                            height: 25,
+                                                                                          ),
+                                                                                          GestureDetector(
+                                                                                            onTap: () {
+                                                                                              Get.toNamed(MyRouters
+                                                                                                  .addRecommendationScreen);
+                                                                                            },
+                                                                                            child: const CommonButton(
+                                                                                                title:
+                                                                                                    "Send Recommendation"),
+                                                                                          ),
+                                                                                          const SizedBox(
+                                                                                            height: 20,
+                                                                                          )
+                                                                                        ],
+                                                                                      );
+                                                                                    }),
                                                                                   )
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          );
-                                                                        },
-                                                                      );
-                                                                    },
-                                                                    child: Text(
+                                                                                : const Center(
+                                                                                    child: Text('No Data Available')),
+                                                                            const SizedBox(
+                                                                              height: 20,
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                );
+                                                              },
+                                                              child: Container(
+                                                                padding: const EdgeInsets.all(5),
+                                                                width: size.width * .45,
+                                                                height: 30,
+                                                                decoration: BoxDecoration(
+                                                                  color: const Color(0xFF3797EF).withOpacity(.09),
+                                                                  borderRadius: BorderRadius.circular(10),
+                                                                ),
+                                                                child: Row(
+                                                                  children: [
+                                                                    SvgPicture.asset(AppAssets.message),
+                                                                    const SizedBox(
+                                                                      width: 6,
+                                                                    ),
+                                                                    Text(
                                                                       "Recommendation: ${homeController.homeModel.value.data!.discover![index].reviewCount.toString()}",
                                                                       style: GoogleFonts.mulish(
                                                                           fontWeight: FontWeight.w500,
@@ -782,8 +800,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                           fontSize: 11,
                                                                           color: const Color(0xFF3797EF)),
                                                                     ),
-                                                                  ),
-                                                                ],
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
                                                             Row(

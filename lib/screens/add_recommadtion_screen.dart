@@ -34,6 +34,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
   TextEditingController recommendationController = TextEditingController();
   TextEditingController reviewController = TextEditingController();
   TextEditingController linkController = TextEditingController();
+  Rx<RxStatus> statusOfHome = RxStatus.empty().obs;
 
   Future<http.Response>? _imageResponse;
   String _imageUrl = '';
@@ -94,7 +95,9 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
       onTap: () {
         FocusManager.instance.primaryFocus!.unfocus();
       },
-      child: Scaffold(
+      child:
+
+      Scaffold(
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(14.0),
@@ -186,11 +189,25 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                   height: 15,
                 ),
                 _imageUrl.isNotEmpty
-                    ? CachedNetworkImage(
-                        imageUrl: _imageUrl,
-                        placeholder: (context, url) => const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
-                      )
+                    ? GestureDetector(onTap: (){
+                  _showActionSheet(context);
+                },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.black12),
+                        color: Colors.white,
+                      ),
+                      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      width: double.maxFinite,
+                      height: 180,
+                      alignment: Alignment.center,
+                      child: Image.network(_imageUrl,
+                          errorBuilder: (_, __, ___) => Image.network(_imageUrl,
+                              errorBuilder: (_, __, ___) => const SizedBox())),
+                    )
+                    )
                     : InkWell(
                         onTap: () {
                           _showActionSheet(context);
@@ -312,6 +329,9 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                 );
                 if (croppedFile != null) {
                   categoryFile = File(croppedFile.path);
+                  if(categoryFile.path != ""){
+                    _imageUrl = "";
+                  }
                   setState(() {});
                 }
 
@@ -349,9 +369,11 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                 );
                 if (croppedFile != null) {
                   categoryFile = File(croppedFile.path);
+                  if(categoryFile.path != ""){
+                    _imageUrl = "";
+                  }
                   setState(() {});
                 }
-
                 Get.back();
               });
             },

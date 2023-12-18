@@ -327,7 +327,7 @@ class _CustomTextField2State extends State<CustomTextField2> {
             hintStyle: GoogleFonts.poppins(
               color: const Color(0xff2F353F),
               fontSize: 14,
-              fontWeight: FontWeight.w300,
+              fontWeight: FontWeight.w500,
             ),
             /*errorStyle: const TextStyle(
               overflow: TextOverflow.clip,

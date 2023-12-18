@@ -45,8 +45,8 @@ class Data {
         discover!.add(new Discover.fromJson(v));
       });
     }
-    discover ??=[];
-    discover!.removeWhere((element) => element.userId==null);
+    // discover ??=[];
+    // discover!.removeWhere((element) => element.userId==null);
     if (json['recommandation'] != null) {
       recommandation = <Recommandation>[];
       json['recommandation'].forEach((v) {

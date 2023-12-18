@@ -47,20 +47,27 @@ class _RecommendationSingleScreenState
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
+                          GestureDetector(
+                              onTap: () {
+
+                              },
+                             child: const Icon(Icons.more_vert) ),
+                          const SizedBox(width: 15,),
                           InkWell(
                               onTap: () {
                                 Get.back();
                               },
-                              child: Icon(Icons.clear))
+                              child: const Icon(Icons.clear))
+
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Row(
@@ -71,13 +78,13 @@ class _RecommendationSingleScreenState
                             style: GoogleFonts.mulish(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20,
-                                color: Color(0xFF000000)),
+                                color: const Color(0xFF000000)),
                           ),
                           InkWell(onTap: (){
 
                             Get.toNamed(MyRouters.userProfileScreen,arguments: [id]);
                           },
-                            child: Image(
+                            child: const Image(
                                 height: 40,
                                 width: 40,
                                 image: AssetImage(
@@ -87,7 +94,7 @@ class _RecommendationSingleScreenState
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(  mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,7 +104,7 @@ class _RecommendationSingleScreenState
                             style: GoogleFonts.mulish(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
-                                color: Color(0xFF162224)),
+                                color: const Color(0xFF162224)),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
@@ -108,9 +115,7 @@ class _RecommendationSingleScreenState
 
                                   bookmarkRepo(
                                     context: context,
-                                    post_id: homeController
-                                        .homeModel.value.data!.recommandation![0].id
-                                        .toString(),
+                                    post_id:id,
                                     type: "recommandation",
                                   ).then((value) async {
                                     modalRemove.value = value;
@@ -143,7 +148,7 @@ class _RecommendationSingleScreenState
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(
@@ -151,9 +156,9 @@ class _RecommendationSingleScreenState
                         style: GoogleFonts.mulish(
                             fontWeight: FontWeight.w500,
                             fontSize: 12,
-                            color: Color(0xFF3797EF)),
+                            color: const Color(0xFF3797EF)),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
 
@@ -171,4 +176,5 @@ class _RecommendationSingleScreenState
                         //     child: Image.network(image,fit: BoxFit.cover,height: heightt * .40,width: size.width,))
                     ]))));
   }
+
 }
