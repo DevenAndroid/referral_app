@@ -1,5 +1,7 @@
 // import 'dart:io';
 
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -149,6 +151,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   Rx<HomeModel> home = HomeModel().obs;
   bool like = false;
   RxString type = ''.obs;
+  String? id;
   Rx<RxStatus> statusOfReviewList = RxStatus.empty().obs;
   Rx<ModelReviewList> modelReviewList = ModelReviewList().obs;
 
@@ -166,13 +169,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     });
   }
 
-  /*void _scrollListener() {
-    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-    } else{
-    //  print("call >>>> ${page.value}");
-    //  chooseCategories().then((value) => setState(() {}));
-    }
-  }*/
   void _scrollListener() {
     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       // homeController.page.value = homeController.page.value + 1;
@@ -1000,14 +996,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                             // You can replace the Container with your image widget
                                             return InkWell(
                                               onTap: () {
+                                                print( "id:::::::::::::::::::::::::::::"+single.value.data![index].id.toString(),);
                                                 Get.toNamed(
                                                   MyRouters.recommendationSingleScreen,
                                                   arguments: [
-                                                    single.value.data![index].image.toString(),
-                                                    single.value.data![index].title.toString(),
-                                                    single.value.data![index].review.toString(),
                                                     single.value.data![index].id.toString(),
-                                                    single.value.data![index].link.toString(),
+
                                                   ],
                                                 );
                                                 print("object");
@@ -1053,6 +1047,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                         // You can replace the Container with your image widget
                                         return InkWell(
                                           onTap: () {
+                                            log("tgrhtr"+allRecommendation.value.data![index].wishlist.toString());
                                             Get.toNamed(
                                               MyRouters.recommendationSingleScreen,
                                               arguments: [
@@ -1061,6 +1056,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                 allRecommendation.value.data![index].review.toString(),
                                                 allRecommendation.value.data![index].id.toString(),
                                                 allRecommendation.value.data![index].link.toString(),
+                                                allRecommendation.value.data![index].wishlist,
                                               ],
                                             );
                                           },

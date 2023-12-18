@@ -95,6 +95,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
       },
       child: Scaffold(
           body: SingleChildScrollView(
+            // physics: AlwaysScrollableScrollPhysics(),
         child: Form(
           key: formKey,
           child: Padding(
@@ -153,77 +154,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                               });
                             },
                             child: const Icon(Icons.arrow_drop_down)),
-                        const Spacer(),
-                        Container(
-                          width: 110,
-                          height: 40,
-                          child: CommonButton(
-                            title: "Post",
-                            onPressed: () {
-                              /* if (minController.text.length >= maxController.text.length) {
-                                  showToast('Min value cannot be grater than Max value');
-                                }
-                                else{
 
-                                }*/
-                              if (formKey.currentState!.validate()) {
-                                if (minController.text.isNotEmpty && maxController.text.isNotEmpty) {
-                                  int valueA = int.parse(minController.text);
-                                  int valueB = int.parse(maxController.text);
-                                  if (valueA > valueB) {
-                                    showToast('Min value cannot be grater than Max value');
-                                  } else {
-                                    Map map = <String, String>{};
-                                    map['title'] = tittleController.text.trim();
-                                    map['description'] = descriptionController.text.trim();
-                                    map['min_price'] = minController.text.toString();
-                                    map['max_price'] = maxController.text.toString();
-                                    map['post_viewers_type'] = profileController.selectedValue.value;
-                                    map['no_budget'] = value2 == true ? '1' : '0';
-
-                                    askRecommendationRepo(
-                                      fieldName1: 'image',
-                                      mapData: map,
-                                      context: context,
-                                      file1: categoryFile,
-                                    ).then((value) async {
-                                      if (value.status == true) {
-                                        bottomController.updateIndexValue(0);
-                                        showToast("Add Recommendation Sucessfully ");
-                                      } else {
-                                        bottomController.updateIndexValue(0);
-                                        showToast("Add Recommendation Sucessfully ");
-                                      }
-                                    });
-                                  }
-                                } else {
-                                  Map map = <String, String>{};
-                                  map['title'] = tittleController.text.trim();
-                                  map['description'] = descriptionController.text.trim();
-                                  map['min_price'] = minController.text.toString();
-                                  map['max_price'] = maxController.text.toString();
-                                  map['post_viewers_type'] = profileController.selectedValue.value;
-                                  map['no_budget'] = value2 == true ? '1' : '0';
-
-                                  askRecommendationRepo(
-                                    fieldName1: 'image',
-                                    mapData: map,
-                                    context: context,
-                                    file1: categoryFile,
-                                  ).then((value) async {
-                                    if (value.status == true) {
-                                      bottomController.updateIndexValue(0);
-                                      showToast("Add Recommendation Sucessfully ");
-                                    } else {
-                                      bottomController.updateIndexValue(0);
-                                      showToast("Add Recommendation Sucessfully ");
-                                    }
-                                  });
-                                }
-                              }
-                            },
-                          ),
-                        )
                       ],
                     ),
 
@@ -234,7 +165,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                       style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black),
                       controller: tittleController,
                       decoration: InputDecoration(
-                        hintText: 'What do you need a recommendation for',
+                        hintText: "I'm looking for...",
                         hintStyle: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black),
                         // Remove the underline and border
                         disabledBorder: OutlineInputBorder(
@@ -284,6 +215,14 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                     ),
                     const SizedBox(
                       height: 20,
+                    ),
+                    Text(
+                      "Photo Inspiration/Direction",
+                      style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.onboardingColor),
+                    ),
+                    const SizedBox(
+                      height: 12,
                     ),
 
                     InkWell(
@@ -340,8 +279,8 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                               Text(
                                 "Min",
                                 style: GoogleFonts.mulish(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 15,
                                   color: AppTheme.onboardingColor,
                                 ),
                               ),
@@ -364,7 +303,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                               Text(
                                 "Max",
                                 style: GoogleFonts.mulish(
-                                    fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.onboardingColor),
+                                    fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.onboardingColor),
                               ),
                               const SizedBox(
                                 height: 12,
@@ -469,8 +408,77 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 50,
-                    )
+                      height: 10,
+                    ),
+                    CommonButton(
+                      title: "Post",
+                      onPressed: () {
+                        /* if (minController.text.length >= maxController.text.length) {
+                                showToast('Min value cannot be grater than Max value');
+                              }
+                              else{
+
+                              }*/
+                        if (formKey.currentState!.validate()) {
+                          if (minController.text.isNotEmpty && maxController.text.isNotEmpty) {
+                            int valueA = int.parse(minController.text);
+                            int valueB = int.parse(maxController.text);
+                            if (valueA > valueB) {
+                              showToast('Min value cannot be grater than Max value');
+                            } else {
+                              Map map = <String, String>{};
+                              map['title'] = tittleController.text.trim();
+                              map['description'] = descriptionController.text.trim();
+                              map['min_price'] = minController.text.toString();
+                              map['max_price'] = maxController.text.toString();
+                              map['post_viewers_type'] = profileController.selectedValue.value;
+                              map['no_budget'] = value2 == true ? '1' : '0';
+
+                              askRecommendationRepo(
+                                fieldName1: 'image',
+                                mapData: map,
+                                context: context,
+                                file1: categoryFile,
+                              ).then((value) async {
+                                if (value.status == true) {
+                                  bottomController.updateIndexValue(0);
+                                  showToast("Add Recommendation Sucessfully ");
+                                } else {
+                                  bottomController.updateIndexValue(0);
+                                  showToast("Add Recommendation Sucessfully ");
+                                }
+                              });
+                            }
+                          } else {
+                            Map map = <String, String>{};
+                            map['title'] = tittleController.text.trim();
+                            map['description'] = descriptionController.text.trim();
+                            map['min_price'] = minController.text.toString();
+                            map['max_price'] = maxController.text.toString();
+                            map['post_viewers_type'] = profileController.selectedValue.value;
+                            map['no_budget'] = value2 == true ? '1' : '0';
+
+                            askRecommendationRepo(
+                              fieldName1: 'image',
+                              mapData: map,
+                              context: context,
+                              file1: categoryFile,
+                            ).then((value) async {
+                              if (value.status == true) {
+                                bottomController.updateIndexValue(0);
+                                showToast("Add Recommendation Sucessfully ");
+                              } else {
+                                bottomController.updateIndexValue(0);
+                                showToast("Add Recommendation Sucessfully ");
+                              }
+                            });
+                          }
+                        }
+                      },
+                    ),
+            SizedBox(
+            height: 80,
+          ),
                     /*             Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [

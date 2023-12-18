@@ -1,23 +1,14 @@
-class SingleProduct {
+class ModelSingleUser {
   bool? status;
   String? message;
-  List<Data>? data;
-  Meta? meta;
-  Link? link;
+  Data? data;
 
-  SingleProduct({this.status, this.message, this.data, this.meta, this.link});
+  ModelSingleUser({this.status, this.message, this.data});
 
-  SingleProduct.fromJson(Map<String, dynamic> json) {
+  ModelSingleUser.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
-      });
-    }
-    meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
-    link = json['link'] != null ? new Link.fromJson(json['link']) : null;
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -25,21 +16,36 @@ class SingleProduct {
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    if (this.meta != null) {
-      data['meta'] = this.meta!.toJson();
-    }
-    if (this.link != null) {
-      data['link'] = this.link!.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
+  Recommandation? recommandation;
+
+  Data({this.recommandation});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    recommandation = json['recommandation'] != null
+        ? new Recommandation.fromJson(json['recommandation'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.recommandation != null) {
+      data['recommandation'] = this.recommandation!.toJson();
+    }
+    return data;
+  }
+}
+
+class Recommandation {
   int? id;
   User? user;
+  int? askrecommandationId;
   String? title;
   String? review;
   String? link;
@@ -47,21 +53,25 @@ class Data {
   String? image;
   String? status;
   bool? wishlist;
+  String? date;
 
-  Data(
+  Recommandation(
       {this.id,
         this.user,
+        this.askrecommandationId,
         this.title,
         this.review,
         this.link,
         this.categoryId,
         this.image,
         this.status,
-        this.wishlist});
+        this.wishlist,
+        this.date});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Recommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    askrecommandationId = json['askrecommandation_id'];
     title = json['title'];
     review = json['review'];
     link = json['link'];
@@ -69,6 +79,7 @@ class Data {
     image = json['image'];
     status = json['status'];
     wishlist = json['wishlist'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -77,6 +88,7 @@ class Data {
     if (this.user != null) {
       data['user'] = this.user!.toJson();
     }
+    data['askrecommandation_id'] = this.askrecommandationId;
     data['title'] = this.title;
     data['review'] = this.review;
     data['link'] = this.link;
@@ -84,6 +96,7 @@ class Data {
     data['image'] = this.image;
     data['status'] = this.status;
     data['wishlist'] = this.wishlist;
+    data['date'] = this.date;
     return data;
   }
 }
@@ -109,6 +122,7 @@ class User {
   int? followingCount;
   int? followersCount;
   int? postCount;
+  bool? isFollow;
 
   User(
       {this.id,
@@ -130,7 +144,8 @@ class User {
         this.isComplete,
         this.followingCount,
         this.followersCount,
-        this.postCount});
+        this.postCount,
+        this.isFollow});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -153,6 +168,7 @@ class User {
     followingCount = json['following_count'];
     followersCount = json['followers_count'];
     postCount = json['post_count'];
+    isFollow = json['is_follow'];
   }
 
   Map<String, dynamic> toJson() {
@@ -177,50 +193,7 @@ class User {
     data['following_count'] = this.followingCount;
     data['followers_count'] = this.followersCount;
     data['post_count'] = this.postCount;
-    return data;
-  }
-}
-
-class Meta {
-  int? totalPage;
-  int? currentPage;
-  int? totalItem;
-  int? perPage;
-
-  Meta({this.totalPage, this.currentPage, this.totalItem, this.perPage});
-
-  Meta.fromJson(Map<String, dynamic> json) {
-    totalPage = json['total_page'];
-    currentPage = json['current_page'];
-    totalItem = json['total_item'];
-    perPage = json['per_page'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total_page'] = this.totalPage;
-    data['current_page'] = this.currentPage;
-    data['total_item'] = this.totalItem;
-    data['per_page'] = this.perPage;
-    return data;
-  }
-}
-
-class Link {
-  bool? next;
-  bool? prev;
-
-  Link({this.next, this.prev});
-
-  Link.fromJson(Map<String, dynamic> json) {
-    next = json['next'];
-    prev = json['prev'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['next'] = this.next;
-    data['prev'] = this.prev;
+    data['is_follow'] = this.isFollow;
     return data;
   }
 }
