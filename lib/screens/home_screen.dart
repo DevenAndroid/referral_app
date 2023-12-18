@@ -631,115 +631,120 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                     const SizedBox(
                                                                                                       width: 10,
                                                                                                     ),
-                                                                                                    Container(
-                                                                                                      padding:
-                                                                                                          const EdgeInsets
-                                                                                                              .symmetric(
-                                                                                                              vertical: 10,
-                                                                                                              horizontal:
-                                                                                                                  10),
-                                                                                                      decoration: const BoxDecoration(
-                                                                                                          borderRadius: BorderRadius.only(
-                                                                                                              bottomRight: Radius
-                                                                                                                  .circular(
-                                                                                                                      10),
-                                                                                                              bottomLeft: Radius
-                                                                                                                  .circular(
-                                                                                                                      10),
-                                                                                                              topRight: Radius
-                                                                                                                  .circular(
-                                                                                                                      10)),
-                                                                                                          color: Color(
-                                                                                                              0xffF0F0F0)),
-                                                                                                      child: Column(
-                                                                                                        crossAxisAlignment:
-                                                                                                            CrossAxisAlignment
-                                                                                                                .start,
-                                                                                                        children: [
-                                                                                                          Row(
-                                                                                                            children: [
-                                                                                                              Text(
-                                                                                                                modelReviewList
-                                                                                                                    .value
-                                                                                                                    .data![
-                                                                                                                        index]
-                                                                                                                    .user!
-                                                                                                                    .name
-                                                                                                                    .toString(),
-                                                                                                                style: GoogleFonts
-                                                                                                                    .mulish(
-                                                                                                                  fontWeight:
-                                                                                                                      FontWeight
-                                                                                                                          .w600,
-                                                                                                                  // letterSpacing: 1,
-                                                                                                                  fontSize:
-                                                                                                                      14,
-                                                                                                                  color: Colors
-                                                                                                                      .black,
+                                                                                                    Expanded(
+                                                                                                      child: Container(
+                                                                                                        padding:
+                                                                                                            const EdgeInsets
+                                                                                                                .symmetric(
+                                                                                                                vertical: 10,
+                                                                                                                horizontal:
+                                                                                                                    10),
+                                                                                                        decoration: const BoxDecoration(
+                                                                                                            borderRadius: BorderRadius.only(
+                                                                                                                bottomRight: Radius
+                                                                                                                    .circular(
+                                                                                                                        10),
+                                                                                                                bottomLeft: Radius
+                                                                                                                    .circular(
+                                                                                                                        10),
+                                                                                                                topRight: Radius
+                                                                                                                    .circular(
+                                                                                                                        10)),
+                                                                                                            color: Color(
+                                                                                                                0xffF0F0F0)),
+                                                                                                        child: Column(
+                                                                                                          crossAxisAlignment:
+                                                                                                              CrossAxisAlignment
+                                                                                                                  .start,
+                                                                                                          children: [
+                                                                                                            Row(
+                                                                                                              children: [
+                                                                                                                Text(
+                                                                                                                  overflow:TextOverflow.ellipsis,
+                                                                                                                  modelReviewList
+                                                                                                                      .value
+                                                                                                                      .data![
+                                                                                                                          index]
+                                                                                                                      .user!
+                                                                                                                      .name
+                                                                                                                      .toString(),
+                                                                                                                  style: GoogleFonts
+                                                                                                                      .mulish(
+                                                                                                                    fontWeight:
+                                                                                                                        FontWeight
+                                                                                                                            .w600,
+                                                                                                                    // letterSpacing: 1,
+                                                                                                                    fontSize:
+                                                                                                                        14,
+                                                                                                                    color: Colors
+                                                                                                                        .black,
+                                                                                                      
+                                                                                                                  ),
+                                                                                                      
                                                                                                                 ),
-                                                                                                              ),
-                                                                                                              const SizedBox(
-                                                                                                                width: 10,
-                                                                                                              ),
-                                                                                                              Text(
-                                                                                                                modelReviewList
-                                                                                                                    .value
-                                                                                                                    .data![
-                                                                                                                        index]
-                                                                                                                    .date
-                                                                                                                    .toString(),
-                                                                                                                style: GoogleFonts
-                                                                                                                    .mulish(
-                                                                                                                  fontWeight:
-                                                                                                                      FontWeight
-                                                                                                                          .w400,
-                                                                                                                  // letterSpacing: 1,
-                                                                                                                  fontSize:
-                                                                                                                      10,
-                                                                                                                  color: Colors
-                                                                                                                      .black,
+                                                                                                                const SizedBox(
+                                                                                                                  width: 10,
                                                                                                                 ),
-                                                                                                              ),
-                                                                                                              const SizedBox(
-                                                                                                                width: 50,
-                                                                                                              ),
-                                                                                                              InkWell(
-                                                                                                                  onTap: () {
-                                                                                                                    // home.value.data!.discover![index].wishlist.toString();
-                                                                                                                  },
-                                                                                                                  child:
-                                                                                                                      const Icon(
-                                                                                                                    Icons
-                                                                                                                        .favorite_outline,
-                                                                                                                    color: Color(
-                                                                                                                        0xff134563),
-                                                                                                                  ))
-                                                                                                            ],
-                                                                                                          ),
-                                                                                                          SizedBox(
-                                                                                                            height:
-                                                                                                                size.height *
-                                                                                                                    .02,
-                                                                                                          ),
-                                                                                                          Text(
-                                                                                                            modelReviewList
-                                                                                                                .value
-                                                                                                                .data![index]
-                                                                                                                .review
-                                                                                                                .toString(),
-                                                                                                            style:
-                                                                                                                GoogleFonts
-                                                                                                                    .mulish(
-                                                                                                              fontWeight:
-                                                                                                                  FontWeight
-                                                                                                                      .w600,
-                                                                                                              // letterSpacing: 1,
-                                                                                                              fontSize: 14,
-                                                                                                              color: Colors
-                                                                                                                  .black,
+                                                                                                                Text(
+                                                                                                                  modelReviewList
+                                                                                                                      .value
+                                                                                                                      .data![
+                                                                                                                          index]
+                                                                                                                      .date
+                                                                                                                      .toString(),
+                                                                                                                  style: GoogleFonts
+                                                                                                                      .mulish(
+                                                                                                                    fontWeight:
+                                                                                                                        FontWeight
+                                                                                                                            .w400,
+                                                                                                                    // letterSpacing: 1,
+                                                                                                                    fontSize:
+                                                                                                                        10,
+                                                                                                                    color: Colors
+                                                                                                                        .black,
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                const SizedBox(
+                                                                                                                  width: 50,
+                                                                                                                ),
+                                                                                                                InkWell(
+                                                                                                                    onTap: () {
+                                                                                                                      // home.value.data!.discover![index].wishlist.toString();
+                                                                                                                    },
+                                                                                                                    child:
+                                                                                                                        const Icon(
+                                                                                                                      Icons
+                                                                                                                          .favorite_outline,
+                                                                                                                      color: Color(
+                                                                                                                          0xff134563),
+                                                                                                                    ))
+                                                                                                              ],
                                                                                                             ),
-                                                                                                          )
-                                                                                                        ],
+                                                                                                            SizedBox(
+                                                                                                              height:
+                                                                                                                  size.height *
+                                                                                                                      .02,
+                                                                                                            ),
+                                                                                                            Text(
+                                                                                                              modelReviewList
+                                                                                                                  .value
+                                                                                                                  .data![index]
+                                                                                                                  .review
+                                                                                                                  .toString(),
+                                                                                                              style:
+                                                                                                                  GoogleFonts
+                                                                                                                      .mulish(
+                                                                                                                fontWeight:
+                                                                                                                    FontWeight
+                                                                                                                        .w600,
+                                                                                                                // letterSpacing: 1,
+                                                                                                                fontSize: 14,
+                                                                                                                color: Colors
+                                                                                                                    .black,
+                                                                                                              ),
+                                                                                                            )
+                                                                                                          ],
+                                                                                                        ),
                                                                                                       ),
                                                                                                     )
                                                                                                   ],
