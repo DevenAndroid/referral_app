@@ -857,7 +857,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                       Row(
                                                         children: [
                                                           ClipOval(
-                                                            child: profileController
+                                                            child:
+                                                            profileController
                                                                 .modal
                                                                 .value
                                                                 .data!

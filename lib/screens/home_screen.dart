@@ -929,7 +929,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                     padding: const EdgeInsets.all(8.0),
                                                     child: Column(
                                                       children: [
-                                                        InkWell(
+                                                        GestureDetector(
                                                           onTap: () {
                                                             getSingleRepo(
                                                                     category_id: categories.value.data![index].id.toString())
