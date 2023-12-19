@@ -87,7 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.white,
-            leading: InkWell(
+            leading: GestureDetector(
               onTap: () {
                 Get.back();
               },
@@ -189,7 +189,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                         final item = searchData1[index];
                                         return Column(
                                           children: [
-                                            InkWell(
+                                            GestureDetector(
                                               onTap: () {
                                                 Get.toNamed(MyRouters.allUserProfileScreen, arguments: [item.id.toString()]);
                                               },
@@ -312,7 +312,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                         itemBuilder: (BuildContext context, int index) {
                                           final item = searchData[index];
                                           // You can replace the Container with your image widget
-                                          return InkWell(
+                                          return GestureDetector(
                                             onTap: () {
                                               Get.toNamed(
                                                 MyRouters.recommendationSingleScreen,

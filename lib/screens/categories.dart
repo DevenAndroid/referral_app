@@ -57,7 +57,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
-          leading: InkWell(
+          leading: GestureDetector(
             onTap: () {
               Get.back();
             },
@@ -132,7 +132,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        InkWell(
+                                        GestureDetector(
                                           onTap: () {
                                             profileController
                                                 .categoriesController

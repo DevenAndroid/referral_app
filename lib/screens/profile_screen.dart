@@ -230,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     ),
                                   ),
                                 ),
-                                InkWell(
+                                GestureDetector(
                                   onTap: () {
                                     Get.toNamed(MyRouters.profilePostScreen, arguments: [
                                       profileController.modal.value.data!.user!.postCount.toString(),
@@ -254,7 +254,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     ],
                                   ),
                                 ),
-                                InkWell(
+                                GestureDetector(
                                   onTap: () {
                                     Get.toNamed(MyRouters.followingScreen, arguments: [
                                       profileController.modal.value.data!.user!.followersCount.toString(),
@@ -287,7 +287,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     );
                                   }),
                                 ),
-                                InkWell(
+                                GestureDetector(
                                   onTap: () {
                                     profileController.profileDrawer == 1;
                                     Get.toNamed(MyRouters.followingScreen, arguments: [
@@ -770,7 +770,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       // Total number of items
                                       itemBuilder: (BuildContext context, int index) {
                                         // You can replace the Container with your image widget
-                                        return InkWell(
+                                        return GestureDetector(
                                           onTap: () {
                                             Get.toNamed(
                                               MyRouters.singleScreen,

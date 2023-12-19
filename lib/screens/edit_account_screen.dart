@@ -107,7 +107,7 @@ class _EditAccountState extends State<EditAccount> {
                     fontSize: 18,
                     color:const Color(0xFF262626)
                 ),),
-              leading:InkWell(
+              leading:GestureDetector(
                 onTap: (){
                   Get.back();
                 },
@@ -152,7 +152,7 @@ class _EditAccountState extends State<EditAccount> {
                                     color: AppTheme.onboardingColor
                                 ),),
                               const SizedBox(height: 12,),
-                              InkWell(
+                              GestureDetector(
                                 onTap: () {
                                   _showActionSheet(context);
                                 },
@@ -297,7 +297,7 @@ class _EditAccountState extends State<EditAccount> {
                               //       color: AppTheme.onboardingColor
                               //   ),),
                               // const SizedBox(height: 12,),
-                              // InkWell(
+                              // GestureDetector(
                               //     onTap: () async {
                               //       var place = await PlacesAutocomplete.show(
                               //           hint: "Location",

@@ -50,7 +50,7 @@ class _SingleScreenState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          InkWell(
+                          GestureDetector(
                               onTap: () {
                                 Get.back();
                               },
@@ -86,7 +86,7 @@ class _SingleScreenState
                       SizedBox(
                         height: 10,
                       ),
-                      InkWell(
+                      GestureDetector(
                         onTap: (){
                           launchURL(link.toString(),);
                         },

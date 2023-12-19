@@ -208,7 +208,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                               errorBuilder: (_, __, ___) => const SizedBox())),
                     )
                     )
-                    : InkWell(
+                    : GestureDetector(
                         onTap: () {
                           _showActionSheet(context);
                         },

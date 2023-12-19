@@ -165,7 +165,7 @@ class UserProfileScreenState extends State<UserProfileScreen> with SingleTickerP
                                                   color: const Color(0xFF262626))),
                                         ],
                                       ),
-                                      InkWell(
+                                      GestureDetector(
                                         onTap: () {
                                           Get.toNamed(MyRouters.followingScreen, arguments: [
                                             userProfile.value.data!.user!.followersCount.toString(),
@@ -190,7 +190,7 @@ class UserProfileScreenState extends State<UserProfileScreen> with SingleTickerP
                                           ],
                                         ),
                                       ),
-                                      InkWell(
+                                      GestureDetector(
                                         onTap: () {
                                           currentDrawer == 1;
                                           Get.toNamed(MyRouters.followingScreen, arguments: [
@@ -613,7 +613,7 @@ class UserProfileScreenState extends State<UserProfileScreen> with SingleTickerP
                                                         padding: const EdgeInsets.all(8.0),
                                                         child: Column(
                                                           children: [
-                                                            InkWell(
+                                                            GestureDetector(
                                                               onTap: () {
                                                                 // profileController.categoriesController.text = item.name.toString();
                                                                 // profileController.idController.text = item.id.toString();

@@ -132,7 +132,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                             ),
                             Row(
                               children: [
-                                InkWell(
+                                GestureDetector(
                                     onTap: () {
                                       Get.back();
                                     },
@@ -197,7 +197,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                     ],
                                   ),
                                 ),
-                                InkWell(
+                                GestureDetector(
                                   onTap: () {
                                     Get.toNamed(MyRouters.followingScreen, arguments: [
                                       userProfile.value.data!.user!.followersCount.toString(),
@@ -223,7 +223,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                     ],
                                   ),
                                 ),
-                                InkWell(
+                                GestureDetector(
                                   onTap: () {
                                     currentDrawer == 1;
                                     Get.toNamed(MyRouters.followingScreen, arguments: [
@@ -671,7 +671,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                               padding: const EdgeInsets.all(8.0),
                                               child: Column(
                                                 children: [
-                                                  InkWell(
+                                                  GestureDetector(
                                                     onTap: () {
                                                       // profileController.categoriesController.text = item.name.toString();
                                                       // profileController.idController.text = item.id.toString();
@@ -725,7 +725,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                   // Total number of items
                                   itemBuilder: (BuildContext context, int index) {
                                     // You can replace the Container with your image widget
-                                    return InkWell(
+                                    return GestureDetector(
                                       onTap: () {
                                         Get.toNamed(
                                           MyRouters.singleScreen,

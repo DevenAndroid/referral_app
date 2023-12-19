@@ -147,7 +147,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                         const SizedBox(
                           width: 15,
                         ),
-                        InkWell(
+                        GestureDetector(
                             onTap: () {
                               setState(() {
                                 showDialogue15(context);
@@ -225,7 +225,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                       height: 12,
                     ),
 
-                    InkWell(
+                    GestureDetector(
                       onTap: () {
                         _showActionSheet(context);
                         FocusManager.instance.primaryFocus!.unfocus();
@@ -408,7 +408,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 30,
                     ),
                     CommonButton(
                       title: "Post",

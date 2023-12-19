@@ -186,7 +186,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               ),
                               const SizedBox(height: 10,),
                               Center(
-                                child: InkWell(
+                                child: GestureDetector(
                                   onTap: (){
                                     resend(context);
                                   },

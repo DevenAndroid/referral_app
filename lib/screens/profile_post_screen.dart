@@ -35,7 +35,7 @@ class _ProfilePostState extends State<ProfilePost> {
               fontSize: 18,
               color: Color(0xFF262626)),
         ),
-        leading: InkWell(
+        leading: GestureDetector(
           onTap: () {
             Get.back();
           },
@@ -77,7 +77,7 @@ class _ProfilePostState extends State<ProfilePost> {
                             child: Column(
                               children: [
 
-                                InkWell(
+                                GestureDetector(
                                   onTap: () {
                                     // profileController.categoriesController.text = item.name.toString();
                                     // profileController.idController.text = item.id.toString();

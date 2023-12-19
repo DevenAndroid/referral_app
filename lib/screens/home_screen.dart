@@ -14,6 +14,7 @@ import 'package:referral_app/widgets/app_assets.dart';
 import 'package:referral_app/widgets/custome_textfiled.dart';
 import 'package:referral_app/widgets/helper.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wishlist controller.dart';
 import '../models/all_recommendation_model.dart';
@@ -179,6 +180,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     }
   }
 
+  void launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      showToast('Could not launch $url');
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -262,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 14.0),
-                  child: InkWell(
+                  child: GestureDetector(
                       onTap: () {
                         Get.toNamed(MyRouters.searchScreen);
                       },
@@ -349,7 +358,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                       children: [
                                                         Row(
                                                           children: [
-                                                            InkWell(
+                                                            GestureDetector(
                                                               onTap: () {
                                                                 Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
                                                                   homeController
@@ -416,7 +425,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             Padding(
                                                               padding: const EdgeInsets.only(right: 8.0),
                                                               child: Obx(() {
-                                                                return InkWell(
+                                                                return GestureDetector(
                                                                   onTap: () {
                                                                     // home.value.data!.discover![index].wishlist.toString();
 
@@ -458,7 +467,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             const SizedBox(
                                                               width: 15,
                                                             ),
-                                                            InkWell(
+                                                            GestureDetector(
                                                                 onTap: () {
                                                                   Share.share(
                                                                     homeController
@@ -525,7 +534,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                         Row(
                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
-                                                            InkWell(
+                                                            GestureDetector(
                                                               onTap: () {
                                                                 reviewList(homeController
                                                                     .homeModel.value.data!.discover![index].id
@@ -556,8 +565,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                                           children: <Widget>[
                                                                             Row(
-                                                                              mainAxisAlignment:
-                                                                                  MainAxisAlignment.spaceBetween,
                                                                               children: [
                                                                                 Text(
                                                                                   'Recommendation List',
@@ -568,15 +575,19 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                     color: Colors.black,
                                                                                   ),
                                                                                 ),
+                                                                                const Spacer(),
                                                                                 GestureDetector(
                                                                                     onTap: () {
                                                                                       Get.back();
                                                                                     },
                                                                                     child: const Icon(Icons.close)),
-                                                                                SizedBox(
+                                                                                const SizedBox(
                                                                                   height: 10,
                                                                                 ),
                                                                               ],
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              height: 15,
                                                                             ),
                                                                             statusOfReviewList.value.isSuccess
                                                                                 ? SingleChildScrollView(
@@ -630,15 +641,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                     Expanded(
                                                                                                       child: Container(
                                                                                                         padding:
-                                                                                                            const EdgeInsets
+                                                                                                             EdgeInsets
                                                                                                                 .symmetric(
                                                                                                                 vertical: 10,
                                                                                                                 horizontal:
                                                                                                                     10),
-                                                                                                        decoration: const BoxDecoration(
+                                                                                                        decoration:  BoxDecoration(
                                                                                                             borderRadius: BorderRadius.only(
-                                                                                                                bottomRight: Radius
-                                                                                                                    .circular(
+                                                                                                                bottomRight:
+                                                                                                                    Radius.circular(
                                                                                                                         10),
                                                                                                                 bottomLeft: Radius
                                                                                                                     .circular(
@@ -646,8 +657,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                                 topRight: Radius
                                                                                                                     .circular(
                                                                                                                         10)),
-                                                                                                            color: Color(
-                                                                                                                0xffF0F0F0)),
+                                                                                                            color: Colors.grey.withOpacity(0.2)),
                                                                                                         child: Column(
                                                                                                           crossAxisAlignment:
                                                                                                               CrossAxisAlignment
@@ -656,7 +666,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                             Row(
                                                                                                               children: [
                                                                                                                 Text(
-                                                                                                                  overflow:TextOverflow.ellipsis,
+                                                                                                                  overflow:
+                                                                                                                      TextOverflow
+                                                                                                                          .ellipsis,
                                                                                                                   modelReviewList
                                                                                                                       .value
                                                                                                                       .data![
@@ -674,12 +686,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                                         14,
                                                                                                                     color: Colors
                                                                                                                         .black,
-                                                                                                      
                                                                                                                   ),
-                                                                                                      
                                                                                                                 ),
-                                                                                                                const SizedBox(
-                                                                                                                  width: 10,
+                                                                                                                SizedBox(
+                                                                                                                  width: 15,
                                                                                                                 ),
                                                                                                                 Text(
                                                                                                                   modelReviewList
@@ -700,20 +710,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                                         .black,
                                                                                                                   ),
                                                                                                                 ),
-                                                                                                                const SizedBox(
-                                                                                                                  width: 50,
-                                                                                                                ),
-                                                                                                                InkWell(
-                                                                                                                    onTap: () {
+                                                                                                                Spacer(),
+                                                                                                                GestureDetector(
+                                                                                                                    onTap:
+                                                                                                                        () {
                                                                                                                       // home.value.data!.discover![index].wishlist.toString();
                                                                                                                     },
                                                                                                                     child:
-                                                                                                                        const Icon(
-                                                                                                                      Icons
-                                                                                                                          .favorite_outline,
-                                                                                                                      color: Color(
-                                                                                                                          0xff134563),
-                                                                                                                    ))
+                                                                                                                 Image(image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 3.png'),height: 25,))
                                                                                                               ],
                                                                                                             ),
                                                                                                             SizedBox(
@@ -724,7 +728,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                             Text(
                                                                                                               modelReviewList
                                                                                                                   .value
-                                                                                                                  .data![index]
+                                                                                                                  .data![
+                                                                                                                      index]
                                                                                                                   .review
                                                                                                                   .toString(),
                                                                                                               style:
@@ -738,7 +743,82 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                                 color: Colors
                                                                                                                     .black,
                                                                                                               ),
-                                                                                                            )
+                                                                                                            ),
+                                                                                                            SizedBox(
+                                                                                                              height: 8,
+                                                                                                            ),
+                                                                                                            modelReviewList
+                                                                                                                .value
+                                                                                                                .data![
+                                                                                                            index]
+                                                                                                                .link==""?SizedBox()
+                                                                                                           : GestureDetector(
+                                                                                                              onTap: () {
+                                                                                                                launchURL(
+                                                                                                                  modelReviewList
+                                                                                                                      .value
+                                                                                                                      .data![
+                                                                                                                          index]
+                                                                                                                      .link
+                                                                                                                      .toString(),
+                                                                                                                );
+                                                                                                              },
+                                                                                                              child: Text(
+                                                                                                                modelReviewList
+                                                                                                                    .value
+                                                                                                                    .data![
+                                                                                                                        index]
+                                                                                                                    .link
+                                                                                                                    .toString(),
+                                                                                                                style: GoogleFonts.mulish(
+                                                                                                                    fontWeight:
+                                                                                                                        FontWeight
+                                                                                                                            .w500,
+                                                                                                                    fontSize:
+                                                                                                                        12,
+                                                                                                                    color: Color(
+                                                                                                                        0xFF3797EF)),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            SizedBox(
+                                                                                                              height: 12,
+                                                                                                            ),
+                                                                                                            modelReviewList
+                                                                                                                        .value
+                                                                                                                        .data![
+                                                                                                                            index]
+                                                                                                                        .image ==
+                                                                                                                    ""
+                                                                                                                ? const SizedBox()
+                                                                                                                : ClipRRect(
+                                                                                                                    borderRadius:
+                                                                                                                        BorderRadius.circular(
+                                                                                                                            10),
+                                                                                                                    child:
+                                                                                                                        CachedNetworkImage(
+                                                                                                                      width:
+                                                                                                                          size.width,
+                                                                                                                      height:
+                                                                                                                          200,
+                                                                                                                      fit: BoxFit
+                                                                                                                          .fill,
+                                                                                                                      imageUrl: modelReviewList
+                                                                                                                          .value
+                                                                                                                          .data![index]
+                                                                                                                          .image
+                                                                                                                          .toString(),
+                                                                                                                      placeholder: (context, url) =>
+                                                                                                                          const SizedBox(
+                                                                                                                        height:
+                                                                                                                            0,
+                                                                                                                      ),
+                                                                                                                      errorWidget: (context, url, error) =>
+                                                                                                                          const SizedBox(
+                                                                                                                        height:
+                                                                                                                            0,
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
                                                                                                           ],
                                                                                                         ),
                                                                                                       ),
@@ -929,7 +1009,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                     padding: const EdgeInsets.all(8.0),
                                                     child: Column(
                                                       children: [
-                                                        InkWell(
+                                                        GestureDetector(
                                                           onTap: () {
                                                             getSingleRepo(
                                                                     category_id: categories.value.data![index].id.toString())
@@ -999,14 +1079,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                           // Total number of items
                                           itemBuilder: (BuildContext context, int index) {
                                             // You can replace the Container with your image widget
-                                            return InkWell(
+                                            return GestureDetector(
                                               onTap: () {
-                                                print( "id:::::::::::::::::::::::::::::"+single.value.data![index].id.toString(),);
+                                                print(
+                                                  "id:::::::::::::::::::::::::::::" +
+                                                      single.value.data![index].id.toString(),
+                                                );
                                                 Get.toNamed(
                                                   MyRouters.recommendationSingleScreen,
                                                   arguments: [
                                                     single.value.data![index].id.toString(),
-
                                                   ],
                                                 );
                                                 print("object");
@@ -1050,9 +1132,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                       // Total number of items
                                       itemBuilder: (BuildContext context, int index) {
                                         // You can replace the Container with your image widget
-                                        return InkWell(
+                                        return GestureDetector(
                                           onTap: () {
-                                            log("tgrhtr"+allRecommendation.value.data![index].wishlist.toString());
+                                            log("tgrhtr" + allRecommendation.value.data![index].wishlist.toString());
                                             Get.toNamed(
                                               MyRouters.recommendationSingleScreen,
                                               arguments: [

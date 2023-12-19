@@ -94,7 +94,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                       "Following",
                       style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: Color(0xFF262626)),
                     ),
-              leading: InkWell(
+              leading: GestureDetector(
                 onTap: () {
                   Get.back();
                 },
@@ -313,7 +313,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                                 color: Colors.black),
                                                           ),
                                                           Spacer(),
-                                                          InkWell(
+                                                          GestureDetector(
                                                             onTap: () {
                                                               unFollowRepo(
                                                                 context: context,

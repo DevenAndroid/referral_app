@@ -38,7 +38,7 @@ class _PostScreenState extends State<PostScreen> {
                                 fontSize: 16,
                                 color: Color(0xFF3797EF)),
                           ),
-                          InkWell(
+                          GestureDetector(
                               onTap: () {
                                 Get.back();
                               },
