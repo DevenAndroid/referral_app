@@ -27,6 +27,7 @@ import '../repositories/all_recommendation_repo.dart';
 import '../repositories/categories_repo.dart';
 import '../repositories/home_pafe_repo.dart';
 import '../repositories/remove_bookmark_repo.dart';
+import '../repositories/repo_add_like.dart';
 import '../repositories/repo_review_list.dart';
 import '../repositories/single_produc_repo.dart';
 import '../resourses/api_constant.dart';
@@ -536,328 +537,24 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                           children: [
                                                             GestureDetector(
                                                               onTap: () {
-                                                                reviewList(homeController
-                                                                    .homeModel.value.data!.discover![index].id
-                                                                    .toString());
-                                                                showModalBottomSheet(
-                                                                  enableDrag: true,
-                                                                  isDismissible: true,
-                                                                  constraints: BoxConstraints(
-                                                                    maxHeight: context.getSize.height * .9,
-                                                                  ),
-                                                                  isScrollControlled: true,
-                                                                  context: context,
-                                                                  backgroundColor: Colors.white,
-                                                                  elevation: 10,
-                                                                  shape: const RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius.only(
-                                                                        topRight: Radius.circular(10),
-                                                                        topLeft: Radius.circular(10)),
-                                                                  ),
-                                                                  builder: (BuildContext context) {
-                                                                    // UDE : SizedBox instead of Container for whitespaces
-                                                                    return SingleChildScrollView(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.symmetric(
-                                                                            horizontal: 12, vertical: 20),
-                                                                        child: Column(
-                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                          children: <Widget>[
-                                                                            Row(
-                                                                              children: [
-                                                                                Text(
-                                                                                  'Recommendation List',
-                                                                                  style: GoogleFonts.mulish(
-                                                                                    fontWeight: FontWeight.w700,
-                                                                                    // letterSpacing: 1,
-                                                                                    fontSize: 18,
-                                                                                    color: Colors.black,
-                                                                                  ),
-                                                                                ),
-                                                                                const Spacer(),
-                                                                                GestureDetector(
-                                                                                    onTap: () {
-                                                                                      Get.back();
-                                                                                    },
-                                                                                    child: const Icon(Icons.close)),
-                                                                                const SizedBox(
-                                                                                  height: 10,
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 15,
-                                                                            ),
-                                                                            statusOfReviewList.value.isSuccess
-                                                                                ? SingleChildScrollView(
-                                                                                    child: Obx(() {
-                                                                                      return Column(
-                                                                                        children: [
-                                                                                          ListView.builder(
-                                                                                            physics: const ScrollPhysics(),
-                                                                                            itemCount: modelReviewList
-                                                                                                .value.data!.length,
-                                                                                            scrollDirection: Axis.vertical,
-                                                                                            shrinkWrap: true,
-                                                                                            itemBuilder: (context, index) {
-                                                                                              return Padding(
-                                                                                                padding:
-                                                                                                    const EdgeInsets.only(
-                                                                                                        left: 8.0, top: 10),
-                                                                                                child: Row(
-                                                                                                  mainAxisAlignment:
-                                                                                                      MainAxisAlignment
-                                                                                                          .start,
-                                                                                                  crossAxisAlignment:
-                                                                                                      CrossAxisAlignment
-                                                                                                          .start,
-                                                                                                  children: [
-                                                                                                    ClipOval(
-                                                                                                      child:
-                                                                                                          CachedNetworkImage(
-                                                                                                        width: 30,
-                                                                                                        height: 30,
-                                                                                                        fit: BoxFit.cover,
-                                                                                                        imageUrl:
-                                                                                                            modelReviewList
-                                                                                                                .value
-                                                                                                                .data![index]
-                                                                                                                .user!
-                                                                                                                .profileImage
-                                                                                                                .toString(),
-                                                                                                        placeholder: (context,
-                                                                                                                url) =>
-                                                                                                            const SizedBox(),
-                                                                                                        errorWidget: (context,
-                                                                                                                url,
-                                                                                                                error) =>
-                                                                                                            const SizedBox(),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                    const SizedBox(
-                                                                                                      width: 10,
-                                                                                                    ),
-                                                                                                    Expanded(
-                                                                                                      child: Container(
-                                                                                                        padding:
-                                                                                                             EdgeInsets
-                                                                                                                .symmetric(
-                                                                                                                vertical: 10,
-                                                                                                                horizontal:
-                                                                                                                    10),
-                                                                                                        decoration:  BoxDecoration(
-                                                                                                            borderRadius: BorderRadius.only(
-                                                                                                                bottomRight:
-                                                                                                                    Radius.circular(
-                                                                                                                        10),
-                                                                                                                bottomLeft: Radius
-                                                                                                                    .circular(
-                                                                                                                        10),
-                                                                                                                topRight: Radius
-                                                                                                                    .circular(
-                                                                                                                        10)),
-                                                                                                            color: Colors.grey.withOpacity(0.2)),
-                                                                                                        child: Column(
-                                                                                                          crossAxisAlignment:
-                                                                                                              CrossAxisAlignment
-                                                                                                                  .start,
-                                                                                                          children: [
-                                                                                                            Row(
-                                                                                                              children: [
-                                                                                                                Text(
-                                                                                                                  overflow:
-                                                                                                                      TextOverflow
-                                                                                                                          .ellipsis,
-                                                                                                                  modelReviewList
-                                                                                                                      .value
-                                                                                                                      .data![
-                                                                                                                          index]
-                                                                                                                      .user!
-                                                                                                                      .name
-                                                                                                                      .toString(),
-                                                                                                                  style: GoogleFonts
-                                                                                                                      .mulish(
-                                                                                                                    fontWeight:
-                                                                                                                        FontWeight
-                                                                                                                            .w600,
-                                                                                                                    // letterSpacing: 1,
-                                                                                                                    fontSize:
-                                                                                                                        14,
-                                                                                                                    color: Colors
-                                                                                                                        .black,
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                                SizedBox(
-                                                                                                                  width: 15,
-                                                                                                                ),
-                                                                                                                Text(
-                                                                                                                  modelReviewList
-                                                                                                                      .value
-                                                                                                                      .data![
-                                                                                                                          index]
-                                                                                                                      .date
-                                                                                                                      .toString(),
-                                                                                                                  style: GoogleFonts
-                                                                                                                      .mulish(
-                                                                                                                    fontWeight:
-                                                                                                                        FontWeight
-                                                                                                                            .w400,
-                                                                                                                    // letterSpacing: 1,
-                                                                                                                    fontSize:
-                                                                                                                        10,
-                                                                                                                    color: Colors
-                                                                                                                        .black,
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                                Spacer(),
-                                                                                                                GestureDetector(
-                                                                                                                    onTap:
-                                                                                                                        () {
-                                                                                                                      // home.value.data!.discover![index].wishlist.toString();
-                                                                                                                    },
-                                                                                                                    child:
-                                                                                                                 Image(image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 3.png'),height: 25,))
-                                                                                                              ],
-                                                                                                            ),
-                                                                                                            SizedBox(
-                                                                                                              height:
-                                                                                                                  size.height *
-                                                                                                                      .02,
-                                                                                                            ),
-                                                                                                            Text(
-                                                                                                              modelReviewList
-                                                                                                                  .value
-                                                                                                                  .data![
-                                                                                                                      index]
-                                                                                                                  .review
-                                                                                                                  .toString(),
-                                                                                                              style:
-                                                                                                                  GoogleFonts
-                                                                                                                      .mulish(
-                                                                                                                fontWeight:
-                                                                                                                    FontWeight
-                                                                                                                        .w600,
-                                                                                                                // letterSpacing: 1,
-                                                                                                                fontSize: 14,
-                                                                                                                color: Colors
-                                                                                                                    .black,
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            SizedBox(
-                                                                                                              height: 8,
-                                                                                                            ),
-                                                                                                            modelReviewList
-                                                                                                                .value
-                                                                                                                .data![
-                                                                                                            index]
-                                                                                                                .link==""?SizedBox()
-                                                                                                           : GestureDetector(
-                                                                                                              onTap: () {
-                                                                                                                launchURL(
-                                                                                                                  modelReviewList
-                                                                                                                      .value
-                                                                                                                      .data![
-                                                                                                                          index]
-                                                                                                                      .link
-                                                                                                                      .toString(),
-                                                                                                                );
-                                                                                                              },
-                                                                                                              child: Text(
-                                                                                                                modelReviewList
-                                                                                                                    .value
-                                                                                                                    .data![
-                                                                                                                        index]
-                                                                                                                    .link
-                                                                                                                    .toString(),
-                                                                                                                style: GoogleFonts.mulish(
-                                                                                                                    fontWeight:
-                                                                                                                        FontWeight
-                                                                                                                            .w500,
-                                                                                                                    fontSize:
-                                                                                                                        12,
-                                                                                                                    color: Color(
-                                                                                                                        0xFF3797EF)),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            SizedBox(
-                                                                                                              height: 12,
-                                                                                                            ),
-                                                                                                            modelReviewList
-                                                                                                                        .value
-                                                                                                                        .data![
-                                                                                                                            index]
-                                                                                                                        .image ==
-                                                                                                                    ""
-                                                                                                                ? const SizedBox()
-                                                                                                                : ClipRRect(
-                                                                                                                    borderRadius:
-                                                                                                                        BorderRadius.circular(
-                                                                                                                            10),
-                                                                                                                    child:
-                                                                                                                        CachedNetworkImage(
-                                                                                                                      width:
-                                                                                                                          size.width,
-                                                                                                                      height:
-                                                                                                                          200,
-                                                                                                                      fit: BoxFit
-                                                                                                                          .fill,
-                                                                                                                      imageUrl: modelReviewList
-                                                                                                                          .value
-                                                                                                                          .data![index]
-                                                                                                                          .image
-                                                                                                                          .toString(),
-                                                                                                                      placeholder: (context, url) =>
-                                                                                                                          const SizedBox(
-                                                                                                                        height:
-                                                                                                                            0,
-                                                                                                                      ),
-                                                                                                                      errorWidget: (context, url, error) =>
-                                                                                                                          const SizedBox(
-                                                                                                                        height:
-                                                                                                                            0,
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    )
-                                                                                                  ],
-                                                                                                ),
-                                                                                              );
-                                                                                            },
-                                                                                          ),
-                                                                                          const SizedBox(
-                                                                                            height: 25,
-                                                                                          ),
-                                                                                          GestureDetector(
-                                                                                            onTap: () {
-                                                                                              Get.toNamed(MyRouters
-                                                                                                  .addRecommendationScreen);
-                                                                                            },
-                                                                                            child: const CommonButton(
-                                                                                                title:
-                                                                                                    "Send Recommendation"),
-                                                                                          ),
-                                                                                          const SizedBox(
-                                                                                            height: 20,
-                                                                                          )
-                                                                                        ],
-                                                                                      );
-                                                                                    }),
-                                                                                  )
-                                                                                : const Center(
-                                                                                    child: Text('No Data Available')),
-                                                                            const SizedBox(
-                                                                              height: 20,
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                );
+                                                                setState(() {
+                                                                  getReviewListRepo(
+                                                                          context: context,
+                                                                          id: homeController
+                                                                              .homeModel.value.data!.discover![index].id
+                                                                              .toString())
+                                                                      .then((value) {
+                                                                    modelReviewList.value = value;
+
+                                                                    if (value.status == true) {
+                                                                      statusOfReviewList.value = RxStatus.success();
+                                                                      _settingModalBottomSheet(context);
+                                                                    } else {
+                                                                      statusOfReviewList.value = RxStatus.error();
+                                                                    }
+                                                                    setState(() {});
+                                                                  });
+                                                                });
                                                               },
                                                               child: Container(
                                                                 padding: const EdgeInsets.all(5),
@@ -945,8 +642,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                   )
                                                 ],
                                               );
-                                            })
-                                        // : statusOfHome.value.isError
+                                            }) // : statusOfHome.value.isError
                                         /* ? CommonErrorWidget(
                                       errorText: "",
                                       onTap: () {},
@@ -1172,5 +868,254 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     ),
                   ]);
                 }))));
+  }
+
+  void _settingModalBottomSheet(context) {
+    var size = MediaQuery.of(context).size;
+    var hieght = MediaQuery.of(context).size.height;
+
+    showModalBottomSheet(
+        enableDrag: true,
+        isDismissible: true,
+        constraints: BoxConstraints(
+          maxHeight: hieght * .9,
+        ),
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.white,
+        elevation: 10,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+        ),
+        builder: (BuildContext context) {
+          // UDE : SizedBox instead of Container for whitespaces
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Text(
+                        'Recommendation List',
+                        style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.w700,
+                          // letterSpacing: 1,
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                          onTap: () {
+                            Get.back();
+                            setState(() {});
+                          },
+                          child: const Icon(Icons.close)),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  statusOfReviewList.value.isSuccess
+                      ? SingleChildScrollView(
+                          child: Obx(() {
+                            return Column(
+                              children: [
+                                ListView.builder(
+                                  physics: const ScrollPhysics(),
+                                  itemCount: modelReviewList.value.data!.length,
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 8.0, top: 10),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          ClipOval(
+                                            child: CachedNetworkImage(
+                                              width: 30,
+                                              height: 30,
+                                              fit: BoxFit.cover,
+                                              imageUrl: modelReviewList.value.data![index].user!.profileImage.toString(),
+                                              placeholder: (context, url) => const SizedBox(),
+                                              errorWidget: (context, url, error) => const SizedBox(),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.only(
+                                                      bottomRight: Radius.circular(10),
+                                                      bottomLeft: Radius.circular(10),
+                                                      topRight: Radius.circular(10)),
+                                                  color: Colors.grey.withOpacity(0.2)),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        overflow: TextOverflow.ellipsis,
+                                                        modelReviewList.value.data![index].user!.name.toString(),
+                                                        style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w600,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 15,
+                                                      ),
+                                                      Text(
+                                                        modelReviewList.value.data![index].date.toString(),
+                                                        style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w400,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 10,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                      Spacer(),
+                                                      GestureDetector(
+                                                          onTap: () {
+                                                            addRemoveLikeRepo(
+                                                              context: context,
+                                                              recommended_id: modelReviewList.value.data![index].id,
+                                                            ).then((value) async {
+                                                              // userProfile.value = value;
+                                                              if (value.status == true) {
+                                                                print('wishlist-----');
+                                                                statusOfRemove.value = RxStatus.success();
+                                                                //homeController.getPaginate();
+
+                                                                // like=true;
+                                                                showToast(value.message.toString());
+                                                              } else {
+                                                                statusOfRemove.value = RxStatus.error();
+                                                                // like=false;
+                                                                showToast(value.message.toString());
+                                                              }
+                                                            });  setState(() {
+                                                              if ( modelReviewList.value.data![index].wishlist == true) {
+                                                                modelReviewList.value.data![index].wishlist = true;
+                                                              } else {
+                                                                modelReviewList.value.data![index].wishlist = false;
+                                                              }
+                                                            });// home.value.data!.discover![index].wishlist.toString();
+                                                          },
+                                                          child:modelReviewList.value.data![index].wishlist ==
+                                                              true
+                                                              ? const Image(
+                                                            image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                            height: 25,
+                                                          )
+                                                              :  const Image(
+                                                          image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 1.png'),
+                                                          height: 28,
+                                                          filterQuality: FilterQuality.high,
+                                                          color: Color(0xff134563),
+
+
+                                          ),
+                                                      ) ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: size.height * .02,
+                                                  ),
+                                                  Text(
+                                                    modelReviewList.value.data![index].review.toString(),
+                                                    style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w600,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 8,
+                                                  ),
+                                                  modelReviewList.value.data![index].link == ""
+                                                      ? SizedBox()
+                                                      : GestureDetector(
+                                                          onTap: () {
+                                                            launchURL(
+                                                              modelReviewList.value.data![index].link.toString(),
+                                                            );
+                                                          },
+                                                          child: Text(
+                                                            modelReviewList.value.data![index].link.toString(),
+                                                            style: GoogleFonts.mulish(
+                                                                fontWeight: FontWeight.w500,
+                                                                fontSize: 12,
+                                                                color: Color(0xFF3797EF)),
+                                                          ),
+                                                        ),
+                                                  SizedBox(
+                                                    height: 12,
+                                                  ),
+                                                  modelReviewList.value.data![index].image == ""
+                                                      ? const SizedBox()
+                                                      : ClipRRect(
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          child: CachedNetworkImage(
+                                                            width: size.width,
+                                                            height: 200,
+                                                            fit: BoxFit.fill,
+                                                            imageUrl: modelReviewList.value.data![index].image.toString(),
+                                                            placeholder: (context, url) => const SizedBox(
+                                                              height: 0,
+                                                            ),
+                                                            errorWidget: (context, url, error) => const SizedBox(
+                                                              height: 0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(MyRouters.addRecommendationScreen);
+                                  },
+                                  child: const CommonButton(title: "Send Recommendation"),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                )
+                              ],
+                            );
+                          }),
+                        )
+                      : const Center(child: Text('No Data Available')),
+                  const SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
