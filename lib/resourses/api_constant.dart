@@ -32,6 +32,7 @@ class ApiUrls {
   static const String addRemoveFollower = "${apiBaseUrl}add-remove-follower";
   static const String reviewList = "${apiBaseUrl}review-list";
   static const String deleteRecommand = "${apiBaseUrl}delete-recommandation";
+  static const String addRemoveLike = "${apiBaseUrl}add-remove-like";
 
 }
 
