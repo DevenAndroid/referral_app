@@ -210,24 +210,24 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                                 ),
                               ),
                               Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: InkWell(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Obx(() {
+                                  return GestureDetector(
                                     onTap: () {
                                       // home.value.data!.discover![index].wishlist.toString();
+
                                       bookmarkRepo(
                                         context: context,
-                                        post_id: id,
-                                        type: "recommandation",
+                                        post_id: id.toString(),
+                                        type: "askrecommandation",
                                       ).then((value) async {
+                                        modalRemove.value = value;
                                         if (value.status == true) {
-                                          recommend = value.message!;
-                                          getAllRepo();
-                                          setState(() {
-
-                                          });
                                           print('wishlist-----');
+                                          homeController.getData();
                                           statusOfRemove.value = RxStatus.success();
-
+                                          //homeController.getPaginate();
+                                          UserProfile();
                                           // like=true;
                                           showToast(value.message.toString());
                                         } else {
@@ -238,13 +238,15 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                                       });
                                       setState(() {});
                                     },
-                                    child: single.value.data!.recommandation!.wishlist == true
+                                    child:      single.value.data!.recommandation!.wishlist ==
+                                        true
                                         ? SvgPicture.asset(
-                                      AppAssets.bookmark,
+                                      AppAssets.bookmark1,
                                       height: 20,
                                     )
                                         : SvgPicture.asset(AppAssets.bookmark),
-                                  )
+                                  );
+                                }),
                               ),
                             ],
                           ),

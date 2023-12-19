@@ -684,77 +684,164 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
-                                SizedBox(
-                                    height: size.height * .15,
-                                    child: Obx(() {
-                                      return profileController.statusOfProfile.value.isSuccess &&
-                                          statusOfCategories.value.isSuccess
-                                          ? ListView.builder(
-                                          itemCount: profileController.modal.value.data!.myCategories!.length,
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.horizontal,
-                                          physics: const AlwaysScrollableScrollPhysics(),
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  getSingleRepo(
-                                                      category_id: profileController
-                                                          .modal.value.data!.myCategories![index].id
-                                                          .toString())
-                                                      .then((value) {
-                                                    single.value = value;
-                                                    if (value.status == true) {
-                                                      statusOfSingle.value = RxStatus.success();
-                                                      check = false;
-                                                      setState(() {});
-                                                    } else {
-                                                      statusOfSingle.value = RxStatus.error();
-                                                    }
-                                                    setState(() {});
-                                                  });
-                                                },
-                                                child: Column(
-                                                  children: [
-                                                    ClipOval(
-                                                      child: CachedNetworkImage(
-                                                        width: 70,
-                                                        height: 70,
-                                                        fit: BoxFit.fill,
-                                                        imageUrl: profileController
-                                                            .modal.value.data!.myCategories![index].image
-                                                            .toString(),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          check = false;
+                                          profileController.getData();
+                                          setState(() {});
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.only(bottom:20),
+                                          child: Container(
+                                            decoration:
+                                            BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                            child: const CircleAvatar(
+                                                radius: 35,
+                                                backgroundColor: Colors.transparent,
+                                                child: Text(
+                                                  'View All',
+                                                  style: TextStyle(color: Colors.black, fontSize: 14),
+                                                )),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      SizedBox(
+                                          height: size.height * .15,
+                                          child: Obx(() {
+                                            return profileController.statusOfProfile.value.isSuccess &&
+                                                statusOfCategories.value.isSuccess
+                                                ? ListView.builder(
+                                                itemCount: profileController.modal.value.data!.myCategories!.length,
+                                                shrinkWrap: true,
+                                                scrollDirection: Axis.horizontal,
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                itemBuilder: (context, index) {
+                                                  return Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        getSingleRepo(
+                                                            category_id: categories.value.data![index].id.toString())
+                                                            .then((value) {
+                                                          single.value = value;
+                                                          if (value.status == true) {
+                                                            statusOfSingle.value = RxStatus.success();
+                                                            check = true;
+                                                            setState(() {});
+                                                          } else {
+                                                            statusOfSingle.value = RxStatus.error();
+                                                          }
+                                                          setState(() {});
+                                                          // showToast(value.message.toString());
+                                                        });
+                                                      },
+                                                      child: Column(
+                                                        children: [
+                                                          ClipOval(
+                                                            child: CachedNetworkImage(
+                                                              width: 70,
+                                                              height: 70,
+                                                              fit: BoxFit.fill,
+                                                              imageUrl: profileController
+                                                                  .modal.value.data!.myCategories![index].image
+                                                                  .toString(),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 2,
+                                                          ),
+                                                          Text(
+                                                            profileController.modal.value.data!.myCategories![index].name
+                                                                .toString(),
+                                                            style: GoogleFonts.mulish(
+                                                                fontWeight: FontWeight.w300,
+                                                                // letterSpacing: 1,
+                                                                fontSize: 14,
+                                                                color: const Color(0xFF26282E)),
+                                                          )
+                                                        ],
                                                       ),
                                                     ),
-                                                    const SizedBox(
-                                                      height: 2,
-                                                    ),
-                                                    Text(
-                                                      profileController.modal.value.data!.myCategories![index].name
-                                                          .toString(),
-                                                      style: GoogleFonts.mulish(
-                                                          fontWeight: FontWeight.w300,
-                                                          // letterSpacing: 1,
-                                                          fontSize: 14,
-                                                          color: const Color(0xFF26282E)),
-                                                    )
+                                                  );
+                                                })
+                                                : profileController.statusOfProfile.value.isError
+                                                ? CommonErrorWidget(
+                                              errorText: "",
+                                              onTap: () {},
+                                            )
+                                                : const Center(child: CircularProgressIndicator());
+                                          })),
+                                      SizedBox(width: 20,)
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  children: [
+                                    if (check == true)
+                                    statusOfSingle.value.isSuccess
+                                        ? Column(
+                                      children: [
+                                        if (single.value.data!.isEmpty) const Text("No Record found"),
+                                        GridView.builder(
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                            // Number of columns
+                                            crossAxisSpacing: 10.0,
+                                            // Spacing between columns
+                                            mainAxisSpacing: 10.0, // Spacing between rows
+                                          ),
+                                          itemCount: single.value.data!.length,
+                                          // Total number of items
+                                          itemBuilder: (BuildContext context, int index) {
+                                            // You can replace the Container with your image widget
+                                            return GestureDetector(
+                                              onTap: () {
+                                                print(
+                                                  "id:::::::::::::::::::::::::::::" +
+                                                      single.value.data![index].id.toString(),
+                                                );
+                                                Get.toNamed(
+                                                  MyRouters.recommendationSingleScreen,
+                                                  arguments: [
+                                                    single.value.data![index].id.toString(),
                                                   ],
+                                                );
+                                                print("object");
+                                              },
+                                              child: Container(
+                                                padding: const EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(color: Colors.black),
+                                                    borderRadius: BorderRadius.circular(10)),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: single.value.data![index].image.toString(),
+                                                  fit: BoxFit.fill,
                                                 ),
                                               ),
                                             );
-                                          })
-                                          : profileController.statusOfProfile.value.isError
-                                          ? CommonErrorWidget(
-                                        errorText: "",
-                                        onTap: () {},
-                                      )
-                                          : const Center(child: CircularProgressIndicator());
-                                    })),
-                                Column(
-                                  children: [
-                                    if (profileController.modal.value.data!.myRecommandation!.isEmpty)
-                                      const Text("No data found "),
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                        : statusOfSingle.value.isError
+                                        ? CommonErrorWidget(
+                                      errorText: "",
+                                      onTap: () {},
+                                    )
+                                        : const Center(child: SizedBox()),
+                                    if (check == false)
+                                    // if (profileController.modal.value.data!.myRecommandation!.isEmpty)
+                                    //   const Text("No data found "),
+                                    profileController.statusOfProfile.value.isSuccess?
                                     GridView.builder(
                                       padding: EdgeInsets.zero,
                                       shrinkWrap: true,
@@ -806,7 +893,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           ),
                                         );
                                       },
-                                    ),
+                                    ): profileController.statusOfProfile.value.isError
+                ? CommonErrorWidget(
+                errorText: "",
+                onTap: () {},
+                )
+                    : const Center(child: SizedBox()),
                                   ],
                                 ),
                               ],
