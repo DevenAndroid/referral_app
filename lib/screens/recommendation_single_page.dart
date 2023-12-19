@@ -201,9 +201,9 @@ print(id);
                                     });
                                     setState(() {});
                                   },
-                                  child: single.value.data!.recommandation!.wishlist == true || recommend == "BOOKMARK_ADDED"
+                                  child: single.value.data!.recommandation!.wishlist == true
                                       ? SvgPicture.asset(
-                                    AppAssets.bookmark1,
+                                    AppAssets.bookmark,
                                     height: 20,
                                   )
                                       : SvgPicture.asset(AppAssets.bookmark),

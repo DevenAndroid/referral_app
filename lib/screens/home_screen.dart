@@ -282,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 },
                 tabs: [
                   Tab(
-                    child: Text("Discover",
+                    child: Text("Recco Feed",
                         style: currentDrawer == 0
                             ? GoogleFonts.mulish(
                                 fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
@@ -290,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
                   ),
                   Tab(
-                    child: Text("Recommendation",
+                    child: Text("Discover",
                         style: currentDrawer == 1
                             ? GoogleFonts.mulish(
                                 fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
