@@ -1,4 +1,4 @@
-class ModelDeleteRecomm {
+  class ModelDeleteRecomm {
   bool? status;
   String? message;
   bool? data;
