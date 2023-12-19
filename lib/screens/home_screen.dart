@@ -1064,7 +1064,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               statusOfSingle.value.isSuccess
                                   ? Column(
                                       children: [
-                                        if (single.value.data!.isEmpty) const Text("No Record found"),
+                                        if (single.value.data!.isEmpty) const Text("No Records found"),
                                         GridView.builder(
                                           padding: EdgeInsets.zero,
                                           shrinkWrap: true,
