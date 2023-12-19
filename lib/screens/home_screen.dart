@@ -27,6 +27,7 @@ import '../repositories/all_recommendation_repo.dart';
 import '../repositories/categories_repo.dart';
 import '../repositories/home_pafe_repo.dart';
 import '../repositories/remove_bookmark_repo.dart';
+import '../repositories/repo_add_like.dart';
 import '../repositories/repo_review_list.dart';
 import '../repositories/single_produc_repo.dart';
 import '../resourses/api_constant.dart';
@@ -205,6 +206,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     all();
     chooseCategories();
     chooseCategories1();
+    addRemoveLikeRepo();
   }
 
   late TabController _tabController;
@@ -641,13 +643,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                     Expanded(
                                                                                                       child: Container(
                                                                                                         padding:
-                                                                                                             EdgeInsets
+                                                                                                            const EdgeInsets
                                                                                                                 .symmetric(
                                                                                                                 vertical: 10,
                                                                                                                 horizontal:
                                                                                                                     10),
-                                                                                                        decoration:  BoxDecoration(
-                                                                                                            borderRadius: BorderRadius.only(
+                                                                                                        decoration: BoxDecoration(
+                                                                                                            borderRadius: const BorderRadius.only(
                                                                                                                 bottomRight:
                                                                                                                     Radius.circular(
                                                                                                                         10),
@@ -657,7 +659,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                                 topRight: Radius
                                                                                                                     .circular(
                                                                                                                         10)),
-                                                                                                            color: Colors.grey.withOpacity(0.2)),
+                                                                                                            color: Colors
+                                                                                                                .grey
+                                                                                                                .withOpacity(
+                                                                                                                    0.2)),
                                                                                                         child: Column(
                                                                                                           crossAxisAlignment:
                                                                                                               CrossAxisAlignment
@@ -712,12 +717,49 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                                 ),
                                                                                                                 Spacer(),
                                                                                                                 GestureDetector(
-                                                                                                                    onTap:
-                                                                                                                        () {
+                                                                                                                    onTap: () {
                                                                                                                       // home.value.data!.discover![index].wishlist.toString();
+                                                                                                                      addRemoveLikeRepo(
+                                                                                                                        context: context,
+                                                                                                                        recommended_id: modelReviewList.value.data![index].id,
+                                                                                                                      ).then((value) async {
+                                                                                                                        // userProfile.value = value;
+                                                                                                                        if (value.status == true) {
+                                                                                                                          print('wishlist-----');
+                                                                                                                          statusOfRemove.value = RxStatus.success();
+                                                                                                                          //homeController.getPaginate();
+
+                                                                                                                          // like=true;
+                                                                                                                          showToast(value.message.toString());
+                                                                                                                        } else {
+                                                                                                                          statusOfRemove.value = RxStatus.error();
+                                                                                                                          // like=false;
+                                                                                                                          showToast(value.message.toString());
+                                                                                                                        }
+                                                                                                                      });
+                                                                                                                      setState(() {
+                                                                                                                        if ( modelReviewList.value.data![index].wishlist == false) {
+                                                                                                                          modelReviewList.value.data![index].wishlist = true;
+                                                                                                                        } else {
+                                                                                                                          modelReviewList.value.data![index].wishlist = false;
+                                                                                                                        }
+                                                                                                                      });
                                                                                                                     },
-                                                                                                                    child:
-                                                                                                                 Image(image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 3.png'),height: 25,))
+                                                                                                                    child: modelReviewList.value.data![index].wishlist ==
+                                                                                                                            true
+                                                                                                                        ? const Image(
+                                                                                                                            image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                                                                                            height: 25,
+                                                                                                                          )
+                                                                                                                        :
+                                                                                                                    
+                                                                                                                    const Image(
+                                                                                                                            image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                                                                                            height: 25,
+                                                                                                                      color: Color(0xff134563),
+                                                                                                                          )
+                                                                                                                
+                                                                                                                )
                                                                                                               ],
                                                                                                             ),
                                                                                                             SizedBox(
@@ -748,38 +790,36 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                                                               height: 8,
                                                                                                             ),
                                                                                                             modelReviewList
-                                                                                                                .value
-                                                                                                                .data![
-                                                                                                            index]
-                                                                                                                .link==""?SizedBox()
-                                                                                                           : GestureDetector(
-                                                                                                              onTap: () {
-                                                                                                                launchURL(
-                                                                                                                  modelReviewList
-                                                                                                                      .value
-                                                                                                                      .data![
-                                                                                                                          index]
-                                                                                                                      .link
-                                                                                                                      .toString(),
-                                                                                                                );
-                                                                                                              },
-                                                                                                              child: Text(
-                                                                                                                modelReviewList
-                                                                                                                    .value
-                                                                                                                    .data![
-                                                                                                                        index]
-                                                                                                                    .link
-                                                                                                                    .toString(),
-                                                                                                                style: GoogleFonts.mulish(
-                                                                                                                    fontWeight:
-                                                                                                                        FontWeight
-                                                                                                                            .w500,
-                                                                                                                    fontSize:
-                                                                                                                        12,
-                                                                                                                    color: Color(
-                                                                                                                        0xFF3797EF)),
-                                                                                                              ),
-                                                                                                            ),
+                                                                                                                        .value
+                                                                                                                        .data![
+                                                                                                                            index]
+                                                                                                                        .link ==
+                                                                                                                    ""
+                                                                                                                ? SizedBox()
+                                                                                                                : GestureDetector(
+                                                                                                                    onTap:
+                                                                                                                        () {
+                                                                                                                      launchURL(
+                                                                                                                        modelReviewList
+                                                                                                                            .value
+                                                                                                                            .data![index]
+                                                                                                                            .link
+                                                                                                                            .toString(),
+                                                                                                                      );
+                                                                                                                    },
+                                                                                                                    child:
+                                                                                                                        Text(
+                                                                                                                      modelReviewList
+                                                                                                                          .value
+                                                                                                                          .data![index]
+                                                                                                                          .link
+                                                                                                                          .toString(),
+                                                                                                                      style: GoogleFonts.mulish(
+                                                                                                                          fontWeight: FontWeight.w500,
+                                                                                                                          fontSize: 12,
+                                                                                                                          color: Color(0xFF3797EF)),
+                                                                                                                    ),
+                                                                                                                  ),
                                                                                                             SizedBox(
                                                                                                               height: 12,
                                                                                                             ),
