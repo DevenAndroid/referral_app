@@ -12,6 +12,8 @@ import 'package:image_picker/image_picker.dart';
 
 import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
+import '../models/model_single_user.dart';
+import '../models/single_user_repo.dart';
 import '../repositories/add_recommendation_repo.dart';
 import '../resourses/api_constant.dart';
 import '../routers/routers.dart';
@@ -68,7 +70,7 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
   }
 
   File categoryFile = File("");
-
+var id = Get.arguments[0];
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -85,6 +87,7 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    UserProfile();
     //
     // recommendationController
     // reviewController
@@ -95,6 +98,33 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
   final profileController = Get.put(ProfileController());
 
   final homeController = Get.put(HomeController());
+  Rx<ModelSingleUser> single = ModelSingleUser().obs;
+  Rx<RxStatus> statusOfUser = RxStatus
+      .empty()
+      .obs;
+  UserProfile() {
+    singleUserRepo(recommandation_id: id,).then((value) {
+      single.value = value;
+      print(id);
+      if (value.status == true) {
+        recommendationController.text =  single.value.data!.recommandation!.title.toString();
+        reviewController.text =  single.value.data!.recommandation!.review.toString();
+        categoryFile =  File(single.value.data!.recommandation!.image.toString());
+        profileController.categoriesController.text =  single.value.data!.recommandation!.categoryId.toString();
+        statusOfUser.value = RxStatus.success();
+      } else {
+        statusOfUser.value = RxStatus.error();
+      }
+
+      // showToast(value.message.toString());
+    });
+  }
+
+  
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -272,7 +302,7 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
                       map['review'] = reviewController.text.trim();
                       map['link'] = linkController.text.trim();
                       map['status'] = "publish";
-                      map['category_id'] = profileController.idController.text.trim();
+                      map['id'] = id;
                       map['askrecommandation_id'] = homeController
                           .homeModel.value.data!.discover![0].id.toString();
 
@@ -284,6 +314,9 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
                       ).then((value) async {
                         if (value.status == true) {
                           Get.back();
+                          Get.back();
+                          Get.back();
+                          // Get.back();
                           // Get.toNamed(MyRouters.followingScreen);
                           showToast(value.message.toString());
                         } else {

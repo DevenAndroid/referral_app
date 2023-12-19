@@ -991,16 +991,26 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                       Spacer(),
                                                       GestureDetector(
                                                           onTap: () {
+
                                                             addRemoveLikeRepo(
                                                               context: context,
-                                                              recommended_id: modelReviewList.value.data![index].id,
+                                                              recommended_id: modelReviewList.value.data![index].id.toString(),
                                                             ).then((value) async {
                                                               // userProfile.value = value;
                                                               if (value.status == true) {
                                                                 print('wishlist-----');
                                                                 statusOfRemove.value = RxStatus.success();
                                                                 //homeController.getPaginate();
-
+                                                                // getReviewListRepo(context: context, id: modelReviewList.value.data![index].id.toString(),).then((value) {
+                                                                //   modelReviewList.value = value;
+                                                                //
+                                                                //   if (value.status == true) {
+                                                                //     statusOfReviewList.value = RxStatus.success();
+                                                                //   } else {
+                                                                //     statusOfReviewList.value = RxStatus.error();
+                                                                //   }
+                                                                //   setState(() {});
+                                                                // });
                                                                 // like=true;
                                                                 showToast(value.message.toString());
                                                               } else {
@@ -1009,28 +1019,19 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                 showToast(value.message.toString());
                                                               }
                                                             });  setState(() {
-                                                              if ( modelReviewList.value.data![index].wishlist == true) {
-                                                                modelReviewList.value.data![index].wishlist = true;
-                                                              } else {
-                                                                modelReviewList.value.data![index].wishlist = false;
-                                                              }
                                                             });// home.value.data!.discover![index].wishlist.toString();
                                                           },
-                                                          child:modelReviewList.value.data![index].wishlist ==
+                                                          child: modelReviewList.value.data![index].isLike ==
                                                               true
-                                                              ? const Image(
+                                                              ?  SvgPicture.asset(AppAssets.heart,height: 26,)
+                                                              :
+                                                          const Image(
                                                             image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
                                                             height: 25,
                                                           )
-                                                              :  const Image(
-                                                          image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 1.png'),
-                                                          height: 28,
-                                                          filterQuality: FilterQuality.high,
-                                                          color: Color(0xff134563),
 
-
-                                          ),
-                                                      ) ],
+                                                      )
+                                                    ],
                                                   ),
                                                   SizedBox(
                                                     height: size.height * .02,

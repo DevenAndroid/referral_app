@@ -37,6 +37,7 @@ class Data {
   String? image;
   String? status;
   bool? wishlist;
+  bool? isLike;
   String? date;
 
   Data(
@@ -49,6 +50,7 @@ class Data {
         this.image,
         this.status,
         this.wishlist,
+        this.isLike,
         this.date});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -61,6 +63,7 @@ class Data {
     image = json['image'];
     status = json['status'];
     wishlist = json['wishlist'];
+    isLike = json['is_like'];
     date = json['date'];
   }
 
@@ -77,6 +80,7 @@ class Data {
     data['image'] = this.image;
     data['status'] = this.status;
     data['wishlist'] = this.wishlist;
+    data['is_like'] = this.isLike;
     data['date'] = this.date;
     return data;
   }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../screens/add_recommadtion_screen.dart';
+import '../screens/add_recommendation_2.dart';
 import '../screens/all_single_user_screen.dart';
 import '../screens/all_user_screen.dart';
 import '../screens/ask_recommendation_screen.dart';
@@ -48,6 +49,7 @@ class MyRouters {
   static var profilePostScreen = "/profilePostScreen";
   static var singleScreen = "/singleScreen";
   static var singlePostScreen = "/singlePostScreen";
+  static var addRecommendationScreen1 = "/addRecommendationScreen1";
 
 
   static var route = [
@@ -67,6 +69,7 @@ class MyRouters {
         page: () => const AskRecommendationScreen()),
     GetPage(name: '/profileScreen', page: () => const ProfileScreen()),
     GetPage(name: '/searchScreen', page: () => const SearchScreen()),
+    GetPage(name: '/addRecommendationScreen1', page: () => const AddRecommendationScreen1()),
     GetPage(
         name: '/addRecommendationScreen',
         page: () => const AddRecommendationScreen()),

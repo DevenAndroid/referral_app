@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -119,49 +120,6 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                           ),
                           Row(mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              PopupMenuButton<SampleItem>(
-                                initialValue: selectedMenu,
-                                // Callback that sets the selected popup menu item.
-                                onSelected: (SampleItem item) {
-                                  setState(() {
-                                    selectedMenu = item;
-                                  });
-                                },
-                                itemBuilder: (BuildContext context) =>
-                                <PopupMenuEntry<SampleItem>>[
-                                  const PopupMenuItem<SampleItem>(
-                                    value: SampleItem.itemOne,
-                                    child: Text('Edit'),
-                                  ),
-                                  PopupMenuItem<SampleItem>(
-                                    value: SampleItem.itemTwo,
-                                    child: InkWell(
-                                        onTap: () {
-                                          deleteRecommRepo(
-                                            context: context,
-                                            recommandation_id: single.value.data!.recommandation!.id.toString(),
-                                          ).then((value) async {
-                                            if (value.status == true) {
-                                              deleteRecommendation.value = value;
-                                              Get.toNamed(MyRouters.bottomNavbar);
-                                              print('wishlist-----');
-                                              statusOfDelete.value = RxStatus.success();
-
-                                              // like=true;
-                                              showToast(value.message.toString());
-                                            } else {
-                                              statusOfDelete.value = RxStatus.error();
-                                              // like=false;
-                                              showToast(value.message.toString());
-                                            }
-                                          });
-                                        },
-                                        child: Text('Delete')),
-                                  ),
-
-
-                                ],
-                              ),
                               InkWell(
                                   onTap: () {
                                     Get.back();
@@ -185,12 +143,20 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                               InkWell(onTap: () {
                                 Get.toNamed(MyRouters.userProfileScreen, arguments: [id]);
                               },
-                                child: const Image(
-                                    height: 40,
-                                    width: 40,
-                                    image: AssetImage(
-                                        'assets/icons/chat.png')
-
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: CachedNetworkImage(
+                                    width: size.width,
+                                    height: 200,
+                                    fit: BoxFit.fill,
+                                    imageUrl:   single.value.data!.recommandation!.user!.profileImage.toString(),
+                                    placeholder: (context, url) => const SizedBox(
+                                      height: 0,
+                                    ),
+                                    errorWidget: (context, url, error) => const SizedBox(
+                                      height: 0,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
