@@ -28,12 +28,13 @@ class FollowingScreen extends StatefulWidget {
 class _FollowingScreenState extends State<FollowingScreen> {
   Rx<RxStatus> statusOfFollower = RxStatus.empty().obs;
   Rx<FollowerListModel> followerList = FollowerListModel().obs;
+
   // String followers = '';
   // String following = '';
   //
 
   listFollower() {
-    getFollowersRepo(context: context, userid:id ).then((value) {
+    getFollowersRepo(context: context, userid: id).then((value) {
       followerList.value = value;
       if (value.status == true) {
         statusOfFollower.value = RxStatus.success();
@@ -47,7 +48,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
   Rx<FollowingListModel> followingList = FollowingListModel().obs;
 
   listFollowing() {
-    getFollowingRepo(context: context, userid:  id).then((value) {
+    getFollowingRepo(context: context, userid: id).then((value) {
       followingList.value = value;
 
       if (value.status == true) {
@@ -60,9 +61,10 @@ class _FollowingScreenState extends State<FollowingScreen> {
 
   Rx<RxStatus> statusOfUnfollow = RxStatus.empty().obs;
   Rx<UnfollowModel> unfollowModel = UnfollowModel().obs;
-  var follower  = Get.arguments[0];
+  var follower = Get.arguments[0];
   var following = Get.arguments[1];
   var id = Get.arguments[2];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -81,6 +83,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
+            backgroundColor: const Color(0xffEAEEF1),
             appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
@@ -88,11 +91,11 @@ class _FollowingScreenState extends State<FollowingScreen> {
               title: profileController.profileDrawer == 0
                   ? Text(
                       "Followers",
-                      style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: Color(0xFF262626)),
+                      style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: const Color(0xFF262626)),
                     )
                   : Text(
                       "Following",
-                      style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: Color(0xFF262626)),
+                      style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: const Color(0xFF262626)),
                     ),
               leading: GestureDetector(
                 onTap: () {
@@ -106,7 +109,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
               bottom: TabBar(
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorColor: AppTheme.primaryColor,
-                indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
+                indicatorPadding: const EdgeInsets.symmetric(horizontal: 15),
                 // automaticIndicatorColorAdjustment: true,
                 onTap: (value) {
                   profileController.profileDrawer = value;
@@ -117,17 +120,17 @@ class _FollowingScreenState extends State<FollowingScreen> {
                     child: Text("Followers $follower",
                         style: profileController.profileDrawer == 0
                             ? GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Color(0xFF3797EF))
+                                fontWeight: FontWeight.w400,  fontSize: 14, color: const Color(0xFF3797EF))
                             : GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
+                                fontWeight: FontWeight.w400,  fontSize: 14, color: Colors.black)),
                   ),
                   Tab(
                     child: Text("Following $following",
                         style: profileController.profileDrawer == 1
                             ? GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Color(0xFF3797EF))
+                                fontWeight: FontWeight.w400, fontSize: 14, color: const Color(0xFF3797EF))
                             : GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
+                                fontWeight: FontWeight.w400,  fontSize: 14, color: Colors.black)),
                   ),
                 ],
               ),
@@ -176,7 +179,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                 return Column(
                                                   children: [
                                                     Container(
-                                                      padding: EdgeInsets.all(10),
+                                                      padding: const EdgeInsets.all(10),
                                                       decoration: BoxDecoration(
                                                           color: Colors.white,
                                                           borderRadius: BorderRadius.circular(10),
@@ -221,7 +224,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                         ],
                                                       ),
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       height: 15,
                                                     )
                                                   ],
@@ -270,17 +273,11 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                 return Column(
                                                   children: [
                                                     Container(
-                                                      padding: EdgeInsets.all(10),
+                                                      padding: const EdgeInsets.all(10),
                                                       decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius: BorderRadius.circular(10),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color: const Color(0xFF5F5F5F).withOpacity(0.2),
-                                                              offset: const Offset(0.0, 0.2),
-                                                              blurRadius: 2,
-                                                            ),
-                                                          ]),
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius.circular(10),
+                                                      ),
                                                       child: Row(
                                                         children: [
                                                           ClipOval(
@@ -312,7 +309,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                                 fontSize: 17,
                                                                 color: Colors.black),
                                                           ),
-                                                          Spacer(),
+                                                          const Spacer(),
                                                           GestureDetector(
                                                             onTap: () {
                                                               unFollowRepo(
@@ -332,24 +329,27 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                               });
                                                             },
                                                             child: Container(
-                                                              padding: EdgeInsets.all(5),
+                                                              height: 30,
+                                                              width:110,
                                                               decoration: BoxDecoration(
                                                                   borderRadius: BorderRadius.circular(5),
                                                                   border: Border.all(color: AppTheme.secondaryColor)),
-                                                              child: Text(
-                                                                "Unfollow",
-                                                                style: GoogleFonts.mulish(
-                                                                    fontWeight: FontWeight.w500,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize: 15,
-                                                                    color: AppTheme.secondaryColor),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "Unfollow",
+                                                                  style: GoogleFonts.mulish(
+                                                                      fontWeight: FontWeight.w500,
+                                                                      // letterSpacing: 1,
+                                                                      fontSize: 15,
+                                                                      color: AppTheme.secondaryColor),
+                                                                ),
                                                               ),
                                                             ),
                                                           )
                                                         ],
                                                       ),
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       height: 15,
                                                     )
                                                   ],

@@ -232,6 +232,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     return DefaultTabController(
         length: 2,
         child: Scaffold(
+          backgroundColor: const Color(0xFF3797EF).withOpacity(.04),
             floatingActionButton: showFloatingActionButton
                 ? Padding(
                     padding: const EdgeInsets.symmetric(vertical: 0).copyWith(bottom: 80),
@@ -282,6 +283,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               bottom: TabBar(
                 controller: _tabController,
 
+
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorColor: AppTheme.primaryColor,
                 indicatorPadding: const EdgeInsets.symmetric(horizontal: 15),
@@ -295,9 +297,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     child: Text("Recco Feed",
                         style: currentDrawer == 0
                             ? GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
+                                fontWeight: FontWeight.w700,  fontSize: 15, color: const Color(0xFF3797EF))
                             : GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
+                                fontWeight: FontWeight.w400,  fontSize: 14, color: Colors.black)),
                   ),
                   Tab(
                     child: Text("Discover",
@@ -305,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                             ? GoogleFonts.mulish(
                                 fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
                             : GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
+                                fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)),
                   ),
                 ],
               ),
@@ -313,9 +315,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             body: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Obx(() {
-                  return TabBarView(controller: _tabController, children: [
+                  return TabBarView(
+
+
+                      controller: _tabController, children: [
+
                     homeController.isDataLoading.value
                         ? SingleChildScrollView(
+
                             controller: scrollController,
                             physics: const BouncingScrollPhysics(),
                             child: Padding(
@@ -324,10 +331,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+
+
                                   Obx(() {
                                     if (homeController.refreshInt.value > 0) {}
                                     return homeController.isDataLoading.value
                                         ? ListView.builder(
+
                                             shrinkWrap: true,
                                             itemCount: homeController.paginationWorking
                                                 ? homeController.homeModel.value.data!.discover!.length + 1
@@ -362,9 +372,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             GestureDetector(
                                                               onTap: () {
                                                                 Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
-                                                                  homeController
-                                                                      .homeModel.value.data!.discover![index].userId!.id
-                                                                      .toString()
+                                                                  homeController.homeModel.value.data!.discover![index]
+                                                                      .userId!.id
+                                                                      .toString(),
                                                                 ]);
                                                               },
                                                               child: ClipOval(
@@ -393,36 +403,57 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             const SizedBox(
                                                               width: 20,
                                                             ),
-                                                            Expanded(
-                                                              child: Column(
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                children: [
-                                                                  homeController.homeModel.value.data!.discover![index]
-                                                                              .userId?.name ==
-                                                                          ""
-                                                                      ? Text(
-                                                                          "Name...",
-                                                                          style: GoogleFonts.mulish(
-                                                                              fontWeight: FontWeight.w700,
-                                                                              // letterSpacing: 1,
-                                                                              fontSize: 14,
-                                                                              color: Colors.black),
-                                                                        )
-                                                                      : Text(
-                                                                          homeController.homeModel.value.data!
-                                                                              .discover![index].userId!.name
-                                                                              .toString()
-                                                                              .capitalizeFirst
-                                                                              .toString(),
-                                                                          style: GoogleFonts.mulish(
-                                                                              fontWeight: FontWeight.w700,
-                                                                              // letterSpacing: 1,
-                                                                              fontSize: 14,
-                                                                              color: Colors.black),
-                                                                        ),
-                                                                ],
+                                                            Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                homeController.homeModel.value.data!.discover![index]
+                                                                            .userId?.name ==
+                                                                        ""
+                                                                    ? Text(
+                                                                        "Name...",
+                                                                        style: GoogleFonts.mulish(
+                                                                            fontWeight: FontWeight.w700,
+                                                                            // letterSpacing: 1,
+                                                                            fontSize: 14,
+                                                                            color: Colors.black),
+                                                                      )
+                                                                    : Text(
+                                                                        homeController.homeModel.value.data!
+                                                                            .discover![index].userId!.name
+                                                                            .toString()
+                                                                            .capitalizeFirst
+                                                                            .toString(),
+                                                                        style: GoogleFonts.mulish(
+                                                                            fontWeight: FontWeight.w700,
+                                                                            // letterSpacing: 1,
+                                                                            fontSize: 14,
+                                                                            color: Colors.black),
+                                                                      ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(width: 5,),
+
+
+                                                            const SizedBox(
+                                                              height: 15,
+                                                              width: 20,
+                                                              child: VerticalDivider(
+                                                                color: Color(0xffD9D9D9),
+
                                                               ),
                                                             ),
+                                                            Text(
+                                              homeController
+                                                  .homeModel.value.data!.discover![index].date!.capitalize.toString(),
+                                                              style: GoogleFonts.mulish(
+                                                                fontWeight: FontWeight.w300,
+                                                                // letterSpacing: 1,
+                                                                fontSize: 12,
+                                                                color:  Color(0xff878D98),
+                                                              ),
+                                                            ),
+                                                            Spacer(),
+
                                                             Padding(
                                                               padding: const EdgeInsets.only(right: 8.0),
                                                               child: Obx(() {
@@ -490,8 +521,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                   width: size.width,
                                                                   height: 200,
                                                                   fit: BoxFit.fill,
-                                                                  imageUrl: homeController
-                                                                      .homeModel.value.data!.discover![index].image
+                                                                  imageUrl: homeController.homeModel.value.data!.discover![index].image
                                                                       .toString(),
                                                                   placeholder: (context, url) => const SizedBox(
                                                                     height: 0,
@@ -557,16 +587,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                 });
                                                               },
                                                               child: Container(
-                                                                padding: const EdgeInsets.all(5),
+                                                                 padding: const EdgeInsets.only(left: 15),
                                                                 width: size.width * .45,
                                                                 height: 30,
                                                                 decoration: BoxDecoration(
                                                                   color: const Color(0xFF3797EF).withOpacity(.09),
-                                                                  borderRadius: BorderRadius.circular(10),
+                                                                  borderRadius: BorderRadius.circular(5),
                                                                 ),
                                                                 child: Row(
                                                                   children: [
-                                                                    SvgPicture.asset(AppAssets.message),
+                                                                    SvgPicture.asset(AppAssets.message,height: 16,),
                                                                     const SizedBox(
                                                                       width: 6,
                                                                     ),
@@ -575,7 +605,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                       style: GoogleFonts.mulish(
                                                                           fontWeight: FontWeight.w500,
                                                                           // letterSpacing: 1,
-                                                                          fontSize: 11,
+                                                                          fontSize: 12,
                                                                           color: const Color(0xFF3797EF)),
                                                                     ),
                                                                   ],
@@ -795,6 +825,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                     border: Border.all(color: Colors.black),
                                                     borderRadius: BorderRadius.circular(10)),
                                                 child: CachedNetworkImage(
+                                                    errorWidget: (context, url, error) => const SizedBox(),
                                                   imageUrl: single.value.data![index].image.toString(),
                                                   fit: BoxFit.fill,
                                                 ),
@@ -1000,7 +1031,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               if (value.status == true) {
                                                                 print('wishlist-----');
                                                                 statusOfRemove.value = RxStatus.success();
-                                                                //homeController.getPaginate();
                                                                 // getReviewListRepo(context: context, id: modelReviewList.value.data![index].id.toString(),).then((value) {
                                                                 //   modelReviewList.value = value;
                                                                 //

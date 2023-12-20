@@ -108,6 +108,7 @@ class _CommonTextfieldState extends State<CommonTextfield> {
             fontSize: 15,
           ),
           hintStyle: const TextStyle(
+            fontWeight: FontWeight.w500,
 
             color: AppTheme.textColor,
             fontSize: 15,

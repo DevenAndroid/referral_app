@@ -138,7 +138,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                     },
                                     child: Icon(Icons.arrow_back)),
                                 SizedBox(
-                                  width: 20,
+                                  width: 130,
                                 ),
                                 Text("Profile",
                                     style: GoogleFonts.mulish(
@@ -153,14 +153,14 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                               // crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(8),
+                                  padding: EdgeInsets.all(5),
                                   decoration: BoxDecoration(
-                                      border: Border.all(color: AppTheme.secondaryColor, width: 1),
+                                      border: Border.all(color: AppTheme.secondaryColor.withOpacity(.3), width: 1),
                                       shape: BoxShape.circle),
                                   child: Container(
                                     padding: EdgeInsets.all(5),
                                     decoration: BoxDecoration(
-                                        border: Border.all(color: AppTheme.secondaryColor, width: 1),
+                                        border: Border.all(color: AppTheme.secondaryColor.withOpacity(.3), width: 1),
                                         shape: BoxShape.circle),
                                     child: ClipOval(
                                       child: CachedNetworkImage(
@@ -189,7 +189,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                       const SizedBox(
                                         height: 7,
                                       ),
-                                      Text("Posts",
+                                      Text("posts",
                                           style: GoogleFonts.mulish(
                                               fontWeight: FontWeight.w300,
                                               fontSize: 16,
@@ -215,7 +215,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                       const SizedBox(
                                         height: 7,
                                       ),
-                                      Text("Followers",
+                                      Text("followers",
                                           style: GoogleFonts.mulish(
                                               fontWeight: FontWeight.w300,
                                               fontSize: 16,
@@ -241,7 +241,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                       const SizedBox(
                                         height: 7,
                                       ),
-                                      Text("Following",
+                                      Text("following",
                                           style: GoogleFonts.mulish(
                                               fontWeight: FontWeight.w300,
                                               fontSize: 16,
@@ -256,7 +256,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                             ),
                             Row(
                               children: [
-                                Text(userProfile.value.data!.user!.name.toString(),
+                                Text(userProfile.value.data!.user!.name!. capitalizeFirst.toString(),
                                     style: GoogleFonts.mulish(
                                         fontWeight: FontWeight.w700, fontSize: 20, color: const Color(0xFF262626))),
                                 const Spacer(),
@@ -361,28 +361,24 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                     child: Text("Requests",
                                         style: currentDrawer == 0
                                             ? GoogleFonts.mulish(
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: 1,
-                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
                                             color: const Color(0xFF3797EF))
                                             : GoogleFonts.mulish(
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: 1,
-                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
                                             color: Colors.black)),
                                   ),
                                   Tab(
                                     child: Text("Recommendations",
                                         style: currentDrawer == 1
                                             ? GoogleFonts.mulish(
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: 1,
-                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
                                             color: const Color(0xFF3797EF))
                                             : GoogleFonts.mulish(
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: 1,
-                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
                                             color: Colors.black)),
                                   ),
                                   // Tab(
@@ -500,39 +496,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                                 Row(
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: [
-                                                                    Expanded(
-                                                                        child: userProfile
-                                                                            .value
-                                                                            .data!
-                                                                            .myRequest![index]
-                                                                            .userId!
-                                                                            .address
-                                                                            .toString() ==
-                                                                            ""
-                                                                            ? Text(
-                                                                          "address...",
-                                                                          style: GoogleFonts.mulish(
-                                                                              fontWeight: FontWeight.w400,
-                                                                              // letterSpacing: 1,
-                                                                              fontSize: 14,
-                                                                              color:
-                                                                              const Color(0xFF878D98)),
-                                                                        )
-                                                                            : Text(
-                                                                          userProfile
-                                                                              .value
-                                                                              .data!
-                                                                              .myRequest![index]
-                                                                              .userId!
-                                                                              .address
-                                                                              .toString(),
-                                                                          style: GoogleFonts.mulish(
-                                                                              fontWeight: FontWeight.w400,
-                                                                              // letterSpacing: 1,
-                                                                              fontSize: 14,
-                                                                              color:
-                                                                              const Color(0xFF878D98)),
-                                                                        )),
+
                                                                     const SizedBox(
                                                                       height: 15,
                                                                       child: VerticalDivider(

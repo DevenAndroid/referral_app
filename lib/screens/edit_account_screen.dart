@@ -96,6 +96,8 @@ class _EditAccountState extends State<EditAccount> {
         FocusManager.instance.primaryFocus!.unfocus();
       },
       child: Scaffold(
+
+          backgroundColor:Color(0xffEAEEF1),
           appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
@@ -133,12 +135,12 @@ class _EditAccountState extends State<EditAccount> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: const BorderRadius.only(topRight: Radius.circular(15),topLeft:  Radius.circular(15)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFF5F5F5F).withOpacity(0.4),
-                                offset: const Offset(0.1, 0.1),
-                                blurRadius: 1,),
-                            ],
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     color: const Color(0xFF5F5F5F).withOpacity(0.4),
+                            //     offset: const Offset(0.1, 0.1),
+                            //     blurRadius: 1,),
+                            // ],
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,

@@ -238,7 +238,7 @@ class UserProfileScreenState extends State<UserProfileScreen> with SingleTickerP
                                               fontWeight: FontWeight.w300, fontSize: 16, color: const Color(0xFF262626))),
                                       const Spacer(),
                                       SizedBox(
-                                          width: 70,
+                                          width: 85,
                                           height: 30,
                                           child: CommonButton(
                                             title: "Edit",
@@ -412,90 +412,7 @@ class UserProfileScreenState extends State<UserProfileScreen> with SingleTickerP
                                                                       const SizedBox(
                                                                         width: 20,
                                                                       ),
-                                                                      Expanded(
-                                                                        child: Column(
-                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            userProfile.value.data!.myRequest![index].userId!
-                                                                                        .name
-                                                                                        .toString() ==
-                                                                                    ""
-                                                                                ? Text(
-                                                                                    "Name...",
-                                                                                    style: GoogleFonts.mulish(
-                                                                                        fontWeight: FontWeight.w700,
-                                                                                        // letterSpacing: 1,
-                                                                                        fontSize: 14,
-                                                                                        color: Colors.black),
-                                                                                  )
-                                                                                : Text(
-                                                                                    userProfile.value.data!.myRequest![index]
-                                                                                        .userId!.name
-                                                                                        .toString(),
-                                                                                    style: GoogleFonts.mulish(
-                                                                                        fontWeight: FontWeight.w700,
-                                                                                        // letterSpacing: 1,
-                                                                                        fontSize: 14,
-                                                                                        color: Colors.black),
-                                                                                  ),
-                                                                            Row(
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                Expanded(
-                                                                                    child: userProfile
-                                                                                                .value
-                                                                                                .data!
-                                                                                                .myRequest![index]
-                                                                                                .userId!
-                                                                                                .address
-                                                                                                .toString() ==
-                                                                                            ""
-                                                                                        ? Text(
-                                                                                            "address...",
-                                                                                            style: GoogleFonts.mulish(
-                                                                                                fontWeight: FontWeight.w400,
-                                                                                                // letterSpacing: 1,
-                                                                                                fontSize: 14,
-                                                                                                color:
-                                                                                                    const Color(0xFF878D98)),
-                                                                                          )
-                                                                                        : Text(
-                                                                                            userProfile
-                                                                                                .value
-                                                                                                .data!
-                                                                                                .myRequest![index]
-                                                                                                .userId!
-                                                                                                .address
-                                                                                                .toString(),
-                                                                                            style: GoogleFonts.mulish(
-                                                                                                fontWeight: FontWeight.w400,
-                                                                                                // letterSpacing: 1,
-                                                                                                fontSize: 14,
-                                                                                                color:
-                                                                                                    const Color(0xFF878D98)),
-                                                                                          )),
-                                                                                const SizedBox(
-                                                                                  height: 15,
-                                                                                  child: VerticalDivider(
-                                                                                    width: 8,
-                                                                                    thickness: 1,
-                                                                                    color: Colors.grey,
-                                                                                  ),
-                                                                                ),
-                                                                                Text(
-                                                                                  "3 Hour",
-                                                                                  style: GoogleFonts.mulish(
-                                                                                      fontWeight: FontWeight.w300,
-                                                                                      // letterSpacing: 1,
-                                                                                      fontSize: 12,
-                                                                                      color: const Color(0xFF878D98)),
-                                                                                ),
-                                                                              ],
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                      ),
+
                                                                       SvgPicture.asset(AppAssets.bookmark),
                                                                     ],
                                                                   ),
@@ -762,39 +679,7 @@ class UserProfileScreenState extends State<UserProfileScreen> with SingleTickerP
                                                                             Row(
                                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                                               children: [
-                                                                                Expanded(
-                                                                                    child: userProfile
-                                                                                                .value
-                                                                                                .data!
-                                                                                                .myRequest![index]
-                                                                                                .userId!
-                                                                                                .address
-                                                                                                .toString() ==
-                                                                                            ""
-                                                                                        ? Text(
-                                                                                            "address...",
-                                                                                            style: GoogleFonts.mulish(
-                                                                                                fontWeight: FontWeight.w400,
-                                                                                                // letterSpacing: 1,
-                                                                                                fontSize: 14,
-                                                                                                color:
-                                                                                                    const Color(0xFF878D98)),
-                                                                                          )
-                                                                                        : Text(
-                                                                                            userProfile
-                                                                                                .value
-                                                                                                .data!
-                                                                                                .myRequest![index]
-                                                                                                .userId!
-                                                                                                .address
-                                                                                                .toString(),
-                                                                                            style: GoogleFonts.mulish(
-                                                                                                fontWeight: FontWeight.w400,
-                                                                                                // letterSpacing: 1,
-                                                                                                fontSize: 14,
-                                                                                                color:
-                                                                                                    const Color(0xFF878D98)),
-                                                                                          )),
+
                                                                                 const SizedBox(
                                                                                   height: 15,
                                                                                   child: VerticalDivider(

@@ -106,7 +106,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
-                  height: 25,
+                  height: 35,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,7 +127,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                 ),
                 Text(
                   "Recommendation",
-                  style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.onboardingColor),
+                  style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: Colors.black),
                 ),
                 const SizedBox(
                   height: 12,
@@ -138,7 +138,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                 ),
                 Text(
                   "Review",
-                  style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.onboardingColor),
+                  style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
                 ),
                 const SizedBox(
                   height: 12,
@@ -153,7 +153,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                 ),
                 Text(
                   "Product Online link",
-                  style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.onboardingColor),
+                  style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
                 ),
                 const SizedBox(
                   height: 12,
@@ -173,7 +173,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                 ),
                 Text(
                   "Category",
-                  style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.onboardingColor),
+                  style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
                 ),
                 const SizedBox(
                   height: 12,

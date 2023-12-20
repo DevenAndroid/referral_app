@@ -209,14 +209,14 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               // crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
-                                      border: Border.all(color: AppTheme.secondaryColor, width: 1),
+                                      border: Border.all(color: AppTheme.secondaryColor.withOpacity(.3)),
                                       shape: BoxShape.circle),
                                   child: Container(
                                     padding: const EdgeInsets.all(5),
                                     decoration: BoxDecoration(
-                                        border: Border.all(color: AppTheme.secondaryColor, width: 1),
+                                        border: Border.all(color: AppTheme.secondaryColor.withOpacity(.3)),
                                         shape: BoxShape.circle),
                                     child: ClipOval(
                                       child: CachedNetworkImage(
@@ -246,7 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       const SizedBox(
                                         height: 7,
                                       ),
-                                      Text("Posts",
+                                      Text("posts",
                                           style: GoogleFonts.mulish(
                                               fontWeight: FontWeight.w300,
                                               fontSize: 16,
@@ -263,26 +263,23 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     ]);
                                   },
                                   child: Obx(() {
-
                                     return Column(
                                       children: [
-                                        Text(profileController.modal.value.data!.user!.followersCount.toString(),
-                                            style: GoogleFonts.mulish(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 18,
-                                                color: const Color(0xFF000000)
-
-                                            ),
+                                        Text(
+                                          profileController.modal.value.data!.user!.followersCount.toString(),
+                                          style: GoogleFonts.mulish(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18,
+                                              color: const Color(0xFF000000)),
                                         ),
                                         const SizedBox(
                                           height: 7,
                                         ),
-                                        Text("Followers",
+                                        Text("followers",
                                             style: GoogleFonts.mulish(
                                                 fontWeight: FontWeight.w300,
                                                 fontSize: 16,
                                                 color: const Color(0xFF262626))),
-
                                       ],
                                     );
                                   }),
@@ -306,7 +303,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       const SizedBox(
                                         height: 7,
                                       ),
-                                      Text("Following",
+                                      Text("following",
                                           style: GoogleFonts.mulish(
                                               fontWeight: FontWeight.w300,
                                               fontSize: 16,
@@ -322,7 +319,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(profileController.modal.value.data!.user!.name.toString(),
+                                Text(profileController.modal.value.data!.user!.name!. capitalizeFirst.toString(),
                                     style: GoogleFonts.mulish(
                                         fontWeight: FontWeight.w700, fontSize: 20, color: const Color(0xFF262626))),
                                 SizedBox(
@@ -472,194 +469,196 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    Row(
-                                                      children: [
-                                                        ClipOval(
-                                                          child: CachedNetworkImage(
-                                                            width: 30,
-                                                            height: 30,
-                                                            fit: BoxFit.cover,
-                                                            imageUrl: profileController.modal.value.data!
-                                                                .myRequest![index].userId!.profileImage
-                                                                .toString(),
-                                                            placeholder: (context, url) =>
-                                                                Image.asset(AppAssets.girl),
-                                                            errorWidget: (context, url, error) =>
-                                                                Image.asset(AppAssets.girl),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 20,
-                                                        ),
-                                                        Expanded(
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              profileController.modal.value.data!
-                                                                  .myRequest![index].userId!.name
-                                                                  .toString() ==
-                                                                  ""
-                                                                  ? Text(
-                                                                "Name...",
-                                                                style: GoogleFonts.mulish(
-                                                                    fontWeight: FontWeight.w700,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize: 14,
-                                                                    color: Colors.black),
-                                                              )
-                                                                  : Text(
-                                                                profileController.modal.value.data!
-                                                                    .myRequest![index].userId!.name
-                                                                    .toString(),
-                                                                style: GoogleFonts.mulish(
-                                                                    fontWeight: FontWeight.w700,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize: 14,
-                                                                    color: Colors.black),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        SvgPicture.asset(AppAssets.bookmark),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 15,
-                                                    ),
-                                                    profileController
-                                                        .modal.value.data!.myRequest![index].image ==
-                                                        ""
-                                                        ? SizedBox()
-                                                        : ClipRRect(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      child: CachedNetworkImage(
-                                                        width: size.width,
-                                                        height: 200,
-                                                        fit: BoxFit.fill,
-                                                        imageUrl: profileController
-                                                            .modal.value.data!.myRequest![index].image
-                                                            .toString(),
-                                                        placeholder: (context, url) =>
-                                                        const SizedBox(
-                                                          height: 0,
-                                                        ),
-                                                        errorWidget: (context, url, error) =>
-                                                        const SizedBox(
-                                                          height: 0,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Text(
-                                                      profileController.modal.value.data!.myRequest![index].title
-                                                          .toString(),
-                                                      style: GoogleFonts.mulish(
-                                                          fontWeight: FontWeight.w700,
-                                                          // letterSpacing: 1,
-                                                          fontSize: 17,
-                                                          color: Colors.black),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Text(
-                                                      profileController
-                                                          .modal.value.data!.myRequest![index].description
-                                                          .toString(),
-                                                      style: GoogleFonts.mulish(
-                                                          fontWeight: FontWeight.w300,
-                                                          // letterSpacing: 1,
-                                                          fontSize: 14,
-                                                          color: const Color(0xFF6F7683)),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        Container(
-                                                          padding: const EdgeInsets.all(5),
-                                                          height: 30,
-                                                          decoration: BoxDecoration(
-                                                            color: const Color(0xFF3797EF).withOpacity(.09),
-                                                            borderRadius: BorderRadius.circular(10),
-                                                          ),
-                                                          child: Row(
-                                                            children: [
-                                                              SvgPicture.asset(AppAssets.message),
-                                                              const SizedBox(
-                                                                width: 6,
-                                                              ),
-                                                              Text(
-                                                                "Recommendations: 120",
-                                                                style: GoogleFonts.mulish(
-                                                                    fontWeight: FontWeight.w500,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize: 12,
-                                                                    color: const Color(0xFF3797EF)),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Column(
-                                                              children: [
-                                                                profileController.modal.value.data!
-                                                                    .myRequest![index].minPrice
-                                                                    .toString()
-                                                                    .isNotEmpty
-                                                                    ? const Text("Min Price")
-                                                                    : const Text('No Budget'),
-                                                                profileController.modal.value.data!
-                                                                    .myRequest![index].minPrice
-                                                                    .toString()
-                                                                    .isNotEmpty
-                                                                    ? Text(profileController.modal.value.data!
-                                                                    .myRequest![index].minPrice
-                                                                    .toString())
-                                                                    : const SizedBox(),
-                                                              ],
-                                                            ),
-                                                            SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Column(
-                                                              children: [
-                                                                profileController.modal.value.data!
-                                                                    .myRequest![index].maxPrice
-                                                                    .toString()
-                                                                    .isNotEmpty
-                                                                    ? const Text("Max Price")
-                                                                    : SizedBox(),
-                                                                profileController.modal.value.data!
-                                                                    .myRequest![index].maxPrice
-                                                                    .toString()
-                                                                    .isNotEmpty
-                                                                    ? Text(profileController.modal.value.data!
-                                                                    .myRequest![index].maxPrice
-                                                                    .toString())
-                                                                    : const SizedBox(),
-                                                              ],
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                  ],
+                                                Row(
+                                                children: [
+                                                ClipOval(
+                                                child: CachedNetworkImage(
+                                                  width: 30,
+                                                  height: 30,
+                                                  fit: BoxFit.cover,
+                                                  imageUrl: profileController.modal.value.data!
+                                                      .myRequest![index].userId!.profileImage
+                                                      .toString(),
+                                                  placeholder: (context, url) =>
+                                                      Image.asset(AppAssets.girl),
+                                                  errorWidget: (context, url, error) =>
+                                                      Image.asset(AppAssets.girl),
                                                 ),
                                               ),
                                               const SizedBox(
-                                                height: 10,
-                                              )
+                                                width: 20,
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                profileController.modal.value.data!
+                                                    .myRequest![index].userId!.name
+                                                    .toString() ==
+                                                    ""
+                                                    ? Text(
+                                                  "Name...",
+                                                  style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w700,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 14,
+                                                      color: Colors.black),
+                                                )
+                                                    : Text(
+                                                    profileController.modal.value.data!
+                                                        .myRequest![index].userId!.name!. capitalizeFirst
+                                                    .toString(),
+                                                style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w700,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 14,
+                                                    color: Colors.black),
+                                              ),
                                             ],
+                                          ),
+                                          ),
+                                          SvgPicture.asset(AppAssets.bookmark),
+                                          ],
+                                          ),
+                                          const SizedBox(
+                                          height: 15,
+                                          ),
+                                          profileController
+                                              .modal.value.data!.myRequest![index].image ==
+                                          ""
+                                          ? SizedBox()
+                                              : ClipRRect(
+                                          borderRadius: BorderRadius.circular(10),
+                                          child: CachedNetworkImage(
+                                          width: size.width,
+                                          height: 200,
+                                          fit: BoxFit.fill,
+                                          imageUrl: profileController
+                                              .modal.value.data!.myRequest![index].image
+                                              .toString(),
+                                          placeholder: (context, url) => const SizedBox(
+                                          height: 0,
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                          const SizedBox(
+                                          height: 0,
+                                          ),
+                                          ),
+                                          ),
+                                          const SizedBox(
+                                          height: 10,
+                                          ),
+                                          Text(
+                                          profileController.modal.value.data!.myRequest![index].title!.capitalizeFirst
+                                              .toString(),
+                                          style: GoogleFonts.mulish(
+                                          fontWeight: FontWeight.w700,
+                                          // letterSpacing: 1,
+                                          fontSize: 17,
+                                          color: Colors.black),
+                                          ),
+                                          const SizedBox(
+                                          height: 10,
+                                          ),
+                                          Text(
+                                          profileController
+                                              .modal.value.data!.myRequest![index].description!. capitalizeFirst
+                                              .toString(),
+                                          style: GoogleFonts.mulish(
+                                          fontWeight: FontWeight.w300,
+                                          // letterSpacing: 1,
+                                          fontSize: 14,
+                                          color: const Color(0xFF6F7683)),
+                                          ),
+                                          const SizedBox(
+                                          height: 10,
+                                          ),
+                                          Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                          Container(
+                                          padding: const EdgeInsets.all(5),
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                          color: const Color(0xFF3797EF).withOpacity(.09),
+                                          borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: Row(
+                                          children: [
+                                          SvgPicture.asset(AppAssets.message),
+                                          const SizedBox(
+                                          width: 6,
+                                          ),
+                                          Text(
+                                          "Recommendations: 120",
+                                          style: GoogleFonts.mulish(
+                                          fontWeight: FontWeight.w500,
+                                          // letterSpacing: 1,
+                                          fontSize: 12,
+                                          color: const Color(0xFF3797EF)),
+                                          ),
+                                          ],
+                                          ),
+                                          ),
+                                          Row(
+                                          children: [
+                                          Column(
+                                          children: [
+                                          profileController.modal.value.data!
+                                              .myRequest![index].minPrice
+                                              .toString()
+                                              .isNotEmpty
+                                          ? const Text("Min Price")
+                                              : const Text('No Budget'),
+                                          profileController.modal.value.data!
+                                              .myRequest![index].minPrice
+                                              .toString()
+                                              .isNotEmpty
+                                          ? Text(profileController.modal.value.data!
+                                              .myRequest![index].minPrice
+                                              .toString())
+                                              : const SizedBox(),
+                                          ],
+                                          ),
+                                          SizedBox(
+                                          width: 10,
+                                          ),
+                                          Column(
+                                          children: [
+                                          profileController.modal.value.data!
+                                              .myRequest![index].maxPrice
+                                              .toString()
+                                              .isNotEmpty
+                                          ? const Text("Max Price")
+                                              : SizedBox(),
+                                          profileController.modal.value.data!
+                                              .myRequest![index].maxPrice
+                                              .toString()
+                                              .isNotEmpty
+                                          ? Text(profileController.modal.value.data!
+                                              .myRequest![index].maxPrice
+                                              .toString())
+                                              : const SizedBox(),
+                                          ],
+                                          )
+                                          ],
+                                          )
+                                          ],
+                                          ),
+                                          const SizedBox(
+                                          height: 10,
+                                          ),
+                                          ],
+                                          ),
+                                          ),
+                                          const SizedBox(
+                                          height:
+                                          10
+                                          ,
+                                          )
+                                          ]
+                                          ,
                                           );
                                         }),
                                     const SizedBox(
@@ -695,10 +694,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           setState(() {});
                                         },
                                         child: Padding(
-                                          padding: EdgeInsets.only(bottom:20),
+                                          padding: EdgeInsets.only(bottom: 20),
                                           child: Container(
-                                            decoration:
-                                            BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.black), shape: BoxShape.circle),
                                             child: const CircleAvatar(
                                                 radius: 35,
                                                 backgroundColor: Colors.transparent,
@@ -718,7 +717,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                             return profileController.statusOfProfile.value.isSuccess &&
                                                 statusOfCategories.value.isSuccess
                                                 ? ListView.builder(
-                                                itemCount: profileController.modal.value.data!.myCategories!.length,
+                                                itemCount:
+                                                profileController.modal.value.data!.myCategories!.length,
                                                 shrinkWrap: true,
                                                 scrollDirection: Axis.horizontal,
                                                 physics: const NeverScrollableScrollPhysics(),
@@ -728,7 +728,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         getSingleRepo(
-                                                            category_id: categories.value.data![index].id.toString())
+                                                            category_id:
+                                                            categories.value.data![index].id.toString())
                                                             .then((value) {
                                                           single.value = value;
                                                           if (value.status == true) {
@@ -758,7 +759,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                             height: 2,
                                                           ),
                                                           Text(
-                                                            profileController.modal.value.data!.myCategories![index].name
+                                                            profileController
+                                                                .modal.value.data!.myCategories![index].name
                                                                 .toString(),
                                                             style: GoogleFonts.mulish(
                                                                 fontWeight: FontWeight.w300,
@@ -778,127 +780,131 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                             )
                                                 : const Center(child: CircularProgressIndicator());
                                           })),
-                                      SizedBox(width: 20,)
+                                      SizedBox(
+                                        width: 20,
+                                      )
                                     ],
                                   ),
                                 ),
                                 Column(
                                   children: [
                                     if (check == true)
-                                    statusOfSingle.value.isSuccess
-                                        ? Column(
-                                      children: [
-                                        if (single.value.data!.isEmpty) const Text("No Record found"),
-                                        GridView.builder(
-                                          padding: EdgeInsets.zero,
-                                          shrinkWrap: true,
-                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 3,
-                                            // Number of columns
-                                            crossAxisSpacing: 10.0,
-                                            // Spacing between columns
-                                            mainAxisSpacing: 10.0, // Spacing between rows
-                                          ),
-                                          itemCount: single.value.data!.length,
-                                          // Total number of items
-                                          itemBuilder: (BuildContext context, int index) {
-                                            // You can replace the Container with your image widget
-                                            return GestureDetector(
-                                              onTap: () {
-                                                print(
-                                                  "id:::::::::::::::::::::::::::::" +
+                                      statusOfSingle.value.isSuccess
+                                          ? Column(
+                                        children: [
+                                          if (single.value.data!.isEmpty) const Text("No Record found"),
+                                          GridView.builder(
+                                            padding: EdgeInsets.zero,
+                                            shrinkWrap: true,
+                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 3,
+                                              // Number of columns
+                                              crossAxisSpacing: 10.0,
+                                              // Spacing between columns
+                                              mainAxisSpacing: 10.0, // Spacing between rows
+                                            ),
+                                            itemCount: single.value.data!.length,
+                                            // Total number of items
+                                            itemBuilder: (BuildContext context, int index) {
+                                              // You can replace the Container with your image widget
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  print(
+                                                    "id:::::::::::::::::::::::::::::" +
+                                                        single.value.data![index].id.toString(),
+                                                  );
+                                                  Get.toNamed(
+                                                    MyRouters.recommendationSingleScreen,
+                                                    arguments: [
                                                       single.value.data![index].id.toString(),
-                                                );
-                                                Get.toNamed(
-                                                  MyRouters.recommendationSingleScreen,
-                                                  arguments: [
-                                                    single.value.data![index].id.toString(),
-                                                  ],
-                                                );
-                                                print("object");
-                                              },
-                                              child: Container(
-                                                padding: const EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(color: Colors.black),
-                                                    borderRadius: BorderRadius.circular(10)),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: single.value.data![index].image.toString(),
-                                                  fit: BoxFit.fill,
+                                                    ],
+                                                  );
+                                                  print("object");
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(color: Colors.black),
+                                                      borderRadius: BorderRadius.circular(10)),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: single.value.data![index].image.toString(),
+                                                    fit: BoxFit.fill,
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    )
-                                        : statusOfSingle.value.isError
-                                        ? CommonErrorWidget(
-                                      errorText: "",
-                                      onTap: () {},
-                                    )
-                                        : const Center(child: SizedBox()),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      )
+                                          : statusOfSingle.value.isError
+                                          ? CommonErrorWidget(
+                                        errorText: "",
+                                        onTap: () {},
+                                      )
+                                          : const Center(child: SizedBox()),
                                     if (check == false)
                                     // if (profileController.modal.value.data!.myRecommandation!.isEmpty)
                                     //   const Text("No data found "),
-                                    profileController.statusOfProfile.value.isSuccess?
-                                    GridView.builder(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
+                                      profileController.statusOfProfile.value.isSuccess
+                                          ? GridView.builder(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
 
-                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        // Number of columns
-                                        crossAxisSpacing: 10.0,
-                                        // Spacing between columns
-                                        mainAxisSpacing: 10.0, // Spacing between rows
-                                      ),
-                                      itemCount: profileController.modal.value.data!.myRecommandation!.length,
-                                      // Total number of items
-                                      itemBuilder: (BuildContext context, int index) {
-                                        // You can replace the Container with your image widget
-                                        return GestureDetector(
-                                          onTap: () {
-                                            Get.toNamed(
-                                              MyRouters.singleScreen,
-                                              arguments: [
-                                                profileController.modal.value.data!.myRecommandation![index].image
-                                                    .toString(),
-                                                profileController.modal.value.data!.myRecommandation![index].title
-                                                    .toString(),
-                                                profileController.modal.value.data!.myRecommandation![index].review
-                                                    .toString(),
-                                                profileController.modal.value.data!.myRecommandation![index].id
-                                                    .toString(),
-                                                profileController.modal.value.data!.myRecommandation![index].link
-                                                    .toString(),
-                                              ],
-                                            );
-                                            print("object");
-                                          },
-                                          child:  Container(
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                                border: Border.all(color: Colors.black),
-                                                borderRadius: BorderRadius.circular(10)),
-                                            child: CachedNetworkImage(
-                                                imageUrl: profileController
-                                                    .modal.value.data!.myRecommandation![index].image
-                                                    .toString(),
-                                                fit: BoxFit.fill,
-
-                                                errorWidget: (_, __, ___) =>
-                                                    Image.network(
-                                                        profileController.modal.value.data!.myRecommandation![index].link!)),
-                                          ),
-                                        );
-                                      },
-                                    ): profileController.statusOfProfile.value.isError
-                ? CommonErrorWidget(
-                errorText: "",
-                onTap: () {},
-                )
-                    : const Center(child: SizedBox()),
+                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3,
+                                          // Number of columns
+                                          crossAxisSpacing: 10.0,
+                                          // Spacing between columns
+                                          mainAxisSpacing: 10.0, // Spacing between rows
+                                        ),
+                                        itemCount: profileController.modal.value.data!.myRecommandation!.length,
+                                        // Total number of items
+                                        itemBuilder: (BuildContext context, int index) {
+                                          // You can replace the Container with your image widget
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Get.toNamed(
+                                                MyRouters.singleScreen,
+                                                arguments: [
+                                                  profileController
+                                                      .modal.value.data!.myRecommandation![index].image
+                                                      .toString(),
+                                                  profileController
+                                                      .modal.value.data!.myRecommandation![index].title
+                                                      .toString(),
+                                                  profileController
+                                                      .modal.value.data!.myRecommandation![index].review
+                                                      .toString(),
+                                                  profileController.modal.value.data!.myRecommandation![index].id
+                                                      .toString(),
+                                                  profileController
+                                                      .modal.value.data!.myRecommandation![index].link
+                                                      .toString(),
+                                                ],
+                                              );
+                                              print("object");
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(color: Colors.black),
+                                                  borderRadius: BorderRadius.circular(10)),
+                                              child: CachedNetworkImage(
+                                                  imageUrl: profileController
+                                                      .modal.value.data!.myRecommandation![index].image
+                                                      .toString(),
+                                                  fit: BoxFit.fill,
+                                                  errorWidget: (_, __, ___) => SizedBox()),
+                                            ),
+                                          );
+                                        },
+                                      )
+                                          : profileController.statusOfProfile.value.isError
+                                          ? CommonErrorWidget(
+                                        errorText: "",
+                                        onTap: () {},
+                                      )
+                                          : const Center(child: SizedBox()),
                                   ],
                                 ),
                               ],
@@ -949,8 +955,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                       Row(
                                                         children: [
                                                           ClipOval(
-                                                            child:
-                                                            profileController
+                                                            child: profileController
                                                                 .modal
                                                                 .value
                                                                 .data!
@@ -967,7 +972,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                   .modal
                                                                   .value
                                                                   .data!
-                                                                  .saveRecommandation![index].post!
+                                                                  .saveRecommandation![index]
+                                                                  .post!
                                                                   .user!
                                                                   .profileImage
                                                                   .toString(),
@@ -990,7 +996,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                     .modal
                                                                     .value
                                                                     .data!
-                                                                    .saveRecommandation![index].post!
+                                                                    .saveRecommandation![index]
+                                                                    .post!
                                                                     .user!
                                                                     .name
                                                                     .toString() ==
@@ -999,7 +1006,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                         .modal
                                                                         .value
                                                                         .data!
-                                                                        .saveRecommandation![index].post!
+                                                                        .saveRecommandation![index]
+                                                                        .post!
                                                                         .user!
                                                                         .name ==
                                                                         null
@@ -1016,7 +1024,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                       .modal
                                                                       .value
                                                                       .data!
-                                                                      .saveRecommandation![index].post!
+                                                                      .saveRecommandation![index]
+                                                                      .post!
                                                                       .user!
                                                                       .name
                                                                       .toString(),

@@ -56,9 +56,16 @@ class _SingleScreenState extends State<SingleScreen> {
                       SizedBox(
                         height: 25,
                       ),
+
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+
                         children: [
+
+                          Text(
+                            "Add Your Recommendation",
+                            style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 16, color: const Color(0xFF3797EF)),
+                          ),
+                          Spacer(),
                           PopupMenuButton<SampleItem>(
                             initialValue: selectedMenu,
                             // Callback that sets the selected popup menu item.
@@ -192,8 +199,8 @@ class _SingleScreenState extends State<SingleScreen> {
                               child: const Icon(Icons.clear))
                         ],
                       ),
-                      SizedBox(
-                        height: 30,
+                      const SizedBox(
+                        height: 10,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

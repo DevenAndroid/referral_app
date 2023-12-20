@@ -111,6 +111,7 @@ var id = Get.arguments[0];
         reviewController.text =  single.value.data!.recommandation!.review.toString();
         categoryFile =  File(single.value.data!.recommandation!.image.toString());
         profileController.categoriesController.text =  single.value.data!.recommandation!.categoryId.toString();
+        linkController.text = _imageUrl;
         statusOfUser.value = RxStatus.success();
       } else {
         statusOfUser.value = RxStatus.error();
@@ -313,7 +314,6 @@ var id = Get.arguments[0];
                         file1: categoryFile,
                       ).then((value) async {
                         if (value.status == true) {
-                          Get.back();
                           Get.back();
                           Get.back();
                           // Get.back();

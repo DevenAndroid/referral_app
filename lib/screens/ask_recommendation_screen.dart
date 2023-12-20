@@ -110,6 +110,14 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+
+
+                        GestureDetector(
+                            onTap: (){
+                              Get.back();
+                            },
+
+                            child: Icon(Icons.clear)),
                         Obx(() {
                           return profileController.statusOfProfile.value.isSuccess
                               ? Padding(
@@ -136,16 +144,16 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                   : const Center(child: CircularProgressIndicator());
                         }),
                         const SizedBox(
-                          width: 13,
+                          width: 8,
                         ),
                         Obx(() {
                           return Text(
                             profileController.selectedValue.trim(),
-                            style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 16, color: Colors.black),
+                            style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
                           );
                         }),
                         const SizedBox(
-                          width: 15,
+                          width: 2,
                         ),
                         GestureDetector(
                             onTap: () {
@@ -159,7 +167,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                     ),
 
                     const SizedBox(
-                      height: 30,
+                      height: 15,
                     ),
                     TextFormField(
                       style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black),
@@ -210,7 +218,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                             borderSide: const BorderSide(color: AppTheme.secondaryColor, width: 1.5),
                             borderRadius: BorderRadius.circular(8)),
                         hintText: 'I m looking for a water bottle that fits in my car cupholder and is at least 30 oz',
-                        hintStyle: GoogleFonts.mulish(fontWeight: FontWeight.w300, fontSize: 14, color: Color(0xFF162224)),
+                        hintStyle: GoogleFonts.mulish(fontWeight: FontWeight.w300, fontSize: 12, color: Color(0xFF162224)),
                       ),
                     ),
                     const SizedBox(
@@ -273,53 +281,69 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                       height: 30,
                     ),
                     value2 == false
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Min",
-                                style: GoogleFonts.mulish(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 15,
-                                  color: AppTheme.onboardingColor,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 12,
-                              ),
-                              CommonTextfield(
-                                enabled: !value,
-                                keyboardType: TextInputType.number,
-                                controller: minController,
-                                obSecure: false,
-                                hintText: "Minimum value",
-                                validator: (value) {
-                                  return validateValue(value, minValue, maxValue);
-                                },
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Max",
-                                style: GoogleFonts.mulish(
-                                    fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.onboardingColor),
-                              ),
-                              const SizedBox(
-                                height: 12,
-                              ),
-                              CommonTextfield(
-                                enabled: !value,
-                                keyboardType: TextInputType.number,
-                                controller: maxController,
-                                obSecure: false,
-                                hintText: 'Maximum value',
-                                validator: (value) {
-                                  return validateValue(value, minValue, maxValue);
-                                },
-                              ),
-                            ],
-                          )
+                        ?
+                              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Min Price",
+                                          style: GoogleFonts.mulish(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        CommonTextfield(
+                                          enabled: !value,
+                                          keyboardType: TextInputType.number,
+                                          controller: minController,
+                                          obSecure: false,
+                                          hintText: "\$\$\$",
+                                          validator: (value) {
+                                            return validateValue(value, minValue, maxValue);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 18,),
+                                  Expanded(
+                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Max Price",
+                                          style: GoogleFonts.mulish(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        CommonTextfield(
+                                          enabled: !value,
+                                          keyboardType: TextInputType.number,
+                                          controller: maxController,
+                                          obSecure: false,
+                                          hintText: "\$\$\$",
+                                          validator: (value) {
+                                            return validateValue(value, minValue, maxValue);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                ],
+                              )
+
                         : const SizedBox(),
 
                     // SliderTheme(
@@ -370,20 +394,25 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                     Row(
                       children: [
                         Transform.scale(
-                          scale: 1.0,
+                          scale:1.0,
+
+
                           child: Theme(
                             data: ThemeData(
+
+
                                 checkboxTheme: CheckboxThemeData(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(3),
                                   ),
                                 ),
                                 unselectedWidgetColor:
-                                    checkboxColor.value == false ? const Color(0xFF64646F) : const Color(0xFF64646F)),
+                                    checkboxColor.value == false ?  Colors.blue :  Colors.blue),
                             child: Checkbox(
                                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 value: value2,
-                                activeColor: AppTheme.primaryColor,
+                                activeColor: Colors.black,
+                                side: BorderSide(color: Color(0xffC1C1C1)),
                                 visualDensity: VisualDensity.standard,
                                 onChanged: (newValue) {
                                   setState(() {
@@ -393,18 +422,14 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                 }),
                           ),
                         ),
-                        Expanded(
-                            child: RichText(
-                          overflow: TextOverflow.clip,
-                          textAlign: TextAlign.end,
-                          textDirection: TextDirection.rtl,
-                          softWrap: true,
-                          text: TextSpan(
-                            text: 'No Budget',
-                            style: GoogleFonts.mulish(
-                                fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.onboardingColor),
+                        Text(
+                          "No Budget",
+                          style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            color: Colors.black,
                           ),
-                        )),
+                        ),
                       ],
                     ),
                     SizedBox(
