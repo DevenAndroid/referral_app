@@ -122,10 +122,12 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              single.value.data!.recommandation!.title.toString(),
-                              style: GoogleFonts.mulish(
-                                  fontWeight: FontWeight.w600, fontSize: 20, color: const Color(0xFF000000)),
+                            Expanded(
+                              child: Text(
+                                single.value.data!.recommandation!.title.toString(),
+                                style: GoogleFonts.mulish(
+                                    fontWeight: FontWeight.w600, fontSize: 20, color: const Color(0xFF000000)),
+                              ),
                             ),
                             InkWell(
                               onTap: () {

@@ -297,46 +297,43 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ? Column(
                                     children: [
                                       if (searchData.isEmpty) Text("No data Found"),
-                                      GridView.builder(
-                                        padding: EdgeInsets.zero,
-                                        shrinkWrap: true,
-                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                          // Number of columns
-                                          crossAxisSpacing: 10.0,
-                                          // Spacing between columns
-                                          mainAxisSpacing: 10.0, // Spacing between rows
-                                        ),
-                                        itemCount: searchData.length,
-                                        // Total number of items
-                                        itemBuilder: (BuildContext context, int index) {
-                                          final item = searchData[index];
-                                          // You can replace the Container with your image widget
-                                          return GestureDetector(
-                                            onTap: () {
-                                              Get.toNamed(
-                                                MyRouters.recommendationSingleScreen,
-                                                arguments: [
-                                                  item.image.toString(),
-                                                  item.title.toString(),
-                                                  item.review.toString(),
-                                                  item.id.toString(),
-                                                  item.link.toString(),
-                                                ],
-                                              );
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(color: Colors.black),
-                                                  borderRadius: BorderRadius.circular(10)),
+                                      SingleChildScrollView(
+                                        child: GridView.builder(
+                                          physics: BouncingScrollPhysics(),
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                            // Number of columns
+                                            crossAxisSpacing: 10.0,
+                                            // Spacing between columns
+                                            mainAxisSpacing: 10.0, // Spacing between rows
+                                          ),
+                                          itemCount: searchData.length,
+                                          // Total number of items
+                                          itemBuilder: (BuildContext context, int index) {
+                                            final item = searchData[index];
+                                            // You can replace the Container with your image widget
+                                            return GestureDetector(
+                                              onTap: () {
+                                                Get.toNamed(
+                                                  MyRouters.recommendationSingleScreen,
+                                                  arguments: [
+                                                    item.image.toString(),
+                                                    item.title.toString(),
+                                                    item.review.toString(),
+                                                    item.id.toString(),
+                                                    item.link.toString(),
+                                                  ],
+                                                );
+                                              },
                                               child: CachedNetworkImage(
                                                 imageUrl: item.image.toString(),
                                                 fit: BoxFit.fill,
                                               ),
-                                            ),
-                                          );
-                                        },
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ],
                                   )
@@ -346,7 +343,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                         onTap: () {},
                                       )
                                     : const Center(child: CircularProgressIndicator());
-                          })
+                          }),
+    SizedBox(height: 50,),
                         ]))),
           ]),
         ));

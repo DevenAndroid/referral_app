@@ -6,9 +6,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:referral_app/controller/homeController.dart';
 import 'package:referral_app/widgets/app_assets.dart';
 import 'package:referral_app/widgets/custome_textfiled.dart';
@@ -222,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   // String selectedValue = 'friends';
   bool check = false;
-String post ="";
+  String post = "";
   @override
   Widget build(BuildContext context) {
     //chooseCategories();
@@ -232,7 +234,7 @@ String post ="";
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-          backgroundColor: const Color(0xFF3797EF).withOpacity(.04),
+            backgroundColor: const Color(0xFF3797EF).withOpacity(.04),
             floatingActionButton: showFloatingActionButton
                 ? Padding(
                     padding: const EdgeInsets.symmetric(vertical: 0).copyWith(bottom: 80),
@@ -283,7 +285,6 @@ String post ="";
               bottom: TabBar(
                 controller: _tabController,
 
-
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorColor: AppTheme.primaryColor,
                 indicatorPadding: const EdgeInsets.symmetric(horizontal: 15),
@@ -296,18 +297,15 @@ String post ="";
                   Tab(
                     child: Text("Recco Feed",
                         style: currentDrawer == 0
-                            ? GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700,  fontSize: 15, color: const Color(0xFF3797EF))
-                            : GoogleFonts.mulish(
-                                fontWeight: FontWeight.w400,  fontSize: 14, color: Colors.black)),
+                            ? GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 15, color: const Color(0xFF3797EF))
+                            : GoogleFonts.mulish(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)),
                   ),
                   Tab(
                     child: Text("Discover",
                         style: currentDrawer == 1
                             ? GoogleFonts.mulish(
                                 fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
-                            : GoogleFonts.mulish(
-                                fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)),
+                            : GoogleFonts.mulish(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)),
                   ),
                 ],
               ),
@@ -315,14 +313,9 @@ String post ="";
             body: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Obx(() {
-                  return TabBarView(
-
-
-                      controller: _tabController, children: [
-
+                  return TabBarView(controller: _tabController, children: [
                     homeController.isDataLoading.value
                         ? SingleChildScrollView(
-
                             controller: scrollController,
                             physics: const BouncingScrollPhysics(),
                             child: Padding(
@@ -331,13 +324,10 @@ String post ="";
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-
-
                                   Obx(() {
                                     if (homeController.refreshInt.value > 0) {}
                                     return homeController.isDataLoading.value
                                         ? ListView.builder(
-
                                             shrinkWrap: true,
                                             itemCount: homeController.paginationWorking
                                                 ? homeController.homeModel.value.data!.discover!.length + 1
@@ -372,8 +362,8 @@ String post ="";
                                                             GestureDetector(
                                                               onTap: () {
                                                                 Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
-                                                                  homeController.homeModel.value.data!.discover![index]
-                                                                      .userId!.id
+                                                                  homeController
+                                                                      .homeModel.value.data!.discover![index].userId!.id
                                                                       .toString(),
                                                                 ]);
                                                               },
@@ -406,8 +396,8 @@ String post ="";
                                                             Column(
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
-                                                                homeController.homeModel.value.data!.discover![index]
-                                                                            .userId?.name ==
+                                                                homeController.homeModel.value.data!.discover![index].userId
+                                                                            ?.name ==
                                                                         ""
                                                                     ? Text(
                                                                         "Name...",
@@ -418,8 +408,8 @@ String post ="";
                                                                             color: Colors.black),
                                                                       )
                                                                     : Text(
-                                                                        homeController.homeModel.value.data!
-                                                                            .discover![index].userId!.name
+                                                                        homeController.homeModel.value.data!.discover![index]
+                                                                            .userId!.name
                                                                             .toString()
                                                                             .capitalizeFirst
                                                                             .toString(),
@@ -431,29 +421,28 @@ String post ="";
                                                                       ),
                                                               ],
                                                             ),
-                                                            SizedBox(width: 5,),
-
-
+                                                            const SizedBox(
+                                                              width: 5,
+                                                            ),
                                                             const SizedBox(
                                                               height: 15,
                                                               width: 20,
                                                               child: VerticalDivider(
                                                                 color: Color(0xffD9D9D9),
-
                                                               ),
                                                             ),
                                                             Text(
-                                              homeController
-                                                  .homeModel.value.data!.discover![index].date!.capitalize.toString(),
+                                                              homeController
+                                                                  .homeModel.value.data!.discover![index].date!.capitalize
+                                                                  .toString(),
                                                               style: GoogleFonts.mulish(
                                                                 fontWeight: FontWeight.w300,
                                                                 // letterSpacing: 1,
                                                                 fontSize: 12,
-                                                                color:  Color(0xff878D98),
+                                                                color: const Color(0xff878D98),
                                                               ),
                                                             ),
-                                                            Spacer(),
-
+                                                            const Spacer(),
                                                             Padding(
                                                               padding: const EdgeInsets.only(right: 8.0),
                                                               child: Obx(() {
@@ -521,7 +510,8 @@ String post ="";
                                                                   width: size.width,
                                                                   height: 200,
                                                                   fit: BoxFit.fill,
-                                                                  imageUrl: homeController.homeModel.value.data!.discover![index].image
+                                                                  imageUrl: homeController
+                                                                      .homeModel.value.data!.discover![index].image
                                                                       .toString(),
                                                                   placeholder: (context, url) => const SizedBox(
                                                                     height: 0,
@@ -576,11 +566,11 @@ String post ="";
                                                                       .then((value) {
                                                                     modelReviewList.value = value;
 
-
                                                                     if (value.status == true) {
                                                                       statusOfReviewList.value = RxStatus.success();
                                                                       post = homeController
-                                                                          .homeModel.value.data!.discover![index].id.toString();
+                                                                          .homeModel.value.data!.discover![index].id
+                                                                          .toString();
                                                                       print(homeController
                                                                           .homeModel.value.data!.discover![index].id);
                                                                       _settingModalBottomSheet(context);
@@ -592,7 +582,7 @@ String post ="";
                                                                 });
                                                               },
                                                               child: Container(
-                                                                 padding: const EdgeInsets.only(left: 15),
+                                                                padding: const EdgeInsets.only(left: 15),
                                                                 width: size.width * .45,
                                                                 height: 30,
                                                                 decoration: BoxDecoration(
@@ -601,7 +591,10 @@ String post ="";
                                                                 ),
                                                                 child: Row(
                                                                   children: [
-                                                                    SvgPicture.asset(AppAssets.message,height: 16,),
+                                                                    SvgPicture.asset(
+                                                                      AppAssets.message,
+                                                                      height: 16,
+                                                                    ),
                                                                     const SizedBox(
                                                                       width: 6,
                                                                     ),
@@ -813,8 +806,7 @@ String post ="";
                                             return GestureDetector(
                                               onTap: () {
                                                 print(
-                                                  "id:::::::::::::::::::::::::::::" +
-                                                      single.value.data![index].id.toString(),
+                                                  "id:::::::::::::::::::::::::::::${single.value.data![index].id}",
                                                 );
                                                 Get.toNamed(
                                                   MyRouters.recommendationSingleScreen,
@@ -824,16 +816,10 @@ String post ="";
                                                 );
                                                 print("object");
                                               },
-                                              child: Container(
-                                                padding: const EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(color: Colors.black),
-                                                    borderRadius: BorderRadius.circular(10)),
-                                                child: CachedNetworkImage(
-                                                    errorWidget: (context, url, error) => const SizedBox(),
-                                                  imageUrl: single.value.data![index].image.toString(),
-                                                  fit: BoxFit.fill,
-                                                ),
+                                              child: CachedNetworkImage(
+                                                errorWidget: (context, url, error) => const SizedBox(),
+                                                imageUrl: single.value.data![index].image.toString(),
+                                                fit: BoxFit.fill,
                                               ),
                                             );
                                           },
@@ -848,56 +834,96 @@ String post ="";
                                       : const Center(child: SizedBox()),
                             if (check == false)
                               statusOfAllRecommendation.value.isSuccess
-                                  ? GridView.builder(
-                                      padding: EdgeInsets.zero,
-                                      physics: const BouncingScrollPhysics(),
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.vertical,
-                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        // Number of columns
-                                        crossAxisSpacing: 10.0,
-                                        // Spacing between columns
-                                        mainAxisSpacing: 10.0, // Spacing between rows
-                                      ),
-                                      itemCount: allRecommendation.value.data!.length,
-                                      // Total number of items
-                                      itemBuilder: (BuildContext context, int index) {
-                                        // You can replace the Container with your image widget
-                                        return GestureDetector(
-                                          onTap: () {
-                                            log("tgrhtr" + allRecommendation.value.data![index].wishlist.toString());
-                                            Get.toNamed(
-                                              MyRouters.recommendationSingleScreen,
-                                              arguments: [
-                                                allRecommendation.value.data![index].image.toString(),
-                                                allRecommendation.value.data![index].title.toString(),
-                                                allRecommendation.value.data![index].review.toString(),
-                                                allRecommendation.value.data![index].id.toString(),
-                                                allRecommendation.value.data![index].link.toString(),
-                                                allRecommendation.value.data![index].wishlist,
-                                              ],
+                                  ?
+                              // SizedBox(
+                              //         height: 600,
+                              //         child: GridView.custom(
+                              //           gridDelegate: SliverWovenGridDelegate.count(
+                              //             crossAxisCount: 2,
+                              //             mainAxisSpacing: 8,
+                              //             crossAxisSpacing: 8,
+                              //             pattern: [
+                              //               const WovenGridTile(1),
+                              //               const WovenGridTile(
+                              //                 5 / 7,
+                              //                 crossAxisRatio: 0.9,
+                              //                 alignment: AlignmentDirectional.centerEnd,
+                              //               ),
+                              //             ],
+                              //           ),
+                              //           childrenDelegate: SliverChildBuilderDelegate(
+                              //             (context, index) => GestureDetector(
+                              //               onTap: () {
+                              //                 log("tgrhtr" + allRecommendation.value.data![index].wishlist.toString());
+                              //                 Get.toNamed(
+                              //                   MyRouters.recommendationSingleScreen,
+                              //                   arguments: [
+                              //                     allRecommendation.value.data![index].image.toString(),
+                              //                     allRecommendation.value.data![index].title.toString(),
+                              //                     allRecommendation.value.data![index].review.toString(),
+                              //                     allRecommendation.value.data![index].id.toString(),
+                              //                     allRecommendation.value.data![index].link.toString(),
+                              //                     allRecommendation.value.data![index].wishlist,
+                              //                   ],
+                              //                 );
+                              //               },
+                              //               child: CachedNetworkImage(
+                              //                 imageUrl: allRecommendation.value.data![index].image.toString(),
+                              //                 placeholder: (context, url) => const SizedBox(),
+                              //                 errorWidget: (context, url, error) => const SizedBox(),
+                              //                 fit: BoxFit.fill,
+                              //               ),
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       )
+                                  GridView.builder(
+                                          padding: EdgeInsets.zero,
+                                          physics: const BouncingScrollPhysics(),
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.vertical,
+                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                            // Number of columns
+                                            crossAxisSpacing: 10.0,
+                                            // Spacing between columns
+                                            mainAxisSpacing: 10.0, // Spacing between rows
+                                          ),
+                                          itemCount: allRecommendation.value.data!.length,
+                                          // Total number of items
+                                          itemBuilder: (BuildContext context, int index) {
+                                            // You can replace the Container with your image widget
+                                            return GestureDetector(
+                                              onTap: () {
+                                                log("tgrhtr" + allRecommendation.value.data![index].wishlist.toString());
+                                                Get.toNamed(
+                                                  MyRouters.recommendationSingleScreen,
+                                                  arguments: [
+                                                    allRecommendation.value.data![index].image.toString(),
+                                                    allRecommendation.value.data![index].title.toString(),
+                                                    allRecommendation.value.data![index].review.toString(),
+                                                    allRecommendation.value.data![index].id.toString(),
+                                                    allRecommendation.value.data![index].link.toString(),
+                                                    allRecommendation.value.data![index].wishlist,
+                                                  ],
+                                                );
+                                              },
+                                              child: CachedNetworkImage(
+                                                imageUrl: allRecommendation.value.data![index].image.toString(),
+                                                placeholder: (context, url) =>  const SizedBox(),
+                                                errorWidget: (context, url, error) => const SizedBox(),
+                                                fit: BoxFit.fill,
+                                              ),
                                             );
                                           },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                                border: Border.all(color: Colors.black),
-                                                borderRadius: BorderRadius.circular(10)),
-                                            child: CachedNetworkImage(
-                                              imageUrl: allRecommendation.value.data![index].image.toString(),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    )
+                                        )
                                   : statusOfAllRecommendation.value.isError
                                       ? CommonErrorWidget(
                                           errorText: "",
                                           onTap: () {},
                                         )
                                       : const Center(child: CircularProgressIndicator()),
+                            const SizedBox(height: 40,)
                           ],
                         ),
                       ),
@@ -935,7 +961,7 @@ String post ="";
                   Row(
                     children: [
                       Text(
-                        'Recommendation List     Post Id :'+post.toString()  ,
+                        'Recommendation List',
                         style: GoogleFonts.mulish(
                           fontWeight: FontWeight.w700,
                           // letterSpacing: 1,
@@ -990,9 +1016,9 @@ String post ="";
                                           ),
                                           Expanded(
                                             child: Container(
-                                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.only(
+                                                  borderRadius: const BorderRadius.only(
                                                       bottomRight: Radius.circular(10),
                                                       bottomLeft: Radius.circular(10),
                                                       topRight: Radius.circular(10)),
@@ -1012,7 +1038,7 @@ String post ="";
                                                           color: Colors.black,
                                                         ),
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         width: 15,
                                                       ),
                                                       Text(
@@ -1024,13 +1050,13 @@ String post ="";
                                                           color: Colors.black,
                                                         ),
                                                       ),
-                                                      Spacer(),
+                                                      const Spacer(),
                                                       GestureDetector(
                                                           onTap: () {
-
                                                             addRemoveLikeRepo(
                                                               context: context,
-                                                              recommended_id: modelReviewList.value.data![index].id.toString(),
+                                                              recommended_id:
+                                                                  modelReviewList.value.data![index].id.toString(),
                                                             ).then((value) async {
                                                               // userProfile.value = value;
                                                               if (value.status == true) {
@@ -1053,19 +1079,20 @@ String post ="";
                                                                 // like=false;
                                                                 showToast(value.message.toString());
                                                               }
-                                                            });  setState(() {
-                                                            });// home.value.data!.discover![index].wishlist.toString();
+                                                            });
+                                                            setState(
+                                                                () {}); // home.value.data!.discover![index].wishlist.toString();
                                                           },
-                                                          child: modelReviewList.value.data![index].isLike ==
-                                                              true
-                                                              ?  SvgPicture.asset(AppAssets.heart,height: 26,)
-                                                              :
-                                                          const Image(
-                                                            image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
-                                                            height: 25,
-                                                          )
-
-                                                      )
+                                                          child: modelReviewList.value.data![index].isLike == true
+                                                              ? SvgPicture.asset(
+                                                                  AppAssets.heart,
+                                                                  height: 26,
+                                                                )
+                                                              : const Image(
+                                                                  image: AssetImage(
+                                                                      'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                                  height: 25,
+                                                                ))
                                                     ],
                                                   ),
                                                   SizedBox(
@@ -1080,11 +1107,11 @@ String post ="";
                                                       color: Colors.black,
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: 8,
                                                   ),
                                                   modelReviewList.value.data![index].link == ""
-                                                      ? SizedBox()
+                                                      ? const SizedBox()
                                                       : GestureDetector(
                                                           onTap: () {
                                                             launchURL(
@@ -1096,10 +1123,10 @@ String post ="";
                                                             style: GoogleFonts.mulish(
                                                                 fontWeight: FontWeight.w500,
                                                                 fontSize: 12,
-                                                                color: Color(0xFF3797EF)),
+                                                                color: const Color(0xFF3797EF)),
                                                           ),
                                                         ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: 12,
                                                   ),
                                                   modelReviewList.value.data![index].image == ""
@@ -1133,7 +1160,7 @@ String post ="";
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.toNamed(MyRouters.recommendationScreen,arguments: [post.toString()]);
+                                    Get.toNamed(MyRouters.recommendationScreen, arguments: [post.toString()]);
                                   },
                                   child: const CommonButton(title: "Send Recommendation"),
                                 ),

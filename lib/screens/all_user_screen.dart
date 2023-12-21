@@ -375,7 +375,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 },
                                 tabs: [
                                   Tab(
-                                    child: Text("Requests",
+                                    child: Text("Recco Feed",
                                         style: currentDrawer == 0
                                             ? GoogleFonts.mulish(
                                             fontWeight: FontWeight.w400,
@@ -1055,8 +1055,9 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                           },
                                           child: CachedNetworkImage(
                                             imageUrl: userProfile.value.data!.myRecommandation![index].image.toString(),
-                                            width: 60,
-                                            height: 60,
+
+                                            // errorWidget: (context, url, error) => const SizedBox(),
+                                            fit: BoxFit.fill,
                                           ),
                                                                               ),
                                         ],

@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:referral_app/main.dart';
 import 'package:referral_app/models/FollowersList_model.dart';
-import 'package:referral_app/routers/routers.dart';
 
 import '../controller/profile_controller.dart';
 import '../models/followingList_model.dart';
@@ -83,7 +81,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-            backgroundColor: const Color(0xffEAEEF1),
+            // backgroundColor: const Color(0xffEAEEF1),
             appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
@@ -354,11 +352,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                               }),
                                         ],
                                       )
-                                    : statusOfFollowing.value.isError
-                                        ? CommonErrorWidget(
-                                            errorText: "",
-                                            onTap: () {},
-                                          )
+
                                         : const Center(child: Center(child: CircularProgressIndicator()));
                               }),
                             )
