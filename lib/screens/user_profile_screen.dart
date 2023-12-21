@@ -426,9 +426,9 @@ class UserProfileScreenState extends State<UserProfileScreen> with SingleTickerP
                                                                     imageUrl: userProfile.value.data!.myRequest![index].image
                                                                         .toString(),
                                                                     placeholder: (context, url) =>
-                                                                        Image.asset(AppAssets.picture),
+                                                                      SizedBox(),
                                                                     errorWidget: (context, url, error) =>
-                                                                        Image.asset(AppAssets.picture),
+                                                                        SizedBox(),
                                                                   ),
                                                                   const SizedBox(
                                                                     height: 10,

@@ -13,8 +13,8 @@ class ModelUserProfile {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = status;
-    data['message'] = message;
+    data['status'] = this.status;
+    data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -69,25 +69,25 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (user != null) {
-      data['user'] = user!.toJson();
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
     }
-    if (myRequest != null) {
-      data['my_request'] = myRequest!.map((v) => v.toJson()).toList();
+    if (this.myRequest != null) {
+      data['my_request'] = this.myRequest!.map((v) => v.toJson()).toList();
     }
-    if (myRecommandation != null) {
+    if (this.myRecommandation != null) {
       data['my_recommandation'] =
-          myRecommandation!.map((v) => v.toJson()).toList();
+          this.myRecommandation!.map((v) => v.toJson()).toList();
     }
-    if (saveRecommandation != null) {
+    if (this.saveRecommandation != null) {
       data['save_recommandation'] =
-          saveRecommandation!.map((v) => v.toJson()).toList();
+          this.saveRecommandation!.map((v) => v.toJson()).toList();
     }
-    if (myCategories != null) {
+    if (this.myCategories != null) {
       data['my_categories'] =
-          myCategories!.map((v) => v.toJson()).toList();
+          this.myCategories!.map((v) => v.toJson()).toList();
     }
-    data['notification_count'] = notificationCount;
+    data['notification_count'] = this.notificationCount;
     return data;
   }
 }
@@ -164,27 +164,27 @@ class User {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = id;
-    data['name'] = name;
-    data['email'] = email;
-    data['phone'] = phone;
-    data['wallet_balance'] = walletBalance;
-    data['earned_balance'] = earnedBalance;
-    data['profile_image'] = profileImage;
-    data['address'] = address;
-    data['referal_code'] = referalCode;
-    data['is_driver_online'] = isDriverOnline;
-    data['is_vendor_online'] = isVendorOnline;
-    data['delivery_range'] = deliveryRange;
-    data['self_delivery'] = selfDelivery;
-    data['as_driver_verified'] = asDriverVerified;
-    data['as_vendor_verified'] = asVendorVerified;
-    data['as_marketing_manager_verified'] = asMarketingManagerVerified;
-    data['is_complete'] = isComplete;
-    data['following_count'] = followingCount;
-    data['followers_count'] = followersCount;
-    data['post_count'] = postCount;
-    data['is_follow'] = isFollow;
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['wallet_balance'] = this.walletBalance;
+    data['earned_balance'] = this.earnedBalance;
+    data['profile_image'] = this.profileImage;
+    data['address'] = this.address;
+    data['referal_code'] = this.referalCode;
+    data['is_driver_online'] = this.isDriverOnline;
+    data['is_vendor_online'] = this.isVendorOnline;
+    data['delivery_range'] = this.deliveryRange;
+    data['self_delivery'] = this.selfDelivery;
+    data['as_driver_verified'] = this.asDriverVerified;
+    data['as_vendor_verified'] = this.asVendorVerified;
+    data['as_marketing_manager_verified'] = this.asMarketingManagerVerified;
+    data['is_complete'] = this.isComplete;
+    data['following_count'] = this.followingCount;
+    data['followers_count'] = this.followersCount;
+    data['post_count'] = this.postCount;
+    data['is_follow'] = this.isFollow;
     return data;
   }
 }
@@ -199,6 +199,9 @@ class MyRequest {
   String? image;
   String? postViewersType;
   bool? wishlist;
+  int? noBudget;
+  int? reviewCount;
+  String? date;
 
   MyRequest(
       {this.id,
@@ -209,7 +212,10 @@ class MyRequest {
         this.maxPrice,
         this.image,
         this.postViewersType,
-        this.wishlist});
+        this.wishlist,
+        this.noBudget,
+        this.reviewCount,
+        this.date});
 
   MyRequest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -222,21 +228,27 @@ class MyRequest {
     image = json['image'];
     postViewersType = json['post_viewers_type'];
     wishlist = json['wishlist'];
+    noBudget = json['no_budget'];
+    reviewCount = json['review_count'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = id;
-    if (userId != null) {
-      data['user_id'] = userId!.toJson();
+    data['id'] = this.id;
+    if (this.userId != null) {
+      data['user_id'] = this.userId!.toJson();
     }
-    data['title'] = title;
-    data['description'] = description;
-    data['min_price'] = minPrice;
-    data['max_price'] = maxPrice;
-    data['image'] = image;
-    data['post_viewers_type'] = postViewersType;
-    data['wishlist'] = wishlist;
+    data['title'] = this.title;
+    data['description'] = this.description;
+    data['min_price'] = this.minPrice;
+    data['max_price'] = this.maxPrice;
+    data['image'] = this.image;
+    data['post_viewers_type'] = this.postViewersType;
+    data['wishlist'] = this.wishlist;
+    data['no_budget'] = this.noBudget;
+    data['review_count'] = this.reviewCount;
+    data['date'] = this.date;
     return data;
   }
 }
@@ -244,6 +256,7 @@ class MyRequest {
 class MyRecommandation {
   int? id;
   User? user;
+  int? askrecommandationId;
   String? title;
   String? review;
   String? link;
@@ -251,21 +264,25 @@ class MyRecommandation {
   String? image;
   String? status;
   bool? wishlist;
+  String? date;
 
   MyRecommandation(
       {this.id,
         this.user,
+        this.askrecommandationId,
         this.title,
         this.review,
         this.link,
         this.categoryId,
         this.image,
         this.status,
-        this.wishlist});
+        this.wishlist,
+        this.date});
 
   MyRecommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    askrecommandationId = json['askrecommandation_id'];
     title = json['title'];
     review = json['review'];
     link = json['link'];
@@ -273,21 +290,24 @@ class MyRecommandation {
     image = json['image'];
     status = json['status'];
     wishlist = json['wishlist'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = id;
-    if (user != null) {
-      data['user'] = user!.toJson();
+    data['id'] = this.id;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
     }
-    data['title'] = title;
-    data['review'] = review;
-    data['link'] = link;
-    data['category_id'] = categoryId;
-    data['image'] = image;
-    data['status'] = status;
-    data['wishlist'] = wishlist;
+    data['askrecommandation_id'] = this.askrecommandationId;
+    data['title'] = this.title;
+    data['review'] = this.review;
+    data['link'] = this.link;
+    data['category_id'] = this.categoryId;
+    data['image'] = this.image;
+    data['status'] = this.status;
+    data['wishlist'] = this.wishlist;
+    data['date'] = this.date;
     return data;
   }
 }
@@ -307,52 +327,90 @@ class SaveRecommandation {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = id;
-    if (post != null) {
-      data['post'] = post!.toJson();
+    data['id'] = this.id;
+    if (this.post != null) {
+      data['post'] = this.post!.toJson();
     }
-    data['date'] = date;
+    data['date'] = this.date;
     return data;
   }
 }
 
 class Post {
   int? id;
+  User? user;
+  int? askrecommandationId;
   String? title;
   String? review;
   String? link;
   String? categoryId;
   String? image;
   String? status;
+  bool? wishlist;
+  String? date;
+  String? description;
+  String? minPrice;
+  String? maxPrice;
+  String? noBudget;
+  String? postViewersType;
 
   Post(
       {this.id,
+        this.user,
+        this.askrecommandationId,
         this.title,
         this.review,
         this.link,
         this.categoryId,
         this.image,
-        this.status});
+        this.status,
+        this.wishlist,
+        this.date,
+        this.description,
+        this.minPrice,
+        this.maxPrice,
+        this.noBudget,
+        this.postViewersType});
 
   Post.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    askrecommandationId = json['askrecommandation_id'];
     title = json['title'];
     review = json['review'];
     link = json['link'];
     categoryId = json['category_id'];
     image = json['image'];
     status = json['status'];
+    wishlist = json['wishlist'];
+    date = json['date'];
+    description = json['description'];
+    minPrice = json['min_price'];
+    maxPrice = json['max_price'];
+    noBudget = json['no_budget'];
+    postViewersType = json['post_viewers_type'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = id;
-    data['title'] = title;
-    data['review'] = review;
-    data['link'] = link;
-    data['category_id'] = categoryId;
-    data['image'] = image;
-    data['status'] = status;
+    data['id'] = this.id;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    data['askrecommandation_id'] = this.askrecommandationId;
+    data['title'] = this.title;
+    data['review'] = this.review;
+    data['link'] = this.link;
+    data['category_id'] = this.categoryId;
+    data['image'] = this.image;
+    data['status'] = this.status;
+    data['wishlist'] = this.wishlist;
+    data['date'] = this.date;
+    data['description'] = this.description;
+    data['min_price'] = this.minPrice;
+    data['max_price'] = this.maxPrice;
+    data['no_budget'] = this.noBudget;
+    data['post_viewers_type'] = this.postViewersType;
     return data;
   }
 }
@@ -376,11 +434,11 @@ class MyCategories {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = id;
-    data['tax_percent'] = taxPercent;
-    data['name'] = name;
-    data['slug'] = slug;
-    data['image'] = image;
+    data['id'] = this.id;
+    data['tax_percent'] = this.taxPercent;
+    data['name'] = this.name;
+    data['slug'] = this.slug;
+    data['image'] = this.image;
     return data;
   }
 }

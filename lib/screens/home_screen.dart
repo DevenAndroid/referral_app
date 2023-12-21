@@ -222,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   // String selectedValue = 'friends';
   bool check = false;
-
+String post ="";
   @override
   Widget build(BuildContext context) {
     //chooseCategories();
@@ -576,8 +576,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                       .then((value) {
                                                                     modelReviewList.value = value;
 
+
                                                                     if (value.status == true) {
                                                                       statusOfReviewList.value = RxStatus.success();
+                                                                      post = homeController
+                                                                          .homeModel.value.data!.discover![index].id.toString();
+                                                                      print(homeController
+                                                                          .homeModel.value.data!.discover![index].id);
                                                                       _settingModalBottomSheet(context);
                                                                     } else {
                                                                       statusOfReviewList.value = RxStatus.error();
@@ -930,7 +935,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   Row(
                     children: [
                       Text(
-                        'Recommendation List',
+                        'Recommendation List     Post Id :'+post.toString()  ,
                         style: GoogleFonts.mulish(
                           fontWeight: FontWeight.w700,
                           // letterSpacing: 1,
@@ -1128,7 +1133,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.toNamed(MyRouters.addRecommendationScreen);
+                                    Get.toNamed(MyRouters.recommendationScreen,arguments: [post.toString()]);
                                   },
                                   child: const CommonButton(title: "Send Recommendation"),
                                 ),
