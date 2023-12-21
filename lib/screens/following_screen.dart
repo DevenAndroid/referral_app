@@ -280,27 +280,29 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                       ),
                                                       child: Row(
                                                         children: [
-                                                          ClipOval(
-                                                            child: CachedNetworkImage(
-                                                              width: 50,
-                                                              height: 50,
-                                                              fit: BoxFit.cover,
-                                                              imageUrl: followingList
-                                                                  .value.data![index].following!.profileImage
-                                                                  .toString(),
-                                                              errorWidget: (_, __, ___) => Image.asset(
-                                                                AppAssets.man,
-                                                                color: Colors.grey.shade200,
-                                                              ),
-                                                              placeholder: (_, __) => Image.asset(
-                                                                AppAssets.man,
-                                                                color: Colors.grey.shade200,
-                                                              ),
-                                                            ),
-                                                          ),
+                                                          // ClipOval(
+                                                          //   child: CachedNetworkImage(
+                                                          //     width: 50,
+                                                          //     height: 50,
+                                                          //     fit: BoxFit.cover,
+                                                          //     imageUrl: followingList
+                                                          //         .value.data![index].following!.profileImage
+                                                          //         .toString(),
+                                                          //     errorWidget: (_, __, ___) => Image.asset(
+                                                          //       AppAssets.man,
+                                                          //       color: Colors.grey.shade200,
+                                                          //     ),
+                                                          //     placeholder: (_, __) => Image.asset(
+                                                          //       AppAssets.man,
+                                                          //       color: Colors.grey.shade200,
+                                                          //     ),
+                                                          //   ),
+                                                          // ),
                                                           const SizedBox(
                                                             width: 20,
                                                           ),
+
+
                                                           Text(
                                                             followingList.value.data![index].following!.name.toString(),
                                                             style: GoogleFonts.mulish(
@@ -309,7 +311,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                                 fontSize: 17,
                                                                 color: Colors.black),
                                                           ),
-                                                          const Spacer(),
+
                                                           GestureDetector(
                                                             onTap: () {
                                                               unFollowRepo(
