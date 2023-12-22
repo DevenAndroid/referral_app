@@ -12,7 +12,7 @@ class NotificationService {
       defaultPresentAlert: true,
       defaultPresentBadge: true);
   AndroidNotificationDetails androidNotificationDetails =
-      const AndroidNotificationDetails("dirise", "dirise_app", priority: Priority.max, importance: Importance.max);
+      const AndroidNotificationDetails("referral", "referral_app", priority: Priority.max, importance: Importance.max);
   DarwinNotificationDetails darwinNotificationDetails = const DarwinNotificationDetails(
     presentSound: true,
   );

@@ -254,12 +254,17 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 return profileController.statusOfProfile.value.isSuccess
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                              height: 100,
-                              fit: BoxFit.fill,
-                              imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
-                              errorWidget: (context, url, error) => const SizedBox()),
+                        child: GestureDetector(
+                          onTap: (){
+                            Get.toNamed(MyRouters.profileScreen);
+                          },
+                          child: ClipOval(
+                            child: CachedNetworkImage(
+                                height: 100,
+                                fit: BoxFit.fill,
+                                imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
+                                errorWidget: (context, url, error) => const SizedBox()),
+                          ),
                         ),
                       )
                     : profileController.statusOfProfile.value.isError
@@ -391,7 +396,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               ),
                                                             ),
                                                             const SizedBox(
-                                                              width: 20,
+                                                              width: 10,
                                                             ),
                                                             Column(
                                                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -421,9 +426,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                       ),
                                                               ],
                                                             ),
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
+
                                                             const SizedBox(
                                                               height: 15,
                                                               width: 20,
@@ -486,7 +489,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               }),
                                                             ),
                                                             const SizedBox(
-                                                              width: 15,
+                                                              width: 8,
                                                             ),
                                                             GestureDetector(
                                                                 onTap: () {
