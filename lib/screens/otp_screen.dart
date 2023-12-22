@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
@@ -34,13 +35,14 @@ class _OtpScreenState extends State<OtpScreen> {
   Rx<ModelResendOtp> otpResend = ModelResendOtp().obs;
   final formKey6 = GlobalKey<FormState>();
   var email= Get.arguments[0];
-  verify(context) {
+  verify(context) async {
     if (formKey6.currentState!.validate()) {
-
+      String? token = await FirebaseMessaging.instance.getToken();
       verifyOtpRepo(
           context: context,
           email:email,
-          otp: otpController.text.trim()
+          otp: otpController.text.trim(),
+          token : token
       ).then((value) async {
         otpVerify.value = value;
         if (value.status == true) {

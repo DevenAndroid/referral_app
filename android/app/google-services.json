@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1033954404810",
+    "project_id": "referral-ff5e0",
+    "storage_bucket": "referral-ff5e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033954404810:android:342734be518926af968733",
+        "android_client_info": {
+          "package_name": "com.referralApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4WJ7sGnsKk93WMA40eiEzoOJY0pycn8E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
