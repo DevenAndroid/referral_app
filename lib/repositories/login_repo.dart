@@ -10,14 +10,16 @@ import '../resourses/helper.dart';
 Future<LoginModel> loginRepo({
   email,
   context,
+  token
 }) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   var map = <String, dynamic>{};
 
   map['email'] = email;
+  map['device_token'] = token;
 
-  print(map);
+  print('login map is..${map}');
   // try {
   http.Response response = await http.post(Uri.parse(ApiUrls.login),
       headers: await getAuthHeader(), body: jsonEncode(map));

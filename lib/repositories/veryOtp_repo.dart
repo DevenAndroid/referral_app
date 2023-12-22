@@ -8,13 +8,14 @@ import '../models/verify_otp_model.dart';
 import '../resourses/api_constant.dart';
 import '../resourses/helper.dart';
 
-Future<VerifyOtpModel> verifyOtpRepo({email, context, otp}) async {
+Future<VerifyOtpModel> verifyOtpRepo({email, context, otp,token}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   var map = <String, dynamic>{};
 
   map['email'] = email;
   map['otp'] = otp;
+  map['device_token'] = token;
 
   print(map);
   // try {

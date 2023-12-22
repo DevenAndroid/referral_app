@@ -111,13 +111,6 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
 
-
-                        GestureDetector(
-                            onTap: (){
-                              Get.back();
-                            },
-
-                            child: Icon(Icons.clear)),
                         Obx(() {
                           return profileController.statusOfProfile.value.isSuccess
                               ? Padding(
