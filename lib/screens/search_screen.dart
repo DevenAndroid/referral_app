@@ -270,7 +270,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             controller: search1Controller,
                             obSecure: false,
                             hintText: "Search for a Recommendation",
-                            prefix: Padding(padding: const EdgeInsets.all(13.0), child: Icon(Icons.search)),
+                            prefix: const Padding(padding: EdgeInsets.all(13.0), child: Icon(Icons.search)),
                             onTap: () {
                               setState(() {});
                             },
@@ -316,13 +316,17 @@ class _SearchScreenState extends State<SearchScreen> {
                                             // You can replace the Container with your image widget
                                             return GestureDetector(
                                               onTap: () {
+                                                print(
+                                                  "id:::::::::::::::::::::::::::::" +
+                                                      item.id.toString(),
+                                                );
                                                 Get.toNamed(
                                                   MyRouters.recommendationSingleScreen,
                                                   arguments: [
+                                                    item.id.toString(),
                                                     item.image.toString(),
                                                     item.title.toString(),
                                                     item.review.toString(),
-                                                    item.id.toString(),
                                                     item.link.toString(),
                                                   ],
                                                 );

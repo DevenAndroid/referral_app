@@ -17,6 +17,7 @@ import 'package:referral_app/widgets/custome_textfiled.dart';
 import 'package:referral_app/widgets/helper.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../controller/bottomNav_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wishlist controller.dart';
 import '../models/all_recommendation_model.dart';
@@ -225,6 +226,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   // String selectedValue = 'friends';
   bool check = false;
   String post = "";
+
+  final bottomController = Get.put(BottomNavBarController());
   @override
   Widget build(BuildContext context) {
     //chooseCategories();
@@ -256,7 +259,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                           onTap: (){
-                            Get.toNamed(MyRouters.profileScreen);
+                            // Get.toNamed(MyRouters.profileScreen);
+                            bottomController.updateIndexValue(2);
                           },
                           child: ClipOval(
                             child: CachedNetworkImage(
