@@ -25,7 +25,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
           child: Container(
         width: AddSize.screenWidth,
         height: AddSize.screenHeight,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.fill,
                 image: AssetImage(
@@ -86,7 +86,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
           child: CommonButton(
             title: 'Continue',
             onPressed: () {
-              Get.toNamed(MyRouters.bottomNavbar);
+              Get.offAllNamed(MyRouters.bottomNavbar);
             },
           )),
     );

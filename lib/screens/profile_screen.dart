@@ -400,7 +400,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       controller: _tabController,
                                       padding: EdgeInsets.zero,
                                       dividerColor: Colors.transparent,
-
+                                      tabAlignment: TabAlignment.start,
                                       isScrollable: true,
                                       labelColor: Colors.blue,
                                       labelStyle: const TextStyle(color: Colors.blue),
@@ -478,7 +478,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           ? Column(
                                               children: [
                                                 if (profileController.modal.value.data!.myRequest!.isEmpty)
-                                                  const Text("No data found "),
+                                                  const Padding(
+                                                    padding: EdgeInsets.only(top:58.0),
+                                                    child: Text("No data found "),
+                                                  ),
                                                 ListView.builder(
                                                     padding: const EdgeInsets.symmetric(vertical: 10),
                                                     shrinkWrap: true,

@@ -49,10 +49,10 @@ class _OtpScreenState extends State<OtpScreen> {
 
           SharedPreferences pref = await SharedPreferences.getInstance();
           if (pref.getBool('complete') == true) {
-            Get.toNamed(MyRouters.bottomNavbar);
+            Get.offAllNamed(MyRouters.bottomNavbar);
           }
           pref.setString('cookie', value.authToken.toString());
-          Get.toNamed(MyRouters.createAccountScreen);
+          Get.offAllNamed(MyRouters.createAccountScreen);
           // Get.offAllNamed(MyRouters.bottomNavbar);
           statusOfOtpVerify.value = RxStatus.success();
           showToast(value.message.toString());
