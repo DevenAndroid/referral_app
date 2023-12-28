@@ -14,6 +14,7 @@ import '../models/categories_model.dart';
 import '../models/home_page_model.dart';
 import '../models/model_review_list.dart';
 import '../models/model_user_profile.dart';
+import '../models/single_product_model.dart';
 import '../repositories/add_remove_follow_repo.dart';
 import '../repositories/categories_repo.dart';
 import '../repositories/get_user_profile.dart';
@@ -21,6 +22,7 @@ import '../repositories/home_pafe_repo.dart';
 import '../repositories/remove_bookmark_repo.dart';
 import '../repositories/repo_add_like.dart';
 import '../repositories/repo_review_list.dart';
+import '../repositories/single_produc_repo.dart';
 import '../resourses/api_constant.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
@@ -90,7 +92,8 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
 
     // chooseCategories1();
   }
-
+  Rx<RxStatus> statusOfSingle = RxStatus.empty().obs;
+  Rx<SingleProduct> single = SingleProduct().obs;
   void _tabListener() {
     setState(() {
       showFloatingActionButton = _tabController.index == 1; // 1 corresponds to "My recommendations"
@@ -98,7 +101,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
   }
 
   var currentDrawer = 0;
-
+  bool check = false;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery
@@ -967,50 +970,94 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                     height: size.height * .15,
                                     child: Obx(() {
                                       return statusOfUser.value.isSuccess
-                                          ? ListView.builder(
-                                          itemCount: userProfile.value.data!.myCategories!.length,
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.horizontal,
-                                          physics: const AlwaysScrollableScrollPhysics(),
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                children: [
-                                                  if(userProfile.value.data!.myCategories!.isEmpty)
-                                                    Text("No Record Found "),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      // profileController.categoriesController.text = item.name.toString();
-                                                      // profileController.idController.text = item.id.toString();
-                                                      // Get.back();
-                                                    },
-                                                    child: ClipOval(
-                                                      child: CachedNetworkImage(
-                                                        width: 70,
-                                                        height: 70,
-                                                        fit: BoxFit.fill,
-                                                        imageUrl: userProfile
-                                                            .value.data!.myCategories![index].image
-                                                            .toString(),
-                                                      ),
+                                          ? SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    check = false;
+                                                    // profileController.getData();
+                                                    setState(() {});
+                                                  },
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(bottom: 20),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                                      child: const CircleAvatar(
+                                                          radius: 35,
+                                                          backgroundColor: Colors.transparent,
+                                                          child: Text(
+                                                            'View All',
+                                                            style: TextStyle(color: Colors.black, fontSize: 14),
+                                                          )),
                                                     ),
                                                   ),
-                                                  const SizedBox(
-                                                    height: 2,
-                                                  ),
-                                                  Text(
-                                                    userProfile.value.data!.myCategories![index].name.toString(),
-                                                    style: GoogleFonts.mulish(
-                                                        fontWeight: FontWeight.w300,
-                                                        // letterSpacing: 1,
-                                                        fontSize: 14,
-                                                        color: Color(0xFF26282E)),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          })
+                                                ),
+                                                ListView.builder(
+                                                itemCount: userProfile.value.data!.myCategories!.length,
+                                                shrinkWrap: true,
+                                                scrollDirection: Axis.horizontal,
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                itemBuilder: (context, index) {
+                                                  return Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Column(
+                                                      children: [
+                                                        if(userProfile.value.data!.myCategories!.isEmpty)
+                                                          Text("No Record Found "),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            print('id is${userProfile.value.data!.myCategories![index].id.toString()}');
+                                                            print('id is${userProfile.value.data!.user!.id.toString()}');
+                                                            getSingleRepo(
+                                                                category_id:
+                                                                userProfile.value.data!.myCategories![index].id.toString(),
+                                                                userId:   userProfile.value.data!.user!.id.toString()
+                                                            )
+                                                                .then((value) {
+                                                              single.value = value;
+                                                              if (value.status == true) {
+                                                                statusOfSingle.value = RxStatus.success();
+                                                                check = true;
+                                                                setState(() {});
+                                                              } else {
+                                                                statusOfSingle.value = RxStatus.error();
+                                                              }
+                                                              setState(() {});
+                                                              // showToast(value.message.toString());
+                                                            });
+                                                          },
+                                                          child: ClipOval(
+                                                            child: CachedNetworkImage(
+                                                              width: 70,
+                                                              height: 70,
+                                                              fit: BoxFit.fill,
+                                                              imageUrl: userProfile
+                                                                  .value.data!.myCategories![index].image
+                                                                  .toString(),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 2,
+                                                        ),
+                                                        Text(
+                                                          userProfile.value.data!.myCategories![index].name.toString(),
+                                                          style: GoogleFonts.mulish(
+                                                              fontWeight: FontWeight.w300,
+                                                              // letterSpacing: 1,
+                                                              fontSize: 14,
+                                                              color: Color(0xFF26282E)),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  );
+                                                }),
+                                              ],
+                                            ),
+                                          )
                                           : statusOfUser.value.isError
                                           ? CommonErrorWidget(
                                         errorText: "",
@@ -1018,6 +1065,121 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                       )
                                           : const Center(child: CircularProgressIndicator());
                                     })),
+
+                                Column(
+                                  children: [
+                                    if (check == true)
+                                      statusOfSingle.value.isSuccess
+                                          ? Column(
+                                        children: [
+                                          if (single.value.data!.isEmpty) const Text("No Record found"),
+                                          GridView.builder(
+                                            padding: EdgeInsets.zero,
+                                            shrinkWrap: true,
+                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 3,
+                                              // Number of columns
+                                              crossAxisSpacing: 10.0,
+                                              // Spacing between columns
+                                              mainAxisSpacing: 10.0, // Spacing between rows
+                                            ),
+                                            itemCount: single.value.data!.length,
+                                            // Total number of items
+                                            itemBuilder: (BuildContext context, int index) {
+                                              // You can replace the Container with your image widget
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  print(
+                                                    "id:::::::::::::::::::::::::::::" +
+                                                        single.value.data![index].id.toString(),
+                                                  );
+                                                  Get.toNamed(
+                                                    MyRouters.recommendationSingleScreen,
+                                                    arguments: [
+                                                      single.value.data![index].id.toString(),
+                                                    ],
+                                                  );
+                                                  print("object");
+                                                },
+                                                child: CachedNetworkImage(
+                                                  imageUrl: single.value.data![index].image.toString(),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      )
+                                          : statusOfSingle.value.isError
+                                          ? CommonErrorWidget(
+                                        errorText: "",
+                                        onTap: () {},
+                                      )
+                                          : const Center(child: SizedBox()),
+                                    if (check == false)
+                                    // if (profileController.modal.value.data!.myRecommandation!.isEmpty)
+                                    //   const Text("No data found "),
+                                      statusOfUser.value.isSuccess
+                                          ? SingleChildScrollView(
+                                        child: GridView.builder(
+                                          physics: const BouncingScrollPhysics(),
+                                          padding: EdgeInsets.only(bottom: 50),
+                                          shrinkWrap: true,
+
+                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                            // Number of columns
+                                            crossAxisSpacing: 10.0,
+                                            // Spacing between columns
+                                            mainAxisSpacing: 10.0, // Spacing between rows
+                                          ),
+                                          itemCount:
+                                          userProfile.value.data!.myRecommandation!.length,
+                                          // Total number of items
+                                          itemBuilder: (BuildContext context, int index) {
+                                            // You can replace the Container with your image widget
+                                            return GestureDetector(
+                                              onTap: () {
+                                                Get.toNamed(
+                                                  MyRouters.recommendationSingleScreen,
+                                                  arguments: [
+                                                    // userProfile.value.data!.myRecommandation![index].image
+                                                    //     .toString(),
+                                                    // userProfile.value.data!.myRecommandation![index].title
+                                                    //     .toString(),
+                                                    // userProfile.value.data!.myRecommandation![index].review
+                                                    //     .toString(),
+                                                    userProfile.value.data!.myRecommandation![index].id
+                                                        .toString(),
+                                                    // userProfile.value.data!.myRecommandation![index].link
+                                                    //     .toString(),
+                                                  ],
+                                                );
+                                                print("object");
+                                              },
+                                              child: CachedNetworkImage(
+                                                imageUrl: userProfile.value.data!.myRecommandation![index].image
+                                                    .toString(),
+                                                fit: BoxFit.fill,
+                                                errorWidget: (_, __, ___) =>  const Icon(
+                                                  Icons.error_outline_outlined,
+                                                  color: Colors.red,
+                                                ),),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                          : statusOfUser.value.isError
+                                          ? CommonErrorWidget(
+                                        errorText: "",
+                                        onTap: () {},
+                                      )
+                                          : const Center(child: SizedBox()),
+                                    SizedBox(
+                                      height: 300,
+                                    )
+                                  ],
+                                ),
                                 GridView.builder(
                                   padding: EdgeInsets.zero,
                                   shrinkWrap: true,

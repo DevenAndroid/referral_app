@@ -39,6 +39,7 @@ class Data {
   bool? wishlist;
   bool? isLike;
   String? date;
+  int? likeCount;
 
   Data(
       {this.id,
@@ -51,7 +52,8 @@ class Data {
         this.status,
         this.wishlist,
         this.isLike,
-        this.date});
+        this.date,
+      this.likeCount});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -65,6 +67,7 @@ class Data {
     wishlist = json['wishlist'];
     isLike = json['is_like'];
     date = json['date'];
+    likeCount = json['like_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -82,6 +85,7 @@ class Data {
     data['wishlist'] = this.wishlist;
     data['is_like'] = this.isLike;
     data['date'] = this.date;
+    data['like_count'] = this.likeCount;
     return data;
   }
 }

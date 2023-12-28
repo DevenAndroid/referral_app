@@ -12,6 +12,7 @@ import '../repositories/follower_list_repo.dart';
 import '../repositories/following_list_repo.dart';
 import '../repositories/unfollow_repo.dart';
 import '../resourses/api_constant.dart';
+import '../routers/routers.dart';
 import '../widgets/app_assets.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
@@ -176,50 +177,56 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                               itemBuilder: (context, index) {
                                                 return Column(
                                                   children: [
-                                                    Container(
-                                                      padding: const EdgeInsets.all(10),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius: BorderRadius.circular(10),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color: const Color(0xFF5F5F5F).withOpacity(0.2),
-                                                              offset: const Offset(0.0, 0.2),
-                                                              blurRadius: 2,
-                                                            ),
-                                                          ]),
-                                                      child: Row(
-                                                        children: [
-                                                          ClipOval(
-                                                            child: CachedNetworkImage(
-                                                              width: 50,
-                                                              height: 50,
-                                                              fit: BoxFit.cover,
-                                                              imageUrl: followerList
-                                                                  .value.data![index].following!.profileImage
-                                                                  .toString(),
-                                                              errorWidget: (_, __, ___) => Image.asset(
-                                                                AppAssets.img,
-                                                                color: Colors.grey.shade200,
+                                                    GestureDetector(
+                                                      onTap : (){
+                                                        Get.toNamed(MyRouters.allUserProfileScreen, arguments: [followerList
+                                                            .value.data![index].following!.id.toString()]);
+                                                      },
+                                                      child: Container(
+                                                        padding: const EdgeInsets.all(10),
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius: BorderRadius.circular(10),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: const Color(0xFF5F5F5F).withOpacity(0.2),
+                                                                offset: const Offset(0.0, 0.2),
+                                                                blurRadius: 2,
                                                               ),
-                                                              placeholder: (_, __) => Image.asset(
-                                                                AppAssets.img,
-                                                                color: Colors.grey.shade200,
+                                                            ]),
+                                                        child: Row(
+                                                          children: [
+                                                            ClipOval(
+                                                              child: CachedNetworkImage(
+                                                                width: 50,
+                                                                height: 50,
+                                                                fit: BoxFit.cover,
+                                                                imageUrl: followerList
+                                                                    .value.data![index].following!.profileImage
+                                                                    .toString(),
+                                                                errorWidget: (_, __, ___) => Image.asset(
+                                                                  AppAssets.img,
+                                                                  color: Colors.grey.shade200,
+                                                                ),
+                                                                placeholder: (_, __) => Image.asset(
+                                                                  AppAssets.img,
+                                                                  color: Colors.grey.shade200,
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 20,
-                                                          ),
-                                                          Text(
-                                                            followerList.value.data![index].following!.name.toString(),
-                                                            style: GoogleFonts.mulish(
-                                                                fontWeight: FontWeight.w400,
-                                                                // letterSpacing: 1,
-                                                                fontSize: 17,
-                                                                color: Colors.black),
-                                                          ),
-                                                        ],
+                                                            const SizedBox(
+                                                              width: 20,
+                                                            ),
+                                                            Text(
+                                                              followerList.value.data![index].following!.name.toString(),
+                                                              style: GoogleFonts.mulish(
+                                                                  fontWeight: FontWeight.w400,
+                                                                  // letterSpacing: 1,
+                                                                  fontSize: 17,
+                                                                  color: Colors.black),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                     const SizedBox(
@@ -235,7 +242,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                             errorText: "",
                                             onTap: () {},
                                           )
-                                        : const Center(child: Center(child: CircularProgressIndicator()));
+                                        : const Center(child: Center(child: Center(child: CircularProgressIndicator())));
                               }),
                             )
                           ],
@@ -270,78 +277,84 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                               itemBuilder: (context, index) {
                                                 return Column(
                                                   children: [
-                                                    Container(
-                                                      padding: const EdgeInsets.all(10),
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(10),
-                                                      ),
-                                                      child: Row(
-                                                        children: [
-                                                          ClipOval(
-                                                            child: CachedNetworkImage(
-                                                              width: 50,
-                                                              height: 50,
-                                                              fit: BoxFit.cover,
-                                                              imageUrl: followingList
-                                                                  .value.data![index].following!.profileImage
-                                                                  .toString(),
-                                                              errorWidget: (_, __, ___) => SizedBox(),
-                                                              placeholder: (_, __) => SizedBox(),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 20,
-                                                          ),
-
-
-                                                          Text(
-                                                            followingList.value.data![index].following!.name.toString(),
-                                                            style: GoogleFonts.mulish(
-                                                                fontWeight: FontWeight.w400,
-                                                                // letterSpacing: 1,
-                                                                fontSize: 17,
-                                                                color: Colors.black),
-                                                          ),
-                                                          Spacer(),
-
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              unFollowRepo(
-                                                                context: context,
-                                                                following_id: followingList.value.data![index].following!.id
+                                                    GestureDetector(
+                                                      onTap : (){
+                                                        Get.toNamed(MyRouters.allUserProfileScreen, arguments: [followingList
+                                                            .value.data![index].following!.id.toString()]);
+                                                      },
+                                                      child: Container(
+                                                        padding: const EdgeInsets.all(10),
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(10),
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            ClipOval(
+                                                              child: CachedNetworkImage(
+                                                                width: 50,
+                                                                height: 50,
+                                                                fit: BoxFit.cover,
+                                                                imageUrl: followingList
+                                                                    .value.data![index].following!.profileImage
                                                                     .toString(),
-                                                              ).then((value) async {
-                                                                unfollowModel.value = value;
-                                                                if (value.status == true) {
-                                                                  statusOfUnfollow.value = RxStatus.success();
-                                                                  listFollowing();
-                                                                  showToast(value.message.toString());
-                                                                } else {
-                                                                  statusOfUnfollow.value = RxStatus.error();
-                                                                  showToast(value.message.toString());
-                                                                }
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              height: 30,
-                                                              width:110,
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(5),
-                                                                  border: Border.all(color: AppTheme.secondaryColor)),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  "Unfollow",
-                                                                  style: GoogleFonts.mulish(
-                                                                      fontWeight: FontWeight.w500,
-                                                                      // letterSpacing: 1,
-                                                                      fontSize: 15,
-                                                                      color: AppTheme.secondaryColor),
-                                                                ),
+                                                                errorWidget: (_, __, ___) => SizedBox(),
+                                                                placeholder: (_, __) => SizedBox(),
                                                               ),
                                                             ),
-                                                          )
-                                                        ],
+                                                            const SizedBox(
+                                                              width: 20,
+                                                            ),
+
+
+                                                            Text(
+                                                              followingList.value.data![index].following!.name.toString(),
+                                                              style: GoogleFonts.mulish(
+                                                                  fontWeight: FontWeight.w400,
+                                                                  // letterSpacing: 1,
+                                                                  fontSize: 17,
+                                                                  color: Colors.black),
+                                                            ),
+                                                            Spacer(),
+
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                unFollowRepo(
+                                                                  context: context,
+                                                                  following_id: followingList.value.data![index].following!.id
+                                                                      .toString(),
+                                                                ).then((value) async {
+                                                                  unfollowModel.value = value;
+                                                                  if (value.status == true) {
+                                                                    statusOfUnfollow.value = RxStatus.success();
+                                                                    listFollowing();
+                                                                    showToast(value.message.toString());
+                                                                  } else {
+                                                                    statusOfUnfollow.value = RxStatus.error();
+                                                                    showToast(value.message.toString());
+                                                                  }
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                height: 30,
+                                                                width:110,
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(5),
+                                                                    border: Border.all(color: AppTheme.secondaryColor)),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "Unfollow",
+                                                                    style: GoogleFonts.mulish(
+                                                                        fontWeight: FontWeight.w500,
+                                                                        // letterSpacing: 1,
+                                                                        fontSize: 15,
+                                                                        color: AppTheme.secondaryColor),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                     const SizedBox(
@@ -353,7 +366,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                         ],
                                       )
 
-                                        : const Center(child: Center(child: CircularProgressIndicator()));
+                                        : const Center(child: Center(child: Center(child: CircularProgressIndicator())));
                               }),
                             )
                           ],
