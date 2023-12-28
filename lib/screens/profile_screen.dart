@@ -786,9 +786,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                               padding: const EdgeInsets.all(8.0),
                                                               child: GestureDetector(
                                                                 onTap: () {
+                                                                  print('id is${profileController.modal.value.data!.myCategories![index].id.toString()}');
+                                                                  print('id is${profileController.modal.value.data!.user!.id.toString()}');
                                                                   getSingleRepo(
                                                                           category_id:
-                                                                              categories.value.data![index].id.toString())
+                                                                          profileController.modal.value.data!.myCategories![index].id.toString(),
+                                                                  userId:   profileController.modal.value.data!.user!.id.toString()
+                                                                  )
                                                                       .then((value) {
                                                                     single.value = value;
                                                                     if (value.status == true) {
@@ -937,7 +941,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                 profileController
                                                                     .modal.value.data!.myRecommandation![index].link
                                                                     .toString(),
-                                                              ],
+                                                                ],
                                                             );
                                                             print("object");
                                                           },
@@ -946,7 +950,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                   .modal.value.data!.myRecommandation![index].image
                                                                   .toString(),
                                                               fit: BoxFit.fill,
-                                                              errorWidget: (_, __, ___) => SizedBox()),
+                                                              errorWidget: (_, __, ___) =>  const Icon(
+                                                          Icons.error_outline_outlined,
+                                                          color: Colors.red,
+                                                        ),),
                                                         );
                                                       },
                                                     ),

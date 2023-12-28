@@ -276,6 +276,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                         file1: categoryFile,
                       ).then((value) async {
                         if (value.status == true) {
+                          profileController.getData();
                           Get.back();
                           // Get.toNamed(MyRouters.followingScreen);
                           showToast(value.message.toString());
