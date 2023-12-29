@@ -10,6 +10,7 @@ class ProfileController extends GetxController {
   TextEditingController mobileController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   RxString selectedValue = 'Public'.obs;
+  bool check = false;
   final categoriesController = TextEditingController();
   final idController = TextEditingController();
   var profileDrawer = 0;

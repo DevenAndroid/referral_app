@@ -37,6 +37,7 @@ import '../resourses/api_constant.dart';
 import '../routers/routers.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
+import 'category_viewAll_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -224,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   bool showFloatingActionButton = false;
 
   // String selectedValue = 'friends';
-  bool check = false;
+
   String post = "";
 
   final bottomController = Get.put(BottomNavBarController());
@@ -709,7 +710,32 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      check = false;
+                                      Get.to(()=> const CategoryViewAllScreen(),transition: Transition.fadeIn);
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(bottom: height * .04),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(2),
+                                        decoration:
+                                        BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                        child: const CircleAvatar(
+                                            radius: 35,
+                                            backgroundColor: Colors.transparent,
+                                            child: Text(
+                                              'Categories List',
+                                              style: TextStyle(color: Colors.black, fontSize: 14),
+                                              textAlign: TextAlign.center,
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      profileController.check = false;
                                       all();
                                       setState(() {});
                                     },
@@ -760,7 +786,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               single.value = value;
                                                               if (value.status == true) {
                                                                 statusOfSingle.value = RxStatus.success();
-                                                                check = true;
+                                                                profileController.check = true;
                                                                 setState(() {});
                                                               } else {
                                                                 statusOfSingle.value = RxStatus.error();
@@ -804,7 +830,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 ],
                               ),
                             ),
-                            if (check == true)
+                            if ( profileController.check == true)
                               statusOfSingle.value.isSuccess
                                   ? Column(
                                       children: [
@@ -852,7 +878,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                           onTap: () {},
                                         )
                                       : const Center(child: SizedBox()),
-                            if (check == false)
+                            if ( profileController.check == false)
                               statusOfAllRecommendation.value.isSuccess
                                   ?
                               // SizedBox(
