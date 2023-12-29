@@ -293,7 +293,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ],
               bottom: TabBar(
                 controller: _tabController,
-
+                labelColor:  const Color(0xFF3797EF),
+                unselectedLabelColor: Colors.black,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorColor: AppTheme.primaryColor,
                 indicatorPadding: const EdgeInsets.symmetric(horizontal: 15),
@@ -305,16 +306,23 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 tabs: [
                   Tab(
                     child: Text("Recco Feed",
-                        style: currentDrawer == 0
-                            ? GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 15, color: const Color(0xFF3797EF))
-                            : GoogleFonts.mulish(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)),
-                  ),
+                        style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.w700, fontSize: 15,
+                        ),
+                        // style: currentDrawer == 0
+                        //     ? GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 15, color: const Color(0xFF3797EF))
+                        //     : GoogleFonts.mulish(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)
+                ),),
                   Tab(
                     child: Text("Discover",
-                        style: currentDrawer == 1
-                            ? GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
-                            : GoogleFonts.mulish(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)),
+                      style: GoogleFonts.mulish(
+                        fontWeight: FontWeight.w700, fontSize: 15,
+                      ),
+                        // style: currentDrawer == 1
+                        //     ? GoogleFonts.mulish(
+                        //         fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
+                        //     : GoogleFonts.mulish(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)
+                    ),
                   ),
                 ],
               ),

@@ -397,13 +397,14 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TabBar(
+                                      labelColor:  const Color(0xFF3797EF),
+                                      unselectedLabelColor: Colors.black,
                                       controller: _tabController,
                                       padding: EdgeInsets.zero,
                                       dividerColor: Colors.transparent,
                                       tabAlignment: TabAlignment.start,
                                       isScrollable: true,
-                                      labelColor: Colors.blue,
-                                      labelStyle: const TextStyle(color: Colors.blue),
+                                      // labelStyle: const TextStyle(color: Colors.blue),
                                       physics: const AlwaysScrollableScrollPhysics(),
                                       // indicatorSize: TabBarIndicatorSize.tab,
                                       indicatorColor: AppTheme.primaryColor,
@@ -417,45 +418,63 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       tabs: [
                                         Tab(
                                           child: Text("My Requests",
-                                              style: currentDrawer == 0
-                                                  ? GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
-                                                      letterSpacing: 1,
-                                                      fontSize: 15,
-                                                      color: const Color(0xFF3797EF))
-                                                  : GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
-                                                      letterSpacing: 1,
-                                                      fontSize: 15,
-                                                      color: Colors.black)),
+                                            style: GoogleFonts.mulish(
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 1,
+                                              fontSize: 15,
+                                            ),
+                                              // style: currentDrawer == 0
+                                              //     ? GoogleFonts.mulish(
+                                              //         fontWeight: FontWeight.w600,
+                                              //         letterSpacing: 1,
+                                              //         fontSize: 15,
+                                              //         color: const Color(0xFF3797EF))
+                                              //     : GoogleFonts.mulish(
+                                              //         fontWeight: FontWeight.w600,
+                                              //         letterSpacing: 1,
+                                              //         fontSize: 15,
+                                              //         color: Colors.black)
+                                          ),
                                         ),
                                         Tab(
                                           child: Text("My recommendations",
-                                              style: currentDrawer == 1
-                                                  ? GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
-                                                      letterSpacing: 1,
-                                                      fontSize: 15,
-                                                      color: const Color(0xFF3797EF))
-                                                  : GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
-                                                      letterSpacing: 1,
-                                                      fontSize: 15,
-                                                      color: Colors.black)),
+                                            style: GoogleFonts.mulish(
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 1,
+                                              fontSize: 15,
+                                            ),
+                                              // style: currentDrawer == 1
+                                              //     ? GoogleFonts.mulish(
+                                              //         fontWeight: FontWeight.w600,
+                                              //         letterSpacing: 1,
+                                              //         fontSize: 15,
+                                              //         color: const Color(0xFF3797EF))
+                                              //     : GoogleFonts.mulish(
+                                              //         fontWeight: FontWeight.w600,
+                                              //         letterSpacing: 1,
+                                              //         fontSize: 15,
+                                              //         color: Colors.black)
+                                          ),
                                         ),
                                         Tab(
                                           child: Text("Saved recommendations",
-                                              style: currentDrawer == 2
-                                                  ? GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
-                                                      letterSpacing: 1,
-                                                      fontSize: 15,
-                                                      color: const Color(0xFF3797EF))
-                                                  : GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
-                                                      letterSpacing: 1,
-                                                      fontSize: 15,
-                                                      color: Colors.black)),
+                                            style: GoogleFonts.mulish(
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 1,
+                                              fontSize: 15,
+                                            ),
+                                              // style: currentDrawer == 2
+                                              //     ? GoogleFonts.mulish(
+                                              //         fontWeight: FontWeight.w600,
+                                              //         letterSpacing: 1,
+                                              //         fontSize: 15,
+                                              //         color: const Color(0xFF3797EF))
+                                              //     : GoogleFonts.mulish(
+                                              //         fontWeight: FontWeight.w600,
+                                              //         letterSpacing: 1,
+                                              //         fontSize: 15,
+                                              //         color: Colors.black)
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -741,6 +760,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,

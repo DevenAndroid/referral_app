@@ -363,8 +363,8 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 controller: _tabController,
                                 padding: EdgeInsets.zero,
                                 isScrollable: true,
-                                labelColor: Colors.blue,
-                                labelStyle: TextStyle(color: Colors.blue),
+                                labelColor:  const Color(0xFF3797EF),
+                                unselectedLabelColor: Colors.black,
                                 dividerColor: Colors.transparent,
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 // indicatorSize: TabBarIndicatorSize.tab,
@@ -379,27 +379,37 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 tabs: [
                                   Tab(
                                     child: Text("Recco Feed",
-                                        style: currentDrawer == 0
-                                            ? GoogleFonts.mulish(
+                                        style: GoogleFonts.mulish(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 14,
-                                            color: const Color(0xFF3797EF))
-                                            : GoogleFonts.mulish(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            color: Colors.black)),
+                                          )
+                                        // currentDrawer == 0
+                                        //     ? GoogleFonts.mulish(
+                                        //     fontWeight: FontWeight.w400,
+                                        //     fontSize: 14,
+                                        //     color: const Color(0xFF3797EF))
+                                        //     : GoogleFonts.mulish(
+                                        //     fontWeight: FontWeight.w400,
+                                        //     fontSize: 14,
+                                        //     color: Colors.black)
+                                    ),
                                   ),
                                   Tab(
                                     child: Text("Recommendations",
-                                        style: currentDrawer == 1
-                                            ? GoogleFonts.mulish(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            color: const Color(0xFF3797EF))
-                                            : GoogleFonts.mulish(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            color: Colors.black)),
+                                        style: GoogleFonts.mulish(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                        )
+                                        // style: currentDrawer == 1
+                                        //     ? GoogleFonts.mulish(
+                                        //     fontWeight: FontWeight.w400,
+                                        //     fontSize: 14,
+                                        //     color: const Color(0xFF3797EF))
+                                        //     : GoogleFonts.mulish(
+                                        //     fontWeight: FontWeight.w400,
+                                        //     fontSize: 14,
+                                        //     color: Colors.black)
+                                    ),
                                   ),
                                   // Tab(
                                   //   child: Text("Saved recommendations",

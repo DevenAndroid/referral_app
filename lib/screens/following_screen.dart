@@ -106,6 +106,8 @@ class _FollowingScreenState extends State<FollowingScreen> {
                 ),
               ),
               bottom: TabBar(
+                labelColor:  const Color(0xFF3797EF),
+                unselectedLabelColor: Colors.black,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorColor: AppTheme.primaryColor,
                 indicatorPadding: const EdgeInsets.symmetric(horizontal: 15),
@@ -117,19 +119,25 @@ class _FollowingScreenState extends State<FollowingScreen> {
                 tabs: [
                   Tab(
                     child: Text("Followers $follower",
-                        style: profileController.profileDrawer == 0
-                            ? GoogleFonts.mulish(
-                                fontWeight: FontWeight.w400,  fontSize: 14, color: const Color(0xFF3797EF))
-                            : GoogleFonts.mulish(
-                                fontWeight: FontWeight.w400,  fontSize: 14, color: Colors.black)),
+                        style:  GoogleFonts.mulish(
+                            fontWeight: FontWeight.w400,  fontSize: 14),
+                        // style: profileController.profileDrawer == 0
+                        //     ? GoogleFonts.mulish(
+                        //         fontWeight: FontWeight.w400,  fontSize: 14, color: const Color(0xFF3797EF))
+                        //     : GoogleFonts.mulish(
+                        //         fontWeight: FontWeight.w400,  fontSize: 14, color: Colors.black)
+                    ),
                   ),
                   Tab(
                     child: Text("Following $following",
-                        style: profileController.profileDrawer == 1
-                            ? GoogleFonts.mulish(
-                                fontWeight: FontWeight.w400, fontSize: 14, color: const Color(0xFF3797EF))
-                            : GoogleFonts.mulish(
-                                fontWeight: FontWeight.w400,  fontSize: 14, color: Colors.black)),
+                      style:  GoogleFonts.mulish(
+                          fontWeight: FontWeight.w400,  fontSize: 14),
+                        // style: profileController.profileDrawer == 1
+                        //     ? GoogleFonts.mulish(
+                        //         fontWeight: FontWeight.w400, fontSize: 14, color: const Color(0xFF3797EF))
+                        //     : GoogleFonts.mulish(
+                        //         fontWeight: FontWeight.w400,  fontSize: 14, color: Colors.black)
+                    ),
                   ),
                 ],
               ),
