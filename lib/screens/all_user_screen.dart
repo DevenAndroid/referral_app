@@ -369,7 +369,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 // indicatorSize: TabBarIndicatorSize.tab,
                                 indicatorColor: AppTheme.primaryColor,
-
+                                 tabAlignment: TabAlignment.start,
                                 // automaticIndicatorColorAdjustment: true,
                                 onTap: (value) {
                                   currentDrawer = value;
@@ -1075,6 +1075,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                           if (single.value.data!.isEmpty) const Text("No Record found"),
                                           GridView.builder(
                                             padding: EdgeInsets.zero,
+                                            physics: NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 3,
@@ -1180,52 +1181,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                     )
                                   ],
                                 ),
-                                GridView.builder(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
 
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    // Number of columns
-                                    crossAxisSpacing: 8.0,
-                                    // Spacing between columns
-                                    mainAxisSpacing: 2.0, // Spacing between rows
-                                  ),
-                                  itemCount: userProfile.value.data!.myRecommandation!.length,
-                                  // Total number of items
-                                  itemBuilder: (BuildContext context, int index) {
-                                    // You can replace the Container with your image widget
-                                    return
-
-                                      Column(
-                                        children: [
-                                          if(userProfile.value.data!.myRecommandation!.isEmpty)
-                                            Text("No Record Found "),
-                                          GestureDetector(
-                                          onTap: () {
-                                            Get.toNamed(
-                                              MyRouters.singleScreen,
-                                              arguments: [
-                                                userProfile.value.data!.myRecommandation![index].image.toString(),
-                                                userProfile.value.data!.myRecommandation![index].title.toString(),
-                                                userProfile.value.data!.myRecommandation![index].review.toString(),
-                                                userProfile.value.data!.myRecommandation![index].id.toString(),
-                                                userProfile.value.data!.myRecommandation![index].link.toString(),
-                                              ],
-                                            );
-                                            print("object");
-                                          },
-                                          child: CachedNetworkImage(
-                                            imageUrl: userProfile.value.data!.myRecommandation![index].image.toString(),
-
-                                            // errorWidget: (context, url, error) => const SizedBox(),
-                                            fit: BoxFit.fill,
-                                          ),
-                                                                              ),
-                                        ],
-                                      );
-                                  },
-                                ),
                               ],
                             ),
                           ),
@@ -1515,7 +1471,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                   errorText: "",
                   onTap: () {},
                 )
-                    : const Center(child: Center(child: CircularProgressIndicator()));
+                    : const Center(child: CircularProgressIndicator());
               })),
         ),
       ),

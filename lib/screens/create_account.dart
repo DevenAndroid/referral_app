@@ -111,15 +111,16 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 fontSize: 18,
                 color:const Color(0xFF262626)
             ),),
-          leading:GestureDetector(
-            onTap: (){
-              Get.back();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: SvgPicture.asset(AppAssets.arrowBack),
-            ),
-          )
+          // leading:GestureDetector(
+          //   onTap: (){
+          //     Get.back();
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(14.0),
+          //     child: SvgPicture.asset(AppAssets.arrowBack),
+          //   ),
+          // )
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Form(
