@@ -230,8 +230,8 @@ class _SingleScreenState extends State<SingleScreen> {
                           );
                         },
                         child: Text(
-                          link.toString(),
-                          style: GoogleFonts.mulish(fontWeight: FontWeight.w500, fontSize: 12, color: Color(0xFF3797EF)),
+                          link == '' ? '' : "Link",
+                          style: GoogleFonts.mulish(fontWeight: FontWeight.w500, fontSize: 15, color: Color(0xFF3797EF)),
                         ),
                       ),
                       SizedBox(

@@ -188,6 +188,13 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                 const SizedBox(
                   height: 15,
                 ),
+                Text(
+                  "Photo Inspiration/Direction",
+                  style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
                 _imageUrl.isNotEmpty
                     ? GestureDetector(onTap: (){
                   _showActionSheet(context);

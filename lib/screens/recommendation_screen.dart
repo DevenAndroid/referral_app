@@ -112,7 +112,7 @@ var postid = Get.arguments[0];
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Add Your Recommendation   Post id $postid",
+                      "Add Your Recommendation",
                       style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 16, color: const Color(0xFF3797EF)),
                     ),
                     GestureDetector(
@@ -187,6 +187,13 @@ var postid = Get.arguments[0];
                     hintText: "Furniture"),
                 const SizedBox(
                   height: 15,
+                ),
+                Text(
+                  "Photo Inspiration/Direction",
+                  style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
+                ),
+                const SizedBox(
+                  height: 12,
                 ),
                 _imageUrl.isNotEmpty
                     ? GestureDetector(onTap: (){

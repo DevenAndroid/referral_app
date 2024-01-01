@@ -26,8 +26,7 @@ class _CategoryViewAllScreenState extends State<CategoryViewAllScreen> {
   Rx<CategoriesModel> categories = CategoriesModel().obs;
   Rx<RxStatus> statusOfCategories = RxStatus.empty().obs;
   final profileController = Get.put(ProfileController());
-  Rx<SingleProduct> single = SingleProduct().obs;
-  Rx<RxStatus> statusOfSingle = RxStatus.empty().obs;
+
   chooseCategories1() {
     getCategoriesRepo().then((value) {
       categories.value = value;
@@ -45,6 +44,7 @@ class _CategoryViewAllScreenState extends State<CategoryViewAllScreen> {
   void initState() {
     super.initState();
     chooseCategories1();
+    profileController.getSingleData();
   }
   @override
   Widget build(BuildContext context) {
@@ -85,21 +85,15 @@ class _CategoryViewAllScreenState extends State<CategoryViewAllScreen> {
                     return InkWell(
                       onTap: () {
                         print("id::::${categories.value.data![index].id}");
-                        getSingleRepoWithOut(
-                          category_id: categories.value.data![index].id.toString(),
-                          userId:  profileController.modal.value.data!.user!.id.toString()).then((value) {
-                          single.value = value;
-                          if (value.status == true) {
-                            statusOfSingle.value = RxStatus.success();
-                            profileController.check = true;
-                            setState(() {});
-                          } else {
-                            statusOfSingle.value = RxStatus.error();
-                          }
-                          setState(() {});
+                        print("id::::${profileController.modal.value.data!.user!.id.toString()}");
+                        profileController.getSingleData(categoryId: categories.value.data![index].id.toString(),
+                            userId: profileController.modal.value.data!.user!.id.toString()).then((value) {
                           Get.back();
-                          // showToast(value.message.toString());
+                          setState(() {
+                          });
+
                         });
+
                       },
                       borderRadius: BorderRadius.circular(10),
                       child: Container(

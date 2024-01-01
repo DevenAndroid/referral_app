@@ -975,6 +975,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
                                     height: size.height * .15,
@@ -1606,66 +1607,83 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                   ),
                                                 ),
                                                 Spacer(),
-                                                GestureDetector(
-                                                    onTap: () {
+                                                Column(
+                                                  children: [
+                                                    GestureDetector(
+                                                        onTap: () {
 
-                                                      addRemoveLikeRepo(
-                                                        context: context,
-                                                        recommended_id: modelReviewList.value.data![index].id.toString(),
-                                                      ).then((value) async {
-                                                        // userProfile.value = value;
-                                                        if (value.status == true) {
-                                                          print('wishlist-----');
-                                                          statusOfRemove.value = RxStatus.success();
-                                                          // getReviewListRepo(context: context, id: modelReviewList.value.data![index].id.toString(),).then((value) {
-                                                          //   modelReviewList.value = value;
-                                                          //
-                                                          //   if (value.status == true) {
-                                                          //     statusOfReviewList.value = RxStatus.success();
-                                                          //   } else {
-                                                          //     statusOfReviewList.value = RxStatus.error();
-                                                          //   }
-                                                          //   setState(() {});
-                                                          // });
-                                                          // like=true;
-                                                          showToast(value.message.toString());
-                                                        } else {
-                                                          statusOfRemove.value = RxStatus.error();
-                                                          // like=false;
-                                                          showToast(value.message.toString());
-                                                        }
-                                                      });  setState(() {
-                                                      });// home.value.data!.discover![index].wishlist.toString();
-                                                    },
-                                                    child: modelReviewList.value.data![index].isLike ==
-                                                        true
-                                                        ?  SvgPicture.asset(AppAssets.heart,height: 26,)
-                                                        :
-                                                    const Image(
-                                                      image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
-                                                      height: 25,
-                                                    )
+                                                          addRemoveLikeRepo(
+                                                            context: context,
+                                                            recommended_id: modelReviewList.value.data![index].id.toString(),
+                                                          ).then((value) async {
+                                                            // userProfile.value = value;
+                                                            if (value.status == true) {
+                                                              print('wishlist-----');
+                                                              statusOfRemove.value = RxStatus.success();
+                                                              // getReviewListRepo(context: context, id: modelReviewList.value.data![index].id.toString(),).then((value) {
+                                                              //   modelReviewList.value = value;
+                                                              //
+                                                              //   if (value.status == true) {
+                                                              //     statusOfReviewList.value = RxStatus.success();
+                                                              //   } else {
+                                                              //     statusOfReviewList.value = RxStatus.error();
+                                                              //   }
+                                                              //   setState(() {});
+                                                              // });
+                                                              // like=true;
+                                                              showToast(value.message.toString());
+                                                            } else {
+                                                              statusOfRemove.value = RxStatus.error();
+                                                              // like=false;
+                                                              showToast(value.message.toString());
+                                                            }
+                                                          });  setState(() {
+                                                          });// home.value.data!.discover![index].wishlist.toString();
+                                                        },
+                                                        child: modelReviewList.value.data![index].isLike ==
+                                                            true
+                                                            ?  SvgPicture.asset(AppAssets.heart,height: 26,)
+                                                            :
+                                                        const Image(
+                                                          image: AssetImage('assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                          height: 25,
+                                                        )
 
+                                                    ),
+                                                    Text(modelReviewList.value.data![index].likeCount.toString()),
+                                                  ],
                                                 )
                                               ],
                                             ),
                                             SizedBox(
-                                              height: size.height * .02,
+                                              height: size.height * .01,
+                                            ),
+                                            Text(
+                                              modelReviewList.value.data![index].title.toString(),
+                                              style: GoogleFonts.mulish(
+                                                fontWeight: FontWeight.w700,
+                                                // letterSpacing: 1,
+                                                fontSize: 18,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 8,
                                             ),
                                             Text(
                                               modelReviewList.value.data![index].review.toString(),
                                               style: GoogleFonts.mulish(
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 // letterSpacing: 1,
                                                 fontSize: 14,
                                                 color: Colors.black,
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 8,
                                             ),
                                             modelReviewList.value.data![index].link == ""
-                                                ? SizedBox()
+                                                ? const SizedBox()
                                                 : GestureDetector(
                                               onTap: () {
                                                 launchURL(
@@ -1673,10 +1691,10 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                 );
                                               },
                                               child: Text(
-                                                modelReviewList.value.data![index].link.toString(),
+                                                'Link',
                                                 style: GoogleFonts.mulish(
                                                     fontWeight: FontWeight.w500,
-                                                    fontSize: 12,
+                                                    fontSize: 15,
                                                     color: Color(0xFF3797EF)),
                                               ),
                                             ),

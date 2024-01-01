@@ -264,6 +264,7 @@ class MyRecommandation {
   String? image;
   String? status;
   bool? wishlist;
+  String? isComment;
   String? date;
 
   MyRecommandation(
@@ -277,6 +278,7 @@ class MyRecommandation {
         this.image,
         this.status,
         this.wishlist,
+        this.isComment,
         this.date});
 
   MyRecommandation.fromJson(Map<String, dynamic> json) {
@@ -290,6 +292,7 @@ class MyRecommandation {
     image = json['image'];
     status = json['status'];
     wishlist = json['wishlist'];
+    isComment = json['is_comment'];
     date = json['date'];
   }
 
@@ -307,6 +310,7 @@ class MyRecommandation {
     data['image'] = this.image;
     data['status'] = this.status;
     data['wishlist'] = this.wishlist;
+    data['is_comment'] = this.isComment;
     data['date'] = this.date;
     return data;
   }

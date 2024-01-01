@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:referral_app/routers/routers.dart';
 import 'package:referral_app/screens/edit_account_screen.dart';
+import 'package:referral_app/screens/recommendation_single_page.dart';
+import 'package:referral_app/screens/update_myRequest_screen.dart';
 import 'package:referral_app/widgets/app_assets.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,12 +15,14 @@ import 'package:url_launcher/url_launcher.dart';
 import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
 import '../models/categories_model.dart';
+import '../models/delete_recomm.dart';
 import '../models/home_page_model.dart';
 import '../models/model_review_list.dart';
 import '../models/single_product_model.dart';
 import '../repositories/categories_repo.dart';
 import '../repositories/home_pafe_repo.dart';
 import '../repositories/repo_add_like.dart';
+import '../repositories/repo_delete_recomm.dart';
 import '../repositories/repo_review_list.dart';
 import '../repositories/single_produc_repo.dart';
 import '../resourses/api_constant.dart';
@@ -54,7 +58,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   Rx<RxStatus> statusOfReviewList = RxStatus.empty().obs;
   Rx<ModelReviewList> modelReviewList = ModelReviewList().obs;
-
+  Rx<ModelDeleteRecomm> deleteRecommendation = ModelDeleteRecomm().obs;
+  Rx<RxStatus> statusOfDelete = RxStatus.empty().obs;
   getData() {
     isDataLoading2.value = false;
     homeRepo().then((value) {
@@ -177,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   var currentDrawer = 0;
 
   bool check = false;
-
+  SampleItem? selectedMenu;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -571,7 +576,139 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                         ],
                                                                       ),
                                                                     ),
-                                                                    // SvgPicture.asset(AppAssets.bookmark),
+                                                                    PopupMenuButton<SampleItem>(
+                                                                      initialValue: selectedMenu,
+                                                                      // Callback that sets the selected popup menu item.
+                                                                      onSelected: (SampleItem item) {
+                                                                        setState(() {
+                                                                          selectedMenu = item;
+                                                                        });
+                                                                      },
+                                                                      itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+                                                                        PopupMenuItem<SampleItem>(
+                                                                          value: SampleItem.itemOne,
+                                                                          onTap:  () {
+                                                                            print("object");
+                                                                            Get.to(const UpdateMyRequestScreen(), arguments: [ profileController
+                                                                                .modal.value.data!.myRequest![index].id
+                                                                                .toString()]);
+                                                                          },
+                                                                          child: InkWell(
+                                                                              onTap: () {
+                                                                                print("object");
+                                                                                Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [ profileController
+                                                                                    .modal.value.data!.myRequest![index].id
+                                                                                    .toString()]);
+                                                                              },
+                                                                              child: Text('Edit')),
+                                                                        ),
+                                                                        PopupMenuItem<SampleItem>(
+                                                                          value: SampleItem.itemTwo,
+                                                                          onTap: () {
+                                                                            showDialog<String>(
+                                                                              context: context,
+                                                                              builder: (BuildContext context) => AlertDialog(
+                                                                                title: const Text(
+                                                                                  'Are you sure to delete recommendation',
+                                                                                  style: TextStyle(fontSize: 16),
+                                                                                ),
+                                                                                actions: <Widget>[
+                                                                                  InkWell(
+                                                                                      onTap: () {
+                                                                                        Get.back();
+                                                                                        Get.back();
+                                                                                        Get.back();
+                                                                                      },
+                                                                                      child: Text("Cancel ")),
+                                                                                  SizedBox(
+                                                                                    width: 40,
+                                                                                  ),
+                                                                                  InkWell(
+                                                                                      onTap: () {
+                                                                                        deleteMyRequest(
+                                                                                          context: context,
+                                                                                          askRecommandationId : profileController
+                                                                                              .modal.value.data!.myRequest![index].id
+                                                                                              .toString(),
+                                                                                        ).then((value) async {
+                                                                                          if (value.status == true) {
+                                                                                            deleteRecommendation.value = value;
+                                                                                            profileController.getData();
+                                                                                            Get.back();
+                                                                                            Get.back();
+                                                                                            Get.back();
+                                                                                            print('wishlist-----');
+                                                                                            statusOfDelete.value = RxStatus.success();
+
+                                                                                            // like=true;
+                                                                                            showToast(value.message.toString());
+                                                                                          } else {
+                                                                                            statusOfDelete.value = RxStatus.error();
+                                                                                            // like=false;
+                                                                                            showToast(value.message.toString());
+                                                                                          }
+                                                                                        });
+                                                                                      },
+                                                                                      child: const Text('OK')),
+                                                                                ],
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                          child: InkWell(
+                                                                              onTap: () {
+                                                                                showDialog<String>(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) => AlertDialog(
+                                                                                    title: const Text(
+                                                                                      'Are you sure to delete recommendation',
+                                                                                      style: TextStyle(fontSize: 16),
+                                                                                    ),
+                                                                                    actions: <Widget>[
+                                                                                      InkWell(
+                                                                                          onTap: () {
+                                                                                            Get.back();
+                                                                                            Get.back();
+                                                                                            Get.back();
+                                                                                          },
+                                                                                          child: Text("Cancel ")),
+                                                                                      SizedBox(
+                                                                                        width: 40,
+                                                                                      ),
+                                                                                      InkWell(
+                                                                                          onTap: () {
+                                                                                            deleteRecommRepo(
+                                                                                              context: context,
+                                                                                              recommandation_id: profileController
+                                                                                                  .modal.value.data!.myRequest![index].id
+                                                                                                  .toString(),
+                                                                                            ).then((value) async {
+                                                                                              if (value.status == true) {
+                                                                                                deleteRecommendation.value = value;
+                                                                                                profileController.getData();
+                                                                                                Get.back();
+                                                                                                Get.back();
+                                                                                                Get.back();
+                                                                                                print('wishlist-----');
+                                                                                                statusOfDelete.value = RxStatus.success();
+
+                                                                                                // like=true;
+                                                                                                showToast(value.message.toString());
+                                                                                              } else {
+                                                                                                statusOfDelete.value = RxStatus.error();
+                                                                                                // like=false;
+                                                                                                showToast(value.message.toString());
+                                                                                              }
+                                                                                            });
+                                                                                          },
+                                                                                          child: const Text('OK')),
+                                                                                    ],
+                                                                                  ),
+                                                                                );
+                                                                              },
+                                                                              child: Text('Delete')),
+                                                                        ),
+                                                                      ],
+                                                                    ),
                                                                   ],
                                                                 ),
                                                                 const SizedBox(
@@ -926,9 +1063,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                 ? SingleChildScrollView(
                                                     child: GridView.builder(
                                                       physics: const BouncingScrollPhysics(),
-                                                      padding: EdgeInsets.only(bottom: 50),
+                                                      padding: const EdgeInsets.only(bottom: 50),
                                                       shrinkWrap: true,
-
                                                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                                         crossAxisCount: 3,
                                                         // Number of columns
@@ -941,39 +1077,52 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                       // Total number of items
                                                       itemBuilder: (BuildContext context, int index) {
                                                         // You can replace the Container with your image widget
-                                                        return GestureDetector(
-                                                          onTap: () {
-                                                            Get.toNamed(
-                                                              MyRouters.singleScreen,
-                                                              arguments: [
-                                                                profileController
-                                                                    .modal.value.data!.myRecommandation![index].image
-                                                                    .toString(),
-                                                                profileController
-                                                                    .modal.value.data!.myRecommandation![index].title
-                                                                    .toString(),
-                                                                profileController
-                                                                    .modal.value.data!.myRecommandation![index].review
-                                                                    .toString(),
-                                                                profileController
-                                                                    .modal.value.data!.myRecommandation![index].id
-                                                                    .toString(),
-                                                                profileController
-                                                                    .modal.value.data!.myRecommandation![index].link
-                                                                    .toString(),
-                                                                ],
-                                                            );
-                                                            print("object");
-                                                          },
-                                                          child: CachedNetworkImage(
-                                                              imageUrl: profileController
-                                                                  .modal.value.data!.myRecommandation![index].image
-                                                                  .toString(),
-                                                              fit: BoxFit.fill,
-                                                              errorWidget: (_, __, ___) =>  const Icon(
-                                                          Icons.error_outline_outlined,
-                                                          color: Colors.red,
-                                                        ),),
+                                                        return Stack(
+                                                          children: [
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                Get.toNamed(
+                                                                  MyRouters.singleScreen,
+                                                                  arguments: [
+                                                                    profileController
+                                                                        .modal.value.data!.myRecommandation![index].image
+                                                                        .toString(),
+                                                                    profileController
+                                                                        .modal.value.data!.myRecommandation![index].title
+                                                                        .toString(),
+                                                                    profileController
+                                                                        .modal.value.data!.myRecommandation![index].review
+                                                                        .toString(),
+                                                                    profileController
+                                                                        .modal.value.data!.myRecommandation![index].id
+                                                                        .toString(),
+                                                                    profileController
+                                                                        .modal.value.data!.myRecommandation![index].link
+                                                                        .toString(),
+                                                                    ],
+                                                                );
+                                                                print("object");
+                                                              },
+                                                              child: CachedNetworkImage(
+                                                                  imageUrl: profileController
+                                                                      .modal.value.data!.myRecommandation![index].image
+                                                                      .toString(),
+                                                                  fit: BoxFit.fill,
+                                                                  height: 110,
+                                                                  errorWidget: (_, __, ___) =>  const Icon(
+                                                              Icons.error_outline_outlined,
+                                                              color: Colors.red,
+                                                            ),),
+                                                            ),
+                                                            profileController
+                                                                .modal.value.data!.myRecommandation![index].isComment == "false" ?
+                                                                const SizedBox() :
+                                                             Positioned(
+                                                                top: 4,
+                                                                right: 2,
+                                                                child: Image.asset('assets/images/message_icon.png',width: 30,)
+                                                            )
+                                                          ],
                                                         );
                                                       },
                                                     ),
@@ -984,7 +1133,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                         onTap: () {},
                                                       )
                                                     : const Center(child: SizedBox()),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 300,
                                           )
                                         ],

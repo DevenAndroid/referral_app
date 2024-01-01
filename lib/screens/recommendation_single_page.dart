@@ -214,9 +214,9 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                             );
                           },
                           child: Text(
-                            single.value.data!.recommandation!.link.toString(),
+                            'Link',
                             style: GoogleFonts.mulish(
-                                fontWeight: FontWeight.w500, fontSize: 12, color: const Color(0xFF3797EF)),
+                                fontWeight: FontWeight.w500, fontSize: 15, color: const Color(0xFF3797EF)),
                           ),
                         ),
                         const SizedBox(

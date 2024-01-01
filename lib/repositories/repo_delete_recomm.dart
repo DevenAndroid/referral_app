@@ -43,3 +43,35 @@ Future<ModelDeleteRecomm> deleteRecommRepo({recommandation_id,context,}) async {
   //   Helpers.hideLoader(loader);
   //   return ModelCommonResponse(message: e.toString(), success: false);
 }
+
+Future<ModelDeleteRecomm> deleteMyRequest({askRecommandationId,context,}) async {
+  OverlayEntry loader = Helpers.overlayLoader(context);
+  Overlay.of(context)!.insert(loader);
+  var map = <String, dynamic>{};
+
+  map['askRecommandation_id'] = askRecommandationId;
+
+
+  print(map);
+  // try {
+  http.Response response = await http.post(Uri.parse(ApiUrls.deleteMyRequest),
+      headers: await getAuthHeader(),
+      body: jsonEncode(map));
+  log("delete My Request Data..${response.body}");
+  // http.Response response = await http.post(Uri.parse(ApiUrls.loginUser),
+  //     headers: await getAuthHeader(),body: jsonEncode(map) );
+
+  if (response.statusCode == 200) {
+    Helpers.hideLoader(loader);
+    print(jsonDecode(response.body));
+    return ModelDeleteRecomm.fromJson(jsonDecode(response.body));
+
+  } else {
+    Helpers.hideLoader(loader);
+    print(jsonDecode(response.body));
+    return ModelDeleteRecomm(message: jsonDecode(response.body)["message"], );
+  }
+  // }  catch (e) {
+  //   Helpers.hideLoader(loader);
+  //   return ModelCommonResponse(message: e.toString(), success: false);
+}

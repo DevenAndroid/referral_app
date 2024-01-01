@@ -100,8 +100,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   Rx<RxStatus> statusOfCategories = RxStatus.empty().obs;
   Rx<HomeModel> homeModel = HomeModel().obs;
   Rx<CategoriesModel> categories = CategoriesModel().obs;
-  Rx<RxStatus> statusOfSingle = RxStatus.empty().obs;
-  Rx<SingleProduct> single = SingleProduct().obs;
+  // Rx<RxStatus> statusOfSingle = RxStatus.empty().obs;
+  // Rx<SingleProduct> single = SingleProduct().obs;
 
   chooseCategories1() {
     getCategoriesRepo().then((value) {
@@ -241,15 +241,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             backgroundColor: const Color(0xFF3797EF).withOpacity(.04),
             floatingActionButton: showFloatingActionButton
                 ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 0).copyWith(bottom: 80),
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        Get.toNamed(MyRouters.addRecommendationScreen);
-                      },
-                      backgroundColor: Colors.transparent,
-                      child: SvgPicture.asset(AppAssets.add1),
-                    ),
-                  )
+              padding: const EdgeInsets.symmetric(vertical: 0).copyWith(bottom: 80),
+              child: FloatingActionButton(
+                onPressed: () {
+                  Get.toNamed(MyRouters.addRecommendationScreen);
+                },
+                backgroundColor: Colors.transparent,
+                child: SvgPicture.asset(AppAssets.add1),
+              ),
+            )
                 : const SizedBox(),
             appBar: AppBar(
               backgroundColor: Colors.white,
@@ -257,24 +257,24 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               leading: Obx(() {
                 return profileController.statusOfProfile.value.isSuccess
                     ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: (){
-                            // Get.toNamed(MyRouters.profileScreen);
-                            bottomController.updateIndexValue(2);
-                          },
-                          child: ClipOval(
-                            child: CachedNetworkImage(
-                                height: 100,
-                                fit: BoxFit.fill,
-                                imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
-                                errorWidget: (context, url, error) => const SizedBox()),
-                          ),
-                        ),
-                      )
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: (){
+                      // Get.toNamed(MyRouters.profileScreen);
+                      bottomController.updateIndexValue(2);
+                    },
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                          height: 100,
+                          fit: BoxFit.fill,
+                          imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
+                          errorWidget: (context, url, error) => const SizedBox()),
+                    ),
+                  ),
+                )
                     : profileController.statusOfProfile.value.isError
-                        ? const SizedBox()
-                        : const Center(child: CircularProgressIndicator());
+                    ? const SizedBox()
+                    : const Center(child: CircularProgressIndicator());
               }),
               title: Text(
                 "Home",
@@ -307,22 +307,22 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 tabs: [
                   Tab(
                     child: Text("Recco Feed",
-                        style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.w700, fontSize: 15,
-                        ),
-                        // style: currentDrawer == 0
-                        //     ? GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 15, color: const Color(0xFF3797EF))
-                        //     : GoogleFonts.mulish(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)
-                ),),
+                      style: GoogleFonts.mulish(
+                        fontWeight: FontWeight.w700, fontSize: 15,
+                      ),
+                      // style: currentDrawer == 0
+                      //     ? GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 15, color: const Color(0xFF3797EF))
+                      //     : GoogleFonts.mulish(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)
+                    ),),
                   Tab(
                     child: Text("Discover",
                       style: GoogleFonts.mulish(
                         fontWeight: FontWeight.w700, fontSize: 15,
                       ),
-                        // style: currentDrawer == 1
-                        //     ? GoogleFonts.mulish(
-                        //         fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
-                        //     : GoogleFonts.mulish(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)
+                      // style: currentDrawer == 1
+                      //     ? GoogleFonts.mulish(
+                      //         fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
+                      //     : GoogleFonts.mulish(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black)
                     ),
                   ),
                 ],
@@ -331,377 +331,379 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             body: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Obx(() {
+                  if(profileController.refreshData.value > 0){}
                   return TabBarView(controller: _tabController, children: [
                     homeController.isDataLoading.value
                         ? SingleChildScrollView(
-                            controller: scrollController,
-                            physics: const BouncingScrollPhysics(),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Obx(() {
-                                    if (homeController.refreshInt.value > 0) {}
-                                    return homeController.isDataLoading.value
-                                        ? ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: homeController.paginationWorking
-                                                ? homeController.homeModel.value.data!.discover!.length + 1
-                                                : homeController.homeModel.value.data!.discover!.length,
-                                            physics: const BouncingScrollPhysics(),
-                                            itemBuilder: (context, index) {
-                                              if (index == homeController.homeModel.value.data!.discover!.length) {
-                                                return const Center(
-                                                  child: CircularProgressIndicator(),
-                                                );
-                                              }
-                                              return Column(
+                      controller: scrollController,
+                      physics: const BouncingScrollPhysics(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Obx(() {
+                              if (homeController.refreshInt.value > 0) {}
+                              return homeController.isDataLoading.value
+                                  ? ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: homeController.paginationWorking
+                                      ? homeController.homeModel.value.data!.discover!.length + 1
+                                      : homeController.homeModel.value.data!.discover!.length,
+                                  physics: const BouncingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    if (index == homeController.homeModel.value.data!.discover!.length) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                    return Column(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(10),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: const Color(0xFF5F5F5F).withOpacity(0.2),
+                                                  offset: const Offset(0.0, 0.2),
+                                                  blurRadius: 2,
+                                                ),
+                                              ]),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
                                                 children: [
-                                                  Container(
-                                                    padding: const EdgeInsets.all(10),
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            color: const Color(0xFF5F5F5F).withOpacity(0.2),
-                                                            offset: const Offset(0.0, 0.2),
-                                                            blurRadius: 2,
-                                                          ),
-                                                        ]),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
-                                                                  homeController
-                                                                      .homeModel.value.data!.discover![index].userId!.id
-                                                                      .toString(),
-                                                                ]);
-                                                              },
-                                                              child: ClipOval(
-                                                                child: CachedNetworkImage(
-                                                                  width: 30,
-                                                                  height: 30,
-                                                                  fit: BoxFit.cover,
-                                                                  imageUrl: homeController.homeModel.value.data!
-                                                                              .discover![index].userId ==
-                                                                          null
-                                                                      ? AppAssets.man
-                                                                      : homeController.homeModel.value.data!.discover![index]
-                                                                          .userId!.profileImage
-                                                                          .toString(),
-                                                                  errorWidget: (_, __, ___) => Image.asset(
-                                                                    AppAssets.man,
-                                                                    color: Colors.grey.shade200,
-                                                                  ),
-                                                                  placeholder: (_, __) => Image.asset(
-                                                                    AppAssets.man,
-                                                                    color: Colors.grey.shade200,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                homeController.homeModel.value.data!.discover![index].userId
-                                                                            ?.name ==
-                                                                        ""
-                                                                    ? Text(
-                                                                        "Name...",
-                                                                        style: GoogleFonts.mulish(
-                                                                            fontWeight: FontWeight.w700,
-                                                                            // letterSpacing: 1,
-                                                                            fontSize: 14,
-                                                                            color: Colors.black),
-                                                                      )
-                                                                    : Text(
-                                                                        homeController.homeModel.value.data!.discover![index]
-                                                                            .userId!.name
-                                                                            .toString()
-                                                                            .capitalizeFirst
-                                                                            .toString(),
-                                                                        style: GoogleFonts.mulish(
-                                                                            fontWeight: FontWeight.w700,
-                                                                            // letterSpacing: 1,
-                                                                            fontSize: 14,
-                                                                            color: Colors.black),
-                                                                      ),
-                                                              ],
-                                                            ),
-
-                                                            const SizedBox(
-                                                              height: 15,
-                                                              width: 20,
-                                                              child: VerticalDivider(
-                                                                color: Color(0xffD9D9D9),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              homeController
-                                                                  .homeModel.value.data!.discover![index].date!.capitalize
-                                                                  .toString(),
-                                                              style: GoogleFonts.mulish(
-                                                                fontWeight: FontWeight.w300,
-                                                                // letterSpacing: 1,
-                                                                fontSize: 12,
-                                                                color: const Color(0xff878D98),
-                                                              ),
-                                                            ),
-                                                            const Spacer(),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(right: 8.0),
-                                                              child: Obx(() {
-                                                                return GestureDetector(
-                                                                  onTap: () {
-                                                                    // home.value.data!.discover![index].wishlist.toString();
-
-                                                                    bookmarkRepo(
-                                                                      context: context,
-                                                                      post_id: homeController
-                                                                          .homeModel.value.data!.discover![index].id
-                                                                          .toString(),
-                                                                      type: "askrecommandation",
-                                                                    ).then((value) async {
-                                                                      modalRemove.value = value;
-                                                                      if (value.status == true) {
-                                                                        print('wishlist-----');
-                                                                        homeController.getData();
-                                                                        statusOfRemove.value = RxStatus.success();
-                                                                        //homeController.getPaginate();
-
-                                                                        // like=true;
-                                                                        showToast(value.message.toString());
-                                                                      } else {
-                                                                        statusOfRemove.value = RxStatus.error();
-                                                                        // like=false;
-                                                                        showToast(value.message.toString());
-                                                                      }
-                                                                    });
-                                                                    setState(() {});
-                                                                  },
-                                                                  child: homeController.homeModel.value.data!
-                                                                              .discover![index].wishlist ==
-                                                                          true
-                                                                      ? SvgPicture.asset(
-                                                                          AppAssets.bookmark1,
-                                                                          height: 20,
-                                                                        )
-                                                                      : SvgPicture.asset(AppAssets.bookmark),
-                                                                );
-                                                              }),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 8,
-                                                            ),
-                                                            GestureDetector(
-                                                                onTap: () {
-                                                                  Share.share(
-                                                                    homeController
-                                                                        .homeModel.value.data!.discover![index].image
-                                                                        .toString(),
-                                                                  );
-                                                                },
-                                                                child: SvgPicture.asset(AppAssets.forward))
-                                                          ],
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                                        homeController
+                                                            .homeModel.value.data!.discover![index].userId!.id
+                                                            .toString(),
+                                                      ]);
+                                                    },
+                                                    child: ClipOval(
+                                                      child: CachedNetworkImage(
+                                                        width: 30,
+                                                        height: 30,
+                                                        fit: BoxFit.cover,
+                                                        imageUrl: homeController.homeModel.value.data!
+                                                            .discover![index].userId ==
+                                                            null
+                                                            ? AppAssets.man
+                                                            : homeController.homeModel.value.data!.discover![index]
+                                                            .userId!.profileImage
+                                                            .toString(),
+                                                        errorWidget: (_, __, ___) => Image.asset(
+                                                          AppAssets.man,
+                                                          color: Colors.grey.shade200,
                                                         ),
-                                                        const SizedBox(
-                                                          height: 15,
+                                                        placeholder: (_, __) => Image.asset(
+                                                          AppAssets.man,
+                                                          color: Colors.grey.shade200,
                                                         ),
-                                                        homeController.homeModel.value.data!.discover![index].image == ""
-                                                            ? const SizedBox()
-                                                            : ClipRRect(
-                                                                borderRadius: BorderRadius.circular(10),
-                                                                child: CachedNetworkImage(
-                                                                  width: size.width,
-                                                                  height: 200,
-                                                                  fit: BoxFit.fill,
-                                                                  imageUrl: homeController
-                                                                      .homeModel.value.data!.discover![index].image
-                                                                      .toString(),
-                                                                  placeholder: (context, url) => const SizedBox(
-                                                                    height: 0,
-                                                                  ),
-                                                                  errorWidget: (context, url, error) => const SizedBox(
-                                                                    height: 0,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Text(
-                                                          homeController.homeModel.value.data!.discover![index].title
-                                                              .toString()
-                                                              .capitalizeFirst
-                                                              .toString(),
-                                                          style: GoogleFonts.mulish(
-                                                              fontWeight: FontWeight.w700,
-                                                              // letterSpacing: 1,
-                                                              fontSize: 17,
-                                                              color: Colors.black),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Text(
-                                                          homeController.homeModel.value.data!.discover![index].description
-                                                              .toString()
-                                                              .capitalizeFirst
-                                                              .toString(),
-                                                          style: GoogleFonts.mulish(
-                                                              fontWeight: FontWeight.w300,
-                                                              // letterSpacing: 1,
-                                                              fontSize: 14,
-                                                              color: const Color(0xFF6F7683)),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  getReviewListRepo(
-                                                                          context: context,
-                                                                          id: homeController
-                                                                              .homeModel.value.data!.discover![index].id
-                                                                              .toString())
-                                                                      .then((value) {
-                                                                    modelReviewList.value = value;
-
-                                                                    if (value.status == true) {
-                                                                      statusOfReviewList.value = RxStatus.success();
-                                                                      post = homeController
-                                                                          .homeModel.value.data!.discover![index].id
-                                                                          .toString();
-                                                                      print('Id Is....${homeController.homeModel.value.data!.discover![index].id}');
-                                                                      _settingModalBottomSheet(context);
-                                                                    } else {
-                                                                      statusOfReviewList.value = RxStatus.error();
-                                                                    }
-                                                                    setState(() {});
-                                                                  });
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                padding: const EdgeInsets.only(left: 15),
-                                                                width: size.width * .45,
-                                                                height: 30,
-                                                                decoration: BoxDecoration(
-                                                                  color: const Color(0xFF3797EF).withOpacity(.09),
-                                                                  borderRadius: BorderRadius.circular(5),
-                                                                ),
-                                                                child: Row(
-                                                                  children: [
-                                                                    SvgPicture.asset(
-                                                                      AppAssets.message,
-                                                                      height: 16,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      width: 6,
-                                                                    ),
-                                                                    Text(
-                                                                      "Recommendation: ${homeController.homeModel.value.data!.discover![index].reviewCount.toString()}",
-                                                                      style: GoogleFonts.mulish(
-                                                                          fontWeight: FontWeight.w500,
-                                                                          // letterSpacing: 1,
-                                                                          fontSize: 12,
-                                                                          color: const Color(0xFF3797EF)),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                Column(
-                                                                  children: [
-                                                                    homeController
-                                                                            .homeModel.value.data!.discover![index].minPrice
-                                                                            .toString()
-                                                                            .isNotEmpty
-                                                                        ? const Text("Min Price")
-                                                                        : const Text('No Budget'),
-                                                                    homeController
-                                                                            .homeModel.value.data!.discover![index].minPrice
-                                                                            .toString()
-                                                                            .isNotEmpty
-                                                                        ? Text(
-                                                                            homeController.homeModel.value.data!
-                                                                                .discover![index].minPrice
-                                                                                .toString(),
-                                                                          )
-                                                                        : const SizedBox(),
-                                                                  ],
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                Column(
-                                                                  children: [
-                                                                    homeController
-                                                                            .homeModel.value.data!.discover![index].maxPrice
-                                                                            .toString()
-                                                                            .isNotEmpty
-                                                                        ? const Text("Max Price")
-                                                                        : const SizedBox(),
-                                                                    homeController
-                                                                            .homeModel.value.data!.discover![index].maxPrice
-                                                                            .toString()
-                                                                            .isNotEmpty
-                                                                        ? Text(
-                                                                            homeController.homeModel.value.data!
-                                                                                .discover![index].maxPrice
-                                                                                .toString(),
-                                                                          )
-                                                                        : const SizedBox(),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                      ],
+                                                      ),
                                                     ),
                                                   ),
                                                   const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      homeController.homeModel.value.data!.discover![index].userId
+                                                          ?.name ==
+                                                          ""
+                                                          ? Text(
+                                                        "Name...",
+                                                        style: GoogleFonts.mulish(
+                                                            fontWeight: FontWeight.w700,
+                                                            // letterSpacing: 1,
+                                                            fontSize: 14,
+                                                            color: Colors.black),
+                                                      )
+                                                          : Text(
+                                                        homeController.homeModel.value.data!.discover![index]
+                                                            .userId!.name
+                                                            .toString()
+                                                            .capitalizeFirst
+                                                            .toString(),
+                                                        style: GoogleFonts.mulish(
+                                                            fontWeight: FontWeight.w700,
+                                                            // letterSpacing: 1,
+                                                            fontSize: 14,
+                                                            color: Colors.black),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  const SizedBox(
                                                     height: 15,
+                                                    width: 20,
+                                                    child: VerticalDivider(
+                                                      color: Color(0xffD9D9D9),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    homeController
+                                                        .homeModel.value.data!.discover![index].date!.capitalize
+                                                        .toString(),
+                                                    style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w300,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 12,
+                                                      color: const Color(0xff878D98),
+                                                    ),
+                                                  ),
+                                                  const Spacer(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 8.0),
+                                                    child: Obx(() {
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          // home.value.data!.discover![index].wishlist.toString();
+
+                                                          bookmarkRepo(
+                                                            context: context,
+                                                            post_id: homeController
+                                                                .homeModel.value.data!.discover![index].id
+                                                                .toString(),
+                                                            type: "askrecommandation",
+                                                          ).then((value) async {
+                                                            modalRemove.value = value;
+                                                            if (value.status == true) {
+                                                              print('wishlist-----');
+                                                              homeController.getData();
+                                                              statusOfRemove.value = RxStatus.success();
+                                                              //homeController.getPaginate();
+
+                                                              // like=true;
+                                                              showToast(value.message.toString());
+                                                            } else {
+                                                              statusOfRemove.value = RxStatus.error();
+                                                              // like=false;
+                                                              showToast(value.message.toString());
+                                                            }
+                                                          });
+                                                          setState(() {});
+                                                        },
+                                                        child: homeController.homeModel.value.data!
+                                                            .discover![index].wishlist ==
+                                                            true
+                                                            ? SvgPicture.asset(
+                                                          AppAssets.bookmark1,
+                                                          height: 20,
+                                                        )
+                                                            : SvgPicture.asset(AppAssets.bookmark),
+                                                      );
+                                                    }),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  GestureDetector(
+                                                      onTap: () {
+                                                        Share.share(
+                                                          homeController
+                                                              .homeModel.value.data!.discover![index].image
+                                                              .toString(),
+                                                        );
+                                                      },
+                                                      child: SvgPicture.asset(AppAssets.forward))
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              homeController.homeModel.value.data!.discover![index].image == ""
+                                                  ? const SizedBox()
+                                                  : ClipRRect(
+                                                borderRadius: BorderRadius.circular(10),
+                                                child: CachedNetworkImage(
+                                                  width: size.width,
+                                                  height: 200,
+                                                  fit: BoxFit.fill,
+                                                  imageUrl: homeController
+                                                      .homeModel.value.data!.discover![index].image
+                                                      .toString(),
+                                                  placeholder: (context, url) => const SizedBox(
+                                                    height: 0,
+                                                  ),
+                                                  errorWidget: (context, url, error) => const SizedBox(
+                                                    height: 0,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                homeController.homeModel.value.data!.discover![index].title
+                                                    .toString()
+                                                    .capitalizeFirst
+                                                    .toString(),
+                                                style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w700,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 17,
+                                                    color: Colors.black),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                homeController.homeModel.value.data!.discover![index].description
+                                                    .toString()
+                                                    .capitalizeFirst
+                                                    .toString(),
+                                                style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w300,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 14,
+                                                    color: const Color(0xFF6F7683)),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        getReviewListRepo(
+                                                            context: context,
+                                                            id: homeController
+                                                                .homeModel.value.data!.discover![index].id
+                                                                .toString())
+                                                            .then((value) {
+                                                          modelReviewList.value = value;
+
+                                                          if (value.status == true) {
+                                                            statusOfReviewList.value = RxStatus.success();
+                                                            post = homeController
+                                                                .homeModel.value.data!.discover![index].id
+                                                                .toString();
+                                                            print('Id Is....${homeController.homeModel.value.data!.discover![index].id}');
+                                                            _settingModalBottomSheet(context);
+                                                          } else {
+                                                            statusOfReviewList.value = RxStatus.error();
+                                                          }
+                                                          setState(() {});
+                                                        });
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      padding: const EdgeInsets.only(left: 15),
+                                                      width: size.width * .45,
+                                                      height: 30,
+                                                      decoration: BoxDecoration(
+                                                        color: const Color(0xFF3797EF).withOpacity(.09),
+                                                        borderRadius: BorderRadius.circular(5),
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          SvgPicture.asset(
+                                                            AppAssets.message,
+                                                            height: 16,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 6,
+                                                          ),
+                                                          Text(
+                                                            "Recommendation: ${homeController.homeModel.value.data!.discover![index].reviewCount.toString()}",
+                                                            style: GoogleFonts.mulish(
+                                                                fontWeight: FontWeight.w500,
+                                                                // letterSpacing: 1,
+                                                                fontSize: 12,
+                                                                color: const Color(0xFF3797EF)),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Column(
+                                                        children: [
+                                                          homeController
+                                                              .homeModel.value.data!.discover![index].minPrice
+                                                              .toString()
+                                                              .isNotEmpty
+                                                              ? const Text("Min Price")
+                                                              : const Text('No Budget'),
+                                                          homeController
+                                                              .homeModel.value.data!.discover![index].minPrice
+                                                              .toString()
+                                                              .isNotEmpty
+                                                              ? Text(
+                                                            homeController.homeModel.value.data!
+                                                                .discover![index].minPrice
+                                                                .toString(),
+                                                          )
+                                                              : const SizedBox(),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Column(
+                                                        children: [
+                                                          homeController
+                                                              .homeModel.value.data!.discover![index].maxPrice
+                                                              .toString()
+                                                              .isNotEmpty
+                                                              ? const Text("Max Price")
+                                                              : const SizedBox(),
+                                                          homeController
+                                                              .homeModel.value.data!.discover![index].maxPrice
+                                                              .toString()
+                                                              .isNotEmpty
+                                                              ? Text(
+                                                            homeController.homeModel.value.data!
+                                                                .discover![index].maxPrice
+                                                                .toString(),
+                                                          )
+                                                              : const SizedBox(),
+                                                        ],
+                                                      ),
+                                                    ],
                                                   )
                                                 ],
-                                              );
-                                            }) // : statusOfHome.value.isError
-                                        /* ? CommonErrorWidget(
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 15,
+                                        )
+                                      ],
+                                    );
+                                  }) // : statusOfHome.value.isError
+                              /* ? CommonErrorWidget(
                                       errorText: "",
                                       onTap: () {},
                                     )*/
-                                        : const Center(child: CircularProgressIndicator());
-                                  })
-                                ],
-                              ),
-                            ),
-                          )
+                                  : const Center(child: CircularProgressIndicator());
+                            })
+                          ],
+                        ),
+                      ),
+                    )
                         : const Center(child: CircularProgressIndicator()),
                     SingleChildScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
@@ -743,7 +745,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                       padding: EdgeInsets.only(bottom: height * .04),
                                       child: Container(
                                         decoration:
-                                            BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                        BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
                                         child: const CircleAvatar(
                                             radius: 35,
                                             backgroundColor: Colors.transparent,
@@ -757,127 +759,111 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                   const SizedBox(
                                     width: 10,
                                   ),
-                                  SizedBox(
-                                      height: size.height * .15,
-                                      child: Obx(() {
-                                        return statusOfCategories.value.isSuccess &&
-                                                profileController.statusOfProfile.value.isSuccess
-                                            ? ListView.builder(
-                                                itemCount: categories.value.data!.length,
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.horizontal,
-                                                /*  physics:
-                                                    const AlwaysScrollableScrollPhysics(),*/
-                                                itemBuilder: (context, index) {
-                                                  return Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Column(
-                                                      children: [
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            print("id::::"+categories.value.data![index].id.toString(),);
-                                                            getSingleRepoWithOut(
-                                                                    category_id: categories.value.data![index].id.toString(),
-                                                              userId:  profileController.modal.value.data!.user!.id.toString()
-,
-                                                            )
-
-                                                                .then((value) {
-                                                              single.value = value;
-                                                              if (value.status == true) {
-                                                                statusOfSingle.value = RxStatus.success();
-                                                                profileController.check = true;
-                                                                setState(() {});
-                                                              } else {
-                                                                statusOfSingle.value = RxStatus.error();
-                                                              }
-                                                              setState(() {});
-                                                              // showToast(value.message.toString());
-                                                            });
-
-                                                          },
-                                                          child: ClipOval(
-                                                            child: CachedNetworkImage(
-                                                              width: 70,
-                                                              height: 70,
-                                                              fit: BoxFit.fill,
-                                                              imageUrl: categories.value.data![index].image.toString(),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 2,
-                                                        ),
-                                                        Text(
-                                                          categories.value.data![index].name.toString(),
-                                                          style: GoogleFonts.mulish(
-                                                              fontWeight: FontWeight.w300,
-                                                              // letterSpacing: 1,
-                                                              fontSize: 14,
-                                                              color: const Color(0xFF26282E)),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  );
-                                                })
-                                            : statusOfCategories.value.isError
-                                                ? CommonErrorWidget(
-                                                    errorText: "",
-                                                    onTap: () {},
-                                                  )
-                                                : const Center(child: CircularProgressIndicator());
-                                      })),
+                                  // SizedBox(
+                                  //     height: size.height * .15,
+                                  //     child: Obx(() {
+                                  //       return statusOfCategories.value.isSuccess &&
+                                  //               profileController.statusOfProfile.value.isSuccess
+                                  //           ? ListView.builder(
+                                  //               itemCount: categories.value.data!.length,
+                                  //               shrinkWrap: true,
+                                  //               scrollDirection: Axis.horizontal,
+                                  //               /*  physics:
+                                  //                   const AlwaysScrollableScrollPhysics(),*/
+                                  //               itemBuilder: (context, index) {
+                                  //                 return Padding(
+                                  //                   padding: const EdgeInsets.all(8.0),
+                                  //                   child: Column(
+                                  //                     children: [
+                                  //                       GestureDetector(
+                                  //                         onTap: () {
+                                  //                           print("id::::"+categories.value.data![index].id.toString(),);
+                                  //                          profileController.getSingleData(categoryId: categories.value.data![index].id.toString(),
+                                  //                              userId: profileController.modal.value.data!.user!.id.toString());
+                                  //
+                                  //                         },
+                                  //                         child: ClipOval(
+                                  //                           child: CachedNetworkImage(
+                                  //                             width: 70,
+                                  //                             height: 70,
+                                  //                             fit: BoxFit.fill,
+                                  //                             imageUrl: categories.value.data![index].image.toString(),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       const SizedBox(
+                                  //                         height: 2,
+                                  //                       ),
+                                  //                       Text(
+                                  //                         categories.value.data![index].name.toString(),
+                                  //                         style: GoogleFonts.mulish(
+                                  //                             fontWeight: FontWeight.w300,
+                                  //                             // letterSpacing: 1,
+                                  //                             fontSize: 14,
+                                  //                             color: const Color(0xFF26282E)),
+                                  //                       )
+                                  //                     ],
+                                  //                   ),
+                                  //                 );
+                                  //               })
+                                  //           : statusOfCategories.value.isError
+                                  //               ? CommonErrorWidget(
+                                  //                   errorText: "",
+                                  //                   onTap: () {},
+                                  //                 )
+                                  //               : const Center(child: CircularProgressIndicator());
+                                  //     })),
                                 ],
                               ),
                             ),
                             if ( profileController.check == true)
-                              statusOfSingle.value.isSuccess
+                              profileController.statusOfSingle.value.isSuccess
                                   ? Column(
-                                      children: [
-                                        if (single.value.data!.isEmpty) const Text("No Record found"),
-                                        GridView.builder(
-                                          padding: EdgeInsets.zero,
-                                          shrinkWrap: true,
-                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 3,
-                                            // Number of columns
-                                            crossAxisSpacing: 10.0,
-                                            // Spacing between columns
-                                            mainAxisSpacing: 10.0, // Spacing between rows
-                                          ),
-                                          itemCount: single.value.data!.length,
-                                          // Total number of items
-                                          itemBuilder: (BuildContext context, int index) {
-                                            // You can replace the Container with your image widget
-                                            return GestureDetector(
-                                              onTap: () {
-                                                print(
-                                                  "id:::::::::::::::::::::::::::::${single.value.data![index].id}",
-                                                );
-                                                Get.toNamed(
-                                                  MyRouters.recommendationSingleScreen,
-                                                  arguments: [
-                                                    single.value.data![index].id.toString(),
-                                                  ],
-                                                );
-                                                print("object");
-                                              },
-                                              child: CachedNetworkImage(
-                                                errorWidget: (context, url, error) => const SizedBox(),
-                                                imageUrl: single.value.data![index].image.toString(),
-                                                fit: BoxFit.fill,
-                                              ),
-                                            );
-                                          },
+                                children: [
+                                  if (profileController.single.value.data!.isEmpty) const Text("No Record found"),
+                                  GridView.builder(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      // Number of columns
+                                      crossAxisSpacing: 10.0,
+                                      // Spacing between columns
+                                      mainAxisSpacing: 10.0, // Spacing between rows
+                                    ),
+                                    itemCount: profileController.single.value.data!.length,
+                                    // Total number of items
+                                    itemBuilder: (BuildContext context, int index) {
+                                      // You can replace the Container with your image widget
+                                      return GestureDetector(
+                                        onTap: () {
+                                          print(
+                                            "id:::::::::::::::::::::::::::::${profileController.single.value.data![index].id}",
+                                          );
+                                          Get.toNamed(
+                                            MyRouters.recommendationSingleScreen,
+                                            arguments: [
+                                              profileController.single.value.data![index].id.toString(),
+                                            ],
+                                          );
+                                          print("object");
+                                        },
+                                        child: CachedNetworkImage(
+                                          errorWidget: (context, url, error) => const SizedBox(),
+                                          imageUrl: profileController.single.value.data![index].image.toString(),
+                                          fit: BoxFit.fill,
                                         ),
-                                      ],
-                                    )
-                                  : statusOfSingle.value.isError
-                                      ? CommonErrorWidget(
-                                          errorText: "",
-                                          onTap: () {},
-                                        )
-                                      : const Center(child: SizedBox()),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              )
+                                  : profileController.statusOfSingle.value.isError
+                                  ? CommonErrorWidget(
+                                errorText: "",
+                                onTap: () {},
+                              )
+                                  : const Center(child: SizedBox()),
                             if ( profileController.check == false)
                               statusOfAllRecommendation.value.isSuccess
                                   ?
@@ -923,55 +909,55 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               //           ),
                               //         ),
                               //       )
-                                  GridView.builder(
-                                          padding: EdgeInsets.zero,
-                                          physics: const BouncingScrollPhysics(),
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.vertical,
-                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 3,
-                                            // Number of columns
-                                            crossAxisSpacing: 10.0,
-                                            // Spacing between columns
-                                            mainAxisSpacing: 10.0, // Spacing between rows
-                                          ),
-                                          itemCount: allRecommendation.value.data!.length,
-                                          // Total number of items
-                                          itemBuilder: (BuildContext context, int index) {
-                                            // You can replace the Container with your image widget
-                                            return GestureDetector(
-                                              onTap: () {
-                                                log("tgrhtr" + allRecommendation.value.data![index].wishlist.toString());
-                                                Get.toNamed(
-                                                  MyRouters.recommendationSingleScreen,
-                                                  arguments: [
-                                                    allRecommendation.value.data![index].id.toString(),
-                                                    allRecommendation.value.data![index].image.toString(),
-                                                    allRecommendation.value.data![index].title.toString(),
-                                                    allRecommendation.value.data![index].review.toString(),
-                                                    allRecommendation.value.data![index].link.toString(),
-                                                    allRecommendation.value.data![index].wishlist,
-                                                  ],
-                                                );
-                                              },
-                                              child: CachedNetworkImage(
-                                                imageUrl: allRecommendation.value.data![index].image.toString(),
-                                                placeholder: (context, url) =>  const SizedBox(),
-                                                errorWidget: (_, __, ___) => const Icon(
-                                                  Icons.error_outline_outlined,
-                                                  color: Colors.red,
-                                                ),
-                                                fit: BoxFit.fill,
-                                              ),
-                                            );
-                                          },
-                                        )
+                              GridView.builder(
+                                padding: EdgeInsets.zero,
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  // Number of columns
+                                  crossAxisSpacing: 10.0,
+                                  // Spacing between columns
+                                  mainAxisSpacing: 10.0, // Spacing between rows
+                                ),
+                                itemCount: allRecommendation.value.data!.length,
+                                // Total number of items
+                                itemBuilder: (BuildContext context, int index) {
+                                  // You can replace the Container with your image widget
+                                  return GestureDetector(
+                                    onTap: () {
+                                      log("tgrhtr" + allRecommendation.value.data![index].wishlist.toString());
+                                      Get.toNamed(
+                                        MyRouters.recommendationSingleScreen,
+                                        arguments: [
+                                          allRecommendation.value.data![index].id.toString(),
+                                          allRecommendation.value.data![index].image.toString(),
+                                          allRecommendation.value.data![index].title.toString(),
+                                          allRecommendation.value.data![index].review.toString(),
+                                          allRecommendation.value.data![index].link.toString(),
+                                          allRecommendation.value.data![index].wishlist,
+                                        ],
+                                      );
+                                    },
+                                    child: CachedNetworkImage(
+                                      imageUrl: allRecommendation.value.data![index].image.toString(),
+                                      placeholder: (context, url) =>  const SizedBox(),
+                                      errorWidget: (_, __, ___) => const Icon(
+                                        Icons.error_outline_outlined,
+                                        color: Colors.red,
+                                      ),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  );
+                                },
+                              )
                                   : statusOfAllRecommendation.value.isError
-                                      ? CommonErrorWidget(
-                                          errorText: "",
-                                          onTap: () {},
-                                        )
-                                      : const Center(child: CircularProgressIndicator()),
+                                  ? CommonErrorWidget(
+                                errorText: "",
+                                onTap: () {},
+                              )
+                                  : const Center(child: CircularProgressIndicator()),
                             const SizedBox(height: 40,)
                           ],
                         ),
@@ -1035,197 +1021,197 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   ),
                   statusOfReviewList.value.isSuccess
                       ? SingleChildScrollView(
-                          child: Obx(() {
-                            return Column(
-                              children: [
-                                ListView.builder(
-                                  physics: const ScrollPhysics(),
-                                  itemCount: modelReviewList.value.data!.length,
-                                  scrollDirection: Axis.vertical,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(left: 8.0, top: 10),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          ClipOval(
-                                            child: CachedNetworkImage(
-                                              width: 30,
-                                              height: 30,
-                                              fit: BoxFit.cover,
-                                              imageUrl: modelReviewList.value.data![index].user!.profileImage.toString(),
-                                              placeholder: (context, url) => const SizedBox(),
-                                              errorWidget: (context, url, error) => const SizedBox(),
+                    child: Obx(() {
+                      return Column(
+                        children: [
+                          ListView.builder(
+                            physics: const ScrollPhysics(),
+                            itemCount: modelReviewList.value.data!.length,
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(left: 8.0, top: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipOval(
+                                      child: CachedNetworkImage(
+                                        width: 30,
+                                        height: 30,
+                                        fit: BoxFit.cover,
+                                        imageUrl: modelReviewList.value.data![index].user!.profileImage.toString(),
+                                        placeholder: (context, url) => const SizedBox(),
+                                        errorWidget: (context, url, error) => const SizedBox(),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                        decoration: BoxDecoration(
+                                            borderRadius: const BorderRadius.only(
+                                                bottomRight: Radius.circular(10),
+                                                bottomLeft: Radius.circular(10),
+                                                topRight: Radius.circular(10)),
+                                            color: Colors.grey.withOpacity(0.2)),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  overflow: TextOverflow.ellipsis,
+                                                  modelReviewList.value.data![index].user!.name.toString(),
+                                                  style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w600,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 15,
+                                                ),
+                                                Text(
+                                                  modelReviewList.value.data![index].date.toString(),
+                                                  style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w400,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 10,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                                Column(
+                                                  children: [
+                                                    GestureDetector(
+                                                        onTap: () {
+                                                          addRemoveLikeRepo(
+                                                            context: context,
+                                                            recommended_id: modelReviewList.value.data![index].id.toString(),
+                                                          ).then((value) async {
+                                                            // userProfile.value = value;
+                                                            if (value.status == true) {
+                                                              // print('wishlist-----');
+                                                              statusOfRemove.value = RxStatus.success();
+                                                              reviewList(post.toString());
+                                                              showToast(value.message.toString());
+                                                            } else {
+                                                              statusOfRemove.value = RxStatus.error();
+                                                              // like=false;
+                                                              showToast(value.message.toString());
+                                                            }
+                                                          });
+                                                          setState(() {});
+                                                        },
+                                                        child: modelReviewList.value.data![index].isLike == true
+                                                            ? SvgPicture.asset(
+                                                          AppAssets.heart,
+                                                          height: 26,
+                                                        )
+                                                            : const Image(
+                                                          image: AssetImage(
+                                                              'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                          height: 25,
+                                                        )),
+                                                    Text(modelReviewList.value.data![index].likeCount.toString()),
+                                                  ],
+                                                )
+                                              ],
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                  borderRadius: const BorderRadius.only(
-                                                      bottomRight: Radius.circular(10),
-                                                      bottomLeft: Radius.circular(10),
-                                                      topRight: Radius.circular(10)),
-                                                  color: Colors.grey.withOpacity(0.2)),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        overflow: TextOverflow.ellipsis,
-                                                        modelReviewList.value.data![index].user!.name.toString(),
-                                                        style: GoogleFonts.mulish(
-                                                          fontWeight: FontWeight.w600,
-                                                          // letterSpacing: 1,
-                                                          fontSize: 14,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 15,
-                                                      ),
-                                                      Text(
-                                                        modelReviewList.value.data![index].date.toString(),
-                                                        style: GoogleFonts.mulish(
-                                                          fontWeight: FontWeight.w400,
-                                                          // letterSpacing: 1,
-                                                          fontSize: 10,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                      const Spacer(),
-                                                      Column(
-                                                        children: [
-                                                          GestureDetector(
-                                                              onTap: () {
-                                                                addRemoveLikeRepo(
-                                                                  context: context,
-                                                                  recommended_id: modelReviewList.value.data![index].id.toString(),
-                                                                ).then((value) async {
-                                                                  // userProfile.value = value;
-                                                                  if (value.status == true) {
-                                                                    // print('wishlist-----');
-                                                                    statusOfRemove.value = RxStatus.success();
-                                                                    reviewList(post.toString());
-                                                                    showToast(value.message.toString());
-                                                                  } else {
-                                                                    statusOfRemove.value = RxStatus.error();
-                                                                    // like=false;
-                                                                    showToast(value.message.toString());
-                                                                  }
-                                                                });
-                                                                setState(() {});
-                                                              },
-                                                              child: modelReviewList.value.data![index].isLike == true
-                                                                  ? SvgPicture.asset(
-                                                                      AppAssets.heart,
-                                                                      height: 26,
-                                                                    )
-                                                                  : const Image(
-                                                                      image: AssetImage(
-                                                                          'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
-                                                                      height: 25,
-                                                                    )),
-                                                           Text(modelReviewList.value.data![index].likeCount.toString()),
-                                                        ],
-                                                      )
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: size.height * .01,
-                                                  ),
-                                                  Text(
-                                                    modelReviewList.value.data![index].title.toString(),
-                                                    style: GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
-                                                      // letterSpacing: 1,
-                                                      fontSize: 16,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  Text(
-                                                    modelReviewList.value.data![index].review.toString(),
-                                                    style: GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
-                                                      // letterSpacing: 1,
-                                                      fontSize: 14,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 13,
-                                                  ),
-                                                  modelReviewList.value.data![index].link == ""
-                                                      ? const SizedBox()
-                                                      : GestureDetector(
-                                                          onTap: () {
-                                                            launchURL(
-                                                              modelReviewList.value.data![index].link.toString(),
-                                                            );
-                                                          },
-                                                          child: Text(
-                                                            'Link',
-                                                            style: GoogleFonts.mulish(
-                                                                fontWeight: FontWeight.w500,
-                                                                fontSize: 15,
-                                                                color: const Color(0xFF3797EF)),
-                                                          ),
-                                                        ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  modelReviewList.value.data![index].image == ""
-                                                      ? const SizedBox()
-                                                      : ClipRRect(
-                                                          borderRadius: BorderRadius.circular(10),
-                                                          child: CachedNetworkImage(
-                                                            width: size.width,
-                                                            height: 200,
-                                                            fit: BoxFit.fill,
-                                                            imageUrl: modelReviewList.value.data![index].image.toString(),
-                                                            placeholder: (context, url) => const SizedBox(
-                                                              height: 0,
-                                                            ),
-                                                            errorWidget: (context, url, error) => const SizedBox(
-                                                              height: 0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                ],
+                                            SizedBox(
+                                              height: size.height * .01,
+                                            ),
+                                            Text(
+                                              modelReviewList.value.data![index].title.toString(),
+                                              style: GoogleFonts.mulish(
+                                                fontWeight: FontWeight.w700,
+                                                // letterSpacing: 1,
+                                                fontSize: 18,
+                                                color: Colors.black,
                                               ),
                                             ),
-                                          )
-                                        ],
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            Text(
+                                              modelReviewList.value.data![index].review.toString(),
+                                              style: GoogleFonts.mulish(
+                                                fontWeight: FontWeight.w400,
+                                                // letterSpacing: 1,
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 13,
+                                            ),
+                                            modelReviewList.value.data![index].link == ""
+                                                ? const SizedBox()
+                                                : GestureDetector(
+                                              onTap: () {
+                                                launchURL(
+                                                  modelReviewList.value.data![index].link.toString(),
+                                                );
+                                              },
+                                              child: Text(
+                                                'Link',
+                                                style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 15,
+                                                    color: const Color(0xFF3797EF)),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            modelReviewList.value.data![index].image == ""
+                                                ? const SizedBox()
+                                                : ClipRRect(
+                                              borderRadius: BorderRadius.circular(10),
+                                              child: CachedNetworkImage(
+                                                width: size.width,
+                                                height: 200,
+                                                fit: BoxFit.fill,
+                                                imageUrl: modelReviewList.value.data![index].image.toString(),
+                                                placeholder: (context, url) => const SizedBox(
+                                                  height: 0,
+                                                ),
+                                                errorWidget: (context, url, error) => const SizedBox(
+                                                  height: 0,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    );
-                                  },
+                                    )
+                                  ],
                                 ),
-                                const SizedBox(
-                                  height: 25,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(MyRouters.recommendationScreen, arguments: [post.toString()]);
-                                  },
-                                  child: const CommonButton(title: "Send Recommendation"),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                )
-                              ],
-                            );
-                          }),
-                        )
+                              );
+                            },
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(MyRouters.recommendationScreen, arguments: [post.toString()]);
+                            },
+                            child: const CommonButton(title: "Send Recommendation"),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          )
+                        ],
+                      );
+                    }),
+                  )
                       : const Center(child: Text('No Data Available')),
                   const SizedBox(
                     height: 20,
