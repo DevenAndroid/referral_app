@@ -277,7 +277,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           flagsButtonPadding: const EdgeInsets.all(8),
                           showDropdownIcon: false,
                           cursorColor: Colors.black,
-
+                            textInputAction: TextInputAction.next,
                           dropdownTextStyle: const TextStyle(color: Colors.white),
                           style: const TextStyle(
                               color: AppTheme.textColor
@@ -424,7 +424,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                     onChanged: (newValue) {
                                       setState(() {
                                         value = newValue!;
-                                        checkboxColor.value = !newValue!;
+                                        showValidation.value = newValue;
+                                        checkboxColor.value = newValue;
                                       });
                                     }),
                               ),
@@ -471,7 +472,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
                         const SizedBox(height: 26,),
                         CommonButton(title: "Create Account",onPressed: (){
-                          if (formKeyUpdate.currentState!.validate()) {
+                          print('value is${showValidation.value}');
+                          if (formKeyUpdate.currentState!.validate() && showValidation.value == true) {
                             Map map = <String, String>{};
                             map['name'] = profileController.nameController.text.trim();
                             map['phone'] = profileController.mobileController.text.trim();
@@ -496,7 +498,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
                             // Get.toNamed(MyRouters.doctorNavbar);
                           }
-
+                          else if(showValidation.value == false){
+                            showToastError('Please Select Terms & Conditions');
+                            setState(() {
+                            });
+                          }
+                          else{
+                            showValidation.value = true;
+                          }
 
 
                         },)

@@ -17,6 +17,7 @@ import 'package:referral_app/widgets/custome_textfiled.dart';
 import 'package:referral_app/widgets/helper.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../controller/bottomNav_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wishlist controller.dart';
 import '../models/all_recommendation_model.dart';
@@ -225,6 +226,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   // String selectedValue = 'friends';
   bool check = false;
   String post = "";
+
+  final bottomController = Get.put(BottomNavBarController());
   @override
   Widget build(BuildContext context) {
     //chooseCategories();
@@ -254,12 +257,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 return profileController.statusOfProfile.value.isSuccess
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                              height: 100,
-                              fit: BoxFit.fill,
-                              imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
-                              errorWidget: (context, url, error) => const SizedBox()),
+                        child: GestureDetector(
+                          onTap: (){
+                            // Get.toNamed(MyRouters.profileScreen);
+                            bottomController.updateIndexValue(2);
+                          },
+                          child: ClipOval(
+                            child: CachedNetworkImage(
+                                height: 100,
+                                fit: BoxFit.fill,
+                                imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
+                                errorWidget: (context, url, error) => const SizedBox()),
+                          ),
                         ),
                       )
                     : profileController.statusOfProfile.value.isError
@@ -391,7 +400,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               ),
                                                             ),
                                                             const SizedBox(
-                                                              width: 20,
+                                                              width: 10,
                                                             ),
                                                             Column(
                                                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -421,9 +430,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                       ),
                                                               ],
                                                             ),
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
+
                                                             const SizedBox(
                                                               height: 15,
                                                               width: 20,
@@ -486,7 +493,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               }),
                                                             ),
                                                             const SizedBox(
-                                                              width: 15,
+                                                              width: 8,
                                                             ),
                                                             GestureDetector(
                                                                 onTap: () {
@@ -571,8 +578,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                       post = homeController
                                                                           .homeModel.value.data!.discover![index].id
                                                                           .toString();
-                                                                      print(homeController
-                                                                          .homeModel.value.data!.discover![index].id);
+                                                                      print('Id Is....${homeController.homeModel.value.data!.discover![index].id}');
                                                                       _settingModalBottomSheet(context);
                                                                     } else {
                                                                       statusOfReviewList.value = RxStatus.error();
@@ -735,8 +741,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                       children: [
                                                         GestureDetector(
                                                           onTap: () {
-                                                            getSingleRepo(
-                                                                    category_id: categories.value.data![index].id.toString())
+                                                            print("id::::"+categories.value.data![index].id.toString(),);
+                                                            getSingleRepoWithOut(
+                                                                    category_id: categories.value.data![index].id.toString(),
+                                                              userId:  profileController.modal.value.data!.user!.id.toString()
+,
+                                                            )
+
                                                                 .then((value) {
                                                               single.value = value;
                                                               if (value.status == true) {
@@ -749,6 +760,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               setState(() {});
                                                               // showToast(value.message.toString());
                                                             });
+
                                                           },
                                                           child: ClipOval(
                                                             child: CachedNetworkImage(
@@ -899,10 +911,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                 Get.toNamed(
                                                   MyRouters.recommendationSingleScreen,
                                                   arguments: [
+                                                    allRecommendation.value.data![index].id.toString(),
                                                     allRecommendation.value.data![index].image.toString(),
                                                     allRecommendation.value.data![index].title.toString(),
                                                     allRecommendation.value.data![index].review.toString(),
-                                                    allRecommendation.value.data![index].id.toString(),
                                                     allRecommendation.value.data![index].link.toString(),
                                                     allRecommendation.value.data![index].wishlist,
                                                   ],
@@ -911,7 +923,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                               child: CachedNetworkImage(
                                                 imageUrl: allRecommendation.value.data![index].image.toString(),
                                                 placeholder: (context, url) =>  const SizedBox(),
-                                                errorWidget: (context, url, error) => const SizedBox(),
+                                                errorWidget: (_, __, ___) => const Icon(
+                                                  Icons.error_outline_outlined,
+                                                  color: Colors.red,
+                                                ),
                                                 fit: BoxFit.fill,
                                               ),
                                             );
@@ -1027,6 +1042,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         overflow: TextOverflow.ellipsis,
@@ -1051,52 +1067,57 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                         ),
                                                       ),
                                                       const Spacer(),
-                                                      GestureDetector(
-                                                          onTap: () {
-                                                            addRemoveLikeRepo(
-                                                              context: context,
-                                                              recommended_id:
-                                                                  modelReviewList.value.data![index].id.toString(),
-                                                            ).then((value) async {
-                                                              // userProfile.value = value;
-                                                              if (value.status == true) {
-                                                                print('wishlist-----');
-                                                                statusOfRemove.value = RxStatus.success();
-                                                                // getReviewListRepo(context: context, id: modelReviewList.value.data![index].id.toString(),).then((value) {
-                                                                //   modelReviewList.value = value;
-                                                                //
-                                                                //   if (value.status == true) {
-                                                                //     statusOfReviewList.value = RxStatus.success();
-                                                                //   } else {
-                                                                //     statusOfReviewList.value = RxStatus.error();
-                                                                //   }
-                                                                //   setState(() {});
-                                                                // });
-                                                                // like=true;
-                                                                showToast(value.message.toString());
-                                                              } else {
-                                                                statusOfRemove.value = RxStatus.error();
-                                                                // like=false;
-                                                                showToast(value.message.toString());
-                                                              }
-                                                            });
-                                                            setState(
-                                                                () {}); // home.value.data!.discover![index].wishlist.toString();
-                                                          },
-                                                          child: modelReviewList.value.data![index].isLike == true
-                                                              ? SvgPicture.asset(
-                                                                  AppAssets.heart,
-                                                                  height: 26,
-                                                                )
-                                                              : const Image(
-                                                                  image: AssetImage(
-                                                                      'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
-                                                                  height: 25,
-                                                                ))
+                                                      Column(
+                                                        children: [
+                                                          GestureDetector(
+                                                              onTap: () {
+                                                                addRemoveLikeRepo(
+                                                                  context: context,
+                                                                  recommended_id: modelReviewList.value.data![index].id.toString(),
+                                                                ).then((value) async {
+                                                                  // userProfile.value = value;
+                                                                  if (value.status == true) {
+                                                                    // print('wishlist-----');
+                                                                    statusOfRemove.value = RxStatus.success();
+                                                                    reviewList(post.toString());
+                                                                    showToast(value.message.toString());
+                                                                  } else {
+                                                                    statusOfRemove.value = RxStatus.error();
+                                                                    // like=false;
+                                                                    showToast(value.message.toString());
+                                                                  }
+                                                                });
+                                                                setState(() {});
+                                                              },
+                                                              child: modelReviewList.value.data![index].isLike == true
+                                                                  ? SvgPicture.asset(
+                                                                      AppAssets.heart,
+                                                                      height: 26,
+                                                                    )
+                                                                  : const Image(
+                                                                      image: AssetImage(
+                                                                          'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                                      height: 25,
+                                                                    )),
+                                                           Text(modelReviewList.value.data![index].likeCount.toString()),
+                                                        ],
+                                                      )
                                                     ],
                                                   ),
                                                   SizedBox(
-                                                    height: size.height * .02,
+                                                    height: size.height * .01,
+                                                  ),
+                                                  Text(
+                                                    modelReviewList.value.data![index].title.toString(),
+                                                    style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w600,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 16,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 13,
                                                   ),
                                                   Text(
                                                     modelReviewList.value.data![index].review.toString(),
@@ -1108,7 +1129,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                     ),
                                                   ),
                                                   const SizedBox(
-                                                    height: 8,
+                                                    height: 13,
                                                   ),
                                                   modelReviewList.value.data![index].link == ""
                                                       ? const SizedBox()
@@ -1119,10 +1140,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             );
                                                           },
                                                           child: Text(
-                                                            modelReviewList.value.data![index].link.toString(),
+                                                            'Link',
                                                             style: GoogleFonts.mulish(
                                                                 fontWeight: FontWeight.w500,
-                                                                fontSize: 12,
+                                                                fontSize: 15,
                                                                 color: const Color(0xFF3797EF)),
                                                           ),
                                                         ),

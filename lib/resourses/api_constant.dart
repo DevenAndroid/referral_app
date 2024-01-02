@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -78,6 +79,18 @@ showToast(message) {
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: AppTheme.secondaryColor,
+      textColor: Color(0xffffffff),
+      fontSize: 14);
+}
+
+showToastError(message) {
+  Fluttertoast.cancel();
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
       textColor: Color(0xffffffff),
       fontSize: 14);
 }

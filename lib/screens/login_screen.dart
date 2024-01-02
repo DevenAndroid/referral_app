@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,12 +27,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final profileController = Get.put(ProfileController());
   final formKey6 = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
-
-  loginApi(context) {
+  loginApi(context) async {
     if (formKey6.currentState!.validate()) {
+      String? token = await FirebaseMessaging.instance.getToken();
       loginRepo(
         context: context,
         email: profileController.emailController.text.trim(),
+        token: token
       ).then((value) async {
         login.value = value;
         if (value.status == true) {

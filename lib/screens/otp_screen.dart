@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
@@ -34,23 +35,24 @@ class _OtpScreenState extends State<OtpScreen> {
   Rx<ModelResendOtp> otpResend = ModelResendOtp().obs;
   final formKey6 = GlobalKey<FormState>();
   var email= Get.arguments[0];
-  verify(context) {
+  verify(context) async {
     if (formKey6.currentState!.validate()) {
-
+      String? token = await FirebaseMessaging.instance.getToken();
       verifyOtpRepo(
           context: context,
           email:email,
-          otp: otpController.text.trim()
+          otp: otpController.text.trim(),
+          token : token
       ).then((value) async {
         otpVerify.value = value;
         if (value.status == true) {
 
           SharedPreferences pref = await SharedPreferences.getInstance();
           if (pref.getBool('complete') == true) {
-            Get.toNamed(MyRouters.bottomNavbar);
+            Get.offAllNamed(MyRouters.bottomNavbar);
           }
           pref.setString('cookie', value.authToken.toString());
-          Get.toNamed(MyRouters.createAccountScreen);
+          Get.offAllNamed(MyRouters.createAccountScreen);
           // Get.offAllNamed(MyRouters.bottomNavbar);
           statusOfOtpVerify.value = RxStatus.success();
           showToast(value.message.toString());

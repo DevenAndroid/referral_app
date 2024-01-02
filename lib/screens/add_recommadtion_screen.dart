@@ -264,7 +264,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                       map['link'] = linkController.text.trim();
                       map['status'] = "publish";
                       map['category_id'] = profileController.idController.text.trim();
-                      map['image'] = File(categoryFile.path.toString());
+                      // map['image'] = File(categoryFile.path.toString());
 
                       // map['askrecommandation_id'] = homeController
                       //     .homeModel.value.data!.discover![0].id.toString();
@@ -276,6 +276,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                         file1: categoryFile,
                       ).then((value) async {
                         if (value.status == true) {
+                          profileController.getData();
                           Get.back();
                           // Get.toNamed(MyRouters.followingScreen);
                           showToast(value.message.toString());

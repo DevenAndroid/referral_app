@@ -49,15 +49,15 @@ class _EditAccountState extends State<EditAccount> {
       if (value.status == true) {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.clear();
-        Get.toNamed(MyRouters.loginScreen);
         statusOfLogout.value = RxStatus.success();
+        Get.offAllNamed(MyRouters.loginScreen);
 
         // holder();
       } else {
         statusOfLogout.value = RxStatus.error();
       }
 
-      print(value.message.toString());
+      print('logout response${value.message.toString()}');
     });
   }
 
@@ -403,12 +403,10 @@ class _EditAccountState extends State<EditAccount> {
                               },),
                               SizedBox(height: 26,),
                               CommonButton(title: "Logout",onPressed: () async {
-                                SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                                await prefs.clear();
-                                Get.toNamed(
-                                    MyRouters.loginScreen);
-                               // getLogout();
+                                // SharedPreferences prefs = await SharedPreferences.getInstance();
+                                // await prefs.clear();
+                                // Get.toNamed(MyRouters.loginScreen);
+                               getLogout();
                                     }
                               )
 
