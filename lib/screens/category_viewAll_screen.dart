@@ -44,8 +44,10 @@ class _CategoryViewAllScreenState extends State<CategoryViewAllScreen> {
   void initState() {
     super.initState();
     chooseCategories1();
-    profileController.getSingleData();
+ //    profileController.getSingleData();
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -24,8 +24,6 @@ class ProfileController extends GetxController {
   Rx<SingleProduct> single = SingleProduct().obs;
   Rx<RxStatus> statusOfSingle = RxStatus.empty().obs;
   String? address = "";
-  Rx<RxStatus> statusOfAllRecommendation = RxStatus.empty().obs;
-  Rx<AllRecommendationModel> allRecommendation = AllRecommendationModel().obs;
 
   getData() {
     getProfileRepo().then((value) async {

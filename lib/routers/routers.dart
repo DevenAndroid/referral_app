@@ -6,6 +6,7 @@ import '../screens/all_user_screen.dart';
 import '../screens/ask_recommendation_screen.dart';
 import '../screens/bottom_nav_bar.dart';
 import '../screens/categories.dart';
+import '../screens/category_viewAll_screen.dart';
 import '../screens/create_account.dart';
 import '../screens/edit_account_screen.dart';
 import '../screens/following_screen.dart';
@@ -52,6 +53,7 @@ class MyRouters {
   static var singlePostScreen = "/singlePostScreen";
   static var addRecommendationScreen1 = "/addRecommendationScreen1";
   static var recommendationScreen = "/recommendationScreen";
+  static var categoryViewAllScreen = "/categoryViewAllScreen";
 
 
   static var route = [
@@ -86,5 +88,6 @@ class MyRouters {
     GetPage(name: '/profilePostScreen', page: () => const ProfilePost()),
     GetPage(name: '/singlePostScreen', page: () => const SingleProfilePost()),
     GetPage(name: '/recommendationScreen', page: () => const RecommendationScreen()),
+    GetPage(name: '/categoryViewAllScreen', page: () => const CategoryViewAllScreen()),
   ];
 }

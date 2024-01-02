@@ -1083,7 +1083,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                       statusOfSingle.value.isSuccess
                                           ? Column(
                                         children: [
-                                          if (single.value.data!.isEmpty) const Text("No Record found"),
+                                          if (single.value.data!.details!.isEmpty) const Text("No Record found"),
                                           GridView.builder(
                                             padding: EdgeInsets.zero,
                                             physics: NeverScrollableScrollPhysics(),
@@ -1095,26 +1095,25 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                               // Spacing between columns
                                               mainAxisSpacing: 10.0, // Spacing between rows
                                             ),
-                                            itemCount: single.value.data!.length,
+                                            itemCount: single.value.data!.details!.length,
                                             // Total number of items
                                             itemBuilder: (BuildContext context, int index) {
                                               // You can replace the Container with your image widget
                                               return GestureDetector(
                                                 onTap: () {
                                                   print(
-                                                    "id:::::::::::::::::::::::::::::" +
-                                                        single.value.data![index].id.toString(),
+                                                    "id:::::::::::::::::::::::::::::${single.value.data!.details![index].id}",
                                                   );
                                                   Get.toNamed(
                                                     MyRouters.recommendationSingleScreen,
                                                     arguments: [
-                                                      single.value.data![index].id.toString(),
+                                                      single.value.data!.details![index].id.toString(),
                                                     ],
                                                   );
                                                   print("object");
                                                 },
                                                 child: CachedNetworkImage(
-                                                  imageUrl: single.value.data![index].image.toString(),
+                                                  imageUrl: single.value.data!.details![index].image.toString(),
                                                   fit: BoxFit.fill,
                                                 ),
                                               );

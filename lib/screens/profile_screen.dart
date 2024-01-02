@@ -588,14 +588,18 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                         PopupMenuItem<SampleItem>(
                                                                           value: SampleItem.itemOne,
                                                                           onTap:  () {
-                                                                            print("object");
-                                                                            Get.to(const UpdateMyRequestScreen(), arguments: [ profileController
+                                                                            print("object${profileController
+                                                                                .modal.value.data!.myRequest![index].id
+                                                                                .toString()}");
+                                                                            Get.to(()=>const UpdateMyRequestScreen(), arguments: [ profileController
                                                                                 .modal.value.data!.myRequest![index].id
                                                                                 .toString()]);
                                                                           },
                                                                           child: InkWell(
                                                                               onTap: () {
-                                                                                print("object");
+                                                                                print("object${profileController
+                                                                                    .modal.value.data!.myRequest![index].id
+                                                                                    .toString()}");
                                                                                 Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [ profileController
                                                                                     .modal.value.data!.myRequest![index].id
                                                                                     .toString()]);
@@ -612,6 +616,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                   'Are you sure to delete recommendation',
                                                                                   style: TextStyle(fontSize: 16),
                                                                                 ),
+                                                                                actionsPadding: EdgeInsets.all(30),
                                                                                 actions: <Widget>[
                                                                                   InkWell(
                                                                                       onTap: () {
@@ -620,7 +625,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                         Get.back();
                                                                                       },
                                                                                       child: Text("Cancel ")),
-                                                                                  SizedBox(
+                                                                                  const SizedBox(
                                                                                     width: 40,
                                                                                   ),
                                                                                   InkWell(
@@ -670,8 +675,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                             Get.back();
                                                                                             Get.back();
                                                                                           },
-                                                                                          child: Text("Cancel ")),
-                                                                                      SizedBox(
+                                                                                          child: const Text("Cancel ")),
+                                                                                      const SizedBox(
                                                                                         width: 40,
                                                                                       ),
                                                                                       InkWell(
@@ -705,7 +710,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                   ),
                                                                                 );
                                                                               },
-                                                                              child: Text('Delete')),
+                                                                              child: const Text('Delete')),
                                                                         ),
                                                                       ],
                                                                     ),
@@ -1012,7 +1017,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                             statusOfSingle.value.isSuccess
                                                 ? Column(
                                                     children: [
-                                                      if (single.value.data!.isEmpty) const Text("No Record found"),
+                                                      if (single.value.data!.details!.isEmpty) const Text("No Record found"),
                                                       GridView.builder(
                                                         padding: EdgeInsets.zero,
                                                         shrinkWrap: true,
@@ -1023,7 +1028,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                           // Spacing between columns
                                                           mainAxisSpacing: 10.0, // Spacing between rows
                                                         ),
-                                                        itemCount: single.value.data!.length,
+                                                        itemCount: single.value.data!.details!.length,
                                                         // Total number of items
                                                         itemBuilder: (BuildContext context, int index) {
                                                           // You can replace the Container with your image widget
@@ -1031,18 +1036,18 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                             onTap: () {
                                                               print(
                                                                 "id:::::::::::::::::::::::::::::" +
-                                                                    single.value.data![index].id.toString(),
+                                                                    single.value.data!.details![index].id.toString(),
                                                               );
                                                               Get.toNamed(
                                                                 MyRouters.recommendationSingleScreen,
                                                                 arguments: [
-                                                                  single.value.data![index].id.toString(),
+                                                                  single.value.data!.details![index].id.toString(),
                                                                 ],
                                                               );
                                                               print("object");
                                                             },
                                                             child: CachedNetworkImage(
-                                                              imageUrl: single.value.data![index].image.toString(),
+                                                              imageUrl: single.value.data!.details![index].image.toString(),
                                                               fit: BoxFit.fill,
                                                             ),
                                                           );

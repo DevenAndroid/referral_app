@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   Rx<RxStatus> statusOfHome = RxStatus.empty().obs;
   final wishListController = Get.put(WishListController());
-  final profileController = Get.put(ProfileController());
+  final profileController = Get.put(ProfileController(),permanent: true);
 
   Rx<RemoveRecommendationModel> modalRemove = RemoveRecommendationModel().obs;
   Rx<RxStatus> statusOfRemove = RxStatus.empty().obs;
@@ -202,12 +202,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_tabListener);
     profileController.getData();
+    all();
     /* homeController..getFeedBack().then((value) (value1){
         if(value1.)
     })*/
     homeController.getPaginate();
     homeController.getData();
-    all();
     chooseCategories();
     chooseCategories1();
   }
@@ -708,32 +708,39 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
-                                //crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      Get.to(()=> const CategoryViewAllScreen(),transition: Transition.fadeIn);
+                                      Get.toNamed(MyRouters.categoryViewAllScreen);
                                     },
-                                    child: Padding(
-                                      padding: EdgeInsets.only(bottom: height * .04),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(2),
-                                        decoration:
-                                        BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
-                                        child: const CircleAvatar(
-                                            radius: 35,
-                                            backgroundColor: Colors.transparent,
-                                            child: Text(
-                                              'Categories List',
-                                              style: TextStyle(color: Colors.black, fontSize: 14),
-                                              textAlign: TextAlign.center,
-                                            )
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
+                                          child: ClipOval(
+                                            child: Image.asset('assets/images/categoryList.png',width: 35,),
+                                          ),
                                         ),
-                                      ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                         'Category list',
+                                          // maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.mulish(
+                                              fontWeight: FontWeight.w300,
+                                              // letterSpacing: 1,
+                                              fontSize: 14,
+                                              color: const Color(0xFF26282E)),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 10,
+                                    width: 18,
                                   ),
                                   GestureDetector(
                                     onTap: () {
@@ -743,22 +750,69 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.only(bottom: height * .04),
-                                      child: Container(
-                                        decoration:
-                                        BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
-                                        child: const CircleAvatar(
-                                            radius: 35,
-                                            backgroundColor: Colors.transparent,
-                                            child: Text(
-                                              'View All',
-                                              style: TextStyle(color: Colors.black, fontSize: 14),
-                                            )),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
+                                            child: ClipOval(
+                                              child: Image.asset('assets/images/viewAll.png',width: 35,),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            'View All',
+                                            // maxLines: 2,
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.mulish(
+                                                fontWeight: FontWeight.w300,
+                                                // letterSpacing: 1,
+                                                fontSize: 14,
+                                                color: const Color(0xFF26282E)),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 10,
+                                    width: 18,
                                   ),
+                                  if(profileController.check == true)
+                                  profileController.single.value.data!= null ?
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      ClipOval(
+                                        child: CachedNetworkImage(
+                                          width: 60,
+                                          height: 60,
+                                          fit: BoxFit.fill,
+                                          imageUrl: profileController.single.value.data!.categoryImage.toString(),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      SizedBox(
+                                        width: 70,
+                                        child: Text(
+                                         profileController.single.value.data!.categoryName.toString(),
+                                          maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.mulish(
+                                              fontWeight: FontWeight.w300,
+                                              // letterSpacing: 1,
+                                              fontSize: 14,
+                                              color: const Color(0xFF26282E)),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                    ],
+                                  ) : const SizedBox(),
                                   // SizedBox(
                                   //     height: size.height * .15,
                                   //     child: Obx(() {
@@ -820,7 +874,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               profileController.statusOfSingle.value.isSuccess
                                   ? Column(
                                 children: [
-                                  if (profileController.single.value.data!.isEmpty) const Text("No Record found"),
+                                  if (profileController.single.value.data!.details!.isEmpty)  Padding(padding: EdgeInsets.only(top: Get.height/5),child: const Text("No Record found")),
                                   GridView.builder(
                                     padding: EdgeInsets.zero,
                                     shrinkWrap: true,
@@ -831,26 +885,26 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                       // Spacing between columns
                                       mainAxisSpacing: 10.0, // Spacing between rows
                                     ),
-                                    itemCount: profileController.single.value.data!.length,
+                                    itemCount: profileController.single.value.data!.details!.length,
                                     // Total number of items
                                     itemBuilder: (BuildContext context, int index) {
                                       // You can replace the Container with your image widget
                                       return GestureDetector(
                                         onTap: () {
                                           print(
-                                            "id:::::::::::::::::::::::::::::${profileController.single.value.data![index].id}",
+                                            "id:::::::::::::::::::::::::::::${profileController.single.value.data!.details![index].id}",
                                           );
                                           Get.toNamed(
                                             MyRouters.recommendationSingleScreen,
                                             arguments: [
-                                              profileController.single.value.data![index].id.toString(),
+                                              profileController.single.value.data!.details![index].id.toString(),
                                             ],
                                           );
                                           print("object");
                                         },
                                         child: CachedNetworkImage(
                                           errorWidget: (context, url, error) => const SizedBox(),
-                                          imageUrl: profileController.single.value.data![index].image.toString(),
+                                          imageUrl: profileController.single.value.data!.details![index].image.toString(),
                                           fit: BoxFit.fill,
                                         ),
                                       );
@@ -861,7 +915,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                   : profileController.statusOfSingle.value.isError
                                   ? CommonErrorWidget(
                                 errorText: "",
-                                onTap: () {},
+                                onTap: () {
+                                  print('object');
+                                },
                               )
                                   : const Center(child: SizedBox()),
                             if ( profileController.check == false)
@@ -909,7 +965,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               //           ),
                               //         ),
                               //       )
-                              GridView.builder(
+                              GridView.builder (
                                 padding: EdgeInsets.zero,
                                 physics: const BouncingScrollPhysics(),
                                 shrinkWrap: true,
@@ -955,7 +1011,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                   : statusOfAllRecommendation.value.isError
                                   ? CommonErrorWidget(
                                 errorText: "",
-                                onTap: () {},
+                                onTap: () {
+                                  print('object');
+                                },
                               )
                                   : const Center(child: CircularProgressIndicator()),
                             const SizedBox(height: 40,)
