@@ -1183,7 +1183,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                       fontSize: 14,
                                                                                       color: const Color(0xFF6F7683)),
                                                                                 )
-                                                                              : SizedBox(),
+                                                                              : const SizedBox(),
                                                                         ),
                                                                         const SizedBox(
                                                                           height: 10,

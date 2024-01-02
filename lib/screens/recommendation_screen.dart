@@ -86,7 +86,8 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
   final profileController = Get.put(ProfileController());
 
   final homeController = Get.put(HomeController());
-var postid = Get.arguments[0];
+  var postid = Get.arguments[0];
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -95,9 +96,7 @@ var postid = Get.arguments[0];
       onTap: () {
         FocusManager.instance.primaryFocus!.unfocus();
       },
-      child:
-
-      Scaffold(
+      child: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(14.0),
@@ -112,7 +111,7 @@ var postid = Get.arguments[0];
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Add Your Recommendation   Post id $postid",
+                      "Add Your Recommendation",
                       style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 16, color: const Color(0xFF3797EF)),
                     ),
                     GestureDetector(
@@ -189,68 +188,68 @@ var postid = Get.arguments[0];
                   height: 15,
                 ),
                 _imageUrl.isNotEmpty
-                    ? GestureDetector(onTap: (){
-                  _showActionSheet(context);
-                },
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black12),
-                        color: Colors.white,
-                      ),
-                      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      width: double.maxFinite,
-                      height: 180,
-                      alignment: Alignment.center,
-                      child: Image.network(_imageUrl,
-                          errorBuilder: (_, __, ___) => Image.network(_imageUrl,
-                              errorBuilder: (_, __, ___) => const SizedBox())),
-                    )
-                )
+                    ? GestureDetector(
+                        onTap: () {
+                          _showActionSheet(context);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.black12),
+                            color: Colors.white,
+                          ),
+                          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                          width: double.maxFinite,
+                          height: 180,
+                          alignment: Alignment.center,
+                          child: Image.network(_imageUrl,
+                              errorBuilder: (_, __, ___) =>
+                                  Image.network(_imageUrl, errorBuilder: (_, __, ___) => const SizedBox())),
+                        ))
                     : GestureDetector(
-                  onTap: () {
-                    _showActionSheet(context);
-                  },
-                  child: categoryFile.path != ""
-                      ? Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.black12),
-                      color: Colors.white,
-                    ),
-                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    width: double.maxFinite,
-                    height: 180,
-                    alignment: Alignment.center,
-                    child: Image.file(categoryFile,
-                        errorBuilder: (_, __, ___) => Image.network(categoryFile.path,
-                            errorBuilder: (_, __, ___) => const SizedBox())),
-                  )
-                      : Container(
-                    decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
-                    padding: const EdgeInsets.only(top: 8),
-                    width: double.maxFinite,
-                    height: 130,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          AppAssets.camera,
-                          height: 60,
-                          width: 50,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        const SizedBox(
-                          height: 11,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                        onTap: () {
+                          _showActionSheet(context);
+                        },
+                        child: categoryFile.path != ""
+                            ? Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: Colors.black12),
+                                  color: Colors.white,
+                                ),
+                                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                width: double.maxFinite,
+                                height: 180,
+                                alignment: Alignment.center,
+                                child: Image.file(categoryFile,
+                                    errorBuilder: (_, __, ___) =>
+                                        Image.network(categoryFile.path, errorBuilder: (_, __, ___) => const SizedBox())),
+                              )
+                            : Container(
+                                decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
+                                padding: const EdgeInsets.only(top: 8),
+                                width: double.maxFinite,
+                                height: 130,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      AppAssets.camera,
+                                      height: 60,
+                                      width: 50,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    const SizedBox(
+                                      height: 11,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                      ),
                 const SizedBox(
                   height: 22,
                 ),
@@ -279,8 +278,7 @@ var postid = Get.arguments[0];
                         } else {
                           showToast(value.message.toString());
                         }
-                      }
-                      );
+                      });
                     })
               ],
             ),
@@ -328,7 +326,7 @@ var postid = Get.arguments[0];
                 );
                 if (croppedFile != null) {
                   categoryFile = File(croppedFile.path);
-                  if(categoryFile.path != ""){
+                  if (categoryFile.path != "") {
                     _imageUrl = "";
                   }
                   setState(() {});
@@ -368,7 +366,7 @@ var postid = Get.arguments[0];
                 );
                 if (croppedFile != null) {
                   categoryFile = File(croppedFile.path);
-                  if(categoryFile.path != ""){
+                  if (categoryFile.path != "") {
                     _imageUrl = "";
                   }
                   setState(() {});
