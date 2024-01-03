@@ -31,7 +31,7 @@ class _RecommendationPopupState extends State<RecommendationPopup> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Who can see your post?',
+                'Whom you want to tag?',
                 style: GoogleFonts.mulish(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -40,45 +40,45 @@ class _RecommendationPopupState extends State<RecommendationPopup> {
               SizedBox(
                 height: 20,
               ),
+              // RadioListTile<String>(
+              //   activeColor: AppTheme.secondaryColor,
+              //   title: Text(
+              //     'Friends Only',
+              //     style: GoogleFonts.mulish(
+              //         fontWeight: FontWeight.w600,
+              //         fontSize: 16,
+              //         color: Colors.black),
+              //   ),
+              //   value: 'Friends Only',
+              //   groupValue: profileController.selectedValue.value,
+              //   onChanged: (value) {
+              //     setState(() {
+              //       profileController.selectedValue.value = value!;
+              //     });
+              //     Get.back();
+              //   },
+              // ),
+              // RadioListTile<String>(
+              //   title: Text(
+              //     'Public',
+              //     style: GoogleFonts.mulish(
+              //         fontWeight: FontWeight.w600,
+              //         fontSize: 16,
+              //         color: Colors.black),
+              //   ),
+              //   value: 'Public',
+              //   activeColor: AppTheme.secondaryColor,
+              //   groupValue: profileController.selectedValue.value,
+              //   onChanged: (value) {
+              //     setState(() {
+              //       profileController.selectedValue.value = value!;
+              //     });
+              //     Get.back();
+              //   },
+              // ),
               RadioListTile<String>(
-                activeColor: AppTheme.secondaryColor,
                 title: Text(
-                  'Friends Only',
-                  style: GoogleFonts.mulish(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: Colors.black),
-                ),
-                value: 'Friends Only',
-                groupValue: profileController.selectedValue.value,
-                onChanged: (value) {
-                  setState(() {
-                    profileController.selectedValue.value = value!;
-                  });
-                  Get.back();
-                },
-              ),
-              RadioListTile<String>(
-                title: Text(
-                  'Public',
-                  style: GoogleFonts.mulish(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: Colors.black),
-                ),
-                value: 'Public',
-                activeColor: AppTheme.secondaryColor,
-                groupValue: profileController.selectedValue.value,
-                onChanged: (value) {
-                  setState(() {
-                    profileController.selectedValue.value = value!;
-                  });
-                  Get.back();
-                },
-              ),
-              RadioListTile<String>(
-                title: Text(
-                  'Select Friends',
+                  'Tag Friends',
                   style: GoogleFonts.mulish(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,

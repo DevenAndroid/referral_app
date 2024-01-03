@@ -32,6 +32,7 @@ import '../widgets/custome_textfiled.dart';
 import 'edit_account_screen.dart';
 import 'edit_account_screen.dart';
 import 'edit_account_screen.dart';
+import 'my_recommendation_category.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -127,10 +128,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   bool showFloatingActionButton = false;
   late TabController _tabController;
-
-  Rx<RxStatus> statusOfSingle = RxStatus.empty().obs;
-  Rx<SingleProduct> single = SingleProduct().obs;
-
   String post1 = "";
 
   void launchURL(String url) async {
@@ -180,8 +177,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   }
 
   var currentDrawer = 0;
-
-  bool check = false;
   SampleItem? selectedMenu;
   @override
   Widget build(BuildContext context) {
@@ -211,6 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           child: SingleChildScrollView(
               physics: const NeverScrollableScrollPhysics(),
               child: Obx(() {
+                if(profileController.refreshData1.value > 0){}
                 return profileController.statusOfProfile.value.isSuccess
                     ? Column(
                         children: [
@@ -907,117 +903,186 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
                                         child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                check = false;
-                                                profileController.getData();
-                                                setState(() {});
+                                                Get.to(()=> const MyRecommendationsCategory());
                                               },
                                               child: Padding(
-                                                padding: EdgeInsets.only(bottom: 20),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.black), shape: BoxShape.circle),
-                                                  child: const CircleAvatar(
-                                                      radius: 35,
-                                                      backgroundColor: Colors.transparent,
-                                                      child: Text(
-                                                        'View All',
-                                                        style: TextStyle(color: Colors.black, fontSize: 14),
-                                                      )),
+                                                padding: const EdgeInsets.only(bottom: 20),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets.all(10),
+                                                      decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
+                                                      child: ClipOval(
+                                                        child: Image.asset('assets/images/categoryList.png',width: 35,),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Text(
+                                                      'Category list',
+                                                      // maxLines: 2,
+                                                      textAlign: TextAlign.center,
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w300,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          color: const Color(0xFF26282E)),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
                                             const SizedBox(
-                                              width: 10,
+                                              width: 18,
                                             ),
-                                            SizedBox(
-                                                height: size.height * .15,
-                                                child: Obx(() {
-                                                  return profileController.statusOfProfile.value.isSuccess &&
-                                                          statusOfCategories.value.isSuccess
-                                                      ? ListView.builder(
-                                                          itemCount:
-                                                              profileController.modal.value.data!.myCategories!.length,
-                                                          shrinkWrap: true,
-                                                          scrollDirection: Axis.horizontal,
-                                                          physics: const NeverScrollableScrollPhysics(),
-                                                          itemBuilder: (context, index) {
-                                                            return Padding(
-                                                              padding: const EdgeInsets.all(8.0),
-                                                              child: GestureDetector(
-                                                                onTap: () {
-                                                                  print('id is${profileController.modal.value.data!.myCategories![index].id.toString()}');
-                                                                  print('id is${profileController.modal.value.data!.user!.id.toString()}');
-                                                                  getSingleRepo(
-                                                                          category_id:
-                                                                          profileController.modal.value.data!.myCategories![index].id.toString(),
-                                                                  userId:   profileController.modal.value.data!.user!.id.toString()
-                                                                  )
-                                                                      .then((value) {
-                                                                    single.value = value;
-                                                                    if (value.status == true) {
-                                                                      statusOfSingle.value = RxStatus.success();
-                                                                      check = true;
-                                                                      setState(() {});
-                                                                    } else {
-                                                                      statusOfSingle.value = RxStatus.error();
-                                                                    }
-                                                                    setState(() {});
-                                                                    // showToast(value.message.toString());
-                                                                  });
-                                                                },
-                                                                child: Column(
-                                                                  children: [
-                                                                    ClipOval(
-                                                                      child: CachedNetworkImage(
-                                                                        width: 70,
-                                                                        height: 70,
-                                                                        fit: BoxFit.fill,
-                                                                        imageUrl: profileController
-                                                                            .modal.value.data!.myCategories![index].image
-                                                                            .toString(),
-                                                                      ),
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      height: 2,
-                                                                    ),
-                                                                    Text(
-                                                                      profileController
-                                                                          .modal.value.data!.myCategories![index].name
-                                                                          .toString(),
-                                                                      style: GoogleFonts.mulish(
-                                                                          fontWeight: FontWeight.w300,
-                                                                          // letterSpacing: 1,
-                                                                          fontSize: 14,
-                                                                          color: const Color(0xFF26282E)),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            );
-                                                          })
-                                                      : profileController.statusOfProfile.value.isError
-                                                          ? CommonErrorWidget(
-                                                              errorText: "",
-                                                              onTap: () {},
-                                                            )
-                                                          : const Center(child: CircularProgressIndicator());
-                                                })),
-                                            SizedBox(
-                                              width: 20,
-                                            )
+                                            GestureDetector(
+                                              onTap: () {
+                                                profileController.check = false;
+                                                profileController.getData();
+                                                setState(() {});
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(bottom: 20),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets.all(10),
+                                                      decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
+                                                      child: ClipOval(
+                                                        child: Image.asset('assets/images/viewAll.png',width: 35,),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Text(
+                                                      'View All',
+                                                      // maxLines: 2,
+                                                      textAlign: TextAlign.center,
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w300,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          color: const Color(0xFF26282E)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 18,
+                                            ),
+                                            if(profileController.check == true)
+                                              profileController.single.value.data!= null ?
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  ClipOval(
+                                                    child: CachedNetworkImage(
+                                                      width: 60,
+                                                      height: 60,
+                                                      fit: BoxFit.fill,
+                                                      imageUrl: profileController.single.value.data!.categoryImage.toString(),
+                                                      errorWidget: (_, __, ___) =>  const Icon(
+                                                        Icons.error_outline_outlined,
+                                                        color: Colors.red,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 70,
+                                                    child: Text(
+                                                      profileController.single.value.data!.categoryName.toString(),
+                                                      maxLines: 2,
+                                                      textAlign: TextAlign.center,
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w300,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          color: const Color(0xFF26282E)),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 8,
+                                                  ),
+                                                ],
+                                              ) : const SizedBox(),
+                                            // SizedBox(
+                                            //     height: size.height * .15,
+                                            //     child: Obx(() {
+                                            //       return profileController.statusOfProfile.value.isSuccess &&
+                                            //               statusOfCategories.value.isSuccess
+                                            //           ? ListView.builder(
+                                            //               itemCount:
+                                            //                   profileController.modal.value.data!.myCategories!.length,
+                                            //               shrinkWrap: true,
+                                            //               scrollDirection: Axis.horizontal,
+                                            //               physics: const NeverScrollableScrollPhysics(),
+                                            //               itemBuilder: (context, index) {
+                                            //                 return Padding(
+                                            //                   padding: const EdgeInsets.all(8.0),
+                                            //                   child: GestureDetector(
+                                            //                     onTap: () {
+                                            //
+                                            //                     },
+                                            //                     child: Column(
+                                            //                       children: [
+                                            //                         ClipOval(
+                                            //                           child: CachedNetworkImage(
+                                            //                             width: 60,
+                                            //                             height: 60,
+                                            //                             fit: BoxFit.fill,
+                                            //                             imageUrl: profileController
+                                            //                                 .modal.value.data!.myCategories![index].image
+                                            //                                 .toString(),
+                                            //                           ),
+                                            //                         ),
+                                            //                         const SizedBox(
+                                            //                           height: 2,
+                                            //                         ),
+                                            //                         Text(
+                                            //                           profileController
+                                            //                               .modal.value.data!.myCategories![index].name
+                                            //                               .toString(),
+                                            //                           style: GoogleFonts.mulish(
+                                            //                               fontWeight: FontWeight.w300,
+                                            //                               // letterSpacing: 1,
+                                            //                               fontSize: 14,
+                                            //                               color: const Color(0xFF26282E)),
+                                            //                         )
+                                            //                       ],
+                                            //                     ),
+                                            //                   ),
+                                            //                 );
+                                            //               })
+                                            //           : profileController.statusOfProfile.value.isError
+                                            //               ? CommonErrorWidget(
+                                            //                   errorText: "",
+                                            //                   onTap: () {},
+                                            //                 )
+                                            //               : const Center(child: CircularProgressIndicator());
+                                            //     })),
+                                            // const SizedBox(
+                                            //   width: 20,
+                                            // )
                                           ],
                                         ),
                                       ),
                                       Column(
                                         children: [
-                                          if (check == true)
-                                            statusOfSingle.value.isSuccess
+                                          if (profileController.check == true)
+                                            profileController.statusOfSingle.value.isSuccess
                                                 ? Column(
                                                     children: [
-                                                      if (single.value.data!.details!.isEmpty) const Text("No Record found"),
+                                                      if (profileController.single.value.data!.details!.isEmpty) const Text("No Record found"),
                                                       GridView.builder(
                                                         padding: EdgeInsets.zero,
                                                         shrinkWrap: true,
@@ -1028,7 +1093,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                           // Spacing between columns
                                                           mainAxisSpacing: 10.0, // Spacing between rows
                                                         ),
-                                                        itemCount: single.value.data!.details!.length,
+                                                        itemCount:  profileController.single.value.data!.details!.length,
                                                         // Total number of items
                                                         itemBuilder: (BuildContext context, int index) {
                                                           // You can replace the Container with your image widget
@@ -1036,18 +1101,18 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                             onTap: () {
                                                               print(
                                                                 "id:::::::::::::::::::::::::::::" +
-                                                                    single.value.data!.details![index].id.toString(),
+                                                                    profileController.single.value.data!.details![index].id.toString(),
                                                               );
                                                               Get.toNamed(
                                                                 MyRouters.recommendationSingleScreen,
                                                                 arguments: [
-                                                                  single.value.data!.details![index].id.toString(),
+                                                                  profileController.single.value.data!.details![index].id.toString(),
                                                                 ],
                                                               );
                                                               print("object");
                                                             },
                                                             child: CachedNetworkImage(
-                                                              imageUrl: single.value.data!.details![index].image.toString(),
+                                                              imageUrl:  profileController.single.value.data!.details![index].image.toString(),
                                                               fit: BoxFit.fill,
                                                             ),
                                                           );
@@ -1055,13 +1120,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                       ),
                                                     ],
                                                   )
-                                                : statusOfSingle.value.isError
+                                                :  profileController.statusOfSingle.value.isError
                                                     ? CommonErrorWidget(
                                                         errorText: "",
                                                         onTap: () {},
                                                       )
                                                     : const Center(child: SizedBox()),
-                                          if (check == false)
+                                          if (profileController.check == false)
                                             // if (profileController.modal.value.data!.myRecommandation!.isEmpty)
                                             //   const Text("No data found "),
                                             profileController.statusOfProfile.value.isSuccess
@@ -1082,52 +1147,40 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                       // Total number of items
                                                       itemBuilder: (BuildContext context, int index) {
                                                         // You can replace the Container with your image widget
-                                                        return Stack(
-                                                          children: [
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                Get.toNamed(
-                                                                  MyRouters.singleScreen,
-                                                                  arguments: [
-                                                                    profileController
-                                                                        .modal.value.data!.myRecommandation![index].image
-                                                                        .toString(),
-                                                                    profileController
-                                                                        .modal.value.data!.myRecommandation![index].title
-                                                                        .toString(),
-                                                                    profileController
-                                                                        .modal.value.data!.myRecommandation![index].review
-                                                                        .toString(),
-                                                                    profileController
-                                                                        .modal.value.data!.myRecommandation![index].id
-                                                                        .toString(),
-                                                                    profileController
-                                                                        .modal.value.data!.myRecommandation![index].link
-                                                                        .toString(),
-                                                                    ],
-                                                                );
-                                                                print("object");
-                                                              },
-                                                              child: CachedNetworkImage(
-                                                                  imageUrl: profileController
-                                                                      .modal.value.data!.myRecommandation![index].image
-                                                                      .toString(),
-                                                                  fit: BoxFit.fill,
-                                                                  height: 110,
-                                                                  errorWidget: (_, __, ___) =>  const Icon(
+                                                        return   GestureDetector(
+                                                          onTap: () {
+                                                            Get.toNamed(
+                                                              MyRouters.singleScreen,
+                                                              arguments: [
+                                                                profileController
+                                                                    .modal.value.data!.myRecommandation![index].image
+                                                                    .toString(),
+                                                                profileController
+                                                                    .modal.value.data!.myRecommandation![index].title
+                                                                    .toString(),
+                                                                profileController
+                                                                    .modal.value.data!.myRecommandation![index].review
+                                                                    .toString(),
+                                                                profileController
+                                                                    .modal.value.data!.myRecommandation![index].id
+                                                                    .toString(),
+                                                                profileController
+                                                                    .modal.value.data!.myRecommandation![index].link
+                                                                    .toString(),
+                                                              ],
+                                                            );
+                                                            print("object");
+                                                          },
+                                                          child: CachedNetworkImage(
+                                                            imageUrl: profileController
+                                                                .modal.value.data!.myRecommandation![index].image
+                                                                .toString(),
+                                                            fit: BoxFit.fill,
+                                                            height: 110,
+                                                            errorWidget: (_, __, ___) =>  const Icon(
                                                               Icons.error_outline_outlined,
                                                               color: Colors.red,
                                                             ),),
-                                                            ),
-                                                            profileController
-                                                                .modal.value.data!.myRecommandation![index].isComment == "false" ?
-                                                                const SizedBox() :
-                                                             Positioned(
-                                                                top: 4,
-                                                                right: 2,
-                                                                child: Image.asset('assets/images/message_icon.png',width: 30,)
-                                                            )
-                                                          ],
                                                         );
                                                       },
                                                     ),

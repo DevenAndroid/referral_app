@@ -570,109 +570,146 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                 height: 10,
                                               ),
                                               Row(
+                                                children: [
+                                                  homeController
+                                                      .homeModel.value.data!.discover![index].minPrice
+                                                      .toString()
+                                                      .isNotEmpty
+                                                      ? const Text("Min Price :")
+                                                      : const Text('No Budget'),
+                                                  homeController
+                                                      .homeModel.value.data!.discover![index].minPrice
+                                                      .toString()
+                                                      .isNotEmpty
+                                                      ? Text(
+                                                    homeController.homeModel.value.data!
+                                                        .discover![index].minPrice
+                                                        .toString(),
+                                                  )
+                                                      : const SizedBox(),
+                                                  const SizedBox(
+                                                    width: 30,
+                                                  ),
+                                                  homeController
+                                                      .homeModel.value.data!.discover![index].maxPrice
+                                                      .toString()
+                                                      .isNotEmpty
+                                                      ? const Text("Max Price :")
+                                                      : const SizedBox(),
+                                                  homeController
+                                                      .homeModel.value.data!.discover![index].maxPrice
+                                                      .toString()
+                                                      .isNotEmpty
+                                                      ? Text(
+                                                    homeController.homeModel.value.data!
+                                                        .discover![index].maxPrice
+                                                        .toString(),
+                                                  )
+                                                      : const SizedBox(),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        getReviewListRepo(
-                                                            context: context,
-                                                            id: homeController
-                                                                .homeModel.value.data!.discover![index].id
-                                                                .toString())
-                                                            .then((value) {
-                                                          modelReviewList.value = value;
+                                                  Expanded(
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          getReviewListRepo(
+                                                              context: context,
+                                                              id: homeController
+                                                                  .homeModel.value.data!.discover![index].id
+                                                                  .toString())
+                                                              .then((value) {
+                                                            modelReviewList.value = value;
 
-                                                          if (value.status == true) {
-                                                            statusOfReviewList.value = RxStatus.success();
-                                                            post = homeController
-                                                                .homeModel.value.data!.discover![index].id
-                                                                .toString();
-                                                            print('Id Is....${homeController.homeModel.value.data!.discover![index].id}');
-                                                            _settingModalBottomSheet(context);
-                                                          } else {
-                                                            statusOfReviewList.value = RxStatus.error();
-                                                          }
-                                                          setState(() {});
+                                                            if (value.status == true) {
+                                                              statusOfReviewList.value = RxStatus.success();
+                                                              post = homeController
+                                                                  .homeModel.value.data!.discover![index].id
+                                                                  .toString();
+                                                              print('Id Is....${homeController.homeModel.value.data!.discover![index].id}');
+                                                              _settingModalBottomSheet(context);
+                                                            } else {
+                                                              statusOfReviewList.value = RxStatus.error();
+                                                            }
+                                                            setState(() {});
+                                                          });
                                                         });
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      padding: const EdgeInsets.only(left: 15),
-                                                      width: size.width * .45,
-                                                      height: 30,
-                                                      decoration: BoxDecoration(
-                                                        color: const Color(0xFF3797EF).withOpacity(.09),
-                                                        borderRadius: BorderRadius.circular(5),
-                                                      ),
-                                                      child: Row(
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                            AppAssets.message,
-                                                            height: 16,
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 6,
-                                                          ),
-                                                          Text(
-                                                            "Recommendation: ${homeController.homeModel.value.data!.discover![index].reviewCount.toString()}",
-                                                            style: GoogleFonts.mulish(
-                                                                fontWeight: FontWeight.w500,
-                                                                // letterSpacing: 1,
-                                                                fontSize: 12,
-                                                                color: const Color(0xFF3797EF)),
-                                                          ),
-                                                        ],
+                                                      },
+                                                      child: Container(
+                                                        padding: const EdgeInsets.only(left: 15),
+                                                        width: size.width * .45,
+                                                        height: 30,
+                                                        decoration: BoxDecoration(
+                                                          color: const Color(0xFF3797EF).withOpacity(.09),
+                                                          borderRadius: BorderRadius.circular(5),
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                              AppAssets.message,
+                                                              height: 16,
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 6,
+                                                            ),
+                                                            Text(
+                                                              "Recommendation: ${homeController.homeModel.value.data!.discover![index].reviewCount.toString()}",
+                                                              style: GoogleFonts.mulish(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  // letterSpacing: 1,
+                                                                  fontSize: 12,
+                                                                  color: const Color(0xFF3797EF)),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Column(
-                                                        children: [
-                                                          homeController
-                                                              .homeModel.value.data!.discover![index].minPrice
-                                                              .toString()
-                                                              .isNotEmpty
-                                                              ? const Text("Min Price")
-                                                              : const Text('No Budget'),
-                                                          homeController
-                                                              .homeModel.value.data!.discover![index].minPrice
-                                                              .toString()
-                                                              .isNotEmpty
-                                                              ? Text(
-                                                            homeController.homeModel.value.data!
-                                                                .discover![index].minPrice
-                                                                .toString(),
-                                                          )
-                                                              : const SizedBox(),
-                                                        ],
+                                                  const SizedBox(
+                                                    width: 20,
+                                                  ),
+                                                  Expanded(
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          commentBottomSheet(context);
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        padding: const EdgeInsets.only(left: 15),
+                                                        width: size.width * .45,
+                                                        height: 30,
+                                                        decoration: BoxDecoration(
+                                                          color: const Color(0xFF3797EF).withOpacity(.09),
+                                                          borderRadius: BorderRadius.circular(5),
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                              AppAssets.message,
+                                                              height: 16,
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 6,
+                                                            ),
+                                                            Text(
+                                                              "Comments:   ${homeController.homeModel.value.data!.discover![index].reviewCount.toString()}",
+                                                              style: GoogleFonts.mulish(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  // letterSpacing: 1,
+                                                                  fontSize: 12,
+                                                                  color: const Color(0xFF3797EF)),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Column(
-                                                        children: [
-                                                          homeController
-                                                              .homeModel.value.data!.discover![index].maxPrice
-                                                              .toString()
-                                                              .isNotEmpty
-                                                              ? const Text("Max Price")
-                                                              : const SizedBox(),
-                                                          homeController
-                                                              .homeModel.value.data!.discover![index].maxPrice
-                                                              .toString()
-                                                              .isNotEmpty
-                                                              ? Text(
-                                                            homeController.homeModel.value.data!
-                                                                .discover![index].maxPrice
-                                                                .toString(),
-                                                          )
-                                                              : const SizedBox(),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  )
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                               const SizedBox(
@@ -1145,67 +1182,81 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                   ),
                                                 ),
                                                 const Spacer(),
-                                                Column(
-                                                  children: [
-                                                    GestureDetector(
-                                                        onTap: () {
-                                                          addRemoveLikeRepo(
-                                                            context: context,
-                                                            recommended_id: modelReviewList.value.data![index].id.toString(),
-                                                          ).then((value) async {
-                                                            // userProfile.value = value;
-                                                            if (value.status == true) {
-                                                              // print('wishlist-----');
-                                                              statusOfRemove.value = RxStatus.success();
-                                                              reviewList(post.toString());
-                                                              showToast(value.message.toString());
-                                                            } else {
-                                                              statusOfRemove.value = RxStatus.error();
-                                                              // like=false;
-                                                              showToast(value.message.toString());
-                                                            }
-                                                          });
-                                                          setState(() {});
-                                                        },
-                                                        child: modelReviewList.value.data![index].isLike == true
-                                                            ? SvgPicture.asset(
-                                                          AppAssets.heart,
-                                                          height: 26,
-                                                        )
-                                                            : const Image(
-                                                          image: AssetImage(
-                                                              'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
-                                                          height: 25,
-                                                        )),
-                                                    Text(modelReviewList.value.data![index].likeCount.toString()),
-                                                  ],
-                                                )
+
                                               ],
                                             ),
                                             SizedBox(
-                                              height: size.height * .01,
+                                              height: size.height * .02,
                                             ),
-                                            Text(
-                                              modelReviewList.value.data![index].title.toString(),
-                                              style: GoogleFonts.mulish(
-                                                fontWeight: FontWeight.w700,
-                                                // letterSpacing: 1,
-                                                fontSize: 18,
-                                                color: Colors.black,
-                                              ),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      modelReviewList.value.data![index].title.toString(),
+                                                      style: GoogleFonts.mulish(
+                                                        fontWeight: FontWeight.w700,
+                                                        // letterSpacing: 1,
+                                                        fontSize: 18,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        GestureDetector(
+                                                            onTap: () {
+                                                              addRemoveLikeRepo(
+                                                                context: context,
+                                                                recommended_id: modelReviewList.value.data![index].id.toString(),
+                                                              ).then((value) async {
+                                                                // userProfile.value = value;
+                                                                if (value.status == true) {
+                                                                  // print('wishlist-----');
+                                                                  statusOfRemove.value = RxStatus.success();
+                                                                  reviewList(post.toString());
+                                                                  showToast(value.message.toString());
+                                                                } else {
+                                                                  statusOfRemove.value = RxStatus.error();
+                                                                  // like=false;
+                                                                  showToast(value.message.toString());
+                                                                }
+                                                              });
+                                                              setState(() {});
+                                                            },
+                                                            child: modelReviewList.value.data![index].isLike == true
+                                                                ? SvgPicture.asset(
+                                                              AppAssets.heart,
+                                                              height: 26,
+                                                            )
+                                                                : const Image(
+                                                              image: AssetImage(
+                                                                  'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                              height: 25,
+                                                            )),
+                                                        Text(modelReviewList.value.data![index].likeCount.toString()),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                Text(
+                                                  modelReviewList.value.data![index].review.toString(),
+                                                  style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w400,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                            Text(
-                                              modelReviewList.value.data![index].review.toString(),
-                                              style: GoogleFonts.mulish(
-                                                fontWeight: FontWeight.w400,
-                                                // letterSpacing: 1,
-                                                fontSize: 14,
-                                                color: Colors.black,
-                                              ),
-                                            ),
+                                            // const SizedBox(
+                                            //   height: 8,
+                                            // ),
+
                                             const SizedBox(
                                               height: 13,
                                             ),
@@ -1271,6 +1322,177 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     }),
                   )
                       : const Center(child: Text('No Data Available')),
+                  const SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void commentBottomSheet(context) {
+    var size = MediaQuery.of(context).size;
+    var height = MediaQuery.of(context).size.height;
+
+    showModalBottomSheet(
+        enableDrag: true,
+        isDismissible: true,
+        constraints: BoxConstraints(
+          maxHeight: height * .9,
+        ),
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.white,
+        elevation: 10,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+        ),
+        builder: (BuildContext context) {
+          // UDE : SizedBox instead of Container for whitespaces
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Text(
+                        'Comments List',
+                        style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.w700,
+                          // letterSpacing: 1,
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                          onTap: () {
+                            Get.back();
+                            setState(() {});
+                          },
+                          child: const Icon(Icons.close)),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  // statusOfReviewList.value.isSuccess
+                  //     ?
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ListView.builder(
+                          physics: const ScrollPhysics(),
+                          itemCount: 4,
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(left: 8.0, top: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipOval(
+                                    child: CachedNetworkImage(
+                                      width: 30,
+                                      height: 30,
+                                      fit: BoxFit.cover,
+                                      imageUrl: 'modelReviewList.value.data![index].user!.profileImage.toString()',
+                                      placeholder: (context, url) => const SizedBox(),
+                                      errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.only(
+                                              bottomRight: Radius.circular(10),
+                                              bottomLeft: Radius.circular(10),
+                                              topRight: Radius.circular(10)),
+                                          color: Colors.grey.withOpacity(0.2)),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                overflow: TextOverflow.ellipsis,
+                                               'Tester',
+                                                style: GoogleFonts.mulish(
+                                                  fontWeight: FontWeight.w600,
+                                                  // letterSpacing: 1,
+                                                  fontSize: 14,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 15,
+                                              ),
+                                              Text(
+                                               'date',
+                                                style: GoogleFonts.mulish(
+                                                  fontWeight: FontWeight.w400,
+                                                  // letterSpacing: 1,
+                                                  fontSize: 10,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: size.height * .01,
+                                          ),
+                                          Text(
+                                           'this is ui',
+                                            style: GoogleFonts.mulish(
+                                              fontWeight: FontWeight.w700,
+                                              // letterSpacing: 1,
+                                              fontSize: 18,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // Get.toNamed(MyRouters.recommendationScreen);
+                          },
+                          child: const CommonButton(title: "Send Recommendation"),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        )
+                      ],
+                    )
+                  ),
+                      // : const Center(child: Text('No Data Available')),
                   const SizedBox(
                     height: 20,
                   )

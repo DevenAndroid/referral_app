@@ -103,30 +103,26 @@ class _SearchScreenState extends State<SearchScreen> {
               style: GoogleFonts.poppins(color: const Color(0xFF1D1D1D), fontSize: 20, fontWeight: FontWeight.w500),
             ),
             bottom: TabBar(
+              labelColor:  const Color(0xFF3797EF),
+              unselectedLabelColor: Colors.black,
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorColor: AppTheme.primaryColor,
               indicatorPadding: const EdgeInsets.symmetric(horizontal: 15),
               // automaticIndicatorColorAdjustment: true,
-              onTap: (value) {
-                currentDrawer = value;
-                setState(() {});
-              },
+              // onTap: (value) {
+              //   currentDrawer = value;
+              //   setState(() {});
+              // },
               tabs: [
                 Tab(
                   child: Text("Peoples",
-                      style: currentDrawer == 0
-                          ? GoogleFonts.mulish(
-                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
-                          : GoogleFonts.mulish(
-                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
+                      style:  GoogleFonts.mulish(
+                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15)),
                 ),
                 Tab(
                   child: Text("Recommendation",
-                      style: currentDrawer == 1
-                          ? GoogleFonts.mulish(
-                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: const Color(0xFF3797EF))
-                          : GoogleFonts.mulish(
-                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15, color: Colors.black)),
+                      style: GoogleFonts.mulish(
+                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15)),
                 ),
               ],
             ),

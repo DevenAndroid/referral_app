@@ -79,12 +79,12 @@ class _SingleScreenState extends State<SingleScreen> {
                                 value: SampleItem.itemOne,
                                 onTap:  () {
                                   print("object");
-                                  Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [id]);
+                                  Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [id.toString()]);
                                 },
                                 child: InkWell(
                                     onTap: () {
                                       print("object");
-                                      Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [id]);
+                                      Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [id.toString()]);
                                     },
                                     child: Text('Edit')),
                               ),

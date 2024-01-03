@@ -280,6 +280,8 @@ var postid = Get.arguments[0];
                         file1: categoryFile,
                       ).then((value) async {
                         if (value.status == true) {
+                          profileController.getData();
+                          // homeController.getData();
                           Get.back();
                           // Get.toNamed(MyRouters.followingScreen);
                           showToast(value.message.toString());

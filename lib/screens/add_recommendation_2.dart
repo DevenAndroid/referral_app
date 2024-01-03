@@ -88,6 +88,7 @@ var id = Get.arguments[0];
     // TODO: implement initState
     super.initState();
     UserProfile();
+    id.toString();
     //
     // recommendationController
     // reviewController

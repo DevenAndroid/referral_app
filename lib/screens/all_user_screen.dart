@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:referral_app/routers/routers.dart';
+import 'package:referral_app/screens/users_category_list.dart';
 import 'package:referral_app/widgets/app_assets.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,6 +28,7 @@ import '../resourses/api_constant.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
 import '../widgets/custome_textfiled.dart';
+import 'my_recommendation_category.dart';
 
 class AllUserProfileScreen extends StatefulWidget {
   const AllUserProfileScreen({super.key});
@@ -36,15 +38,10 @@ class AllUserProfileScreen extends StatefulWidget {
 }
 
 class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleTickerProviderStateMixin {
-  Rx<RxStatus> statusOfUser = RxStatus
-      .empty()
-      .obs;
-
-  Rx<ModelUserProfile> userProfile = ModelUserProfile().obs;
   Rx<ModelAddRemoveFollow> modalRemove = ModelAddRemoveFollow().obs;
   Rx<RxStatus> statusOfReviewList = RxStatus.empty().obs;
   Rx<ModelReviewList> modelReviewList = ModelReviewList().obs;
-
+  final profileController = Get.put(ProfileController());
 
   Rx<RxStatus> statusOfRemove = RxStatus
       .empty()
@@ -53,13 +50,14 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
   var id = Get.arguments[0];
 
   UserProfile() {
+
     userProfileRepo(recommandation_id: id, type: "user").then((value) {
-      userProfile.value = value;
-      print(id);
+      profileController.userProfile.value = value;
+      print("userId>>>>>>>>>>$id");
       if (value.status == true) {
-        statusOfUser.value = RxStatus.success();
+        profileController.statusOfUser.value = RxStatus.success();
       } else {
-        statusOfUser.value = RxStatus.error();
+        profileController.statusOfUser.value = RxStatus.error();
       }
 
       // showToast(value.message.toString());
@@ -84,16 +82,18 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_tabListener);
     // Get.arguments[0];
     // profileController.getData();
+    profileController.checkForUser = false;
     UserProfile();
 
     // chooseCategories1();
   }
+
+
   Rx<RxStatus> statusOfSingle = RxStatus.empty().obs;
-  Rx<SingleProduct> single = SingleProduct().obs;
   void _tabListener() {
     setState(() {
       showFloatingActionButton = _tabController.index == 1; // 1 corresponds to "My recommendations"
@@ -101,7 +101,6 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
   }
 
   var currentDrawer = 0;
-  bool check = false;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery
@@ -130,9 +129,10 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
             // profileController.getData();
           },
           child: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               child: Obx(() {
-                return statusOfUser.value.isSuccess
+                if(profileController.refreshUserCat.value > 0){}
+                return profileController.statusOfUser.value.isSuccess
                     ? Column(
                   children: [
                     Container(
@@ -155,7 +155,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                     onTap: () {
                                       Get.back();
                                     },
-                                    child: Icon(Icons.arrow_back)),
+                                    child: const Icon(Icons.arrow_back)),
                                 SizedBox(
                                   width: 130,
                                 ),
@@ -186,7 +186,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                         width: 50,
                                         height: 50,
                                         fit: BoxFit.cover,
-                                        imageUrl: userProfile.value.data!.user!.profileImage.toString(),
+                                        imageUrl: profileController.userProfile.value.data!.user!.profileImage.toString(),
                                         placeholder: (context, url) => const SizedBox(),
                                         errorWidget: (context, url, error) => const SizedBox(),
                                       ),
@@ -196,11 +196,11 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 GestureDetector(
                                   onTap: () {
                                     Get.toNamed(MyRouters.singlePostScreen,
-                                        arguments: [userProfile.value.data!.user!.postCount.toString(),]);
+                                        arguments: [profileController.userProfile.value.data!.user!.postCount.toString(),]);
                                   },
                                   child: Column(
                                     children: [
-                                      Text(userProfile.value.data!.user!.postCount.toString(),
+                                      Text(profileController.userProfile.value.data!.user!.postCount.toString(),
                                           style: GoogleFonts.mulish(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 18,
@@ -219,14 +219,14 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 GestureDetector(
                                   onTap: () {
                                     Get.toNamed(MyRouters.followingScreen, arguments: [
-                                      userProfile.value.data!.user!.followersCount.toString(),
-                                      userProfile.value.data!.user!.followingCount.toString(),
-                                      userProfile.value.data!.user!.id.toString(),
+                                      profileController.userProfile.value.data!.user!.followersCount.toString(),
+                                      profileController.userProfile.value.data!.user!.followingCount.toString(),
+                                      profileController.userProfile.value.data!.user!.id.toString(),
                                     ]);
                                   },
                                   child: Column(
                                     children: [
-                                      Text(userProfile.value.data!.user!.followersCount.toString(),
+                                      Text(profileController.userProfile.value.data!.user!.followersCount.toString(),
                                           style: GoogleFonts.mulish(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 18,
@@ -246,14 +246,14 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                   onTap: () {
                                     currentDrawer == 1;
                                     Get.toNamed(MyRouters.followingScreen, arguments: [
-                                      userProfile.value.data!.user!.followersCount.toString(),
-                                      userProfile.value.data!.user!.followingCount.toString(),
-                                      userProfile.value.data!.user!.id.toString(),
+                                      profileController.userProfile.value.data!.user!.followersCount.toString(),
+                                      profileController.userProfile.value.data!.user!.followingCount.toString(),
+                                      profileController.userProfile.value.data!.user!.id.toString(),
                                     ]);
                                   },
                                   child: Column(
                                     children: [
-                                      Text(userProfile.value.data!.user!.followingCount.toString(),
+                                      Text(profileController.userProfile.value.data!.user!.followingCount.toString(),
                                           style: GoogleFonts.mulish(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 18,
@@ -276,7 +276,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                             ),
                             Row(
                               children: [
-                                Text(userProfile.value.data!.user!.name!. capitalizeFirst.toString(),
+                                Text(profileController.userProfile.value.data!.user!.name!. capitalizeFirst.toString(),
                                     style: GoogleFonts.mulish(
                                         fontWeight: FontWeight.w700, fontSize: 20, color: const Color(0xFF262626))),
                                 const Spacer(),
@@ -287,12 +287,12 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                         width: 120,
                                         height: 35,
                                         child: CommonButton(
-                                          title: userProfile.value.data!.user!.isFollow == true
+                                          title: profileController.userProfile.value.data!.user!.isFollow == true
                                               ? "Following" : "Follow",
                                           onPressed: () {
                                             addRemoveRepo(
                                               context: context,
-                                              following_id: userProfile.value.data!.user!.id.toString(),
+                                              following_id: profileController.userProfile.value.data!.user!.id.toString(),
                                             ).then((value) async {
                                               // userProfile.value = value;
                                               if (value.status == true) {
@@ -309,10 +309,10 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                               }
                                             });
                                             setState(() {
-                                              if (userProfile.value.data!.user!.isFollow == false) {
-                                                userProfile.value.data!.user!.isFollow = true;
+                                              if (profileController.userProfile.value.data!.user!.isFollow == false) {
+                                                profileController.userProfile.value.data!.user!.isFollow = true;
                                               } else {
-                                                userProfile.value.data!.user!.isFollow = false;
+                                                profileController.userProfile.value.data!.user!.isFollow = false;
                                               }
                                             });
                                           },
@@ -451,12 +451,12 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Obx(() {
-                                  return statusOfUser.value.isSuccess
+                                  return profileController.statusOfUser.value.isSuccess
                                       ? Column(
                                     children: [
                                       ListView.builder(
                                           shrinkWrap: true,
-                                          itemCount: userProfile.value.data!.myRequest!.length,
+                                          itemCount: profileController.userProfile.value.data!.myRequest!.length,
                                           physics: const NeverScrollableScrollPhysics(),
                                           itemBuilder: (context, index) {
                                             return Column(
@@ -493,11 +493,11 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                                 width: 30,
                                                                 height: 30,
                                                                 fit: BoxFit.cover,
-                                                                imageUrl: userProfile.value.data!
+                                                                imageUrl: profileController.userProfile.value.data!
                                                                     .myRequest![index].userId ==
                                                                     null
                                                                     ? AppAssets.man
-                                                                    : userProfile.value.data!
+                                                                    : profileController.userProfile.value.data!
                                                                     .myRequest![index]
                                                                     .userId!.profileImage
                                                                     .toString(),
@@ -518,7 +518,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                           Column(
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              userProfile.value.data!
+                                                              profileController.userProfile.value.data!
                                                                   .myRequest![index]
                                                                   .userId?.name ==
                                                                   ""
@@ -531,7 +531,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                                     color: Colors.black),
                                                               )
                                                                   : Text(
-                                                                userProfile.value.data!
+                                                                profileController.userProfile.value.data!
                                                                     .myRequest![index].userId!.name
                                                                     .toString()
                                                                     .capitalizeFirst
@@ -598,7 +598,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                                   // });
                                                                   // setState(() {});
                                                                 },
-                                                                child: userProfile.value.data!
+                                                                child: profileController.userProfile.value.data!
                                                                     .myRequest![index].wishlist ==
                                                                     true
                                                                     ? SvgPicture.asset(
@@ -615,7 +615,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                           GestureDetector(
                                                               onTap: () {
                                                                 Share.share(
-                                                                  userProfile.value.data!
+                                                                  profileController.userProfile.value.data!
                                                                       .myRequest![index].image
                                                                       .toString(),
                                                                 );
@@ -626,7 +626,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                       const SizedBox(
                                                         height: 15,
                                                       ),
-                                                      userProfile.value.data!
+                                                      profileController.userProfile.value.data!
                                                           .myRequest![index].image == ""
                                                           ? const SizedBox()
                                                           : ClipRRect(
@@ -635,7 +635,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                           width: size.width,
                                                           height: 200,
                                                           fit: BoxFit.fill,
-                                                          imageUrl: userProfile.value.data!
+                                                          imageUrl: profileController.userProfile.value.data!
                                                               .myRequest![index].image
                                                               .toString(),
                                                           placeholder: (context, url) => const SizedBox(
@@ -650,7 +650,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                         height: 10,
                                                       ),
                                                       Text(
-                                                        userProfile.value.data!
+                                                        profileController.userProfile.value.data!
                                                             .myRequest![index].title
                                                             .toString()
                                                             .capitalizeFirst
@@ -665,7 +665,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                         height: 10,
                                                       ),
                                                       Text(
-                                                        userProfile.value.data!
+                                                        profileController.userProfile.value.data!
                                                             .myRequest![index].description
                                                             .toString()
                                                             .capitalizeFirst
@@ -687,7 +687,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                               setState(() {
                                                                 getReviewListRepo(
                                                                     context: context,
-                                                                    id: userProfile.value.data!
+                                                                    id: profileController.userProfile.value.data!
                                                                         .myRequest![index].id
                                                                         .toString())
                                                                     .then((value) {
@@ -718,7 +718,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                                     width: 6,
                                                                   ),
                                                                   Text(
-                                                                    "Recommendation: ${userProfile.value.data!
+                                                                    "Recommendation: ${profileController.userProfile.value.data!
                                                                         .myRequest![index].reviewCount.toString()}",
                                                                     style: GoogleFonts.mulish(
                                                                         fontWeight: FontWeight.w500,
@@ -734,18 +734,18 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                             children: [
                                                               Column(
                                                                 children: [
-                                                                  userProfile.value.data!
+                                                                  profileController.userProfile.value.data!
                                                                       .myRequest![index].minPrice
                                                                       .toString()
                                                                       .isNotEmpty
                                                                       ? const Text("Min Price")
                                                                       : const Text('No Budget'),
-                                                                  userProfile.value.data!
+                                                                  profileController.userProfile.value.data!
                                                                       .myRequest![index].minPrice
                                                                       .toString()
                                                                       .isNotEmpty
                                                                       ? Text(
-                                                                    userProfile.value.data!
+                                                                    profileController.userProfile.value.data!
                                                                         .myRequest![index].minPrice
                                                                         .toString(),
                                                                   )
@@ -757,18 +757,18 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                               ),
                                                               Column(
                                                                 children: [
-                                                                  userProfile.value.data!
+                                                                  profileController.userProfile.value.data!
                                                                       .myRequest![index].maxPrice
                                                                       .toString()
                                                                       .isNotEmpty
                                                                       ? const Text("Max Price")
                                                                       : const SizedBox(),
-                                                                  userProfile.value.data!
+                                                                  profileController.userProfile.value.data!
                                                                       .myRequest![index].maxPrice
                                                                       .toString()
                                                                       .isNotEmpty
                                                                       ? Text(
-                                                                    userProfile.value.data!
+                                                                    profileController.userProfile.value.data!
                                                                         .myRequest![index].maxPrice
                                                                         .toString(),
                                                                   )
@@ -959,7 +959,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                       )
                                     ],
                                   )
-                                      : statusOfUser.value.isError
+                                      : profileController.statusOfUser.value.isError
                                       ? CommonErrorWidget(
                                     errorText: "",
                                     onTap: () {},
@@ -980,96 +980,168 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 SizedBox(
                                     height: size.height * .15,
                                     child: Obx(() {
-                                      return statusOfUser.value.isSuccess
+                                      return profileController.statusOfUser.value.isSuccess
                                           ? SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
                                             child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 GestureDetector(
                                                   onTap: () {
-                                                    check = false;
-                                                    // profileController.getData();
-                                                    setState(() {});
+                                                    Get.to(()=> const UsersCategoryList());
                                                   },
                                                   child: Padding(
-                                                    padding: EdgeInsets.only(bottom: 20),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(color: Colors.black), shape: BoxShape.circle),
-                                                      child: const CircleAvatar(
-                                                          radius: 35,
-                                                          backgroundColor: Colors.transparent,
-                                                          child: Text(
-                                                            'View All',
-                                                            style: TextStyle(color: Colors.black, fontSize: 14),
-                                                          )),
-                                                    ),
-                                                  ),
-                                                ),
-                                                ListView.builder(
-                                                itemCount: userProfile.value.data!.myCategories!.length,
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.horizontal,
-                                                physics: const NeverScrollableScrollPhysics(),
-                                                itemBuilder: (context, index) {
-                                                  return Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding: const EdgeInsets.only(bottom: 20),
                                                     child: Column(
                                                       children: [
-                                                        if(userProfile.value.data!.myCategories!.isEmpty)
-                                                          Text("No Record Found "),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            print('id is${userProfile.value.data!.myCategories![index].id.toString()}');
-                                                            print('id is${userProfile.value.data!.user!.id.toString()}');
-                                                            getSingleRepo(
-                                                                category_id:
-                                                                userProfile.value.data!.myCategories![index].id.toString(),
-                                                                userId:   userProfile.value.data!.user!.id.toString()
-                                                            )
-                                                                .then((value) {
-                                                              single.value = value;
-                                                              if (value.status == true) {
-                                                                statusOfSingle.value = RxStatus.success();
-                                                                check = true;
-                                                                setState(() {});
-                                                              } else {
-                                                                statusOfSingle.value = RxStatus.error();
-                                                              }
-                                                              setState(() {});
-                                                              // showToast(value.message.toString());
-                                                            });
-                                                          },
+                                                        Container(
+                                                          padding: const EdgeInsets.all(10),
+                                                          decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
                                                           child: ClipOval(
-                                                            child: CachedNetworkImage(
-                                                              width: 70,
-                                                              height: 70,
-                                                              fit: BoxFit.fill,
-                                                              imageUrl: userProfile
-                                                                  .value.data!.myCategories![index].image
-                                                                  .toString(),
-                                                            ),
+                                                            child: Image.asset('assets/images/categoryList.png',width: 35,),
                                                           ),
                                                         ),
                                                         const SizedBox(
-                                                          height: 2,
+                                                          height: 5,
                                                         ),
                                                         Text(
-                                                          userProfile.value.data!.myCategories![index].name.toString(),
+                                                          'Category list',
+                                                          // maxLines: 2,
+                                                          textAlign: TextAlign.center,
                                                           style: GoogleFonts.mulish(
                                                               fontWeight: FontWeight.w300,
                                                               // letterSpacing: 1,
                                                               fontSize: 14,
-                                                              color: Color(0xFF26282E)),
-                                                        )
+                                                              color: const Color(0xFF26282E)),
+                                                        ),
                                                       ],
                                                     ),
-                                                  );
-                                                }),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 18,
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    profileController.checkForUser = false;
+                                                    setState(() {});
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(bottom: 20),
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          padding: const EdgeInsets.all(10),
+                                                          decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
+                                                          child: ClipOval(
+                                                            child: Image.asset('assets/images/viewAll.png',width: 35,),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          'View All',
+                                                          // maxLines: 2,
+                                                          textAlign: TextAlign.center,
+                                                          style: GoogleFonts.mulish(
+                                                              fontWeight: FontWeight.w300,
+                                                              // letterSpacing: 1,
+                                                              fontSize: 14,
+                                                              color: const Color(0xFF26282E)),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 18,
+                                                ),
+                                                if(profileController.checkForUser == true)
+                                                  profileController.single.value.data!= null ?
+                                                  Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      ClipOval(
+                                                        child: CachedNetworkImage(
+                                                          width: 60,
+                                                          height: 60,
+                                                          fit: BoxFit.fill,
+                                                          imageUrl: profileController.single.value.data!.categoryImage.toString(),
+                                                          errorWidget: (_, __, ___) =>  const Icon(
+                                                            Icons.error_outline_outlined,
+                                                            color: Colors.red,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 70,
+                                                        child: Text(
+                                                          profileController.single.value.data!.categoryName.toString(),
+                                                          maxLines: 2,
+                                                          textAlign: TextAlign.center,
+                                                          style: GoogleFonts.mulish(
+                                                              fontWeight: FontWeight.w300,
+                                                              // letterSpacing: 1,
+                                                              fontSize: 14,
+                                                              color: const Color(0xFF26282E)),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 8,
+                                                      ),
+                                                    ],
+                                                  ) : const SizedBox(),
+
+                                                // ListView.builder(
+                                                // itemCount: profileController.userProfile.value.data!.myCategories!.length,
+                                                // shrinkWrap: true,
+                                                // scrollDirection: Axis.horizontal,
+                                                // physics: const NeverScrollableScrollPhysics(),
+                                                // itemBuilder: (context, index) {
+                                                //   return Padding(
+                                                //     padding: const EdgeInsets.all(0.0),
+                                                //     child: Column(
+                                                //       children: [
+                                                //         if(profileController.userProfile.value.data!.myCategories!.isEmpty)
+                                                //           Text("No Record Found "),
+                                                //         GestureDetector(
+                                                //           onTap: () {
+                                                //
+                                                //           },
+                                                //           child: ClipOval(
+                                                //             child: CachedNetworkImage(
+                                                //               width: 60,
+                                                //               height: 60,
+                                                //               fit: BoxFit.fill,
+                                                //               imageUrl: profileController.userProfile
+                                                //                   .value.data!.myCategories![index].image
+                                                //                   .toString(),
+                                                //             ),
+                                                //           ),
+                                                //         ),
+                                                //         const SizedBox(
+                                                //           height: 4,
+                                                //         ),
+                                                //         Text(
+                                                //           profileController.userProfile.value.data!.myCategories![index].name.toString(),
+                                                //           style: GoogleFonts.mulish(
+                                                //               fontWeight: FontWeight.w300,
+                                                //               // letterSpacing: 1,
+                                                //               fontSize: 14,
+                                                //               color: Color(0xFF26282E)),
+                                                //         )
+                                                //       ],
+                                                //     ),
+                                                //   );
+                                                // }),
                                               ],
                                             ),
                                           )
-                                          : statusOfUser.value.isError
+                                          : profileController.statusOfUser.value.isError
                                           ? CommonErrorWidget(
                                         errorText: "",
                                         onTap: () {},
@@ -1079,11 +1151,11 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
 
                                 Column(
                                   children: [
-                                    if (check == true)
-                                      statusOfSingle.value.isSuccess
+                                    if (  profileController.checkForUser == true)
+                                      profileController.statusOfSingle.value.isSuccess
                                           ? Column(
                                         children: [
-                                          if (single.value.data!.details!.isEmpty) const Text("No Record found"),
+                                          if (profileController.single.value.data!.details!.isEmpty) const Text("No Record found"),
                                           GridView.builder(
                                             padding: EdgeInsets.zero,
                                             physics: NeverScrollableScrollPhysics(),
@@ -1095,25 +1167,25 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                               // Spacing between columns
                                               mainAxisSpacing: 10.0, // Spacing between rows
                                             ),
-                                            itemCount: single.value.data!.details!.length,
+                                            itemCount: profileController.single.value.data!.details!.length,
                                             // Total number of items
                                             itemBuilder: (BuildContext context, int index) {
                                               // You can replace the Container with your image widget
                                               return GestureDetector(
                                                 onTap: () {
                                                   print(
-                                                    "id:::::::::::::::::::::::::::::${single.value.data!.details![index].id}",
+                                                    "id:::::::::::::::::::::::::::::${profileController.single.value.data!.details![index].id}",
                                                   );
                                                   Get.toNamed(
                                                     MyRouters.recommendationSingleScreen,
                                                     arguments: [
-                                                      single.value.data!.details![index].id.toString(),
+                                                      profileController.single.value.data!.details![index].id.toString(),
                                                     ],
                                                   );
                                                   print("object");
                                                 },
                                                 child: CachedNetworkImage(
-                                                  imageUrl: single.value.data!.details![index].image.toString(),
+                                                  imageUrl: profileController.single.value.data!.details![index].image.toString(),
                                                   fit: BoxFit.fill,
                                                 ),
                                               );
@@ -1127,10 +1199,10 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                         onTap: () {},
                                       )
                                           : const Center(child: SizedBox()),
-                                    if (check == false)
+                                    if (  profileController.checkForUser == false)
                                     // if (profileController.modal.value.data!.myRecommandation!.isEmpty)
                                     //   const Text("No data found "),
-                                      statusOfUser.value.isSuccess
+                                      profileController.statusOfUser.value.isSuccess
                                           ? SingleChildScrollView(
                                         child: GridView.builder(
                                           physics: const BouncingScrollPhysics(),
@@ -1145,7 +1217,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                             mainAxisSpacing: 10.0, // Spacing between rows
                                           ),
                                           itemCount:
-                                          userProfile.value.data!.myRecommandation!.length,
+                                          profileController.userProfile.value.data!.myRecommandation!.length,
                                           // Total number of items
                                           itemBuilder: (BuildContext context, int index) {
                                             // You can replace the Container with your image widget
@@ -1160,7 +1232,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                     //     .toString(),
                                                     // userProfile.value.data!.myRecommandation![index].review
                                                     //     .toString(),
-                                                    userProfile.value.data!.myRecommandation![index].id
+                                                    profileController.userProfile.value.data!.myRecommandation![index].id
                                                         .toString(),
                                                     // userProfile.value.data!.myRecommandation![index].link
                                                     //     .toString(),
@@ -1169,7 +1241,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                 print("object");
                                               },
                                               child: CachedNetworkImage(
-                                                imageUrl: userProfile.value.data!.myRecommandation![index].image
+                                                imageUrl: profileController.userProfile.value.data!.myRecommandation![index].image
                                                     .toString(),
                                                 fit: BoxFit.fill,
                                                 errorWidget: (_, __, ___) =>  const Icon(
@@ -1180,7 +1252,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                           },
                                         ),
                                       )
-                                          : statusOfUser.value.isError
+                                          : profileController.statusOfUser.value.isError
                                           ? CommonErrorWidget(
                                         errorText: "",
                                         onTap: () {},
@@ -1476,12 +1548,14 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                     ),
                   ],
                 )
-                    : statusOfUser.value.isError
+                    : profileController.statusOfUser.value.isError
                     ? CommonErrorWidget(
                   errorText: "",
                   onTap: () {},
                 )
-                    : const Center(child: CircularProgressIndicator());
+                    :  Padding(
+                    padding: EdgeInsets.only(top : Get.height/2),
+                    child: const Center(child: CircularProgressIndicator()));
               })),
         ),
       ),

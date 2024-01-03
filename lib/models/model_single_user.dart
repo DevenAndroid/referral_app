@@ -24,12 +24,16 @@ class ModelSingleUser {
 
 class Data {
   Recommandation? recommandation;
+  Category? category;
 
-  Data({this.recommandation});
+  Data({this.recommandation, this.category});
 
   Data.fromJson(Map<String, dynamic> json) {
     recommandation = json['recommandation'] != null
         ? new Recommandation.fromJson(json['recommandation'])
+        : null;
+    category = json['category'] != null
+        ? new Category.fromJson(json['category'])
         : null;
   }
 
@@ -38,6 +42,9 @@ class Data {
     if (this.recommandation != null) {
       data['recommandation'] = this.recommandation!.toJson();
     }
+    if (this.category != null) {
+      data['category'] = this.category!.toJson();
+    }
     return data;
   }
 }
@@ -45,7 +52,7 @@ class Data {
 class Recommandation {
   int? id;
   User? user;
-  int? askrecommandationId;
+  Null? askrecommandationId;
   String? title;
   String? review;
   String? link;
@@ -53,6 +60,7 @@ class Recommandation {
   String? image;
   String? status;
   bool? wishlist;
+  String? isComment;
   String? date;
 
   Recommandation(
@@ -66,6 +74,7 @@ class Recommandation {
         this.image,
         this.status,
         this.wishlist,
+        this.isComment,
         this.date});
 
   Recommandation.fromJson(Map<String, dynamic> json) {
@@ -79,6 +88,7 @@ class Recommandation {
     image = json['image'];
     status = json['status'];
     wishlist = json['wishlist'];
+    isComment = json['is_comment'];
     date = json['date'];
   }
 
@@ -96,6 +106,7 @@ class Recommandation {
     data['image'] = this.image;
     data['status'] = this.status;
     data['wishlist'] = this.wishlist;
+    data['is_comment'] = this.isComment;
     data['date'] = this.date;
     return data;
   }
@@ -194,6 +205,31 @@ class User {
     data['followers_count'] = this.followersCount;
     data['post_count'] = this.postCount;
     data['is_follow'] = this.isFollow;
+    return data;
+  }
+}
+
+class Category {
+  int? id;
+  String? name;
+  String? image;
+  bool? status;
+
+  Category({this.id, this.name, this.image, this.status});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    image = json['image'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['image'] = this.image;
+    data['status'] = this.status;
     return data;
   }
 }
