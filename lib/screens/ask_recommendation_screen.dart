@@ -9,8 +9,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:referral_app/screens/select_friends_screen.dart';
 
 import '../controller/bottomNav_controller.dart';
+import '../controller/get_friend_controller.dart';
 import '../controller/profile_controller.dart';
 import '../repositories/add_ask_recommendation_repo.dart';
 import '../resourses/api_constant.dart';
@@ -45,6 +47,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController maxController = TextEditingController();
   TextEditingController minController = TextEditingController();
+  final getFriendListController = Get.put(GetFriendListController(),permanent: true);
 
   Future pickImage() async {
     try {
@@ -81,6 +84,9 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getFriendListController.selectedFriendIds;
+    getFriendListController.getFriendList();
+
     //value2 = false;
   }
 
@@ -139,20 +145,25 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                         const SizedBox(
                           width: 8,
                         ),
-                        Obx(() {
-                          return Text(
-                            profileController.selectedValue.trim(),
+                        InkWell(
+                          onTap: (){
+                            // showDialogue15(context);
+                            Get.toNamed(MyRouters.selectFriendsScreen);
+                          },
+                          child: Text(
+                            'Tag Friends',
                             style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
-                          );
-                        }),
+                          ),
+                        ),
                         const SizedBox(
                           width: 2,
                         ),
                         GestureDetector(
                             onTap: () {
-                              setState(() {
-                                showDialogue15(context);
-                              });
+                              Get.toNamed(MyRouters.selectFriendsScreen);
+                              // setState(() {
+                              //   showDialogue15(context);
+                              // });
                             },
                             child: const Icon(Icons.arrow_drop_down)),
 
@@ -217,10 +228,15 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      "Photo Inspiration/Direction",
-                      style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.onboardingColor),
+                    InkWell(
+                      onTap: (){
+                        print('Selected Friend IDs: ${getFriendListController.selectedFriendIds.join(',')}');
+                      },
+                      child: Text(
+                        "Photo Inspiration/Direction",
+                        style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.onboardingColor),
+                      ),
                     ),
                     const SizedBox(
                       height: 12,
@@ -450,6 +466,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                               map['min_price'] = minController.text.toString();
                               map['max_price'] = maxController.text.toString();
                               map['post_viewers_type'] = profileController.selectedValue.value;
+                              map['tag_id'] =  getFriendListController.selectedFriendIds.join(',');
                               map['no_budget'] = value2 == true ? '1' : '0';
 
                               askRecommendationRepo(
@@ -460,10 +477,10 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                               ).then((value) async {
                                 if (value.status == true) {
                                   bottomController.updateIndexValue(0);
-                                  showToast("Add Recommendation Sucessfully ");
+                                  showToast(value.message.toString());
                                 } else {
-                                  bottomController.updateIndexValue(0);
-                                  showToast("Add Recommendation Sucessfully ");
+                                  // bottomController.updateIndexValue(0);
+                                  showToast(value.message.toString());
                                 }
                               });
                             }
@@ -475,6 +492,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                             map['max_price'] = maxController.text.toString();
                             map['post_viewers_type'] = profileController.selectedValue.value;
                             map['no_budget'] = value2 == true ? '1' : '0';
+                            map['tag_id'] =  getFriendListController.selectedFriendIds.join(',');
 
                             askRecommendationRepo(
                               fieldName1: 'image',
@@ -484,10 +502,10 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                             ).then((value) async {
                               if (value.status == true) {
                                 bottomController.updateIndexValue(0);
-                                showToast("Add Recommendation Sucessfully ");
+                                showToast(value.message.toString());
                               } else {
-                                bottomController.updateIndexValue(0);
-                                showToast("Add Recommendation Sucessfully ");
+                                // bottomController.updateIndexValue(0);
+                                showToast(value.message.toString());
                               }
                             });
                           }

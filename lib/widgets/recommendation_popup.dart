@@ -23,7 +23,7 @@ class _RecommendationPopupState extends State<RecommendationPopup> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         // insetPadding: EdgeInsets.symmetric(),
         insetPadding: EdgeInsets.symmetric(
-            horizontal: 10, vertical: MediaQuery.of(context).size.height * .28),
+            horizontal: 10, vertical: MediaQuery.of(context).size.height * .38),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -37,7 +37,7 @@ class _RecommendationPopupState extends State<RecommendationPopup> {
                     fontSize: 16,
                     color: Colors.black),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               // RadioListTile<String>(

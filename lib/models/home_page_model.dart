@@ -80,6 +80,7 @@ class Discover {
   int? reviewCount;
   String? date;
   bool? isEditable;
+  int? commentCount;
 
   Discover(
       {this.id,
@@ -94,6 +95,7 @@ class Discover {
         this.noBudget,
         this.reviewCount,
         this.isEditable,
+        this.commentCount,
         this.date});
 
   Discover.fromJson(Map<String, dynamic> json) {
@@ -110,6 +112,7 @@ class Discover {
     noBudget = json['no_budget'];
     reviewCount = json['review_count'];
     isEditable = json['is_editable'];
+    commentCount = json['comment_count'];
     date = json['date'];
   }
 
@@ -129,6 +132,7 @@ class Discover {
     data['no_budget'] = this.noBudget;
     data['review_count'] = this.reviewCount;
     data['date'] = this.date;
+    data['comment_count'] = this.commentCount;
     data['is_editable'] = this.isEditable;
     return data;
   }
@@ -146,7 +150,7 @@ class UserId {
   String? referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
-  Null? deliveryRange;
+  dynamic deliveryRange;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;
@@ -244,6 +248,7 @@ class Recommandation {
   bool? wishlist;
   bool? isEditable;
   String? date;
+  int? commentCount;
 
   Recommandation(
       {this.id,
@@ -257,6 +262,7 @@ class Recommandation {
         this.status,
         this.wishlist,
         this.isEditable,
+        this.commentCount,
         this.date});
 
   Recommandation.fromJson(Map<String, dynamic> json) {
@@ -271,6 +277,7 @@ class Recommandation {
     status = json['status'];
     wishlist = json['wishlist'];
     isEditable = json['is_editable'];
+    commentCount = json['comment_count'];
     date = json['date'];
   }
 
@@ -289,6 +296,7 @@ class Recommandation {
     data['status'] = this.status;
     data['wishlist'] = this.wishlist;
     data['is_editable'] = this.isEditable;
+    data['comment_count'] = this.commentCount;
     data['date'] = this.date;
     return data;
   }

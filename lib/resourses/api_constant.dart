@@ -32,9 +32,12 @@ class ApiUrls {
   static const String allUsers = "${apiBaseUrl}all-users";
   static const String addRemoveFollower = "${apiBaseUrl}add-remove-follower";
   static const String reviewList = "${apiBaseUrl}review-list";
+  static const String getComment = "${apiBaseUrl}get-commetns";
+  static const String getFriendList = "${apiBaseUrl}friends-list";
   static const String deleteRecommand = "${apiBaseUrl}delete-recommandation";
   static const String deleteMyRequest = "${apiBaseUrl}delete-ask-recommandation";
   static const String addRemoveLike = "${apiBaseUrl}add-remove-like";
+  static const String addComment = "${apiBaseUrl}add-comment";
 
 }
 

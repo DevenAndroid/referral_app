@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../models/all_recommendation_model.dart';
+import '../models/delete_recomm.dart';
 import '../models/get_profile_model.dart';
 import '../models/model_user_profile.dart';
 import '../models/single_product_model.dart';
@@ -15,7 +16,7 @@ class ProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  RxString selectedValue = 'Public'.obs;
+  RxString selectedValue = 'select friends'.obs;
   bool check = false;
   final categoriesController = TextEditingController();
   final idController = TextEditingController();
@@ -97,6 +98,18 @@ class ProfileController extends GetxController {
       }
     });
   }
+
+
+
+  Rx<ModelDeleteRecomm> deleteRecommendation = ModelDeleteRecomm().obs;
+  Rx<RxStatus> statusOfDelete = RxStatus.empty().obs;
+
+
+
+
+
+
+
 
   @override
   void onInit() {

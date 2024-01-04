@@ -281,11 +281,13 @@ var postid = Get.arguments[0];
                       ).then((value) async {
                         if (value.status == true) {
                           profileController.getData();
-                          // homeController.getData();
+                          homeController.getData();
                           Get.back();
+
                           // Get.toNamed(MyRouters.followingScreen);
                           showToast(value.message.toString());
-                        } else {
+                        }
+                        else {
                           showToast(value.message.toString());
                         }
                       }

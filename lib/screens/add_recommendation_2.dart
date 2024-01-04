@@ -70,7 +70,7 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
   }
 
   File categoryFile = File("");
-var id = Get.arguments[0];
+  var id = Get.arguments[0];
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -83,12 +83,11 @@ var id = Get.arguments[0];
       print('Field to pick img : $e');
     }
   }
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     UserProfile();
-    id.toString();
     //
     // recommendationController
     // reviewController
@@ -104,7 +103,7 @@ var id = Get.arguments[0];
       .empty()
       .obs;
   UserProfile() {
-    singleUserRepo(recommandation_id: id,).then((value) {
+    singleUserRepo(recommandation_id: id.toString()).then((value) {
       single.value = value;
       print(id);
       if (value.status == true) {
@@ -122,7 +121,7 @@ var id = Get.arguments[0];
     });
   }
 
-  
+
 
 
 

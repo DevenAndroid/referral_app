@@ -36,9 +36,9 @@ class _SingleScreenState extends State<SingleScreen> {
     }
   }
 
-  Rx<ModelDeleteRecomm> deleteRecommendation = ModelDeleteRecomm().obs;
+
   final profileController = Get.put(ProfileController());
-  Rx<RxStatus> statusOfDelete = RxStatus.empty().obs;
+
   SampleItem? selectedMenu;
 
   @override
@@ -116,18 +116,18 @@ class _SingleScreenState extends State<SingleScreen> {
                                                 recommandation_id: id.toString(),
                                               ).then((value) async {
                                                 if (value.status == true) {
-                                                  deleteRecommendation.value = value;
+                                                  profileController.deleteRecommendation.value = value;
                                                   profileController.getData();
                                                   Get.back();
                                                   Get.back();
                                                   Get.back();
                                                   print('wishlist-----');
-                                                  statusOfDelete.value = RxStatus.success();
+                                                  profileController.statusOfDelete.value = RxStatus.success();
 
                                                   // like=true;
                                                   showToast(value.message.toString());
                                                 } else {
-                                                  statusOfDelete.value = RxStatus.error();
+                                                  profileController.statusOfDelete.value = RxStatus.error();
                                                   // like=false;
                                                   showToast(value.message.toString());
                                                 }
@@ -165,18 +165,18 @@ class _SingleScreenState extends State<SingleScreen> {
                                                     recommandation_id: id.toString(),
                                                   ).then((value) async {
                                                     if (value.status == true) {
-                                                      deleteRecommendation.value = value;
+                                                      profileController.deleteRecommendation.value = value;
                                                       profileController.getData();
                                                       Get.back();
                                                       Get.back();
                                                       Get.back();
                                                       print('wishlist-----');
-                                                      statusOfDelete.value = RxStatus.success();
+                                                      profileController.statusOfDelete.value = RxStatus.success();
 
                                                       // like=true;
                                                       showToast(value.message.toString());
                                                     } else {
-                                                      statusOfDelete.value = RxStatus.error();
+                                                      profileController.statusOfDelete.value = RxStatus.error();
                                                       // like=false;
                                                       showToast(value.message.toString());
                                                     }

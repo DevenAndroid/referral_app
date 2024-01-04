@@ -12,25 +12,31 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:referral_app/controller/homeController.dart';
+import 'package:referral_app/screens/recommendation_single_page.dart';
 import 'package:referral_app/widgets/app_assets.dart';
 import 'package:referral_app/widgets/custome_textfiled.dart';
 import 'package:referral_app/widgets/helper.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controller/bottomNav_controller.dart';
+import '../controller/get_comment_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wishlist controller.dart';
 import '../models/all_recommendation_model.dart';
 import '../models/categories_model.dart';
+import '../models/get_comment_model.dart';
 import '../models/home_page_model.dart';
 import '../models/model_review_list.dart';
 import '../models/remove_reomeendation.dart';
 import '../models/single_product_model.dart';
+import '../repositories/add_comment_repo.dart';
 import '../repositories/all_recommendation_repo.dart';
 import '../repositories/categories_repo.dart';
+import '../repositories/get_comment_repo.dart';
 import '../repositories/home_pafe_repo.dart';
 import '../repositories/remove_bookmark_repo.dart';
 import '../repositories/repo_add_like.dart';
+import '../repositories/repo_delete_recomm.dart';
 import '../repositories/repo_review_list.dart';
 import '../repositories/single_produc_repo.dart';
 import '../resourses/api_constant.dart';
@@ -97,9 +103,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 */
 
-  Rx<RxStatus> statusOfCategories = RxStatus.empty().obs;
+  Rx<RxStatus> statusOfCategories = RxStatus
+      .empty()
+      .obs;
   Rx<HomeModel> homeModel = HomeModel().obs;
   Rx<CategoriesModel> categories = CategoriesModel().obs;
+
   // Rx<RxStatus> statusOfSingle = RxStatus.empty().obs;
   // Rx<SingleProduct> single = SingleProduct().obs;
 
@@ -131,7 +140,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     });
   }
 
-  Rx<RxStatus> statusOfAllRecommendation = RxStatus.empty().obs;
+  Rx<RxStatus> statusOfAllRecommendation = RxStatus
+      .empty()
+      .obs;
   Rx<AllRecommendationModel> allRecommendation = AllRecommendationModel().obs;
 
   all() {
@@ -148,21 +159,33 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     });
   }
 
-  Rx<RxStatus> statusOfHome = RxStatus.empty().obs;
+  Rx<RxStatus> statusOfHome = RxStatus
+      .empty()
+      .obs;
   final wishListController = Get.put(WishListController());
-  final profileController = Get.put(ProfileController(),permanent: true);
+  final getCommentController = Get.put(GetCommentController());
+  final profileController = Get.put(ProfileController(), permanent: true);
 
   Rx<RemoveRecommendationModel> modalRemove = RemoveRecommendationModel().obs;
-  Rx<RxStatus> statusOfRemove = RxStatus.empty().obs;
+  Rx<RxStatus> statusOfRemove = RxStatus
+      .empty()
+      .obs;
   Rx<HomeModel> home = HomeModel().obs;
   bool like = false;
   RxString type = ''.obs;
   String? id;
-  Rx<RxStatus> statusOfReviewList = RxStatus.empty().obs;
+  Rx<RxStatus> statusOfReviewList = RxStatus
+      .empty()
+      .obs;
+  Rx<RxStatus> statusOfGetComment = RxStatus
+      .empty()
+      .obs;
   Rx<ModelReviewList> modelReviewList = ModelReviewList().obs;
+  Rx<GetCommentModel> getCommentModel = GetCommentModel().obs;
 
   reviewList(id) {
     // modelReviewList.value.data!.clear();
+    print('id isss...${id.toString()}');
     getReviewListRepo(context: context, id: id).then((value) {
       modelReviewList.value = value;
 
@@ -193,6 +216,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     }
   }
 
+  SampleItem? selectedMenu;
   @override
   void initState() {
     // TODO: implement initState
@@ -227,14 +251,24 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   // String selectedValue = 'friends';
 
   String post = "";
+  String postId = "";
 
   final bottomController = Get.put(BottomNavBarController());
+
   @override
   Widget build(BuildContext context) {
     //chooseCategories();
-    var size = MediaQuery.of(context).size;
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    var size = MediaQuery
+        .of(context)
+        .size;
+    var height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    var width = MediaQuery
+        .of(context)
+        .size
+        .width;
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -259,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     ? Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       // Get.toNamed(MyRouters.profileScreen);
                       bottomController.updateIndexValue(2);
                     },
@@ -294,7 +328,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ],
               bottom: TabBar(
                 controller: _tabController,
-                labelColor:  const Color(0xFF3797EF),
+                labelColor: const Color(0xFF3797EF),
                 unselectedLabelColor: Colors.black,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorColor: AppTheme.primaryColor,
@@ -331,7 +365,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             body: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Obx(() {
-                  if(profileController.refreshData.value > 0){}
+                  if (profileController.refreshData.value > 0) {}
                   return TabBarView(controller: _tabController, children: [
                     homeController.isDataLoading.value
                         ? SingleChildScrollView(
@@ -398,14 +432,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             : homeController.homeModel.value.data!.discover![index]
                                                             .userId!.profileImage
                                                             .toString(),
-                                                        errorWidget: (_, __, ___) => Image.asset(
-                                                          AppAssets.man,
-                                                          color: Colors.grey.shade200,
-                                                        ),
-                                                        placeholder: (_, __) => Image.asset(
-                                                          AppAssets.man,
-                                                          color: Colors.grey.shade200,
-                                                        ),
+                                                        errorWidget: (_, __, ___) =>
+                                                            Image.asset(
+                                                              AppAssets.man,
+                                                              color: Colors.grey.shade200,
+                                                            ),
+                                                        placeholder: (_, __) =>
+                                                            Image.asset(
+                                                              AppAssets.man,
+                                                              color: Colors.grey.shade200,
+                                                            ),
                                                       ),
                                                     ),
                                                   ),
@@ -428,7 +464,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                       )
                                                           : Text(
                                                         homeController.homeModel.value.data!.discover![index]
-                                                            .userId!.name
+                                                            .userId!
+                                                            .name
                                                             .toString()
                                                             .capitalizeFirst
                                                             .toString(),
@@ -530,10 +567,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                   imageUrl: homeController
                                                       .homeModel.value.data!.discover![index].image
                                                       .toString(),
-                                                  placeholder: (context, url) => const SizedBox(
+                                                  placeholder: (context, url) =>
+                                                  const SizedBox(
                                                     height: 0,
                                                   ),
-                                                  errorWidget: (context, url, error) => const SizedBox(
+                                                  errorWidget: (context, url, error) =>
+                                                  const SizedBox(
                                                     height: 0,
                                                   ),
                                                 ),
@@ -631,7 +670,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               post = homeController
                                                                   .homeModel.value.data!.discover![index].id
                                                                   .toString();
-                                                              print('Id Is....${homeController.homeModel.value.data!.discover![index].id}');
+                                                              print('Id Is....${homeController.homeModel.value.data!
+                                                                  .discover![index].id}');
                                                               _settingModalBottomSheet(context);
                                                             } else {
                                                               statusOfReviewList.value = RxStatus.error();
@@ -658,7 +698,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               width: 6,
                                                             ),
                                                             Text(
-                                                              "Recommendation: ${homeController.homeModel.value.data!.discover![index].reviewCount.toString()}",
+                                                              "Recommendation: ${homeController.homeModel.value.data!
+                                                                  .discover![index].reviewCount.toString()}",
                                                               style: GoogleFonts.mulish(
                                                                   fontWeight: FontWeight.w500,
                                                                   // letterSpacing: 1,
@@ -677,7 +718,28 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         setState(() {
-                                                          commentBottomSheet(context);
+                                                          getCommentRepo(
+                                                              context: context,
+                                                              id: homeController
+                                                                  .homeModel.value.data!.discover![index].id
+                                                                  .toString(), type: 'askrecommandation')
+                                                              .then((value) {
+                                                            getCommentModel.value = value;
+
+                                                            if (value.status == true) {
+                                                              statusOfGetComment.value = RxStatus.success();
+                                                              post = homeController
+                                                                  .homeModel.value.data!.discover![index].id
+                                                                  .toString();
+                                                              print('Id Is....${homeController.homeModel.value.data!
+                                                                  .discover![index].id}');
+                                                              commentBottomSheet(context);
+                                                            } else {
+                                                              statusOfGetComment.value = RxStatus.error();
+                                                            }
+
+                                                            setState(() {});
+                                                          });
                                                         });
                                                       },
                                                       child: Container(
@@ -698,7 +760,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               width: 6,
                                                             ),
                                                             Text(
-                                                              "Comments:   ${homeController.homeModel.value.data!.discover![index].reviewCount.toString()}",
+                                                              "Comments:   ${homeController.homeModel.value.data!
+                                                                  .discover![index].commentCount.toString()}",
                                                               style: GoogleFonts.mulish(
                                                                   fontWeight: FontWeight.w500,
                                                                   // letterSpacing: 1,
@@ -755,16 +818,17 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                       children: [
                                         Container(
                                           padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
                                           child: ClipOval(
-                                            child: Image.asset('assets/images/categoryList.png',width: 35,),
+                                            child: Image.asset('assets/images/categoryList.png', width: 35,),
                                           ),
                                         ),
                                         const SizedBox(
                                           height: 5,
                                         ),
                                         Text(
-                                         'Category list',
+                                          'Category list',
                                           // maxLines: 2,
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.mulish(
@@ -791,9 +855,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                         children: [
                                           Container(
                                             padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
                                             child: ClipOval(
-                                              child: Image.asset('assets/images/viewAll.png',width: 35,),
+                                              child: Image.asset('assets/images/viewAll.png', width: 35,),
                                             ),
                                           ),
                                           const SizedBox(
@@ -817,39 +882,39 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                     width: 18,
                                   ),
                                   if(profileController.check == true)
-                                  profileController.single.value.data!= null ?
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      ClipOval(
-                                        child: CachedNetworkImage(
-                                          width: 60,
-                                          height: 60,
-                                          fit: BoxFit.fill,
-                                          imageUrl: profileController.single.value.data!.categoryImage.toString(),
+                                    profileController.single.value.data != null ?
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        ClipOval(
+                                          child: CachedNetworkImage(
+                                            width: 60,
+                                            height: 60,
+                                            fit: BoxFit.fill,
+                                            imageUrl: profileController.single.value.data!.categoryImage.toString(),
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      SizedBox(
-                                        width: 70,
-                                        child: Text(
-                                         profileController.single.value.data!.categoryName.toString(),
-                                          maxLines: 2,
-                                          textAlign: TextAlign.center,
-                                          style: GoogleFonts.mulish(
-                                              fontWeight: FontWeight.w300,
-                                              // letterSpacing: 1,
-                                              fontSize: 14,
-                                              color: const Color(0xFF26282E)),
+                                        const SizedBox(
+                                          height: 5,
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                    ],
-                                  ) : const SizedBox(),
+                                        SizedBox(
+                                          width: 70,
+                                          child: Text(
+                                            profileController.single.value.data!.categoryName.toString(),
+                                            maxLines: 2,
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.mulish(
+                                                fontWeight: FontWeight.w300,
+                                                // letterSpacing: 1,
+                                                fontSize: 14,
+                                                color: const Color(0xFF26282E)),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                      ],
+                                    ) : const SizedBox(),
                                   // SizedBox(
                                   //     height: size.height * .15,
                                   //     child: Obx(() {
@@ -911,7 +976,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               profileController.statusOfSingle.value.isSuccess
                                   ? Column(
                                 children: [
-                                  if (profileController.single.value.data!.details!.isEmpty)  Padding(padding: EdgeInsets.only(top: Get.height/5),child: const Text("No Record found")),
+                                  if (profileController.single.value.data!.details!.isEmpty) Padding(
+                                      padding: EdgeInsets.only(top: Get.height / 5), child: const Text("No Record found")),
                                   GridView.builder(
                                     padding: EdgeInsets.zero,
                                     shrinkWrap: true,
@@ -929,7 +995,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                       return GestureDetector(
                                         onTap: () {
                                           print(
-                                            "id:::::::::::::::::::::::::::::${profileController.single.value.data!.details![index].id}",
+                                            "id:::::::::::::::::::::::::::::${profileController.single.value.data!
+                                                .details![index].id}",
                                           );
                                           Get.toNamed(
                                             MyRouters.recommendationSingleScreen,
@@ -1002,7 +1069,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               //           ),
                               //         ),
                               //       )
-                              GridView.builder (
+                              GridView.builder(
                                 padding: EdgeInsets.zero,
                                 physics: const BouncingScrollPhysics(),
                                 shrinkWrap: true,
@@ -1035,8 +1102,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                     },
                                     child: CachedNetworkImage(
                                       imageUrl: allRecommendation.value.data![index].image.toString(),
-                                      placeholder: (context, url) =>  const SizedBox(),
-                                      errorWidget: (_, __, ___) => const Icon(
+                                      placeholder: (context, url) => const SizedBox(),
+                                      errorWidget: (_, __, ___) =>
+                                      const Icon(
                                         Icons.error_outline_outlined,
                                         color: Colors.red,
                                       ),
@@ -1063,8 +1131,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   void _settingModalBottomSheet(context) {
-    var size = MediaQuery.of(context).size;
-    var hieght = MediaQuery.of(context).size.height;
+    var size = MediaQuery
+        .of(context)
+        .size;
+    var hieght = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     showModalBottomSheet(
         enableDrag: true,
@@ -1158,31 +1231,158 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                           children: [
                                             Row(
                                               crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  modelReviewList.value.data![index].user!.name.toString(),
-                                                  style: GoogleFonts.mulish(
-                                                    fontWeight: FontWeight.w600,
-                                                    // letterSpacing: 1,
-                                                    fontSize: 14,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Text(
-                                                  modelReviewList.value.data![index].date.toString(),
-                                                  style: GoogleFonts.mulish(
-                                                    fontWeight: FontWeight.w400,
-                                                    // letterSpacing: 1,
-                                                    fontSize: 10,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                                const Spacer(),
+                                               Row(
+                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                                 mainAxisAlignment: MainAxisAlignment.start,
+                                                 children: [
+                                                   Text(
+                                                     overflow: TextOverflow.ellipsis,
+                                                     modelReviewList.value.data![index].user!.name.toString(),
+                                                     style: GoogleFonts.mulish(
+                                                       fontWeight: FontWeight.w600,
+                                                       // letterSpacing: 1,
+                                                       fontSize: 14,
+                                                       color: Colors.black,
+                                                     ),
+                                                   ),
+                                                   const SizedBox(
+                                                     width: 15,
+                                                   ),
+                                                   Text(
+                                                     modelReviewList.value.data![index].date.toString(),
+                                                     style: GoogleFonts.mulish(
+                                                       fontWeight: FontWeight.w400,
+                                                       // letterSpacing: 1,
+                                                       fontSize: 10,
+                                                       color: Colors.black,
+                                                     ),
+                                                   ),
+                                                 ],
+                                               ),
+                                               homeController.homeModel.value.data!.recommandation![index].isEditable == true ?
+                                               PopupMenuButton<SampleItem>(
+                                                  initialValue: selectedMenu,
+                                                  onSelected: (SampleItem item) {
+                                                    setState(() {
+                                                      selectedMenu = item;
+                                                    });
+                                                  },
+                                                  itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+                                                    PopupMenuItem<SampleItem>(
+                                                      value: SampleItem.itemOne,
+                                                      onTap:  () {
+                                                        print("object${homeController.homeModel.value.data!.recommandation![index].id.toString()}");
+                                                        Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [
+                                                          homeController.homeModel.value.data!.recommandation![index].id.toString()]);
+                                                      },
+                                                      child: Text('Edit'),
+                                                    ),
+                                                    PopupMenuItem<SampleItem>(
+                                                      value: SampleItem.itemTwo,
+                                                      onTap: () {
+                                                        showDialog<String>(
+                                                          context: context,
+                                                          builder: (BuildContext context) => AlertDialog(
+                                                            title: const Text(
+                                                              'Are you sure to delete recommendation',
+                                                              style: TextStyle(fontSize: 16),
+                                                            ),
+                                                            actions: <Widget>[
+                                                              InkWell(
+                                                                  onTap: () {
+                                                                    Get.back();
+                                                                    Get.back();
+                                                                    Get.back();
+                                                                  },
+                                                                  child: Text("Cancel ")),
+                                                              SizedBox(
+                                                                width: 40,
+                                                              ),
+                                                              InkWell(
+                                                                  onTap: () {
+                                                                    deleteRecommRepo(
+                                                                      context: context,
+                                                                      recommandation_id: homeController.homeModel.value.data!.recommandation![index].id.toString(),
+                                                                    ).then((value) async {
+                                                                      if (value.status == true) {
+                                                                        profileController.deleteRecommendation.value = value;
+                                                                        profileController.getData();
+                                                                        homeController.getData();
+                                                                        Get.back();
+                                                                        Get.back();
+                                                                        Get.back();
+                                                                        print('wishlist-----');
+                                                                        profileController.statusOfDelete.value = RxStatus.success();
 
+                                                                        // like=true;
+                                                                        showToast(value.message.toString());
+                                                                      } else {
+                                                                        profileController.statusOfDelete.value = RxStatus.error();
+                                                                        // like=false;
+                                                                        showToast(value.message.toString());
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  child: const Text('OK')),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: InkWell(
+                                                          onTap: () {
+                                                            showDialog<String>(
+                                                              context: context,
+                                                              builder: (BuildContext context) => AlertDialog(
+                                                                title: const Text(
+                                                                  'Are you sure to delete recommendation',
+                                                                  style: TextStyle(fontSize: 16),
+                                                                ),
+                                                                actions: <Widget>[
+                                                                  InkWell(
+                                                                      onTap: () {
+                                                                        Get.back();
+                                                                        Get.back();
+                                                                        Get.back();
+                                                                      },
+                                                                      child: Text("Cancel ")),
+                                                                  SizedBox(
+                                                                    width: 40,
+                                                                  ),
+                                                                  InkWell(
+                                                                      onTap: () {
+                                                                        deleteRecommRepo(
+                                                                          context: context,
+                                                                          recommandation_id: homeController.homeModel.value.data!.recommandation![index].id.toString(),
+                                                                        ).then((value) async {
+                                                                          if (value.status == true) {
+                                                                            profileController.deleteRecommendation.value = value;
+                                                                            profileController.getData();
+                                                                            Get.back();
+                                                                            Get.back();
+                                                                            Get.back();
+                                                                            print('wishlist-----');
+                                                                            profileController.statusOfDelete.value = RxStatus.success();
+
+                                                                            // like=true;
+                                                                            showToast(value.message.toString());
+                                                                          } else {
+                                                                            profileController.statusOfDelete.value = RxStatus.error();
+                                                                            // like=false;
+                                                                            showToast(value.message.toString());
+                                                                          }
+                                                                        });
+                                                                      },
+                                                                      child: const Text('OK')),
+                                                                ],
+                                                              ),
+                                                            );
+                                                          },
+                                                          child: const Text('Delete')),
+                                                    ),
+                                                  ],
+                                                ) : const SizedBox(),
                                               ],
                                             ),
                                             SizedBox(
@@ -1211,7 +1411,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             onTap: () {
                                                               addRemoveLikeRepo(
                                                                 context: context,
-                                                                recommended_id: modelReviewList.value.data![index].id.toString(),
+                                                                recommended_id: modelReviewList.value.data![index].id
+                                                                    .toString(),
                                                               ).then((value) async {
                                                                 // userProfile.value = value;
                                                                 if (value.status == true) {
@@ -1288,12 +1489,53 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                 height: 200,
                                                 fit: BoxFit.fill,
                                                 imageUrl: modelReviewList.value.data![index].image.toString(),
-                                                placeholder: (context, url) => const SizedBox(
+                                                placeholder: (context, url) =>
+                                                const SizedBox(
                                                   height: 0,
                                                 ),
-                                                errorWidget: (context, url, error) => const SizedBox(
+                                                errorWidget: (context, url, error) =>
+                                                const SizedBox(
                                                   height: 0,
                                                 ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 18,
+                                            ),
+                                            InkWell(
+                                              onTap: (){
+                                                setState(() {
+                                                  getCommentRepo(
+                                                      context: context,
+                                                      id: homeController
+                                                          .homeModel.value.data!.recommandation![index].id
+                                                          .toString(), type: 'recommandation')
+                                                      .then((value) {
+                                                    getCommentModel.value = value;
+
+                                                    if (value.status == true) {
+                                                      statusOfGetComment.value = RxStatus.success();
+                                                      postId = homeController
+                                                          .homeModel.value.data!.recommandation![index].id
+                                                          .toString();
+                                                      print('Id Is....${homeController.homeModel.value.data!
+                                                          .recommandation![index].id}');
+                                                      commentBottomSheetReco(context);
+                                                    } else {
+                                                      statusOfGetComment.value = RxStatus.error();
+                                                    }
+
+                                                    setState(() {});
+                                                  });
+                                                });
+                                              },
+                                              child: Text(
+                                                "Comments:   ${  modelReviewList.value.data![index].commentCount.toString()}",
+                                                style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w600,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 16,
+                                                    color: const Color(0xFF3797EF)),
                                               ),
                                             ),
                                           ],
@@ -1333,9 +1575,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   void commentBottomSheet(context) {
-    var size = MediaQuery.of(context).size;
-    var height = MediaQuery.of(context).size.height;
-
+    var size = MediaQuery
+        .of(context)
+        .size;
+    var height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    TextEditingController commentController = TextEditingController();
     showModalBottomSheet(
         enableDrag: true,
         isDismissible: true,
@@ -1351,155 +1598,410 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         ),
         builder: (BuildContext context) {
           // UDE : SizedBox instead of Container for whitespaces
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    children: [
-                      Text(
-                        'Comments List',
-                        style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.w700,
-                          // letterSpacing: 1,
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const Spacer(),
-                      GestureDetector(
-                          onTap: () {
-                            Get.back();
-                            setState(() {});
-                          },
-                          child: const Icon(Icons.close)),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  // statusOfReviewList.value.isSuccess
-                  //     ?
-                  SingleChildScrollView(
-                    child: Column(
+          return statusOfGetComment.value.isSuccess
+              ? SingleChildScrollView(
+            child: Obx(() {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20).copyWith(
+                    bottom: MediaQuery.of(context).viewInsets.bottom
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
                       children: [
-                        ListView.builder(
-                          physics: const ScrollPhysics(),
-                          itemCount: 4,
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(left: 8.0, top: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipOval(
-                                    child: CachedNetworkImage(
-                                      width: 30,
-                                      height: 30,
-                                      fit: BoxFit.cover,
-                                      imageUrl: 'modelReviewList.value.data![index].user!.profileImage.toString()',
-                                      placeholder: (context, url) => const SizedBox(),
-                                      errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                              bottomRight: Radius.circular(10),
-                                              bottomLeft: Radius.circular(10),
-                                              topRight: Radius.circular(10)),
-                                          color: Colors.grey.withOpacity(0.2)),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
+                        Text(
+                          'Comments List',
+                          style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.w700,
+                            // letterSpacing: 1,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                            onTap: () {
+                              Get.back();
+                              setState(() {});
+                            },
+                            child: const Icon(Icons.close)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    // statusOfReviewList.value.isSuccess
+                    //     ?
+                    SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListView.builder(
+                              physics: const ScrollPhysics(),
+                              itemCount: getCommentModel.value.data!.length,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                var item = getCommentModel.value.data![index].userId!;
+                                var item1 = getCommentModel.value.data![index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ClipOval(
+                                        child: CachedNetworkImage(
+                                          width: 30,
+                                          height: 30,
+                                          fit: BoxFit.cover,
+                                          imageUrl: item.profileImage.toString(),
+                                          placeholder: (context, url) => const SizedBox(),
+                                          errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                          decoration: BoxDecoration(
+                                              borderRadius: const BorderRadius.only(
+                                                  bottomRight: Radius.circular(10),
+                                                  bottomLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10)),
+                                              color: Colors.grey.withOpacity(0.2)),
+                                          child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    overflow: TextOverflow.ellipsis,
+                                                    item.name.toString(),
+                                                    style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w600,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  Text(
+                                                    item1.date.toString(),
+                                                    style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w400,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 10,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: size.height * .01,
+                                              ),
                                               Text(
-                                                overflow: TextOverflow.ellipsis,
-                                               'Tester',
+                                                item1.comment.toString(),
                                                 style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w400,
                                                   // letterSpacing: 1,
                                                   fontSize: 14,
                                                   color: Colors.black,
                                                 ),
                                               ),
                                               const SizedBox(
-                                                width: 15,
-                                              ),
-                                              Text(
-                                               'date',
-                                                style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w400,
-                                                  // letterSpacing: 1,
-                                                  fontSize: 10,
-                                                  color: Colors.black,
-                                                ),
+                                                height: 8,
                                               ),
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: size.height * .01,
-                                          ),
-                                          Text(
-                                           'this is ui',
-                                            style: GoogleFonts.mulish(
-                                              fontWeight: FontWeight.w700,
-                                              // letterSpacing: 1,
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            // Get.toNamed(MyRouters.recommendationScreen);
-                          },
-                          child: const CommonButton(title: "Send Recommendation"),
-                        ),
-                        const SizedBox(
-                          height: 20,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                           Container(
+                             height: 50,
+                             decoration: BoxDecoration(
+                               color: const Color(0xFF070707).withOpacity(.06),
+                               borderRadius: BorderRadius.circular(44)
+                             ),
+                             child: Padding(
+                               padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 12).copyWith(bottom: 0),
+                               child: CustomTextField(
+                                   obSecure: false.obs,
+                                   hintText: 'Type a message...'.obs,
+                                 controller: commentController,
+                                 suffixIcon: InkWell(
+                                   onTap: (){
+                                     addCommentRepo(context: context,type: 'askrecommandation',comment: commentController.text.trim(),postId: post.toString()).then((value) {
+                                       if (value.status == true) {
+                                         showToast(value.message.toString());
+                                         homeController.getData();
+                                         Get.back();
+                                         setState(() {
+                                           commentController.clear();
+                                         });
+                                       }
+                                       else {
+                                         showToast(value.message.toString());
+                                       }
+                                     });
+                                   },
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.center,
+                                       mainAxisAlignment: MainAxisAlignment.center,
+                                       children: [
+                                         Image.asset('assets/images/comment_send_icon.png',width: 35,height: 35,),
+                                       ],
+                                     )),
+                               ),
+                             ),
+                           ),
+                            const SizedBox(
+                              height: 20,
+                            )
+                          ],
                         )
-                      ],
+                    ),
+                    // : const Center(child: Text('No Data Available')),
+                    const SizedBox(
+                      height: 20,
                     )
-                  ),
-                      // : const Center(child: Text('No Data Available')),
-                  const SizedBox(
-                    height: 20,
-                  )
-                ],
-              ),
-            ),
-          );
+                  ],
+                ),
+              );
+            }),
+          ) : const Center(child: Text('No Data Available'));
+        });
+  }
+
+  void commentBottomSheetReco(context) {
+    var size = MediaQuery
+        .of(context)
+        .size;
+    var height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    TextEditingController commentController = TextEditingController();
+    showModalBottomSheet(
+        enableDrag: true,
+        isDismissible: true,
+        constraints: BoxConstraints(
+          maxHeight: height * .9,
+        ),
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.white,
+        elevation: 10,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+        ),
+        builder: (BuildContext context) {
+          // UDE : SizedBox instead of Container for whitespaces
+          return statusOfGetComment.value.isSuccess
+              ? SingleChildScrollView(
+            child: Obx(() {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20).copyWith(
+                    bottom: MediaQuery.of(context).viewInsets.bottom
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        Text(
+                          'Comments List',
+                          style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.w700,
+                            // letterSpacing: 1,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                            onTap: () {
+                              Get.back();
+                              setState(() {});
+                            },
+                            child: const Icon(Icons.close)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    // statusOfReviewList.value.isSuccess
+                    //     ?
+                    SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListView.builder(
+                              physics: const ScrollPhysics(),
+                              itemCount: getCommentModel.value.data!.length,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                var item = getCommentModel.value.data![index].userId!;
+                                var item1 = getCommentModel.value.data![index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ClipOval(
+                                        child: CachedNetworkImage(
+                                          width: 30,
+                                          height: 30,
+                                          fit: BoxFit.cover,
+                                          imageUrl: item.profileImage.toString(),
+                                          placeholder: (context, url) => const SizedBox(),
+                                          errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                          decoration: BoxDecoration(
+                                              borderRadius: const BorderRadius.only(
+                                                  bottomRight: Radius.circular(10),
+                                                  bottomLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10)),
+                                              color: Colors.grey.withOpacity(0.2)),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    overflow: TextOverflow.ellipsis,
+                                                    item.name.toString(),
+                                                    style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w600,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  Text(
+                                                    item1.date.toString(),
+                                                    style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w400,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 10,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: size.height * .01,
+                                              ),
+                                              Text(
+                                                item1.comment.toString(),
+                                                style: GoogleFonts.mulish(
+                                                  fontWeight: FontWeight.w400,
+                                                  // letterSpacing: 1,
+                                                  fontSize: 14,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFF070707).withOpacity(.06),
+                                  borderRadius: BorderRadius.circular(44)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 12).copyWith(bottom: 0),
+                                child: CustomTextField(
+                                  obSecure: false.obs,
+                                  hintText: 'Type a message...'.obs,
+                                  controller: commentController,
+                                  suffixIcon: InkWell(
+                                      onTap: (){
+                                        addCommentRepo(context: context,type: 'recommandation',comment: commentController.text.trim(),postId: postId.toString()).then((value) {
+                                          if (value.status == true) {
+                                            showToast(value.message.toString());
+                                            homeController.getData();
+                                            Get.back();
+                                            Get.back();
+                                            setState(() {
+                                              commentController.clear();
+                                            });
+                                          }
+                                          else {
+                                            showToast(value.message.toString());
+                                          }
+                                        });
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset('assets/images/comment_send_icon.png',width: 35,height: 35,),
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        )
+                    ),
+                    // : const Center(child: Text('No Data Available')),
+                    const SizedBox(
+                      height: 20,
+                    )
+                  ],
+                ),
+              );
+            }),
+          ) : const Center(child: Text('No Data Available'));
         });
   }
 }

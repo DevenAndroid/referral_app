@@ -1,19 +1,14 @@
-class ModelReviewList {
+class AddCommentModel {
   bool? status;
   String? message;
-  List<Data>? data;
+  Data? data;
 
-  ModelReviewList({this.status, this.message, this.data});
+  AddCommentModel({this.status, this.message, this.data});
 
-  ModelReviewList.fromJson(Map<String, dynamic> json) {
+  AddCommentModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -21,7 +16,7 @@ class ModelReviewList {
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
@@ -29,72 +24,39 @@ class ModelReviewList {
 
 class Data {
   int? id;
-  User? user;
-  String? review;
-  String? title;
-  String? link;
-  String? categoryId;
-  String? image;
-  String? status;
-  bool? wishlist;
-  bool? isLike;
+  UserId? userId;
+  String? postId;
+  String? type;
+  String? comment;
   String? date;
-  int? likeCount;
-  int? commentCount;
 
-  Data(
-      {this.id,
-        this.user,
-        this.review,
-        this.title,
-        this.link,
-        this.categoryId,
-        this.image,
-        this.status,
-        this.wishlist,
-        this.isLike,
-        this.date,
-        this.commentCount,
-      this.likeCount});
+  Data({this.id, this.userId, this.postId, this.type, this.comment, this.date});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    review = json['review'];
-    title = json['title'];
-    link = json['link'];
-    categoryId = json['category_id'];
-    image = json['image'];
-    status = json['status'];
-    wishlist = json['wishlist'];
-    isLike = json['is_like'];
+    userId =
+    json['user_id'] != null ? new UserId.fromJson(json['user_id']) : null;
+    postId = json['post_id'];
+    type = json['type'];
+    comment = json['comment'];
     date = json['date'];
-    likeCount = json['like_count'];
-    commentCount = json['comment_count'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    if (this.userId != null) {
+      data['user_id'] = this.userId!.toJson();
     }
-    data['review'] = this.review;
-    data['title'] = this.title;
-    data['link'] = this.link;
-    data['category_id'] = this.categoryId;
-    data['image'] = this.image;
-    data['status'] = this.status;
-    data['wishlist'] = this.wishlist;
-    data['is_like'] = this.isLike;
+    data['post_id'] = this.postId;
+    data['type'] = this.type;
+    data['comment'] = this.comment;
     data['date'] = this.date;
-    data['like_count'] = this.likeCount;
-    data['comment_count'] = this.commentCount;
     return data;
   }
 }
 
-class User {
+class UserId {
   int? id;
   String? name;
   String? email;
@@ -106,7 +68,7 @@ class User {
   String? referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
-  Null? deliveryRange;
+  dynamic deliveryRange;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;
@@ -117,7 +79,7 @@ class User {
   int? postCount;
   bool? isFollow;
 
-  User(
+  UserId(
       {this.id,
         this.name,
         this.email,
@@ -140,7 +102,7 @@ class User {
         this.postCount,
         this.isFollow});
 
-  User.fromJson(Map<String, dynamic> json) {
+  UserId.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];
