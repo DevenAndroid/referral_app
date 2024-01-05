@@ -104,7 +104,7 @@ class User {
   String? referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
-  Null? deliveryRange;
+  dynamic deliveryRange;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;
@@ -201,6 +201,8 @@ class MyRequest {
   bool? wishlist;
   int? noBudget;
   int? reviewCount;
+  bool? isEditable;
+  int? commentCount;
   String? date;
 
   MyRequest(
@@ -215,6 +217,8 @@ class MyRequest {
         this.wishlist,
         this.noBudget,
         this.reviewCount,
+        this.isEditable,
+        this.commentCount,
         this.date});
 
   MyRequest.fromJson(Map<String, dynamic> json) {
@@ -230,6 +234,8 @@ class MyRequest {
     wishlist = json['wishlist'];
     noBudget = json['no_budget'];
     reviewCount = json['review_count'];
+    isEditable = json['is_editable'];
+    commentCount = json['comment_count'];
     date = json['date'];
   }
 
@@ -248,6 +254,8 @@ class MyRequest {
     data['wishlist'] = this.wishlist;
     data['no_budget'] = this.noBudget;
     data['review_count'] = this.reviewCount;
+    data['is_editable'] = this.isEditable;
+    data['comment_count'] = this.commentCount;
     data['date'] = this.date;
     return data;
   }
@@ -423,7 +431,7 @@ class MyCategories {
   int? id;
   String? taxPercent;
   String? name;
-  Null? slug;
+  dynamic slug;
   String? image;
 
   MyCategories({this.id, this.taxPercent, this.name, this.slug, this.image});

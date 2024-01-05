@@ -19,9 +19,9 @@ class HomeController extends GetxController{
   bool moreDataAvailable = true;
   bool paginationWorking = false;
 
-  getData(){
+  Future getData() async{
     isDataLoading2.value = false;
-    homeRepo().then((value) {
+   await homeRepo().then((value) {
       isDataLoading2.value = false;
       homeModel.value = value;
     });

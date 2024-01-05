@@ -4,20 +4,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:referral_app/routers/routers.dart';
+import 'package:referral_app/screens/recommendation_single_page.dart';
 import 'package:referral_app/screens/users_category_list.dart';
 import 'package:referral_app/widgets/app_assets.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
 import '../models/add_remove_recommendation.dart';
 import '../models/categories_model.dart';
+import '../models/get_comment_model.dart';
 import '../models/home_page_model.dart';
 import '../models/model_review_list.dart';
 import '../models/model_user_profile.dart';
 import '../models/single_product_model.dart';
+import '../repositories/add_comment_repo.dart';
 import '../repositories/add_remove_follow_repo.dart';
 import '../repositories/categories_repo.dart';
+import '../repositories/get_comment_repo.dart';
 import '../repositories/get_user_profile.dart';
 import '../repositories/home_pafe_repo.dart';
 import '../repositories/remove_bookmark_repo.dart';
@@ -49,6 +54,11 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
 
   var id = Get.arguments[0];
 
+  Rx<GetCommentModel> getCommentModel = GetCommentModel().obs;
+  Rx<RxStatus> statusOfGetComment = RxStatus.empty().obs;
+  final homeController = Get.put(HomeController());
+  String postId = '';
+  String post = '';
   UserProfile() {
 
     userProfileRepo(recommandation_id: id, type: "user").then((value) {
@@ -63,7 +73,38 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
       // showToast(value.message.toString());
     });
   }
+  getComments(id) {
+    // modelReviewList.value.data!.clear();
+    print('id isss...${id.toString()}');
+    getCommentRepo(
+        context: context,
+        id: id, type: 'recommandation')
+        .then((value) {
+      getCommentModel.value = value;
+      if (value.status == true) {
+        statusOfGetComment.value = RxStatus.success();
+        commentBottomSheetReco(context);
+      } else {
+        statusOfGetComment.value = RxStatus.error();
+      }
 
+      setState(() {});
+    });
+  }
+  SampleItem? selectedMenu;
+  reviewList(id) {
+    // modelReviewList.value.data!.clear();
+    getReviewListRepo(context: context, id: id).then((value) {
+      modelReviewList.value = value;
+
+      if (value.status == true) {
+        statusOfReviewList.value = RxStatus.success();
+      } else {
+        statusOfReviewList.value = RxStatus.error();
+      }
+      setState(() {});
+    });
+  }
   // final profileController = Get.put(ProfileController());
 
   bool showFloatingActionButton = false;
@@ -88,7 +129,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
     // profileController.getData();
     profileController.checkForUser = false;
     UserProfile();
-
+    reviewList(id);
     // chooseCategories1();
   }
 
@@ -680,103 +721,174 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                         height: 10,
                                                       ),
                                                       Row(
+                                                        children: [
+                                                          Column(
+                                                            children: [
+                                                              profileController.userProfile.value.data!
+                                                                  .myRequest![index].minPrice
+                                                                  .toString()
+                                                                  .isNotEmpty
+                                                                  ? const Text("Min Price")
+                                                                  : const Text('No Budget'),
+                                                              profileController.userProfile.value.data!
+                                                                  .myRequest![index].minPrice
+                                                                  .toString()
+                                                                  .isNotEmpty
+                                                                  ? Text(
+                                                                profileController.userProfile.value.data!
+                                                                    .myRequest![index].minPrice
+                                                                    .toString(),
+                                                              )
+                                                                  : const SizedBox(),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 30,
+                                                          ),
+                                                          Column(
+                                                            children: [
+                                                              profileController.userProfile.value.data!
+                                                                  .myRequest![index].maxPrice
+                                                                  .toString()
+                                                                  .isNotEmpty
+                                                                  ? const Text("Max Price")
+                                                                  : const SizedBox(),
+                                                              profileController.userProfile.value.data!
+                                                                  .myRequest![index].maxPrice
+                                                                  .toString()
+                                                                  .isNotEmpty
+                                                                  ? Text(
+                                                                profileController.userProfile.value.data!
+                                                                    .myRequest![index].maxPrice
+                                                                    .toString(),
+                                                              )
+                                                                  : const SizedBox(),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Row(
                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         children: [
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                getReviewListRepo(
+                                                          Expanded(
+                                                            child: GestureDetector(
+
+                                                              onTap: () async {
+                                                                await getReviewListRepo(
                                                                     context: context,
-                                                                    id: profileController.userProfile.value.data!
-                                                                        .myRequest![index].id
+                                                                    id: homeController
+                                                                        .homeModel.value.data!.discover![index].id
                                                                         .toString())
-                                                                    .then((value) {
+                                                                    .then((value) async {
                                                                   modelReviewList.value = value;
 
                                                                   if (value.status == true) {
+                                                                    await homeController.getData();
                                                                     statusOfReviewList.value = RxStatus.success();
+                                                                    post = homeController
+                                                                        .homeModel.value.data!.discover![index].id
+                                                                        .toString();
+                                                                    print('Id Is....${homeController.homeModel.value.data!
+                                                                        .discover![index].id}');
                                                                     _settingModalBottomSheet(context);
                                                                   } else {
                                                                     statusOfReviewList.value = RxStatus.error();
                                                                   }
                                                                   setState(() {});
                                                                 });
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              padding: const EdgeInsets.only(left: 15),
-                                                              width: size.width * .45,
-                                                              height: 30,
-                                                              decoration: BoxDecoration(
-                                                                color: const Color(0xFF3797EF).withOpacity(.09),
-                                                                borderRadius: BorderRadius.circular(5),
-                                                              ),
-                                                              child: Row(
-                                                                children: [
-                                                                  SvgPicture.asset(AppAssets.message,height: 16,),
-                                                                  const SizedBox(
-                                                                    width: 6,
-                                                                  ),
-                                                                  Text(
-                                                                    "Recommendation: ${profileController.userProfile.value.data!
-                                                                        .myRequest![index].reviewCount.toString()}",
-                                                                    style: GoogleFonts.mulish(
-                                                                        fontWeight: FontWeight.w500,
-                                                                        // letterSpacing: 1,
-                                                                        fontSize: 12,
-                                                                        color: const Color(0xFF3797EF)),
-                                                                  ),
-                                                                ],
+                                                                setState(() {});
+                                                              },
+                                                              child: Container(
+                                                                padding: const EdgeInsets.only(left: 15),
+                                                                width: size.width * .45,
+                                                                height: 30,
+                                                                decoration: BoxDecoration(
+                                                                  color: const Color(0xFF3797EF).withOpacity(.09),
+                                                                  borderRadius: BorderRadius.circular(5),
+                                                                ),
+                                                                child: Row(
+                                                                  children: [
+                                                                    SvgPicture.asset(AppAssets.message,height: 16,),
+                                                                    const SizedBox(
+                                                                      width: 6,
+                                                                    ),
+                                                                    Text(
+                                                                      "Recommendation: ${profileController.userProfile.value.data!
+                                                                          .myRequest![index].reviewCount.toString()}",
+                                                                      style: GoogleFonts.mulish(
+                                                                          fontWeight: FontWeight.w500,
+                                                                          // letterSpacing: 1,
+                                                                          fontSize: 12,
+                                                                          color: const Color(0xFF3797EF)),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                          Row(
-                                                            children: [
-                                                              Column(
-                                                                children: [
-                                                                  profileController.userProfile.value.data!
-                                                                      .myRequest![index].minPrice
-                                                                      .toString()
-                                                                      .isNotEmpty
-                                                                      ? const Text("Min Price")
-                                                                      : const Text('No Budget'),
-                                                                  profileController.userProfile.value.data!
-                                                                      .myRequest![index].minPrice
-                                                                      .toString()
-                                                                      .isNotEmpty
-                                                                      ? Text(
-                                                                    profileController.userProfile.value.data!
-                                                                        .myRequest![index].minPrice
-                                                                        .toString(),
-                                                                  )
-                                                                      : const SizedBox(),
-                                                                ],
+                                                          const SizedBox(
+                                                            width: 20,
+                                                          ),
+                                                          Expanded(
+                                                            child: GestureDetector(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  getCommentRepo(
+                                                                      context: context,
+                                                                      id: profileController.modal.value.data!
+                                                                          .myRequest![index].id.toString(), type: 'askrecommandation')
+                                                                      .then((value) {
+                                                                    getCommentModel.value = value;
+
+                                                                    if (value.status == true) {
+                                                                      statusOfGetComment.value = RxStatus.success();
+                                                                      post = profileController.modal.value.data!
+                                                                          .myRequest![index].id.toString();
+                                                                      print('Id Is....${profileController.modal.value.data!
+                                                                          .myRequest![index].id.toString()}');
+                                                                      commentBottomSheet(context);
+                                                                    } else {
+                                                                      statusOfGetComment.value = RxStatus.error();
+                                                                    }
+
+                                                                    setState(() {});
+                                                                  });
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                padding: const EdgeInsets.only(left: 15),
+                                                                width: size.width * .45,
+                                                                height: 30,
+                                                                decoration: BoxDecoration(
+                                                                  color: const Color(0xFF3797EF).withOpacity(.09),
+                                                                  borderRadius: BorderRadius.circular(5),
+                                                                ),
+                                                                child: Row(
+                                                                  children: [
+                                                                    SvgPicture.asset(
+                                                                      AppAssets.message,
+                                                                      height: 16,
+                                                                    ),
+                                                                    const SizedBox(
+                                                                      width: 6,
+                                                                    ),
+                                                                    Text(
+                                                                      "Comments:   ${profileController.modal.value.data!
+                                                                          .myRequest![index].commentCount.toString()}",
+                                                                      style: GoogleFonts.mulish(
+                                                                          fontWeight: FontWeight.w500,
+                                                                          // letterSpacing: 1,
+                                                                          fontSize: 12,
+                                                                          color: const Color(0xFF3797EF)),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
-                                                              const SizedBox(
-                                                                width: 30,
-                                                              ),
-                                                              Column(
-                                                                children: [
-                                                                  profileController.userProfile.value.data!
-                                                                      .myRequest![index].maxPrice
-                                                                      .toString()
-                                                                      .isNotEmpty
-                                                                      ? const Text("Max Price")
-                                                                      : const SizedBox(),
-                                                                  profileController.userProfile.value.data!
-                                                                      .myRequest![index].maxPrice
-                                                                      .toString()
-                                                                      .isNotEmpty
-                                                                      ? Text(
-                                                                    profileController.userProfile.value.data!
-                                                                        .myRequest![index].maxPrice
-                                                                        .toString(),
-                                                                  )
-                                                                      : const SizedBox(),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          )
+                                                            ),
+                                                          ),
                                                         ],
                                                       ),
                                                       const SizedBox(
@@ -1824,6 +1936,435 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
               ),
             ),
           );
+        });
+  }
+  void commentBottomSheet(context) {
+    var size = MediaQuery
+        .of(context)
+        .size;
+    var height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    TextEditingController commentController = TextEditingController();
+    showModalBottomSheet(
+        enableDrag: true,
+        isDismissible: true,
+        constraints: BoxConstraints(
+          maxHeight: height * .9,
+        ),
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.white,
+        elevation: 10,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+        ),
+        builder: (BuildContext context) {
+          // UDE : SizedBox instead of Container for whitespaces
+          return statusOfGetComment.value.isSuccess
+              ? SingleChildScrollView(
+            child: Obx(() {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20).copyWith(
+                    bottom: MediaQuery.of(context).viewInsets.bottom
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        Text(
+                          'Comments List',
+                          style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.w700,
+                            // letterSpacing: 1,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                            onTap: () {
+                              Get.back();
+                              setState(() {});
+                            },
+                            child: const Icon(Icons.close)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    // statusOfReviewList.value.isSuccess
+                    //     ?
+                    SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListView.builder(
+                              physics: const ScrollPhysics(),
+                              itemCount: getCommentModel.value.data!.length,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                var item = getCommentModel.value.data![index].userId!;
+                                var item1 = getCommentModel.value.data![index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ClipOval(
+                                        child: CachedNetworkImage(
+                                          width: 30,
+                                          height: 30,
+                                          fit: BoxFit.cover,
+                                          imageUrl: item.profileImage.toString(),
+                                          placeholder: (context, url) => const SizedBox(),
+                                          errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                          decoration: BoxDecoration(
+                                              borderRadius: const BorderRadius.only(
+                                                  bottomRight: Radius.circular(10),
+                                                  bottomLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10)),
+                                              color: Colors.grey.withOpacity(0.2)),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    overflow: TextOverflow.ellipsis,
+                                                    item.name.toString(),
+                                                    style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w600,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  Text(
+                                                    item1.date.toString(),
+                                                    style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w400,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 10,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: size.height * .01,
+                                              ),
+                                              Text(
+                                                item1.comment.toString(),
+                                                style: GoogleFonts.mulish(
+                                                  fontWeight: FontWeight.w400,
+                                                  // letterSpacing: 1,
+                                                  fontSize: 14,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFF070707).withOpacity(.06),
+                                  borderRadius: BorderRadius.circular(44)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 12).copyWith(bottom: 0),
+                                child: CustomTextField(
+                                  obSecure: false.obs,
+                                  hintText: 'Type a message...'.obs,
+                                  controller: commentController,
+                                  suffixIcon: InkWell(
+                                      onTap: (){
+                                        addCommentRepo(context: context,type: 'askrecommandation',comment: commentController.text.trim(),postId: post.toString()).then((value) {
+                                          if (value.status == true) {
+                                            showToast(value.message.toString());
+                                            profileController.getData();
+                                            Get.back();
+                                            setState(() {
+                                              commentController.clear();
+                                            });
+                                          }
+                                          else {
+                                            showToast(value.message.toString());
+                                          }
+                                        });
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset('assets/images/comment_send_icon.png',width: 35,height: 35,),
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        )
+                    ),
+                    // : const Center(child: Text('No Data Available')),
+                    const SizedBox(
+                      height: 20,
+                    )
+                  ],
+                ),
+              );
+            }),
+          ) : const Center(child: Text('No Data Available'));
+        });
+  }
+  void commentBottomSheetReco(context) {
+    var size = MediaQuery
+        .of(context)
+        .size;
+    var height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    TextEditingController commentController = TextEditingController();
+    showModalBottomSheet(
+        enableDrag: true,
+        isDismissible: true,
+        constraints: BoxConstraints(
+          maxHeight: height * .9,
+        ),
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.white,
+        elevation: 10,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+        ),
+        builder: (BuildContext context) {
+          // UDE : SizedBox instead of Container for whitespaces
+          return statusOfGetComment.value.isSuccess
+              ? SingleChildScrollView(
+            child: Obx(() {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20).copyWith(
+                    bottom: MediaQuery.of(context).viewInsets.bottom
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        Text(
+                          'Comments List',
+                          style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.w700,
+                            // letterSpacing: 1,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                            onTap: () {
+                              Get.back();
+                              setState(() {});
+                            },
+                            child: const Icon(Icons.close)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    // statusOfReviewList.value.isSuccess
+                    //     ?
+                    SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListView.builder(
+                              physics: const ScrollPhysics(),
+                              itemCount: getCommentModel.value.data!.length,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                var item = getCommentModel.value.data![index].userId!;
+                                var item1 = getCommentModel.value.data![index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ClipOval(
+                                        child: CachedNetworkImage(
+                                          width: 30,
+                                          height: 30,
+                                          fit: BoxFit.cover,
+                                          imageUrl: item.profileImage.toString(),
+                                          placeholder: (context, url) => const SizedBox(),
+                                          errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                          decoration: BoxDecoration(
+                                              borderRadius: const BorderRadius.only(
+                                                  bottomRight: Radius.circular(10),
+                                                  bottomLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10)),
+                                              color: Colors.grey.withOpacity(0.2)),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    overflow: TextOverflow.ellipsis,
+                                                    item.name.toString(),
+                                                    style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w600,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  Text(
+                                                    item1.date.toString(),
+                                                    style: GoogleFonts.mulish(
+                                                      fontWeight: FontWeight.w400,
+                                                      // letterSpacing: 1,
+                                                      fontSize: 10,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: size.height * .01,
+                                              ),
+                                              Text(
+                                                item1.comment.toString(),
+                                                style: GoogleFonts.mulish(
+                                                  fontWeight: FontWeight.w400,
+                                                  // letterSpacing: 1,
+                                                  fontSize: 14,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFF070707).withOpacity(.06),
+                                  borderRadius: BorderRadius.circular(44)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 12).copyWith(bottom: 0),
+                                child: CustomTextField(
+                                  obSecure: false.obs,
+                                  hintText: 'Type a message...'.obs,
+                                  controller: commentController,
+                                  suffixIcon: InkWell(
+                                      onTap: (){
+                                        addCommentRepo(context: context,type: 'recommandation',comment: commentController.text.trim(),postId: postId.toString()).then((value) {
+                                          if (value.status == true) {
+                                            showToast(value.message.toString());
+                                            getComments(postId.toString());
+                                            reviewList(post.toString());
+                                            // Get.back();
+                                            setState(() {
+                                              commentController.clear();
+                                            });
+                                          }
+                                          else {
+                                            showToast(value.message.toString());
+                                          }
+                                        });
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset('assets/images/comment_send_icon.png',width: 35,height: 35,),
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        )
+                    ),
+                    // : const Center(child: Text('No Data Available')),
+                    const SizedBox(
+                      height: 20,
+                    )
+                  ],
+                ),
+              );
+            }),
+          ) : const Center(child: Text('No Data Available'));
         });
   }
 }

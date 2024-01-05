@@ -188,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     print('id isss...${id.toString()}');
     getReviewListRepo(context: context, id: id).then((value) {
       modelReviewList.value = value;
-
+      print('api iss CALL');
       if (value.status == true) {
         statusOfReviewList.value = RxStatus.success();
       } else {
@@ -197,6 +197,26 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       setState(() {});
     });
   }
+
+  getComments(id) {
+    // modelReviewList.value.data!.clear();
+    print('id isss...${id.toString()}');
+    getCommentRepo(
+        context: context,
+        id: id, type: 'recommandation')
+        .then((value) {
+      getCommentModel.value = value;
+      if (value.status == true) {
+        statusOfGetComment.value = RxStatus.success();
+        commentBottomSheetReco(context);
+      } else {
+        statusOfGetComment.value = RxStatus.error();
+      }
+
+      setState(() {});
+    });
+  }
+
 
   void _scrollListener() {
     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
@@ -230,6 +250,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     /* homeController..getFeedBack().then((value) (value1){
         if(value1.)
     })*/
+    reviewList(id);
     homeController.getPaginate();
     homeController.getData();
     chooseCategories();
@@ -655,17 +676,17 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                 children: [
                                                   Expanded(
                                                     child: GestureDetector(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          getReviewListRepo(
+                                                      onTap: () async {
+                                                         await getReviewListRepo(
                                                               context: context,
                                                               id: homeController
                                                                   .homeModel.value.data!.discover![index].id
                                                                   .toString())
-                                                              .then((value) {
+                                                              .then((value) async {
                                                             modelReviewList.value = value;
 
                                                             if (value.status == true) {
+                                                             await homeController.getData();
                                                               statusOfReviewList.value = RxStatus.success();
                                                               post = homeController
                                                                   .homeModel.value.data!.discover![index].id
@@ -678,7 +699,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             }
                                                             setState(() {});
                                                           });
-                                                        });
+                                                         setState(() {});
                                                       },
                                                       child: Container(
                                                         padding: const EdgeInsets.only(left: 15),
@@ -1243,26 +1264,31 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                      style: GoogleFonts.mulish(
                                                        fontWeight: FontWeight.w600,
                                                        // letterSpacing: 1,
-                                                       fontSize: 14,
+                                                       fontSize: 15,
                                                        color: Colors.black,
                                                      ),
                                                    ),
                                                    const SizedBox(
                                                      width: 15,
                                                    ),
-                                                   Text(
-                                                     modelReviewList.value.data![index].date.toString(),
-                                                     style: GoogleFonts.mulish(
-                                                       fontWeight: FontWeight.w400,
-                                                       // letterSpacing: 1,
-                                                       fontSize: 10,
-                                                       color: Colors.black,
+                                                   Padding(
+                                                     padding: const EdgeInsets.only(top: 3.0),
+                                                     child: Text(
+                                                       modelReviewList.value.data![index].date.toString(),
+                                                       textAlign: TextAlign.start,
+                                                       style: GoogleFonts.mulish(
+                                                         fontWeight: FontWeight.w400,
+                                                         // letterSpacing: 1,
+                                                         fontSize: 11,
+                                                         color: Colors.black,
+                                                       ),
                                                      ),
                                                    ),
                                                  ],
                                                ),
-                                               homeController.homeModel.value.data!.recommandation![index].isEditable == true ?
+                                                modelReviewList.value.data![index].isEditable == true ?
                                                PopupMenuButton<SampleItem>(
+                                                 padding: EdgeInsets.zero,
                                                   initialValue: selectedMenu,
                                                   onSelected: (SampleItem item) {
                                                     setState(() {
@@ -1273,11 +1299,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                     PopupMenuItem<SampleItem>(
                                                       value: SampleItem.itemOne,
                                                       onTap:  () {
-                                                        print("object${homeController.homeModel.value.data!.recommandation![index].id.toString()}");
+                                                        print("object${modelReviewList.value.data![index].id.toString()}");
                                                         Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [
-                                                          homeController.homeModel.value.data!.recommandation![index].id.toString()]);
+                                                          modelReviewList.value.data![index].id.toString()]);
                                                       },
-                                                      child: Text('Edit'),
+                                                      child: const Text('Edit'),
                                                     ),
                                                     PopupMenuItem<SampleItem>(
                                                       value: SampleItem.itemTwo,
@@ -1296,15 +1322,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                     Get.back();
                                                                     Get.back();
                                                                   },
-                                                                  child: Text("Cancel ")),
-                                                              SizedBox(
+                                                                  child: const Text("Cancel ")),
+                                                              const SizedBox(
                                                                 width: 40,
                                                               ),
                                                               InkWell(
                                                                   onTap: () {
                                                                     deleteRecommRepo(
                                                                       context: context,
-                                                                      recommandation_id: homeController.homeModel.value.data!.recommandation![index].id.toString(),
+                                                                      recommandation_id: modelReviewList.value.data![index].id.toString(),
                                                                     ).then((value) async {
                                                                       if (value.status == true) {
                                                                         profileController.deleteRecommendation.value = value;
@@ -1346,8 +1372,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                         Get.back();
                                                                         Get.back();
                                                                       },
-                                                                      child: Text("Cancel ")),
-                                                                  SizedBox(
+                                                                      child: const Text("Cancel ")),
+                                                                  const SizedBox(
                                                                     width: 40,
                                                                   ),
                                                                   InkWell(
@@ -1382,11 +1408,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                           child: const Text('Delete')),
                                                     ),
                                                   ],
+                                                 child: Container(
+                                                     alignment: Alignment.centerRight,
+                                                     child: Image.asset('assets/icons/popup_icon.png',width: 25,height: 25)),
                                                 ) : const SizedBox(),
                                               ],
                                             ),
-                                            SizedBox(
-                                              height: size.height * .02,
+                                            const SizedBox(
+                                              height: 15,
                                             ),
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1405,42 +1434,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                         color: Colors.black,
                                                       ),
                                                     ),
-                                                    Column(
-                                                      children: [
-                                                        GestureDetector(
-                                                            onTap: () {
-                                                              addRemoveLikeRepo(
-                                                                context: context,
-                                                                recommended_id: modelReviewList.value.data![index].id
-                                                                    .toString(),
-                                                              ).then((value) async {
-                                                                // userProfile.value = value;
-                                                                if (value.status == true) {
-                                                                  // print('wishlist-----');
-                                                                  statusOfRemove.value = RxStatus.success();
-                                                                  reviewList(post.toString());
-                                                                  showToast(value.message.toString());
-                                                                } else {
-                                                                  statusOfRemove.value = RxStatus.error();
-                                                                  // like=false;
-                                                                  showToast(value.message.toString());
-                                                                }
-                                                              });
-                                                              setState(() {});
-                                                            },
-                                                            child: modelReviewList.value.data![index].isLike == true
-                                                                ? SvgPicture.asset(
-                                                              AppAssets.heart,
-                                                              height: 26,
-                                                            )
-                                                                : const Image(
-                                                              image: AssetImage(
-                                                                  'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
-                                                              height: 25,
-                                                            )),
-                                                        Text(modelReviewList.value.data![index].likeCount.toString()),
-                                                      ],
-                                                    )
+
                                                   ],
                                                 ),
                                                 Text(
@@ -1454,9 +1448,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                 ),
                                               ],
                                             ),
-                                            // const SizedBox(
-                                            //   height: 8,
-                                            // ),
 
                                             const SizedBox(
                                               height: 13,
@@ -1482,52 +1473,81 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                             ),
                                             modelReviewList.value.data![index].image == ""
                                                 ? const SizedBox()
-                                                : ClipRRect(
+                                                : Stack(
+                                                  children: [
+                                                    ClipRRect(
                                               borderRadius: BorderRadius.circular(10),
                                               child: CachedNetworkImage(
-                                                width: size.width,
-                                                height: 200,
-                                                fit: BoxFit.fill,
-                                                imageUrl: modelReviewList.value.data![index].image.toString(),
-                                                placeholder: (context, url) =>
-                                                const SizedBox(
-                                                  height: 0,
-                                                ),
-                                                errorWidget: (context, url, error) =>
-                                                const SizedBox(
-                                                  height: 0,
-                                                ),
+                                                    width: size.width,
+                                                    height: 200,
+                                                    fit: BoxFit.fill,
+                                                    imageUrl: modelReviewList.value.data![index].image.toString(),
+                                                    placeholder: (context, url) =>
+                                                    const SizedBox(
+                                                      height: 0,
+                                                    ),
+                                                    errorWidget: (context, url, error) =>
+                                                   const Icon(Icons.error,color: Colors.red,)
                                               ),
                                             ),
+                                                    Positioned(
+                                                      top: 4,
+                                                        right: 4,
+                                                        child:   Container(
+                                                         padding: const EdgeInsets.all(10),
+                                                          decoration: const BoxDecoration(
+                                                            color: Colors.white,
+                                                            shape: BoxShape.circle
+                                                          ),
+                                                          child: Row(
+                                                            children: [
+                                                              GestureDetector(
+                                                                  onTap: () {
+                                                                    addRemoveLikeRepo(
+                                                                      context: context,
+                                                                      recommended_id: modelReviewList.value.data![index].id
+                                                                          .toString(),
+                                                                    ).then((value) async {
+                                                                      // userProfile.value = value;
+                                                                      if (value.status == true) {
+                                                                        // print('wishlist-----');
+                                                                        statusOfRemove.value = RxStatus.success();
+                                                                        reviewList(post.toString());
+                                                                        showToast(value.message.toString());
+                                                                      } else {
+                                                                        statusOfRemove.value = RxStatus.error();
+                                                                        // like=false;
+                                                                        showToast(value.message.toString());
+                                                                      }
+                                                                    });
+                                                                    setState(() {});
+                                                                  },
+                                                                  child: modelReviewList.value.data![index].isLike == true
+                                                                      ? SvgPicture.asset(
+                                                                    AppAssets.heart,
+                                                                    height: 26,
+                                                                  )
+                                                                      : const Image(
+                                                                    image: AssetImage(
+                                                                        'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                                    height: 25,
+                                                                  )),
+                                                              Text(modelReviewList.value.data![index].likeCount.toString()),
+                                                            ],
+                                                          ),
+                                                        )
+                                                    )
+                                                  ],
+                                                ),
                                             const SizedBox(
                                               height: 18,
                                             ),
                                             InkWell(
                                               onTap: (){
-                                                setState(() {
-                                                  getCommentRepo(
-                                                      context: context,
-                                                      id: homeController
-                                                          .homeModel.value.data!.recommandation![index].id
-                                                          .toString(), type: 'recommandation')
-                                                      .then((value) {
-                                                    getCommentModel.value = value;
-
-                                                    if (value.status == true) {
-                                                      statusOfGetComment.value = RxStatus.success();
-                                                      postId = homeController
-                                                          .homeModel.value.data!.recommandation![index].id
-                                                          .toString();
-                                                      print('Id Is....${homeController.homeModel.value.data!
-                                                          .recommandation![index].id}');
-                                                      commentBottomSheetReco(context);
-                                                    } else {
-                                                      statusOfGetComment.value = RxStatus.error();
-                                                    }
-
-                                                    setState(() {});
-                                                  });
-                                                });
+                                                getComments(modelReviewList.value.data![index].id.toString());
+                                                postId = modelReviewList.value.data![index].id.toString();
+                                                print('Id Is....${modelReviewList.value.data![index].id.toString()}');
+                                                setState(() {});
                                               },
                                               child: Text(
                                                 "Comments:   ${  modelReviewList.value.data![index].commentCount.toString()}",
@@ -1965,9 +1985,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                         addCommentRepo(context: context,type: 'recommandation',comment: commentController.text.trim(),postId: postId.toString()).then((value) {
                                           if (value.status == true) {
                                             showToast(value.message.toString());
+                                            getComments(postId.toString());
                                             homeController.getData();
-                                            Get.back();
-                                            Get.back();
+                                            reviewList(post.toString());
+                                            // Get.back();
                                             setState(() {
                                               commentController.clear();
                                             });

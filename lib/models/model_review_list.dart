@@ -41,6 +41,7 @@ class Data {
   String? date;
   int? likeCount;
   int? commentCount;
+  bool? isEditable;
 
   Data(
       {this.id,
@@ -55,6 +56,7 @@ class Data {
         this.isLike,
         this.date,
         this.commentCount,
+        this.isEditable,
       this.likeCount});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -71,6 +73,7 @@ class Data {
     date = json['date'];
     likeCount = json['like_count'];
     commentCount = json['comment_count'];
+    isEditable = json['is_editable'];
   }
 
   Map<String, dynamic> toJson() {
@@ -90,6 +93,7 @@ class Data {
     data['date'] = this.date;
     data['like_count'] = this.likeCount;
     data['comment_count'] = this.commentCount;
+    data['is_editable'] = this.isEditable;
     return data;
   }
 }

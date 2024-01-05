@@ -30,8 +30,9 @@ Future<AddRecommendationModel> addRecommendationRepo({
 
     request.fields.addAll(mapData);
 
-    if (file1.path != "")
+    if (file1.existsSync()) {
       request.files.add(await multipartFile(fieldName1, file1));
+    }
 
     log(request.fields.toString());
     log(request.files.toString());
@@ -62,6 +63,6 @@ Future<http.MultipartFile> multipartFile(String? fieldName, File file1) async {
     fieldName ?? 'file',
     http.ByteStream(Stream.castFrom(file1.openRead())),
     await file1.length(),
-    filename: file1.path.split('/').last,
+    filename: file1.path.split('/').last
   );
 }

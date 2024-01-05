@@ -11,7 +11,7 @@ import 'model_single_user.dart';
 
 Future<ModelSingleUser> singleUserRepo({recommandation_id,context}) async {
 
-  try {
+  // try {
     http.Response response = await http.get(
       Uri.parse("https://referral-app.eoxyslive.com/api/singel-recommandation?recommandation_id=$recommandation_id"),
       headers: await getAuthHeader(),
@@ -27,7 +27,8 @@ Future<ModelSingleUser> singleUserRepo({recommandation_id,context}) async {
           status: false,
           data: null);
     }
-  } catch (e) {
-    return ModelSingleUser(message: e.toString(), status: false, data: null);
   }
-}
+  // catch (e) {
+  //   return ModelSingleUser(message: e.toString(), status: false, data: null);
+  // }
+// }

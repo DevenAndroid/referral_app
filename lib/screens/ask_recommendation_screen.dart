@@ -454,6 +454,8 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
 
                               }*/
                         if (formKey.currentState!.validate()) {
+                          print(getFriendListController.selectedFriendIds);
+                          print( getFriendListController.selectedFriendIds.isEmpty ?  'public' : profileController.selectedValue.value);
                           if (minController.text.isNotEmpty && maxController.text.isNotEmpty) {
                             int valueA = int.parse(minController.text);
                             int valueB = int.parse(maxController.text);
@@ -465,7 +467,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                               map['description'] = descriptionController.text.trim();
                               map['min_price'] = minController.text.toString();
                               map['max_price'] = maxController.text.toString();
-                              map['post_viewers_type'] = profileController.selectedValue.value;
+                              map['post_viewers_type'] = getFriendListController.selectedFriendIds.isEmpty ?  'public' : profileController.selectedValue.value;
                               map['tag_id'] =  getFriendListController.selectedFriendIds.join(',');
                               map['no_budget'] = value2 == true ? '1' : '0';
 
@@ -490,7 +492,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                             map['description'] = descriptionController.text.trim();
                             map['min_price'] = minController.text.toString();
                             map['max_price'] = maxController.text.toString();
-                            map['post_viewers_type'] = profileController.selectedValue.value;
+                            map['post_viewers_type'] = getFriendListController.selectedFriendIds.isEmpty ?  'public' : profileController.selectedValue.value;
                             map['no_budget'] = value2 == true ? '1' : '0';
                             map['tag_id'] =  getFriendListController.selectedFriendIds.join(',');
 

@@ -52,7 +52,7 @@ class Data {
 class Recommandation {
   int? id;
   User? user;
-  Null? askrecommandationId;
+  dynamic askrecommandationId;
   String? title;
   String? review;
   String? link;
@@ -124,7 +124,7 @@ class User {
   String? referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
-  Null? deliveryRange;
+ dynamic deliveryRange;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;
