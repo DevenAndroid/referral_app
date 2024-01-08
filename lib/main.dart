@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'poppinsSans',
         primarySwatch: Colors.green,
+        useMaterial3 : false,
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: "/",

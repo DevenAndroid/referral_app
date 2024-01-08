@@ -44,6 +44,8 @@ import '../routers/routers.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
 import 'category_viewAll_screen.dart';
+import 'comment_controller.dart';
+import 'comment_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -163,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       .empty()
       .obs;
   final wishListController = Get.put(WishListController());
-  final getCommentController = Get.put(GetCommentController());
+  final getCommentController = Get.put(GetCommenController());
   final profileController = Get.put(ProfileController(), permanent: true);
 
   Rx<RemoveRecommendationModel> modalRemove = RemoveRecommendationModel().obs;
@@ -177,9 +179,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   Rx<RxStatus> statusOfReviewList = RxStatus
       .empty()
       .obs;
-  Rx<RxStatus> statusOfGetComment = RxStatus
-      .empty()
-      .obs;
+  Rx<RxStatus> statusOfGetComment = RxStatus.empty().obs;
   Rx<ModelReviewList> modelReviewList = ModelReviewList().obs;
   Rx<GetCommentModel> getCommentModel = GetCommentModel().obs;
 
@@ -744,28 +744,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         setState(() {
-                                                          getCommentRepo(
-                                                              context: context,
-                                                              id: homeController
-                                                                  .homeModel.value.data!.discover![index].id
-                                                                  .toString(), type: 'askrecommandation')
-                                                              .then((value) {
-                                                            getCommentModel.value = value;
-
-                                                            if (value.status == true) {
-                                                              statusOfGetComment.value = RxStatus.success();
-                                                              post = homeController
-                                                                  .homeModel.value.data!.discover![index].id
-                                                                  .toString();
-                                                              print('Id Is....${homeController.homeModel.value.data!
-                                                                  .discover![index].id}');
-                                                              commentBottomSheet(context);
-                                                            } else {
-                                                              statusOfGetComment.value = RxStatus.error();
-                                                            }
-
-                                                            setState(() {});
-                                                          });
+                                                          getCommentController.id = homeController
+                                                              .homeModel.value.data!.discover![index].id
+                                                              .toString();
+                                                          getCommentController.type = 'askrecommandation';
+                                                          commentBottomSheet(context);
                                                         });
                                                       },
                                                       child: Container(
@@ -1681,194 +1664,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         ),
         builder: (BuildContext context) {
           // UDE : SizedBox instead of Container for whitespaces
-          return statusOfGetComment.value.isSuccess
-              ? SingleChildScrollView(
-            child: Obx(() {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20).copyWith(
-                    bottom: MediaQuery.of(context).viewInsets.bottom
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        Text(
-                          'Comments List',
-                          style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.w700,
-                            // letterSpacing: 1,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const Spacer(),
-                        GestureDetector(
-                            onTap: () {
-                              Get.back();
-                              setState(() {});
-                            },
-                            child: const Icon(Icons.close)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    // statusOfReviewList.value.isSuccess
-                    //     ?
-                    SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ListView.builder(
-                              physics: const ScrollPhysics(),
-                              itemCount: getCommentModel.value.data!.length,
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                var item = getCommentModel.value.data![index].userId!;
-                                var item1 = getCommentModel.value.data![index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(left: 8.0, top: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      ClipOval(
-                                        child: CachedNetworkImage(
-                                          width: 30,
-                                          height: 30,
-                                          fit: BoxFit.cover,
-                                          imageUrl: item.profileImage.toString(),
-                                          placeholder: (context, url) => const SizedBox(),
-                                          errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                          decoration: BoxDecoration(
-                                              borderRadius: const BorderRadius.only(
-                                                  bottomRight: Radius.circular(10),
-                                                  bottomLeft: Radius.circular(10),
-                                                  topRight: Radius.circular(10)),
-                                              color: Colors.grey.withOpacity(0.2)),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    overflow: TextOverflow.ellipsis,
-                                                    item.name.toString(),
-                                                    style: GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
-                                                      // letterSpacing: 1,
-                                                      fontSize: 14,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 15,
-                                                  ),
-                                                  Text(
-                                                    item1.date.toString(),
-                                                    style: GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w400,
-                                                      // letterSpacing: 1,
-                                                      fontSize: 10,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: size.height * .01,
-                                              ),
-                                              Text(
-                                                item1.comment.toString(),
-                                                style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w400,
-                                                  // letterSpacing: 1,
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 8,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                           Container(
-                             height: 50,
-                             decoration: BoxDecoration(
-                               color: const Color(0xFF070707).withOpacity(.06),
-                               borderRadius: BorderRadius.circular(44)
-                             ),
-                             child: Padding(
-                               padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 12).copyWith(bottom: 0),
-                               child: CustomTextField(
-                                   obSecure: false.obs,
-                                   hintText: 'Type a message...'.obs,
-                                 controller: commentController,
-                                 suffixIcon: InkWell(
-                                   onTap: (){
-                                     addCommentRepo(context: context,type: 'askrecommandation',comment: commentController.text.trim(),postId: post.toString()).then((value) {
-                                       if (value.status == true) {
-                                         showToast(value.message.toString());
-                                         homeController.getData();
-                                         Get.back();
-                                         setState(() {
-                                           commentController.clear();
-                                         });
-                                       }
-                                       else {
-                                         showToast(value.message.toString());
-                                       }
-                                     });
-                                   },
-                                     child: Column(
-                                       crossAxisAlignment: CrossAxisAlignment.center,
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                       children: [
-                                         Image.asset('assets/images/comment_send_icon.png',width: 35,height: 35,),
-                                       ],
-                                     )),
-                               ),
-                             ),
-                           ),
-                            const SizedBox(
-                              height: 20,
-                            )
-                          ],
-                        )
-                    ),
-                    // : const Center(child: Text('No Data Available')),
-                    const SizedBox(
-                      height: 20,
-                    )
-                  ],
-                ),
-              );
-            }),
-          ) : const Center(child: Text('No Data Available'));
+          return  const CommentScreen();
         });
   }
 
