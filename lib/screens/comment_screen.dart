@@ -78,6 +78,7 @@ class _CommentScreenState extends State<CommentScreen> {
                         if (value.status == true) {
                           showToast(value.message.toString());
                           homeController.getData();
+                          FocusManager.instance.primaryFocus!.unfocus();
                           getCommentController.getComment(type: getCommentController.type,id: getCommentController.id);
                           // Get.back();
                           setState(() {

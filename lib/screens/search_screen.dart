@@ -283,8 +283,6 @@ class _SearchScreenState extends State<SearchScreen> {
                               if (search.isNotEmpty) {
                                 searchData = allRecommendation.value.data!.where((element) => element.title.toString().toLowerCase().contains(search)).toList();
                                 searchData = allRecommendation.value.data!.where((element) => element.review.toString().toLowerCase().contains(search)).toList();
-                                searchData = allRecommendation.value.data!.where((element) => element.date.toString().toLowerCase().contains(search)).toList();
-                                searchData = allRecommendation.value.data!.where((element) => element.link.toString().toLowerCase().contains(search)).toList();
                               } else {
                                 searchData = allRecommendation.value.data!;
                               }

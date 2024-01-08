@@ -412,7 +412,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 // indicatorSize: TabBarIndicatorSize.tab,
                                 indicatorColor: AppTheme.primaryColor,
-                                 tabAlignment: TabAlignment.start,
+                                tabAlignment: TabAlignment.start,
                                 // automaticIndicatorColorAdjustment: true,
                                 onTap: (value) {
                                   currentDrawer = value;
@@ -423,18 +423,18 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                   Tab(
                                     child: Text("Recco Feed",
                                         style: GoogleFonts.mulish(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                          )
-                                        // currentDrawer == 0
-                                        //     ? GoogleFonts.mulish(
-                                        //     fontWeight: FontWeight.w400,
-                                        //     fontSize: 14,
-                                        //     color: const Color(0xFF3797EF))
-                                        //     : GoogleFonts.mulish(
-                                        //     fontWeight: FontWeight.w400,
-                                        //     fontSize: 14,
-                                        //     color: Colors.black)
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                        )
+                                      // currentDrawer == 0
+                                      //     ? GoogleFonts.mulish(
+                                      //     fontWeight: FontWeight.w400,
+                                      //     fontSize: 14,
+                                      //     color: const Color(0xFF3797EF))
+                                      //     : GoogleFonts.mulish(
+                                      //     fontWeight: FontWeight.w400,
+                                      //     fontSize: 14,
+                                      //     color: Colors.black)
                                     ),
                                   ),
                                   Tab(
@@ -443,15 +443,15 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                           fontWeight: FontWeight.w400,
                                           fontSize: 14,
                                         )
-                                        // style: currentDrawer == 1
-                                        //     ? GoogleFonts.mulish(
-                                        //     fontWeight: FontWeight.w400,
-                                        //     fontSize: 14,
-                                        //     color: const Color(0xFF3797EF))
-                                        //     : GoogleFonts.mulish(
-                                        //     fontWeight: FontWeight.w400,
-                                        //     fontSize: 14,
-                                        //     color: Colors.black)
+                                      // style: currentDrawer == 1
+                                      //     ? GoogleFonts.mulish(
+                                      //     fontWeight: FontWeight.w400,
+                                      //     fontSize: 14,
+                                      //     color: const Color(0xFF3797EF))
+                                      //     : GoogleFonts.mulish(
+                                      //     fontWeight: FontWeight.w400,
+                                      //     fontSize: 14,
+                                      //     color: Colors.black)
                                     ),
                                   ),
                                   // Tab(
@@ -885,7 +885,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                                     ),
                                                                     Text(
                                                                       "Comments:   ${profileController.userProfile.value.data!
-                                                                       .myRequest![index].commentCount.toString()}",
+                                                                          .myRequest![index].commentCount.toString()}",
                                                                       style: GoogleFonts.mulish(
                                                                           fontWeight: FontWeight.w500,
                                                                           // letterSpacing: 1,
@@ -1103,164 +1103,164 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                       return profileController.statusOfUser.value.isSuccess
                                           ? SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
-                                            child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    Get.to(()=> const UsersCategoryList());
-                                                  },
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(bottom: 20),
-                                                    child: Column(
-                                                      children: [
-                                                        Container(
-                                                          padding: const EdgeInsets.all(10),
-                                                          decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
-                                                          child: ClipOval(
-                                                            child: Image.asset('assets/images/categoryList.png',width: 35,),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Text(
-                                                          'Category list',
-                                                          // maxLines: 2,
-                                                          textAlign: TextAlign.center,
-                                                          style: GoogleFonts.mulish(
-                                                              fontWeight: FontWeight.w300,
-                                                              // letterSpacing: 1,
-                                                              fontSize: 14,
-                                                              color: const Color(0xFF26282E)),
-                                                        ),
-                                                      ],
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(()=> const UsersCategoryList());
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(bottom: 20),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets.all(10),
+                                                      decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
+                                                      child: ClipOval(
+                                                        child: Image.asset('assets/images/categoryList.png',width: 35,),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 18,
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    profileController.checkForUser = false;
-                                                    setState(() {});
-                                                  },
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(bottom: 20),
-                                                    child: Column(
-                                                      children: [
-                                                        Container(
-                                                          padding: const EdgeInsets.all(10),
-                                                          decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
-                                                          child: ClipOval(
-                                                            child: Image.asset('assets/images/viewAll.png',width: 35,),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Text(
-                                                          'View All',
-                                                          // maxLines: 2,
-                                                          textAlign: TextAlign.center,
-                                                          style: GoogleFonts.mulish(
-                                                              fontWeight: FontWeight.w300,
-                                                              // letterSpacing: 1,
-                                                              fontSize: 14,
-                                                              color: const Color(0xFF26282E)),
-                                                        ),
-                                                      ],
+                                                    const SizedBox(
+                                                      height: 5,
                                                     ),
-                                                  ),
+                                                    Text(
+                                                      'Category list',
+                                                      // maxLines: 2,
+                                                      textAlign: TextAlign.center,
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w300,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          color: const Color(0xFF26282E)),
+                                                    ),
+                                                  ],
                                                 ),
-                                                const SizedBox(
-                                                  width: 18,
-                                                ),
-                                                if(profileController.checkForUser == true)
-                                                  profileController.single.value.data!= null ?
-                                                  Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    children: [
-                                                      ClipOval(
-                                                        child: CachedNetworkImage(
-                                                          width: 60,
-                                                          height: 60,
-                                                          fit: BoxFit.fill,
-                                                          imageUrl: profileController.single.value.data!.categoryImage.toString(),
-                                                          errorWidget: (_, __, ___) =>  const Icon(
-                                                            Icons.error_outline_outlined,
-                                                            color: Colors.red,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 70,
-                                                        child: Text(
-                                                          profileController.single.value.data!.categoryName.toString(),
-                                                          maxLines: 2,
-                                                          textAlign: TextAlign.center,
-                                                          style: GoogleFonts.mulish(
-                                                              fontWeight: FontWeight.w300,
-                                                              // letterSpacing: 1,
-                                                              fontSize: 14,
-                                                              color: const Color(0xFF26282E)),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 8,
-                                                      ),
-                                                    ],
-                                                  ) : const SizedBox(),
-
-                                                // ListView.builder(
-                                                // itemCount: profileController.userProfile.value.data!.myCategories!.length,
-                                                // shrinkWrap: true,
-                                                // scrollDirection: Axis.horizontal,
-                                                // physics: const NeverScrollableScrollPhysics(),
-                                                // itemBuilder: (context, index) {
-                                                //   return Padding(
-                                                //     padding: const EdgeInsets.all(0.0),
-                                                //     child: Column(
-                                                //       children: [
-                                                //         if(profileController.userProfile.value.data!.myCategories!.isEmpty)
-                                                //           Text("No Record Found "),
-                                                //         GestureDetector(
-                                                //           onTap: () {
-                                                //
-                                                //           },
-                                                //           child: ClipOval(
-                                                //             child: CachedNetworkImage(
-                                                //               width: 60,
-                                                //               height: 60,
-                                                //               fit: BoxFit.fill,
-                                                //               imageUrl: profileController.userProfile
-                                                //                   .value.data!.myCategories![index].image
-                                                //                   .toString(),
-                                                //             ),
-                                                //           ),
-                                                //         ),
-                                                //         const SizedBox(
-                                                //           height: 4,
-                                                //         ),
-                                                //         Text(
-                                                //           profileController.userProfile.value.data!.myCategories![index].name.toString(),
-                                                //           style: GoogleFonts.mulish(
-                                                //               fontWeight: FontWeight.w300,
-                                                //               // letterSpacing: 1,
-                                                //               fontSize: 14,
-                                                //               color: Color(0xFF26282E)),
-                                                //         )
-                                                //       ],
-                                                //     ),
-                                                //   );
-                                                // }),
-                                              ],
+                                              ),
                                             ),
-                                          )
+                                            const SizedBox(
+                                              width: 18,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                profileController.checkForUser = false;
+                                                setState(() {});
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(bottom: 20),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets.all(10),
+                                                      decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
+                                                      child: ClipOval(
+                                                        child: Image.asset('assets/images/viewAll.png',width: 35,),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Text(
+                                                      'View All',
+                                                      // maxLines: 2,
+                                                      textAlign: TextAlign.center,
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w300,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          color: const Color(0xFF26282E)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 18,
+                                            ),
+                                            if(profileController.checkForUser == true)
+                                              profileController.single.value.data!= null ?
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  ClipOval(
+                                                    child: CachedNetworkImage(
+                                                      width: 60,
+                                                      height: 60,
+                                                      fit: BoxFit.fill,
+                                                      imageUrl: profileController.single.value.data!.categoryImage.toString(),
+                                                      errorWidget: (_, __, ___) =>  const Icon(
+                                                        Icons.error_outline_outlined,
+                                                        color: Colors.red,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 70,
+                                                    child: Text(
+                                                      profileController.single.value.data!.categoryName.toString(),
+                                                      maxLines: 2,
+                                                      textAlign: TextAlign.center,
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w300,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          color: const Color(0xFF26282E)),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 8,
+                                                  ),
+                                                ],
+                                              ) : const SizedBox(),
+
+                                            // ListView.builder(
+                                            // itemCount: profileController.userProfile.value.data!.myCategories!.length,
+                                            // shrinkWrap: true,
+                                            // scrollDirection: Axis.horizontal,
+                                            // physics: const NeverScrollableScrollPhysics(),
+                                            // itemBuilder: (context, index) {
+                                            //   return Padding(
+                                            //     padding: const EdgeInsets.all(0.0),
+                                            //     child: Column(
+                                            //       children: [
+                                            //         if(profileController.userProfile.value.data!.myCategories!.isEmpty)
+                                            //           Text("No Record Found "),
+                                            //         GestureDetector(
+                                            //           onTap: () {
+                                            //
+                                            //           },
+                                            //           child: ClipOval(
+                                            //             child: CachedNetworkImage(
+                                            //               width: 60,
+                                            //               height: 60,
+                                            //               fit: BoxFit.fill,
+                                            //               imageUrl: profileController.userProfile
+                                            //                   .value.data!.myCategories![index].image
+                                            //                   .toString(),
+                                            //             ),
+                                            //           ),
+                                            //         ),
+                                            //         const SizedBox(
+                                            //           height: 4,
+                                            //         ),
+                                            //         Text(
+                                            //           profileController.userProfile.value.data!.myCategories![index].name.toString(),
+                                            //           style: GoogleFonts.mulish(
+                                            //               fontWeight: FontWeight.w300,
+                                            //               // letterSpacing: 1,
+                                            //               fontSize: 14,
+                                            //               color: Color(0xFF26282E)),
+                                            //         )
+                                            //       ],
+                                            //     ),
+                                            //   );
+                                            // }),
+                                          ],
+                                        ),
+                                      )
                                           : profileController.statusOfUser.value.isError
                                           ? CommonErrorWidget(
                                         errorText: "",
@@ -2069,61 +2069,61 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                             ),
                                             modelReviewList.value.data![index].image == "" ?
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                InkWell(
-                                                  onTap: (){
-                                                    getComments(modelReviewList.value.data![index].id.toString());
-                                                    postId = modelReviewList.value.data![index].id.toString();
-                                                    print('Id Is....${modelReviewList.value.data![index].id.toString()}');
-                                                    setState(() {});
-                                                  },
-                                                  child: Text(
-                                                    "Comments:   ${  modelReviewList.value.data![index].commentCount.toString()}",
-                                                    style: GoogleFonts.mulish(
-                                                        fontWeight: FontWeight.w600,
-                                                        // letterSpacing: 1,
-                                                        fontSize: 16,
-                                                        color: const Color(0xFF3797EF)),
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: (){
+                                                      getComments(modelReviewList.value.data![index].id.toString());
+                                                      postId = modelReviewList.value.data![index].id.toString();
+                                                      print('Id Is....${modelReviewList.value.data![index].id.toString()}');
+                                                      setState(() {});
+                                                    },
+                                                    child: Text(
+                                                      "Comments:   ${  modelReviewList.value.data![index].commentCount.toString()}",
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w600,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 16,
+                                                          color: const Color(0xFF3797EF)),
+                                                    ),
                                                   ),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    GestureDetector(
-                                                        onTap: () {
-                                                          addRemoveLikeRepo(
-                                                            context: context,
-                                                            recommended_id: modelReviewList.value.data![index].id
-                                                                .toString(),
-                                                          ).then((value) async {
-                                                            // userProfile.value = value;
-                                                            if (value.status == true) {
-                                                              // print('wishlist-----');
-                                                              statusOfRemove.value = RxStatus.success();
-                                                              reviewList(post1.toString());
-                                                              showToast(value.message.toString());
-                                                            } else {
-                                                              statusOfRemove.value = RxStatus.error();
-                                                              // like=false;
-                                                              showToast(value.message.toString());
-                                                            }
-                                                          });
-                                                          setState(() {});
-                                                        },
-                                                        child: modelReviewList.value.data![index].isLike == true
-                                                            ? SvgPicture.asset(
-                                                          AppAssets.heart,
-                                                          height: 26,
-                                                        )
-                                                            : const Image(
-                                                          image: AssetImage(
-                                                              'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
-                                                          height: 25,
-                                                        )),
-                                                    Text(modelReviewList.value.data![index].likeCount.toString()),
-                                                  ],
-                                                ),
-                                              ]
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                          onTap: () {
+                                                            addRemoveLikeRepo(
+                                                              context: context,
+                                                              recommended_id: modelReviewList.value.data![index].id
+                                                                  .toString(),
+                                                            ).then((value) async {
+                                                              // userProfile.value = value;
+                                                              if (value.status == true) {
+                                                                // print('wishlist-----');
+                                                                statusOfRemove.value = RxStatus.success();
+                                                                reviewList(post1.toString());
+                                                                showToast(value.message.toString());
+                                                              } else {
+                                                                statusOfRemove.value = RxStatus.error();
+                                                                // like=false;
+                                                                showToast(value.message.toString());
+                                                              }
+                                                            });
+                                                            setState(() {});
+                                                          },
+                                                          child: modelReviewList.value.data![index].isLike == true
+                                                              ? SvgPicture.asset(
+                                                            AppAssets.heart,
+                                                            height: 26,
+                                                          )
+                                                              : const Image(
+                                                            image: AssetImage(
+                                                                'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                            height: 25,
+                                                          )),
+                                                      Text(modelReviewList.value.data![index].likeCount.toString()),
+                                                    ],
+                                                  ),
+                                                ]
                                             ):
                                             InkWell(
                                               onTap: (){
@@ -2176,7 +2176,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
           );
         });
   }
-  
+
   void commentBottomSheet(context) {
     var size = MediaQuery
         .of(context)
