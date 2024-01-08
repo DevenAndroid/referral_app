@@ -202,6 +202,7 @@ class MyRequest {
   int? noBudget;
   int? reviewCount;
   String? date;
+  int? commentCount;
 
   MyRequest(
       {this.id,
@@ -215,6 +216,7 @@ class MyRequest {
         this.wishlist,
         this.noBudget,
         this.reviewCount,
+        this.commentCount,
         this.date});
 
   MyRequest.fromJson(Map<String, dynamic> json) {
@@ -230,6 +232,7 @@ class MyRequest {
     wishlist = json['wishlist'];
     noBudget = json['no_budget'];
     reviewCount = json['review_count'];
+    commentCount = json['comment_count'];
     date = json['date'];
   }
 
@@ -249,6 +252,7 @@ class MyRequest {
     data['no_budget'] = this.noBudget;
     data['review_count'] = this.reviewCount;
     data['date'] = this.date;
+    data['comment_count'] = this.commentCount;
     return data;
   }
 }
@@ -265,6 +269,7 @@ class MyRecommandation {
   String? status;
   bool? wishlist;
   String? date;
+  int? commentCount;
 
   MyRecommandation(
       {this.id,
@@ -277,6 +282,7 @@ class MyRecommandation {
         this.image,
         this.status,
         this.wishlist,
+        this.commentCount,
         this.date});
 
   MyRecommandation.fromJson(Map<String, dynamic> json) {
@@ -291,6 +297,7 @@ class MyRecommandation {
     status = json['status'];
     wishlist = json['wishlist'];
     date = json['date'];
+    commentCount = json['comment_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -307,6 +314,7 @@ class MyRecommandation {
     data['image'] = this.image;
     data['status'] = this.status;
     data['wishlist'] = this.wishlist;
+    data['comment_count'] = this.commentCount;
     data['date'] = this.date;
     return data;
   }

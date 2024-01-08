@@ -1779,11 +1779,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                       onTap: () {
                                                                         deleteRecommRepo(
                                                                           context: context,
-                                                                          recommandation_id: homeController.homeModel.value.data!.recommandation![index].id.toString(),
+                                                                          recommandation_id: modelReviewList.value.data![index].id.toString(),
                                                                         ).then((value) async {
                                                                           if (value.status == true) {
                                                                             profileController.deleteRecommendation.value = value;
                                                                             profileController.getData();
+                                                                            homeController.getData();
                                                                             Get.back();
                                                                             Get.back();
                                                                             Get.back();
@@ -1911,7 +1912,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                   if (value.status == true) {
                                                                     // print('wishlist-----');
                                                                     statusOfRemove.value = RxStatus.success();
-                                                                    reviewList(post.toString());
+                                                                    reviewList(post1.toString());
                                                                     showToast(value.message.toString());
                                                                   } else {
                                                                     statusOfRemove.value = RxStatus.error();
@@ -1941,6 +1942,64 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                             const SizedBox(
                                               height: 18,
                                             ),
+                                            modelReviewList.value.data![index].image == "" ?
+                                            Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: (){
+                                                      getComments(modelReviewList.value.data![index].id.toString());
+                                                      postId = modelReviewList.value.data![index].id.toString();
+                                                      print('Id Is....${modelReviewList.value.data![index].id.toString()}');
+                                                      setState(() {});
+                                                    },
+                                                    child: Text(
+                                                      "Comments:   ${  modelReviewList.value.data![index].commentCount.toString()}",
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w600,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 16,
+                                                          color: const Color(0xFF3797EF)),
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                          onTap: () {
+                                                            addRemoveLikeRepo(
+                                                              context: context,
+                                                              recommended_id: modelReviewList.value.data![index].id
+                                                                  .toString(),
+                                                            ).then((value) async {
+                                                              // userProfile.value = value;
+                                                              if (value.status == true) {
+                                                                // print('wishlist-----');
+                                                                statusOfRemove.value = RxStatus.success();
+                                                                reviewList(post1.toString());
+                                                                showToast(value.message.toString());
+                                                              } else {
+                                                                statusOfRemove.value = RxStatus.error();
+                                                                // like=false;
+                                                                showToast(value.message.toString());
+                                                              }
+                                                            });
+                                                            setState(() {});
+                                                          },
+                                                          child: modelReviewList.value.data![index].isLike == true
+                                                              ? SvgPicture.asset(
+                                                            AppAssets.heart,
+                                                            height: 26,
+                                                          )
+                                                              : const Image(
+                                                            image: AssetImage(
+                                                                'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                            height: 25,
+                                                          )),
+                                                      Text(modelReviewList.value.data![index].likeCount.toString()),
+                                                    ],
+                                                  ),
+                                                ]
+                                            ):
                                             InkWell(
                                               onTap: (){
                                                 getComments(modelReviewList.value.data![index].id.toString());
@@ -1971,7 +2030,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           ),
                           GestureDetector(
                             onTap: () {
-                              Get.toNamed(MyRouters.recommendationScreen, arguments: [post.toString()]);
+                              Get.toNamed(MyRouters.recommendationScreen, arguments: [post1.toString()]);
                             },
                             child: const CommonButton(title: "Send Recommendation"),
                           ),
@@ -1990,7 +2049,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               ),
             ),
           );
-
         });
   }
   void commentBottomSheet(context) {
@@ -2208,7 +2266,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           ) : const Center(child: Text('No Data Available'));
         });
   }
-
   void commentBottomSheetReco(context) {
     var size = MediaQuery
         .of(context)
@@ -2425,4 +2482,445 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           ) : const Center(child: Text('No Data Available'));
         });
   }
+
+
+
+  // void _settingModalBottomSheet(context) {
+//     var size = MediaQuery.of(context).size;
+//     var hieght = MediaQuery.of(context).size.height;
+//
+//     showModalBottomSheet(
+//         enableDrag: true,
+//         isDismissible: true,
+//         constraints: BoxConstraints(
+//           maxHeight: hieght * .9,
+//         ),
+//         isScrollControlled: true,
+//         context: context,
+//         backgroundColor: Colors.white,
+//         elevation: 10,
+//         shape: const RoundedRectangleBorder(
+//           borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+//         ),
+//         builder: (BuildContext context) {
+//           // UDE : SizedBox instead of Container for whitespaces
+//           return SingleChildScrollView(
+//             child: Padding(
+//               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.start,
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: <Widget>[
+//                   Row(
+//                     children: [
+//                       Text(
+//                         'Recommendation List',
+//                         style: GoogleFonts.mulish(
+//                           fontWeight: FontWeight.w700,
+//                           // letterSpacing: 1,
+//                           fontSize: 18,
+//                           color: Colors.black,
+//                         ),
+//                       ),
+//                       const Spacer(),
+//                       GestureDetector(
+//                           onTap: () {
+//                             Get.back();
+//                             setState(() {});
+//                           },
+//                           child: const Icon(Icons.close)),
+//                       const SizedBox(
+//                         height: 10,
+//                       ),
+//                     ],
+//                   ),
+//                   const SizedBox(
+//                     height: 15,
+//                   ),
+//                   statusOfReviewList.value.isSuccess
+//                       ? SingleChildScrollView(
+//                     child: Obx(() {
+//                       return Column(
+//                         children: [
+//                           ListView.builder(
+//                             physics: const ScrollPhysics(),
+//                             itemCount: modelReviewList.value.data!.length,
+//                             scrollDirection: Axis.vertical,
+//                             shrinkWrap: true,
+//                             itemBuilder: (context, index) {
+//                               return Padding(
+//                                 padding: const EdgeInsets.only(left: 8.0, top: 10),
+//                                 child: Row(
+//                                   mainAxisAlignment: MainAxisAlignment.start,
+//                                   crossAxisAlignment: CrossAxisAlignment.start,
+//                                   children: [
+//                                     ClipOval(
+//                                       child: CachedNetworkImage(
+//                                         width: 30,
+//                                         height: 30,
+//                                         fit: BoxFit.cover,
+//                                         imageUrl: modelReviewList.value.data![index].user!.profileImage.toString(),
+//                                         placeholder: (context, url) => const SizedBox(),
+//                                         errorWidget: (context, url, error) => const SizedBox(),
+//                                       ),
+//                                     ),
+//                                     const SizedBox(
+//                                       width: 10,
+//                                     ),
+//                                     Expanded(
+//                                       child: Container(
+//                                         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+//                                         decoration: BoxDecoration(
+//                                             borderRadius: const BorderRadius.only(
+//                                                 bottomRight: Radius.circular(10),
+//                                                 bottomLeft: Radius.circular(10),
+//                                                 topRight: Radius.circular(10)),
+//                                             color: Colors.grey.withOpacity(0.2)),
+//                                         child: Column(
+//                                           crossAxisAlignment: CrossAxisAlignment.start,
+//                                           children: [
+//                                             Row(
+//                                               crossAxisAlignment: CrossAxisAlignment.start,
+//                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                                               children: [
+//                                                 Row(
+//                                                   crossAxisAlignment: CrossAxisAlignment.start,
+//                                                   mainAxisAlignment: MainAxisAlignment.start,
+//                                                   children: [
+//                                                     Text(
+//                                                       overflow: TextOverflow.ellipsis,
+//                                                       modelReviewList.value.data![index].user!.name.toString(),
+//                                                       style: GoogleFonts.mulish(
+//                                                         fontWeight: FontWeight.w600,
+//                                                         // letterSpacing: 1,
+//                                                         fontSize: 15,
+//                                                         color: Colors.black,
+//                                                       ),
+//                                                     ),
+//                                                     const SizedBox(
+//                                                       width: 15,
+//                                                     ),
+//                                                     Padding(
+//                                                       padding: const EdgeInsets.only(top: 3.0),
+//                                                       child: Text(
+//                                                         modelReviewList.value.data![index].date.toString(),
+//                                                         textAlign: TextAlign.start,
+//                                                         style: GoogleFonts.mulish(
+//                                                           fontWeight: FontWeight.w400,
+//                                                           // letterSpacing: 1,
+//                                                           fontSize: 11,
+//                                                           color: Colors.black,
+//                                                         ),
+//                                                       ),
+//                                                     ),
+//                                                   ],
+//                                                 ),
+//                                                 modelReviewList.value.data![index].isEditable == true ?
+//                                                 PopupMenuButton<SampleItem>(
+//                                                   padding: EdgeInsets.zero,
+//                                                   initialValue: selectedMenu,
+//                                                   onSelected: (SampleItem item) {
+//                                                     setState(() {
+//                                                       selectedMenu = item;
+//                                                     });
+//                                                   },
+//                                                   itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+//                                                     PopupMenuItem<SampleItem>(
+//                                                       value: SampleItem.itemOne,
+//                                                       onTap:  () {
+//                                                         print("object${modelReviewList.value.data![index].id.toString()}");
+//                                                         Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [
+//                                                           modelReviewList.value.data![index].id.toString()]);
+//                                                       },
+//                                                       child: const Text('Edit'),
+//                                                     ),
+//                                                     PopupMenuItem<SampleItem>(
+//                                                       value: SampleItem.itemTwo,
+//                                                       onTap: () {
+//                                                         showDialog<String>(
+//                                                           context: context,
+//                                                           builder: (BuildContext context) => AlertDialog(
+//                                                             title: const Text(
+//                                                               'Are you sure to delete recommendation',
+//                                                               style: TextStyle(fontSize: 16),
+//                                                             ),
+//                                                             actions: <Widget>[
+//                                                               InkWell(
+//                                                                   onTap: () {
+//                                                                     Get.back();
+//                                                                     Get.back();
+//                                                                     Get.back();
+//                                                                   },
+//                                                                   child: const Text("Cancel ")),
+//                                                               const SizedBox(
+//                                                                 width: 40,
+//                                                               ),
+//                                                               InkWell(
+//                                                                   onTap: () {
+//                                                                     deleteRecommRepo(
+//                                                                       context: context,
+//                                                                       recommandation_id: modelReviewList.value.data![index].id.toString(),
+//                                                                     ).then((value) async {
+//                                                                       if (value.status == true) {
+//                                                                         profileController.deleteRecommendation.value = value;
+//                                                                         profileController.getData();
+//                                                                         homeController.getData();
+//                                                                         Get.back();
+//                                                                         Get.back();
+//                                                                         Get.back();
+//                                                                         print('wishlist-----');
+//                                                                         profileController.statusOfDelete.value = RxStatus.success();
+//
+//                                                                         // like=true;
+//                                                                         showToast(value.message.toString());
+//                                                                       } else {
+//                                                                         profileController.statusOfDelete.value = RxStatus.error();
+//                                                                         // like=false;
+//                                                                         showToast(value.message.toString());
+//                                                                       }
+//                                                                     });
+//                                                                   },
+//                                                                   child: const Text('OK')),
+//                                                             ],
+//                                                           ),
+//                                                         );
+//                                                       },
+//                                                       child: InkWell(
+//                                                           onTap: () {
+//                                                             showDialog<String>(
+//                                                               context: context,
+//                                                               builder: (BuildContext context) => AlertDialog(
+//                                                                 title: const Text(
+//                                                                   'Are you sure to delete recommendation',
+//                                                                   style: TextStyle(fontSize: 16),
+//                                                                 ),
+//                                                                 actions: <Widget>[
+//                                                                   InkWell(
+//                                                                       onTap: () {
+//                                                                         Get.back();
+//                                                                         Get.back();
+//                                                                         Get.back();
+//                                                                       },
+//                                                                       child: const Text("Cancel ")),
+//                                                                   const SizedBox(
+//                                                                     width: 40,
+//                                                                   ),
+//                                                                   InkWell(
+//                                                                       onTap: () {
+//                                                                         deleteRecommRepo(
+//                                                                           context: context,
+//                                                                           recommandation_id: homeController.homeModel.value.data!.recommandation![index].id.toString(),
+//                                                                         ).then((value) async {
+//                                                                           if (value.status == true) {
+//                                                                             profileController.deleteRecommendation.value = value;
+//                                                                             profileController.getData();
+//                                                                             Get.back();
+//                                                                             Get.back();
+//                                                                             Get.back();
+//                                                                             print('wishlist-----');
+//                                                                             profileController.statusOfDelete.value = RxStatus.success();
+//
+//                                                                             // like=true;
+//                                                                             showToast(value.message.toString());
+//                                                                           } else {
+//                                                                             profileController.statusOfDelete.value = RxStatus.error();
+//                                                                             // like=false;
+//                                                                             showToast(value.message.toString());
+//                                                                           }
+//                                                                         });
+//                                                                       },
+//                                                                       child: const Text('OK')),
+//                                                                 ],
+//                                                               ),
+//                                                             );
+//                                                           },
+//                                                           child: const Text('Delete')),
+//                                                     ),
+//                                                   ],
+//                                                   child: Container(
+//                                                       alignment: Alignment.centerRight,
+//                                                       child: Image.asset('assets/icons/popup_icon.png',width: 25,height: 25)),
+//                                                 ) : const SizedBox(),
+//                                               ],
+//                                             ),
+//                                             const SizedBox(
+//                                               height: 15,
+//                                             ),
+//                                             Column(
+//                                               crossAxisAlignment: CrossAxisAlignment.start,
+//                                               mainAxisAlignment: MainAxisAlignment.start,
+//                                               children: [
+//                                                 Row(
+//                                                   crossAxisAlignment: CrossAxisAlignment.start,
+//                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                                                   children: [
+//                                                     Text(
+//                                                       modelReviewList.value.data![index].title.toString(),
+//                                                       style: GoogleFonts.mulish(
+//                                                         fontWeight: FontWeight.w700,
+//                                                         // letterSpacing: 1,
+//                                                         fontSize: 18,
+//                                                         color: Colors.black,
+//                                                       ),
+//                                                     ),
+//
+//                                                   ],
+//                                                 ),
+//                                                 Text(
+//                                                   modelReviewList.value.data![index].review.toString(),
+//                                                   style: GoogleFonts.mulish(
+//                                                     fontWeight: FontWeight.w400,
+//                                                     // letterSpacing: 1,
+//                                                     fontSize: 14,
+//                                                     color: Colors.black,
+//                                                   ),
+//                                                 ),
+//                                               ],
+//                                             ),
+//
+//                                             const SizedBox(
+//                                               height: 13,
+//                                             ),
+//                                             modelReviewList.value.data![index].link == ""
+//                                                 ? const SizedBox()
+//                                                 : GestureDetector(
+//                                               onTap: () {
+//                                                 launchURL(
+//                                                   modelReviewList.value.data![index].link.toString(),
+//                                                 );
+//                                               },
+//                                               child: Text(
+//                                                 'Link',
+//                                                 style: GoogleFonts.mulish(
+//                                                     fontWeight: FontWeight.w500,
+//                                                     fontSize: 15,
+//                                                     color: const Color(0xFF3797EF)),
+//                                               ),
+//                                             ),
+//                                             const SizedBox(
+//                                               height: 12,
+//                                             ),
+//                                             modelReviewList.value.data![index].image == ""
+//                                                 ? const SizedBox()
+//                                                 : Stack(
+//                                               children: [
+//                                                 ClipRRect(
+//                                                   borderRadius: BorderRadius.circular(10),
+//                                                   child: CachedNetworkImage(
+//                                                       width: size.width,
+//                                                       height: 200,
+//                                                       fit: BoxFit.fill,
+//                                                       imageUrl: modelReviewList.value.data![index].image.toString(),
+//                                                       placeholder: (context, url) =>
+//                                                       const SizedBox(
+//                                                         height: 0,
+//                                                       ),
+//                                                       errorWidget: (context, url, error) =>
+//                                                       const Icon(Icons.error,color: Colors.red,)
+//                                                   ),
+//                                                 ),
+//                                                 Positioned(
+//                                                     top: 4,
+//                                                     right: 4,
+//                                                     child:   Container(
+//                                                       padding: const EdgeInsets.all(10),
+//                                                       decoration: const BoxDecoration(
+//                                                           color: Colors.white,
+//                                                           shape: BoxShape.circle
+//                                                       ),
+//                                                       child: Row(
+//                                                         children: [
+//                                                           GestureDetector(
+//                                                               onTap: () {
+//                                                                 addRemoveLikeRepo(
+//                                                                   context: context,
+//                                                                   recommended_id: modelReviewList.value.data![index].id
+//                                                                       .toString(),
+//                                                                 ).then((value) async {
+//                                                                   // userProfile.value = value;
+//                                                                   if (value.status == true) {
+//                                                                     // print('wishlist-----');
+//                                                                     statusOfRemove.value = RxStatus.success();
+//                                                                     reviewList(post.toString());
+//                                                                     showToast(value.message.toString());
+//                                                                   } else {
+//                                                                     statusOfRemove.value = RxStatus.error();
+//                                                                     // like=false;
+//                                                                     showToast(value.message.toString());
+//                                                                   }
+//                                                                 });
+//                                                                 setState(() {});
+//                                                               },
+//                                                               child: modelReviewList.value.data![index].isLike == true
+//                                                                   ? SvgPicture.asset(
+//                                                                 AppAssets.heart,
+//                                                                 height: 26,
+//                                                               )
+//                                                                   : const Image(
+//                                                                 image: AssetImage(
+//                                                                     'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+//                                                                 height: 25,
+//                                                               )),
+//                                                           Text(modelReviewList.value.data![index].likeCount.toString()),
+//                                                         ],
+//                                                       ),
+//                                                     )
+//                                                 )
+//                                               ],
+//                                             ),
+//                                             const SizedBox(
+//                                               height: 18,
+//                                             ),
+//                                             InkWell(
+//                                               onTap: (){
+//                                                 getComments(modelReviewList.value.data![index].id.toString());
+//                                                 postId = modelReviewList.value.data![index].id.toString();
+//                                                 print('Id Is....${modelReviewList.value.data![index].id.toString()}');
+//                                                 setState(() {});
+//                                               },
+//                                               child: Text(
+//                                                 "Comments:   ${  modelReviewList.value.data![index].commentCount.toString()}",
+//                                                 style: GoogleFonts.mulish(
+//                                                     fontWeight: FontWeight.w600,
+//                                                     // letterSpacing: 1,
+//                                                     fontSize: 16,
+//                                                     color: const Color(0xFF3797EF)),
+//                                               ),
+//                                             ),
+//                                           ],
+//                                         ),
+//                                       ),
+//                                     )
+//                                   ],
+//                                 ),
+//                               );
+//                             },
+//                           ),
+//                           const SizedBox(
+//                             height: 25,
+//                           ),
+//                           GestureDetector(
+//                             onTap: () {
+//                               Get.toNamed(MyRouters.recommendationScreen, arguments: [post.toString()]);
+//                             },
+//                             child: const CommonButton(title: "Send Recommendation"),
+//                           ),
+//                           const SizedBox(
+//                             height: 20,
+//                           )
+//                         ],
+//                       );
+//                     }),
+//                   )
+//                       : const Center(child: Text('No Data Available')),
+//                   const SizedBox(
+//                     height: 20,
+//                   )
+//                 ],
+//               ),
+//             ),
+//           );
+//
+//         });
+//   }
 }

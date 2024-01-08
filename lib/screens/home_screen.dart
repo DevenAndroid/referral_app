@@ -718,16 +718,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               width: 6,
                                                             ),
                                                             Expanded(
-                                                              child: Text(
-                                                                "Recommendation: ${homeController.homeModel.value.data!
-                                                                    .discover![index].reviewCount.toString()}",
-                                                                maxLines: 2,
-                                                                overflow: TextOverflow.ellipsis,
-                                                                style: GoogleFonts.mulish(
-                                                                    fontWeight: FontWeight.w500,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize: 12,
-                                                                    color: const Color(0xFF3797EF)),
+                                                              child: FittedBox(
+                                                                child: Text(
+                                                                  "Recommendation: ${homeController.homeModel.value.data!
+                                                                      .discover![index].reviewCount.toString()}",
+                                                                  maxLines: 2,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: GoogleFonts.mulish(
+                                                                      fontWeight: FontWeight.w500,
+                                                                      // letterSpacing: 1,
+                                                                      fontSize: 12,
+                                                                      color: const Color(0xFF3797EF)),
+                                                                ),
                                                               ),
                                                             ),
                                                           ],
@@ -736,7 +738,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                     ),
                                                   ),
                                                   const SizedBox(
-                                                    width: 20,
+                                                    width: 10,
                                                   ),
                                                   Expanded(
                                                     child: GestureDetector(
@@ -1545,6 +1547,64 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                             const SizedBox(
                                               height: 18,
                                             ),
+                                            modelReviewList.value.data![index].image == "" ?
+                                            Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: (){
+                                                      getComments(modelReviewList.value.data![index].id.toString());
+                                                      postId = modelReviewList.value.data![index].id.toString();
+                                                      print('Id Is....${modelReviewList.value.data![index].id.toString()}');
+                                                      setState(() {});
+                                                    },
+                                                    child: Text(
+                                                      "Comments:   ${  modelReviewList.value.data![index].commentCount.toString()}",
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w600,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 16,
+                                                          color: const Color(0xFF3797EF)),
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                          onTap: () {
+                                                            addRemoveLikeRepo(
+                                                              context: context,
+                                                              recommended_id: modelReviewList.value.data![index].id
+                                                                  .toString(),
+                                                            ).then((value) async {
+                                                              // userProfile.value = value;
+                                                              if (value.status == true) {
+                                                                // print('wishlist-----');
+                                                                statusOfRemove.value = RxStatus.success();
+                                                                reviewList(post.toString());
+                                                                showToast(value.message.toString());
+                                                              } else {
+                                                                statusOfRemove.value = RxStatus.error();
+                                                                // like=false;
+                                                                showToast(value.message.toString());
+                                                              }
+                                                            });
+                                                            setState(() {});
+                                                          },
+                                                          child: modelReviewList.value.data![index].isLike == true
+                                                              ? SvgPicture.asset(
+                                                            AppAssets.heart,
+                                                            height: 26,
+                                                          )
+                                                              : const Image(
+                                                            image: AssetImage(
+                                                                'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                                            height: 25,
+                                                          )),
+                                                      Text(modelReviewList.value.data![index].likeCount.toString()),
+                                                    ],
+                                                  ),
+                                                ]
+                                            ):
                                             InkWell(
                                               onTap: (){
                                                 getComments(modelReviewList.value.data![index].id.toString());
