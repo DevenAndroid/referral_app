@@ -702,8 +702,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                          setState(() {});
                                                       },
                                                       child: Container(
-                                                        padding: const EdgeInsets.only(left: 15),
-                                                        width: size.width * .45,
+                                                        padding: const EdgeInsets.symmetric(horizontal: 10),
                                                         height: 30,
                                                         decoration: BoxDecoration(
                                                           color: const Color(0xFF3797EF).withOpacity(.09),
@@ -718,14 +717,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             const SizedBox(
                                                               width: 6,
                                                             ),
-                                                            Text(
-                                                              "Recommendation: ${homeController.homeModel.value.data!
-                                                                  .discover![index].reviewCount.toString()}",
-                                                              style: GoogleFonts.mulish(
-                                                                  fontWeight: FontWeight.w500,
-                                                                  // letterSpacing: 1,
-                                                                  fontSize: 12,
-                                                                  color: const Color(0xFF3797EF)),
+                                                            Expanded(
+                                                              child: Text(
+                                                                "Recommendation: ${homeController.homeModel.value.data!
+                                                                    .discover![index].reviewCount.toString()}",
+                                                                maxLines: 2,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: GoogleFonts.mulish(
+                                                                    fontWeight: FontWeight.w500,
+                                                                    // letterSpacing: 1,
+                                                                    fontSize: 12,
+                                                                    color: const Color(0xFF3797EF)),
+                                                              ),
                                                             ),
                                                           ],
                                                         ),

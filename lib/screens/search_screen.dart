@@ -152,10 +152,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         List<Data> searchData1 = [];
                         if (statusOfAllRecommendation.value.isSuccess && userList.value.data != null) {
                           String search = search2Controller.text.trim().toLowerCase();
+                          // String search1 = search2Controller.text.trim().toLowerCase();
                           if (search.isNotEmpty) {
-                            searchData1 = userList.value.data!
-                                .where((element) => element.name.toString().toLowerCase().contains(search))
-                                .toList();
+                            searchData1 = userList.value.data!.where((element) => element.name.toString().toLowerCase().contains(search)).toList();
                           } else {
                             searchData1 = userList.value.data!;
                           }
@@ -282,9 +281,10 @@ class _SearchScreenState extends State<SearchScreen> {
                             if (statusOfAllRecommendation.value.isSuccess && allRecommendation.value.data != null) {
                               String search = search1Controller.text.trim().toLowerCase();
                               if (search.isNotEmpty) {
-                                searchData = allRecommendation.value.data!
-                                    .where((element) => element.title.toString().toLowerCase().contains(search))
-                                    .toList();
+                                searchData = allRecommendation.value.data!.where((element) => element.title.toString().toLowerCase().contains(search)).toList();
+                                searchData = allRecommendation.value.data!.where((element) => element.review.toString().toLowerCase().contains(search)).toList();
+                                searchData = allRecommendation.value.data!.where((element) => element.date.toString().toLowerCase().contains(search)).toList();
+                                searchData = allRecommendation.value.data!.where((element) => element.link.toString().toLowerCase().contains(search)).toList();
                               } else {
                                 searchData = allRecommendation.value.data!;
                               }
@@ -330,6 +330,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               child: CachedNetworkImage(
                                                 imageUrl: item.image.toString(),
                                                 fit: BoxFit.fill,
+                                                errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
                                               ),
                                             );
                                           },

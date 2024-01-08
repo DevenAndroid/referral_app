@@ -48,6 +48,7 @@ class AllRecommendation {
   String? image;
   String? status;
   bool? wishlist;
+  String? date;
 
   AllRecommendation(
       {this.id,
@@ -58,6 +59,7 @@ class AllRecommendation {
         this.categoryId,
         this.image,
         this.status,
+        this.date,
         this.wishlist});
 
   AllRecommendation.fromJson(Map<String, dynamic> json) {
@@ -70,6 +72,7 @@ class AllRecommendation {
     image = json['image'];
     status = json['status'];
     wishlist = json['wishlist'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -85,6 +88,7 @@ class AllRecommendation {
     data['image'] = this.image;
     data['status'] = this.status;
     data['wishlist'] = this.wishlist;
+    data['date'] = this.date;
     return data;
   }
 }
