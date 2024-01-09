@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../controller/get_recommendation_controller.dart';
 import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
 import '../repositories/add_recommendation_repo.dart';
@@ -84,6 +85,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
 
   File image = File("");
   final profileController = Get.put(ProfileController());
+  final getRecommendationController = Get.put(GetRecommendationController());
 
   final homeController = Get.put(HomeController());
 var postid = Get.arguments[0];
@@ -281,6 +283,7 @@ var postid = Get.arguments[0];
                       ).then((value) async {
                         if (value.status == true) {
                           profileController.getData();
+                          getRecommendationController.getRecommendation(idForReco: getRecommendationController.idForReco);
                           profileController.UserProfile();
                           homeController.getData();
                           Get.back();

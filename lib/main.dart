@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Referral App',
       theme: ThemeData(
         fontFamily: 'poppinsSans',
         primarySwatch: Colors.green,

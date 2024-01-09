@@ -11,7 +11,7 @@ import '../models/single_product_model.dart';
 import '../resourses/api_constant.dart';
 import '../resourses/helper.dart';
 
-Future<ModelReviewList> getReviewListRepo({required BuildContext context, id}) async {
+Future<ModelReviewList> getReviewListRepo({context, id}) async {
   try {
     http.Response response = await http.get(Uri.parse("${ApiUrls.reviewList}?askrecommandation_id=$id"),
       headers: await getAuthHeader(),
