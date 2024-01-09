@@ -1,21 +1,14 @@
-// import 'dart:io';
-
 import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:referral_app/controller/homeController.dart';
 import 'package:referral_app/screens/recommendation_single_page.dart';
 import 'package:referral_app/widgets/app_assets.dart';
 import 'package:referral_app/widgets/custome_textfiled.dart';
-import 'package:referral_app/widgets/helper.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controller/bottomNav_controller.dart';
@@ -28,7 +21,6 @@ import '../models/get_comment_model.dart';
 import '../models/home_page_model.dart';
 import '../models/model_review_list.dart';
 import '../models/remove_reomeendation.dart';
-import '../models/single_product_model.dart';
 import '../repositories/add_comment_repo.dart';
 import '../repositories/all_recommendation_repo.dart';
 import '../repositories/categories_repo.dart';
@@ -38,13 +30,10 @@ import '../repositories/remove_bookmark_repo.dart';
 import '../repositories/repo_add_like.dart';
 import '../repositories/repo_delete_recomm.dart';
 import '../repositories/repo_review_list.dart';
-import '../repositories/single_produc_repo.dart';
 import '../resourses/api_constant.dart';
 import '../routers/routers.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
-import 'category_viewAll_screen.dart';
-import 'comment_controller.dart';
 import 'comment_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -165,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       .empty()
       .obs;
   final wishListController = Get.put(WishListController());
-  final getCommentController = Get.put(GetCommenController());
+  final getCommentController = Get.put(GetCommentController());
   final profileController = Get.put(ProfileController(), permanent: true);
 
   Rx<RemoveRecommendationModel> modalRemove = RemoveRecommendationModel().obs;
@@ -1641,19 +1630,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   void commentBottomSheet(context) {
-    var size = MediaQuery
-        .of(context)
-        .size;
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    TextEditingController commentController = TextEditingController();
+    var height = MediaQuery.of(context).size.height;
     showModalBottomSheet(
         enableDrag: true,
         isDismissible: true,
         constraints: BoxConstraints(
-          maxHeight: height * .9,
+          maxHeight: height * .7,
         ),
         isScrollControlled: true,
         context: context,
@@ -1663,7 +1645,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
         ),
         builder: (BuildContext context) {
-          // UDE : SizedBox instead of Container for whitespaces
           return  const CommentScreen();
         });
   }

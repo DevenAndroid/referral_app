@@ -452,17 +452,40 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                               showDialog(
                                                 context: context,
                                                 builder: (BuildContext context) {
-                                                  // Return the dialog box widget
-                                                  return  statusOfSlug.value.isSuccess?
-
-                                                  AlertDialog(
-                                                    title:
-                                                    Text(page.value.data!.title.toString()),
-                                                    content: Html(
-                                                      data:page.value.data!.content.toString(),
-                                                    ),
-                                                    actions: <Widget>[],
-                                                  ):const CircularProgressIndicator();
+                                               if(Platform.isIOS){
+                                                 return  statusOfSlug.value.isSuccess?
+                                                 AlertDialog(
+                                                   title:
+                                                   Text(page.value.data!.title.toString()),
+                                                   content: Html(
+                                                     data:page.value.data!.content.toString(),
+                                                   ),
+                                                   actions: <Widget>[],
+                                                 ):const CircularProgressIndicator();
+                                               }
+                                               return  statusOfSlug.value.isSuccess?
+                                               Obx(() {
+                                                 return Dialog(
+                                                   insetPadding: const EdgeInsets.symmetric(vertical: 15,horizontal: 10),
+                                                   child: Column(
+                                                     mainAxisSize: MainAxisSize.min,
+                                                     children: [
+                                                       const SizedBox(
+                                                         height: 10,
+                                                       ),
+                                                       Text(page.value.data!.title.toString()),
+                                                       Html(
+                                                         data: page.value.data!.content.toString(),
+                                                       ),
+                                                     ],
+                                                   ),
+                                                   // title: Text(page.value.data!.title.toString()),
+                                                   // content: Html(
+                                                   //   data:page.value.data!.content.toString(),
+                                                   // ),
+                                                   // actions: <Widget>[],
+                                                 );
+                                               }) : const CircularProgressIndicator();
                                                 },
                                               );
                                             },

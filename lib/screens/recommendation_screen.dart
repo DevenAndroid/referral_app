@@ -281,6 +281,7 @@ var postid = Get.arguments[0];
                       ).then((value) async {
                         if (value.status == true) {
                           profileController.getData();
+                          profileController.UserProfile();
                           homeController.getData();
                           Get.back();
 

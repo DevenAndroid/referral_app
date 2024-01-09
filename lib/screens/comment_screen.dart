@@ -2,12 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../controller/get_comment_controller.dart';
 import '../controller/homeController.dart';
 import '../repositories/add_comment_repo.dart';
 import '../resourses/api_constant.dart';
 import '../widgets/custome_textfiled.dart';
-import 'comment_controller.dart';
 
 
 class CommentScreen extends StatefulWidget {
@@ -19,7 +18,7 @@ class CommentScreen extends StatefulWidget {
 
 class _CommentScreenState extends State<CommentScreen> {
 
-  final getCommentController = Get.put(GetCommenController());
+  final getCommentController = Get.put(GetCommentController());
   String post = '';
   final homeController = Get.put(HomeController());
   final formKey6 = GlobalKey<FormState>();
@@ -107,13 +106,12 @@ class _CommentScreenState extends State<CommentScreen> {
           physics: const BouncingScrollPhysics(),
           child: Obx(() {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20).copyWith(
-                  bottom: MediaQuery.of(context).viewInsets.bottom
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  getCommentController.getCommentModel.value.data != null && getCommentController.getCommentModel.value.data!.isNotEmpty?
                   ListView.builder(
                     reverse: true,
                     physics: const ScrollPhysics(),
@@ -181,7 +179,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 20,
                                     ),
                                     Text(
@@ -204,7 +202,7 @@ class _CommentScreenState extends State<CommentScreen> {
                         ),
                       );
                     },
-                  ),
+                  ) :  Padding(padding: EdgeInsets.symmetric(vertical: Get.height/5),child: const Center(child: Text('No Data Available',style: TextStyle(color: Colors.black),))),
                   const SizedBox(
                     height: 40,
                   )

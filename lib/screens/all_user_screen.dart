@@ -10,6 +10,7 @@ import 'package:referral_app/widgets/app_assets.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../controller/get_comment_controller.dart';
 import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
 import '../models/add_remove_recommendation.dart';
@@ -34,6 +35,7 @@ import '../resourses/api_constant.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
 import '../widgets/custome_textfiled.dart';
+import 'comment_screen.dart';
 import 'my_recommendation_category.dart';
 
 class AllUserProfileScreen extends StatefulWidget {
@@ -48,7 +50,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
   Rx<RxStatus> statusOfReviewList = RxStatus.empty().obs;
   Rx<ModelReviewList> modelReviewList = ModelReviewList().obs;
   final profileController = Get.put(ProfileController());
-
+  final getCommentController = Get.put(GetCommentController());
   Rx<RxStatus> statusOfRemove = RxStatus
       .empty()
       .obs;
@@ -61,20 +63,8 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
   String postId = '';
   String post = '';
   String post1 = '';
-  UserProfile() {
 
-    userProfileRepo(recommandation_id: id, type: "user").then((value) {
-      profileController.userProfile.value = value;
-      print("userId>>>>>>>>>>$id");
-      if (value.status == true) {
-        profileController.statusOfUser.value = RxStatus.success();
-      } else {
-        profileController.statusOfUser.value = RxStatus.error();
-      }
 
-      // showToast(value.message.toString());
-    });
-  }
   getComments(id) {
     // modelReviewList.value.data!.clear();
     print('id isss...${id.toString()}');
@@ -95,7 +85,6 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
   }
   SampleItem? selectedMenu;
   reviewList(id) {
-    // modelReviewList.value.data!.clear();
     getReviewListRepo(context: context, id: id).then((value) {
       modelReviewList.value = value;
 
@@ -130,7 +119,8 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
     // Get.arguments[0];
     // profileController.getData();
     profileController.checkForUser = false;
-    UserProfile();
+    profileController.idUserPro = id;
+    profileController.UserProfile();
     reviewList(id);
     // chooseCategories1();
   }
@@ -781,19 +771,12 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                                 setState(() {
                                                                   getReviewListRepo(
                                                                       context: context,
-                                                                      id: homeController.homeModel.value.data!
-                                                                          .discover![index].id
-                                                                          .toString())
+                                                                      id: profileController.userProfile.value.data!.myRequest![index].id.toString())
                                                                       .then((value) {
                                                                     modelReviewList.value = value;
-
                                                                     if (value.status == true) {
                                                                       statusOfReviewList.value = RxStatus.success();
-                                                                      post1 = homeController
-                                                                          .homeModel.value.data!.discover![index].id
-                                                                          .toString();
-                                                                      print(homeController.homeModel.value.data!
-                                                                          .discover![index].id);
+                                                                      post1 = profileController.userProfile.value.data!.myRequest![index].id.toString();
                                                                       _settingModalBottomSheet(context);
                                                                     } else {
                                                                       statusOfReviewList.value = RxStatus.error();
@@ -821,7 +804,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                                     Expanded(
                                                                       child: FittedBox(
                                                                         child: Text(
-                                                                          "Recommendation: ${profileController.modal.value.data!.myRequest![index].reviewCount.toString()}",
+                                                                          "Recommendation: ${profileController.userProfile.value.data!.myRequest![index].reviewCount.toString()}",
                                                                           maxLines: 2,
                                                                           overflow: TextOverflow.ellipsis,
                                                                           style: GoogleFonts.mulish(
@@ -844,26 +827,11 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                             child: GestureDetector(
                                                               onTap: () {
                                                                 setState(() {
-                                                                  getCommentRepo(
-                                                                      context: context,
-                                                                      id: profileController.userProfile.value.data!
-                                                                          .myRequest![index].id.toString(), type: 'askrecommandation')
-                                                                      .then((value) {
-                                                                    getCommentModel.value = value;
-
-                                                                    if (value.status == true) {
-                                                                      statusOfGetComment.value = RxStatus.success();
-                                                                      post = profileController.userProfile.value.data!
-                                                                          .myRequest![index].id.toString();
-                                                                      print('Id Is....${profileController.userProfile.value.data!
-                                                                          .myRequest![index].id.toString()}');
-                                                                      commentBottomSheet(context);
-                                                                    } else {
-                                                                      statusOfGetComment.value = RxStatus.error();
-                                                                    }
-
-                                                                    setState(() {});
-                                                                  });
+                                                                  getCommentController.id = profileController.userProfile.value.data!.myRequest![index].id.toString();
+                                                                  getCommentController.type = 'askrecommandation';
+                                                                  commentBottomSheet(context);
+                                                                  print('Id Is....${profileController.userProfile.value.data!
+                                                                      .myRequest![index].id.toString()}');
                                                                 });
                                                               },
                                                               child: Container(
@@ -2185,12 +2153,11 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
         .of(context)
         .size
         .height;
-    TextEditingController commentController = TextEditingController();
     showModalBottomSheet(
         enableDrag: true,
         isDismissible: true,
         constraints: BoxConstraints(
-          maxHeight: height * .9,
+          maxHeight: height * .7,
         ),
         isScrollControlled: true,
         context: context,
@@ -2200,197 +2167,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
           borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
         ),
         builder: (BuildContext context) {
-          // UDE : SizedBox instead of Container for whitespaces
-          return statusOfGetComment.value.isSuccess
-              ? SingleChildScrollView(
-            child: Obx(() {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20).copyWith(
-                    bottom: MediaQuery.of(context).viewInsets.bottom
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        Text(
-                          'Comments List',
-                          style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.w700,
-                            // letterSpacing: 1,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const Spacer(),
-                        GestureDetector(
-                            onTap: () {
-                              Get.back();
-                              setState(() {});
-                            },
-                            child: const Icon(Icons.close)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    // statusOfReviewList.value.isSuccess
-                    //     ?
-                    SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ListView.builder(
-                              physics: const ScrollPhysics(),
-                              itemCount: getCommentModel.value.data!.length,
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                var item = getCommentModel.value.data![index].userId!;
-                                var item1 = getCommentModel.value.data![index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(left: 8.0, top: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      ClipOval(
-                                        child: CachedNetworkImage(
-                                          width: 30,
-                                          height: 30,
-                                          fit: BoxFit.cover,
-                                          imageUrl: item.profileImage.toString(),
-                                          placeholder: (context, url) => const SizedBox(),
-                                          errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                          decoration: BoxDecoration(
-                                              borderRadius: const BorderRadius.only(
-                                                  bottomRight: Radius.circular(10),
-                                                  bottomLeft: Radius.circular(10),
-                                                  topRight: Radius.circular(10)),
-                                              color: Colors.grey.withOpacity(0.2)),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    overflow: TextOverflow.ellipsis,
-                                                    item.name.toString(),
-                                                    style: GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w600,
-                                                      // letterSpacing: 1,
-                                                      fontSize: 14,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 15,
-                                                  ),
-                                                  Text(
-                                                    item1.date.toString(),
-                                                    style: GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w400,
-                                                      // letterSpacing: 1,
-                                                      fontSize: 10,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: size.height * .01,
-                                              ),
-                                              Text(
-                                                item1.comment.toString(),
-                                                style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w400,
-                                                  // letterSpacing: 1,
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 8,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFF070707).withOpacity(.06),
-                                  borderRadius: BorderRadius.circular(44)
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 12).copyWith(bottom: 0),
-                                child: CustomTextField(
-                                  obSecure: false.obs,
-                                  hintText: 'Type a message...'.obs,
-                                  controller: commentController,
-                                  suffixIcon: InkWell(
-                                      onTap: (){
-                                        addCommentRepo(context: context,type: 'askrecommandation',comment: commentController.text.trim(),postId: post.toString()).then((value) {
-                                          if (value.status == true) {
-                                            showToast(value.message.toString());
-                                            homeController.getData();
-                                            UserProfile();
-                                            profileController.getData();
-                                            Get.back();
-                                            setState(() {
-                                              commentController.clear();
-                                            });
-                                          }
-                                          else {
-                                            showToast(value.message.toString());
-                                          }
-                                        });
-                                      },
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset('assets/images/comment_send_icon.png',width: 35,height: 35,),
-                                        ],
-                                      )),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            )
-                          ],
-                        )
-                    ),
-                    // : const Center(child: Text('No Data Available')),
-                    const SizedBox(
-                      height: 20,
-                    )
-                  ],
-                ),
-              );
-            }),
-          ) : const Center(child: Text('No Data Available'));
+          return const CommentScreen();
         });
   }
 
@@ -2571,7 +2348,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                           if (value.status == true) {
                                             showToast(value.message.toString());
                                             getComments(postId.toString());
-                                            reviewList(post.toString());
+                                            reviewList(post1.toString());
                                             // Get.back();
                                             setState(() {
                                               commentController.clear();

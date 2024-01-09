@@ -187,9 +187,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                             GestureDetector(
                                               onTap: () {
                                                 Get.toNamed(MyRouters.allUserProfileScreen, arguments: [item.id.toString()]);
+                                                print('idd iss...${item.id.toString()}');
                                               },
                                               child: Container(
-                                                padding: EdgeInsets.all(10),
+                                                padding: const EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius: BorderRadius.circular(10),

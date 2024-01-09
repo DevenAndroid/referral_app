@@ -8,6 +8,7 @@ import '../models/model_user_profile.dart';
 import '../models/single_product_model.dart';
 import '../repositories/all_recommendation_repo.dart';
 import '../repositories/get_profile_repo.dart';
+import '../repositories/get_user_profile.dart';
 import '../repositories/single_produc_repo.dart';
 import '../widgets/helper.dart';
 
@@ -29,6 +30,7 @@ class ProfileController extends GetxController {
   Rx<RxStatus> statusOfUser = RxStatus.empty().obs;
   String? address = "";
   bool checkForUser = false;
+  String idUserPro = '';
   getData() {
     getProfileRepo().then((value) async {
       modal.value = value;
@@ -54,6 +56,21 @@ class ProfileController extends GetxController {
   RxInt refreshUserCat = 0.obs;
   String categoryId = '';
   String userId = '';
+
+  UserProfile() {
+    userProfileRepo(recommandation_id: idUserPro, type: "user").then((value) {
+           userProfile.value = value;
+      print("userId>>>>>>>>>>$idUserPro");
+      if (value.status == true) {
+        statusOfUser.value = RxStatus.success();
+      } else {
+        statusOfUser.value = RxStatus.error();
+      }
+
+      // showToast(value.message.toString());
+    });
+  }
+
 
   Future getMyCategory({categoryId, userId}) async {
     getSingleRepo(category_id: categoryId, userId: userId).then((value) {
