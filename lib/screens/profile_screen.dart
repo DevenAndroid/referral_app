@@ -172,6 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_tabListener);
     profileController.getData();
+    profileController.check = false;
     chooseCategories();
     getData();
     //homeController.getData();
