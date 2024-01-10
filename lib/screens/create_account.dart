@@ -522,7 +522,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 }
                                 Get.toNamed(MyRouters.thankYouScreen);
                               }
-                              showToast(value.message.toString());
+                              showToastBlack(value.message.toString());
                             });
 
                             // Get.toNamed(MyRouters.doctorNavbar);

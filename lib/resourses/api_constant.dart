@@ -98,3 +98,15 @@ showToastError(message) {
       textColor: Color(0xffffffff),
       fontSize: 14);
 }
+
+showToastBlack(message) {
+  Fluttertoast.cancel();
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blue,
+      textColor: Color(0xffffffff),
+      fontSize: 14);
+}

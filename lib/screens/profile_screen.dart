@@ -525,9 +525,16 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           ? Column(
                                               children: [
                                                 if (profileController.modal.value.data!.myRequest!.isEmpty)
-                                                  const Padding(
-                                                    padding: EdgeInsets.only(top:58.0),
-                                                    child: Text("No data found "),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: Get.height / 5),
+                                                    child: Center(
+                                                        child: Text(
+                                                          'No Data Found',
+                                                          style: GoogleFonts.mulish(
+                                                              fontWeight: FontWeight.w500,
+                                                              fontSize: 15,
+                                                              color: Colors.black),
+                                                        )),
                                                   ),
                                                 ListView.builder(
                                                     padding: const EdgeInsets.symmetric(vertical: 10),
@@ -1234,59 +1241,72 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                             //   const Text("No data found "),
                                             profileController.statusOfProfile.value.isSuccess
                                                 ? SingleChildScrollView(
-                                                    child: GridView.builder(
-                                                      physics: const BouncingScrollPhysics(),
-                                                      padding: const EdgeInsets.only(bottom: 50),
-                                                      shrinkWrap: true,
-                                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                                        crossAxisCount: 3,
-                                                        // Number of columns
-                                                        crossAxisSpacing: 10.0,
-                                                        // Spacing between columns
-                                                        mainAxisSpacing: 10.0, // Spacing between rows
-                                                      ),
-                                                      itemCount:
-                                                          profileController.modal.value.data!.myRecommandation!.length,
-                                                      // Total number of items
-                                                      itemBuilder: (BuildContext context, int index) {
-                                                        // You can replace the Container with your image widget
-                                                        return   GestureDetector(
-                                                          onTap: () {
-                                                            Get.toNamed(
-                                                              MyRouters.singleScreen,
-                                                              arguments: [
-                                                                profileController
-                                                                    .modal.value.data!.myRecommandation![index].image
-                                                                    .toString(),
-                                                                profileController
-                                                                    .modal.value.data!.myRecommandation![index].title
-                                                                    .toString(),
-                                                                profileController
-                                                                    .modal.value.data!.myRecommandation![index].review
-                                                                    .toString(),
-                                                                profileController
-                                                                    .modal.value.data!.myRecommandation![index].id
-                                                                    .toString(),
-                                                                profileController
-                                                                    .modal.value.data!.myRecommandation![index].link
-                                                                    .toString(),
-                                                              ],
-                                                            );
-                                                            print("object");
-                                                          },
-                                                          child: CachedNetworkImage(
-                                                            imageUrl: profileController
-                                                                .modal.value.data!.myRecommandation![index].image
-                                                                .toString(),
-                                                            fit: BoxFit.fill,
-                                                            height: 110,
-                                                            errorWidget: (_, __, ___) =>  const Icon(
-                                                              Icons.error_outline_outlined,
-                                                              color: Colors.red,
-                                                            ),),
-                                                        );
-                                                      },
-                                                    ),
+                                                    child: profileController.modal.value.data!.myRecommandation != null &&
+                                                            profileController.modal.value.data!.myRecommandation!.isNotEmpty
+                                                        ? GridView.builder(
+                                                            physics: const BouncingScrollPhysics(),
+                                                            padding: const EdgeInsets.only(bottom: 50),
+                                                            shrinkWrap: true,
+                                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                                              crossAxisCount: 3,
+                                                              // Number of columns
+                                                              crossAxisSpacing: 10.0,
+                                                              // Spacing between columns
+                                                              mainAxisSpacing: 10.0, // Spacing between rows
+                                                            ),
+                                                            itemCount: profileController.modal.value.data!.myRecommandation!.length,
+                                                            // Total number of items
+                                                            itemBuilder: (BuildContext context, int index) {
+                                                              // You can replace the Container with your image widget
+                                                              return GestureDetector(
+                                                                onTap: () {
+                                                                  Get.toNamed(
+                                                                    MyRouters.singleScreen,
+                                                                    arguments: [
+                                                                      profileController
+                                                                          .modal.value.data!.myRecommandation![index].image
+                                                                          .toString(),
+                                                                      profileController
+                                                                          .modal.value.data!.myRecommandation![index].title
+                                                                          .toString(),
+                                                                      profileController
+                                                                          .modal.value.data!.myRecommandation![index].review
+                                                                          .toString(),
+                                                                      profileController
+                                                                          .modal.value.data!.myRecommandation![index].id
+                                                                          .toString(),
+                                                                      profileController
+                                                                          .modal.value.data!.myRecommandation![index].link
+                                                                          .toString(),
+                                                                    ],
+                                                                  );
+                                                                  print("object");
+                                                                },
+                                                                child: CachedNetworkImage(
+                                                                  imageUrl: profileController
+                                                                      .modal.value.data!.myRecommandation![index].image
+                                                                      .toString(),
+                                                                  fit: BoxFit.fill,
+                                                                  height: 110,
+                                                                  errorWidget: (_, __, ___) => const Icon(
+                                                                    Icons.error_outline_outlined,
+                                                                    color: Colors.red,
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          )
+                                                        : Padding(
+                                                            padding: EdgeInsets.symmetric(vertical: Get.height / 6),
+                                                            child: Center(
+                                                                child: Text(
+                                                              'No Data Found',
+                                                              style: GoogleFonts.mulish(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  fontSize: 15,
+                                                                  color: Colors.black),
+                                                            )),
+                                                          ),
                                                   )
                                                 : profileController.statusOfProfile.value.isError
                                                     ? CommonErrorWidget(
@@ -1317,6 +1337,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                         return profileController.statusOfProfile.value.isSuccess
                                             ? Column(
                                                 children: [
+                                                  profileController.modal.value.data!.saveRecommandation!= null &&  profileController.modal.value.data!.saveRecommandation!.isNotEmpty ?
                                                   ListView.builder(
                                                       shrinkWrap: true,
                                                       itemCount:
@@ -1537,7 +1558,14 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                             )
                                                           ],
                                                         );
-                                                      }),
+                                                      }) : Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: Get.height / 5),
+                                                    child: Center(child: Text('No Data Found', style: GoogleFonts.mulish(
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 15,
+                                                        color: Colors.black
+                                                    ),)),
+                                                  ),
                                                   const SizedBox(
                                                     height: 350,
                                                   )

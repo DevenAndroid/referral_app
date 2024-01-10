@@ -255,7 +255,9 @@ class _EditAccountState extends State<EditAccount> {
                               const SizedBox(height: 12,),
                               CommonTextfield(
                                   controller: profileController.emailController,
-                                  obSecure: false, hintText: "Enter your Email ID"),
+                                  obSecure: false, hintText: "Enter your Email ID",
+                                readOnly: true,
+                              ),
                               const SizedBox(height: 20,),
                               Text("Phone",
                                 style: GoogleFonts.mulish(
@@ -377,6 +379,7 @@ class _EditAccountState extends State<EditAccount> {
 
                               const SizedBox(height: 26,),
                               CommonButton(title: "Update Account",onPressed: (){
+                                FocusManager.instance.primaryFocus!.unfocus();
                                 Map map = <String, String>{};
                                 map['name'] = profileController.nameController.text.trim();
                                 map['phone'] = profileController.mobileController.text.trim();
@@ -397,7 +400,7 @@ class _EditAccountState extends State<EditAccount> {
                                     }
                                     // Get.toNamed(MyRouters.thankYouScreen);
                                   }
-                                  showToast(value.message.toString());
+                                  showToastBlack(value.message.toString());
                                 });
 
                               },),

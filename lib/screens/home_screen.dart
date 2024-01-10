@@ -797,7 +797,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     )
                         : const Center(child: CircularProgressIndicator()),
                     SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(

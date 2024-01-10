@@ -129,6 +129,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           body: TabBarView(children: [
             SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -256,6 +257,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(
@@ -294,7 +296,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       if (searchData.isEmpty) Text("No data Found"),
                                       SingleChildScrollView(
                                         child: GridView.builder(
-                                          physics: BouncingScrollPhysics(),
+                                          physics: const BouncingScrollPhysics(),
                                           padding: EdgeInsets.zero,
                                           shrinkWrap: true,
                                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -344,7 +346,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       )
                                     : const Center(child: CircularProgressIndicator());
                           }),
-    SizedBox(height: 50,),
+    const SizedBox(height: 50,),
                         ]))),
           ]),
         ));
