@@ -75,6 +75,7 @@ class ProfileController extends GetxController {
   Future getMyCategory({categoryId, userId}) async {
     getSingleRepo(category_id: categoryId, userId: userId).then((value) {
       single.value = value;
+      print("dfsdfsfsfsfdsf");
       refreshData1.value = DateTime.now().millisecond;
       if (value.status == true) {
         statusOfSingle.value = RxStatus.success();
@@ -82,13 +83,15 @@ class ProfileController extends GetxController {
       } else {
         statusOfSingle.value = RxStatus.error();
       }
+    }).catchError((e){
+      throw Exception(e);
     });
   }
 
   Future getSingleData({categoryId, userId}) async {
     getSingleRepoWithOut(category_id: categoryId, userId: userId).then((value) {
       single.value = value;
-      refreshData.value = DateTime.now().millisecond;
+      refreshData1.value = DateTime.now().millisecond;
       if (value.status == true) {
         statusOfSingle.value = RxStatus.success();
         check = true;

@@ -1,6 +1,6 @@
 // class SingleProduct {
 //   bool? status;
-//   String? message;
+//   dynamic message;
 //   List<Data>? data;
 //   Meta? meta;
 //   Link? link;
@@ -38,14 +38,14 @@
 // }
 //
 // class Data {
-//   int? id;
+//   dynamic id;
 //   User? user;
-//   String? title;
-//   String? review;
-//   String? link;
-//   String? categoryId;
-//   String? image;
-//   String? status;
+//   dynamic title;
+//   dynamic review;
+//   dynamic link;
+//   dynamic categoryId;
+//   dynamic image;
+//   dynamic status;
 //   bool? wishlist;
 //
 //   Data(
@@ -89,26 +89,26 @@
 // }
 //
 // class User {
-//   int? id;
-//   String? name;
-//   String? email;
-//   String? phone;
-//   String? walletBalance;
-//   String? earnedBalance;
-//   String? profileImage;
-//   String? address;
-//   String? referalCode;
+//   dynamic id;
+//   dynamic name;
+//   dynamic email;
+//   dynamic phone;
+//   dynamic walletBalance;
+//   dynamic earnedBalance;
+//   dynamic profileImage;
+//   dynamic address;
+//   dynamic referalCode;
 //   bool? isDriverOnline;
 //   bool? isVendorOnline;
-//   Null? deliveryRange;
+//   dynamic deliveryRange;
 //   bool? selfDelivery;
 //   bool? asDriverVerified;
 //   bool? asVendorVerified;
 //   bool? asMarketingManagerVerified;
 //   bool? isComplete;
-//   int? followingCount;
-//   int? followersCount;
-//   int? postCount;
+//   dynamic followingCount;
+//   dynamic followersCount;
+//   dynamic postCount;
 //
 //   User(
 //       {this.id,
@@ -182,10 +182,10 @@
 // }
 //
 // class Meta {
-//   int? totalPage;
-//   int? currentPage;
-//   int? totalItem;
-//   int? perPage;
+//   dynamic totalPage;
+//   dynamic currentPage;
+//   dynamic totalItem;
+//   dynamic perPage;
 //
 //   Meta({this.totalPage, this.currentPage, this.totalItem, this.perPage});
 //
@@ -228,7 +228,7 @@
 
 class SingleProduct {
   bool? status;
-  String? message;
+  dynamic message;
   Data? data;
   Meta? meta;
   Link? link;
@@ -245,24 +245,24 @@ class SingleProduct {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    if (this.meta != null) {
-      data['meta'] = this.meta!.toJson();
+    if (meta != null) {
+      data['meta'] = meta!.toJson();
     }
-    if (this.link != null) {
-      data['link'] = this.link!.toJson();
+    if (link != null) {
+      data['link'] = link!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String? categoryName;
-  String? categoryImage;
+  dynamic categoryName;
+  dynamic categoryImage;
   List<Details>? details;
 
   Data({this.categoryName, this.categoryImage, this.details});
@@ -280,28 +280,28 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['category_name'] = this.categoryName;
-    data['category_image'] = this.categoryImage;
-    if (this.details != null) {
-      data['details'] = this.details!.map((v) => v.toJson()).toList();
+    data['category_name'] = categoryName;
+    data['category_image'] = categoryImage;
+    if (details != null) {
+      data['details'] = details!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Details {
-  int? id;
+  dynamic id;
   User? user;
-  Null? askrecommandationId;
-  String? title;
-  String? review;
-  String? link;
-  String? categoryId;
-  String? image;
-  String? status;
+  dynamic askrecommandationId;
+  dynamic title;
+  dynamic review;
+  dynamic link;
+  dynamic categoryId;
+  dynamic image;
+  dynamic status;
   bool? wishlist;
-  String? isComment;
-  String? date;
+  dynamic isComment;
+  dynamic date;
 
   Details(
       {this.id,
@@ -334,45 +334,45 @@ class Details {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    data['id'] = id;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
-    data['askrecommandation_id'] = this.askrecommandationId;
-    data['title'] = this.title;
-    data['review'] = this.review;
-    data['link'] = this.link;
-    data['category_id'] = this.categoryId;
-    data['image'] = this.image;
-    data['status'] = this.status;
-    data['wishlist'] = this.wishlist;
-    data['is_comment'] = this.isComment;
-    data['date'] = this.date;
+    data['askrecommandation_id'] = askrecommandationId;
+    data['title'] = title;
+    data['review'] = review;
+    data['link'] = link;
+    data['category_id'] = categoryId;
+    data['image'] = image;
+    data['status'] = status;
+    data['wishlist'] = wishlist;
+    data['is_comment'] = isComment;
+    data['date'] = date;
     return data;
   }
 }
 
 class User {
-  int? id;
-  String? name;
-  String? email;
-  String? phone;
-  String? walletBalance;
-  String? earnedBalance;
-  String? profileImage;
-  String? address;
-  String? referalCode;
+  dynamic id;
+  dynamic name;
+  dynamic email;
+  dynamic phone;
+  dynamic walletBalance;
+  dynamic earnedBalance;
+  dynamic profileImage;
+  dynamic address;
+  dynamic referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
-  Null? deliveryRange;
+  dynamic deliveryRange;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;
   bool? asMarketingManagerVerified;
   bool? isComplete;
-  int? followingCount;
-  int? followersCount;
-  int? postCount;
+  dynamic followingCount;
+  dynamic followersCount;
+  dynamic postCount;
   bool? isFollow;
 
   User(
@@ -424,36 +424,36 @@ class User {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['wallet_balance'] = this.walletBalance;
-    data['earned_balance'] = this.earnedBalance;
-    data['profile_image'] = this.profileImage;
-    data['address'] = this.address;
-    data['referal_code'] = this.referalCode;
-    data['is_driver_online'] = this.isDriverOnline;
-    data['is_vendor_online'] = this.isVendorOnline;
-    data['delivery_range'] = this.deliveryRange;
-    data['self_delivery'] = this.selfDelivery;
-    data['as_driver_verified'] = this.asDriverVerified;
-    data['as_vendor_verified'] = this.asVendorVerified;
-    data['as_marketing_manager_verified'] = this.asMarketingManagerVerified;
-    data['is_complete'] = this.isComplete;
-    data['following_count'] = this.followingCount;
-    data['followers_count'] = this.followersCount;
-    data['post_count'] = this.postCount;
-    data['is_follow'] = this.isFollow;
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['wallet_balance'] = walletBalance;
+    data['earned_balance'] = earnedBalance;
+    data['profile_image'] = profileImage;
+    data['address'] = address;
+    data['referal_code'] = referalCode;
+    data['is_driver_online'] = isDriverOnline;
+    data['is_vendor_online'] = isVendorOnline;
+    data['delivery_range'] = deliveryRange;
+    data['self_delivery'] = selfDelivery;
+    data['as_driver_verified'] = asDriverVerified;
+    data['as_vendor_verified'] = asVendorVerified;
+    data['as_marketing_manager_verified'] = asMarketingManagerVerified;
+    data['is_complete'] = isComplete;
+    data['following_count'] = followingCount;
+    data['followers_count'] = followersCount;
+    data['post_count'] = postCount;
+    data['is_follow'] = isFollow;
     return data;
   }
 }
 
 class Meta {
-  int? totalPage;
-  int? currentPage;
-  int? totalItem;
-  int? perPage;
+  dynamic totalPage;
+  dynamic currentPage;
+  dynamic totalItem;
+  dynamic perPage;
 
   Meta({this.totalPage, this.currentPage, this.totalItem, this.perPage});
 
@@ -466,10 +466,10 @@ class Meta {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total_page'] = this.totalPage;
-    data['current_page'] = this.currentPage;
-    data['total_item'] = this.totalItem;
-    data['per_page'] = this.perPage;
+    data['total_page'] = totalPage;
+    data['current_page'] = currentPage;
+    data['total_item'] = totalItem;
+    data['per_page'] = perPage;
     return data;
   }
 }
@@ -487,8 +487,8 @@ class Link {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['next'] = this.next;
-    data['prev'] = this.prev;
+    data['next'] = next;
+    data['prev'] = prev;
     return data;
   }
 }

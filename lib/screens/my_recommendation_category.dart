@@ -25,13 +25,6 @@ class _MyRecommendationsCategoryState extends State<MyRecommendationsCategory> {
   final profileController = Get.put(ProfileController());
 
   @override
-  void initState() {
-    super.initState();
-    //    profileController.getSingleData();
-  }
-
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
