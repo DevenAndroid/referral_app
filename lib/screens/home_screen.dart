@@ -686,6 +686,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                          // setState(() {});
                                                         setState(() {
                                                           getRecommendationController.idForReco = homeController.homeModel.value.data!.discover![index].id.toString();
+                                                          getRecommendationController.idForAskReco = homeController.homeModel.value.data!.discover![index].id.toString();
                                                           _settingModalBottomSheet(context);
                                                         });
                                                       },

@@ -73,7 +73,6 @@ class _OtpScreenState extends State<OtpScreen> {
       resendOtpRepo(
         context: context,
         email:email,
-
       ).then((value) async {
         otpResend.value = value;
         if (value.status == true) {

@@ -27,6 +27,7 @@ class GetRecommendationController extends GetxController{
   String postId = '';
   String type='';
   String idForReco = '';
+  String idForAskReco = '';
 
   getRecommendation({idForReco}){
     statusOfGetReco.value = RxStatus.empty();

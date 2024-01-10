@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../controller/get_recommendation_controller.dart';
 import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
 import '../models/model_single_user.dart';
@@ -37,6 +38,7 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
   TextEditingController reviewController = TextEditingController();
   TextEditingController linkController = TextEditingController();
   TextEditingController categoriesController = TextEditingController();
+  final getRecommendationController = Get.put(GetRecommendationController());
   Rx<RxStatus> statusOfHome = RxStatus
       .empty()
       .obs;
@@ -74,6 +76,7 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
 
   File categoryFile = File("");
   var id = Get.arguments[0];
+  var idForask;
 
   Future pickImage() async {
     try {
@@ -93,6 +96,7 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
     // TODO: implement initState
     super.initState();
     UserProfile();
+
     //
     // recommendationController
     // reviewController
@@ -229,6 +233,7 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
                       onTap: () {
                         Get.toNamed(MyRouters.categoriesScreen);
                       },
+                      readOnly: true,
                       controller: profileController.categoriesController,
                       obSecure: false,
                       hintText: "Furniture"),
@@ -313,8 +318,7 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
                         map['link'] = linkController.text.trim();
                         map['status'] = "publish";
                         map['id'] = id;
-                        map['askrecommandation_id'] = homeController
-                            .homeModel.value.data!.discover![0].id.toString();
+                        map['askrecommandation_id'] = getRecommendationController.idForAskReco.toString();
 
                         addRecommendationRepo(
                           fieldName1: 'image',
@@ -323,9 +327,11 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
                           file1: categoryFile,
                         ).then((value) async {
                           if (value.status == true) {
+                            UserProfile();
+                            getRecommendationController.getRecommendation(idForReco: getRecommendationController.idForReco);
+                            profileController.getData();
                             Get.back();
                             Get.back();
-                            // Get.back();
                             // Get.toNamed(MyRouters.followingScreen);
                             showToast(value.message.toString());
                           } else {

@@ -74,6 +74,7 @@ class _ReccoCommentScreenState extends State<ReccoCommentScreen> {
                         showToast(value.message.toString());
                         getRecommendationController.getComments(getRecommendationController.postId.toString(),context);
                         homeController.getData();
+                        getRecommendationController.getRecommendation(idForReco:getRecommendationController.idForReco.toString());
                         // reviewList(post.toString());
                         // Get.back();
                         setState(() {

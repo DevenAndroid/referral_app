@@ -215,11 +215,13 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
                                               PopupMenuItem<SampleItem>(
                                                 value: SampleItem.itemOne,
                                                 onTap: () {
+                                                  Get.back();
                                                   print("object${getRecommendationController.modelReviewList.value
                                                       .data![index].id.toString()}");
                                                   Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [
                                                     getRecommendationController.modelReviewList.value.data![index].id
-                                                        .toString()
+                                                        .toString(),
+                                                    getRecommendationController.idForAskReco.toString()
                                                   ]);
                                                 },
                                                 child: const Text('Edit'),
@@ -231,6 +233,7 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
                                                     context: context,
                                                     builder: (BuildContext context) =>
                                                         AlertDialog(
+                                                          contentPadding: EdgeInsets.symmetric(vertical: 10),
                                                           title: const Text(
                                                             'Are you sure to delete recommendation',
                                                             style: TextStyle(fontSize: 16),
@@ -238,8 +241,6 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
                                                           actions: <Widget>[
                                                             InkWell(
                                                                 onTap: () {
-                                                                  Get.back();
-                                                                  Get.back();
                                                                   Get.back();
                                                                 },
                                                                 child: const Text("Cancel ")),
@@ -276,7 +277,10 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
                                                                     }
                                                                   });
                                                                 },
-                                                                child: const Text('OK')),
+                                                                child: const Padding(
+                                                                  padding: EdgeInsets.all(15.0),
+                                                                  child: Text('OK'),
+                                                                )),
                                                           ],
                                                         ),
                                                   );

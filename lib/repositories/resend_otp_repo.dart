@@ -23,7 +23,7 @@ Future<ModelResendOtp> resendOtpRepo({
   // try {
   http.Response response = await http.post(Uri.parse(ApiUrls.resendOtp),
       headers: await getAuthHeader(), body: jsonEncode(map));
-  log("Sign IN DATA${response.body}");
+  log("resend IN DATA${response.body}");
   // http.Response response = await http.post(Uri.parse(ApiUrls.loginUser),
   //     headers: await getAuthHeader(),body: jsonEncode(map) );
 
