@@ -138,7 +138,7 @@ class _ProfilePostState extends State<ProfilePost> {
                   GridView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
-
+                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate:
                     const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
@@ -173,6 +173,7 @@ class _ProfilePostState extends State<ProfilePost> {
                               .image
                               .toString(),
                          fit: BoxFit.fill,
+                          errorWidget: (context, url, error) => Icon(Icons.error,color: Colors.red,),
                         ),
                       );
                     },
