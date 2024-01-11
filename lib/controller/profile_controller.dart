@@ -17,6 +17,7 @@ class ProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  String code = "IN";
   RxString selectedValue = 'select friends'.obs;
   bool check = false;
   final categoriesController = TextEditingController();
@@ -39,7 +40,7 @@ class ProfileController extends GetxController {
         mobileController.text = modal.value.data!.user!.phone.toString();
         address = modal.value.data!.user!.address.toString();
         nameController.text = modal.value.data!.user!.name.toString();
-
+        code = modal.value.data!.user!.countryCode.toString();
         statusOfProfile.value = RxStatus.success();
 
         // holder();

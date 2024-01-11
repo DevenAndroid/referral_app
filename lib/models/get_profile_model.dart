@@ -1,6 +1,6 @@
 class GetProfileModel {
   bool? status;
-  String? message;
+  dynamic message;
   Data? data;
 
   GetProfileModel({this.status, this.message, this.data});
@@ -28,7 +28,7 @@ class Data {
   List<MyRecommandation>? myRecommandation;
   List<SaveRecommandation>? saveRecommandation;
   List<MyCategories>? myCategories;
-  int? notificationCount;
+  dynamic notificationCount;
 
   Data(
       {this.user,
@@ -93,26 +93,27 @@ class Data {
 }
 
 class User {
-  int? id;
-  String? name;
-  String? email;
-  String? phone;
-  String? walletBalance;
-  String? earnedBalance;
-  String? profileImage;
-  String? address;
-  String? referalCode;
+  dynamic id;
+  dynamic name;
+  dynamic email;
+  dynamic phone;
+  dynamic walletBalance;
+  dynamic earnedBalance;
+  dynamic profileImage;
+  dynamic address;
+  dynamic referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
   dynamic deliveryRange;
   bool? selfDelivery;
+  dynamic countryCode;
   bool? asDriverVerified;
   bool? asVendorVerified;
   bool? asMarketingManagerVerified;
   bool? isComplete;
-  int? followingCount;
-  int? followersCount;
-  int? postCount;
+  dynamic followingCount;
+  dynamic followersCount;
+  dynamic postCount;
   bool? isFollow;
 
   User(
@@ -128,6 +129,7 @@ class User {
         this.isDriverOnline,
         this.isVendorOnline,
         this.deliveryRange,
+        this.countryCode,
         this.selfDelivery,
         this.asDriverVerified,
         this.asVendorVerified,
@@ -150,6 +152,7 @@ class User {
     referalCode = json['referal_code'];
     isDriverOnline = json['is_driver_online'];
     isVendorOnline = json['is_vendor_online'];
+    countryCode = json['country_code'];
     deliveryRange = json['delivery_range'];
     selfDelivery = json['self_delivery'];
     asDriverVerified = json['as_driver_verified'];
@@ -183,6 +186,7 @@ class User {
     data['is_complete'] = this.isComplete;
     data['following_count'] = this.followingCount;
     data['followers_count'] = this.followersCount;
+    data['country_code'] = this.countryCode;
     data['post_count'] = this.postCount;
     data['is_follow'] = this.isFollow;
     return data;
@@ -190,20 +194,20 @@ class User {
 }
 
 class MyRequest {
-  int? id;
+  dynamic id;
   User? userId;
-  String? title;
-  String? description;
-  String? minPrice;
-  String? maxPrice;
-  String? image;
-  String? postViewersType;
+  dynamic title;
+  dynamic description;
+  dynamic minPrice;
+  dynamic maxPrice;
+  dynamic image;
+  dynamic postViewersType;
   bool? wishlist;
-  int? noBudget;
-  int? reviewCount;
+  dynamic noBudget;
+  dynamic reviewCount;
   bool? isEditable;
-  int? commentCount;
-  String? date;
+  dynamic commentCount;
+  dynamic date;
 
   MyRequest(
       {this.id,
@@ -262,18 +266,18 @@ class MyRequest {
 }
 
 class MyRecommandation {
-  int? id;
+  dynamic id;
   User? user;
-  int? askrecommandationId;
-  String? title;
-  String? review;
-  String? link;
-  String? categoryId;
-  String? image;
-  String? status;
+  dynamic askrecommandationId;
+  dynamic title;
+  dynamic review;
+  dynamic link;
+  dynamic categoryId;
+  dynamic image;
+  dynamic status;
   bool? wishlist;
-  String? isComment;
-  String? date;
+  dynamic isComment;
+  dynamic date;
 
   MyRecommandation(
       {this.id,
@@ -325,9 +329,9 @@ class MyRecommandation {
 }
 
 class SaveRecommandation {
-  int? id;
+  dynamic id;
   Post? post;
-  String? date;
+  dynamic date;
 
   SaveRecommandation({this.id, this.post, this.date});
 
@@ -349,22 +353,22 @@ class SaveRecommandation {
 }
 
 class Post {
-  int? id;
+  dynamic id;
   User? user;
-  int? askrecommandationId;
-  String? title;
-  String? review;
-  String? link;
-  String? categoryId;
-  String? image;
-  String? status;
+  dynamic askrecommandationId;
+  dynamic title;
+  dynamic review;
+  dynamic link;
+  dynamic categoryId;
+  dynamic image;
+  dynamic status;
   bool? wishlist;
-  String? date;
-  String? description;
-  String? minPrice;
-  String? maxPrice;
-  String? noBudget;
-  String? postViewersType;
+  dynamic date;
+  dynamic description;
+  dynamic minPrice;
+  dynamic maxPrice;
+  dynamic noBudget;
+  dynamic postViewersType;
 
   Post(
       {this.id,
@@ -428,11 +432,11 @@ class Post {
 }
 
 class MyCategories {
-  int? id;
-  String? taxPercent;
-  String? name;
+  dynamic id;
+  dynamic taxPercent;
+  dynamic name;
   dynamic slug;
-  String? image;
+  dynamic image;
 
   MyCategories({this.id, this.taxPercent, this.name, this.slug, this.image});
 

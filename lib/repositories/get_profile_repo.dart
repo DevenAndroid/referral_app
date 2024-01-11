@@ -8,7 +8,7 @@ import '../resourses/api_constant.dart';
 import '../resourses/helper.dart';
 
 Future<GetProfileModel> getProfileRepo() async {
-  try {
+  // try {
     http.Response response = await http.get(
       Uri.parse(ApiUrls.userProfile),
       headers: await getAuthHeader(),
@@ -24,7 +24,8 @@ Future<GetProfileModel> getProfileRepo() async {
           status: false,
           data: null);
     }
-  } catch (e) {
-    return GetProfileModel(message: e.toString(), status: false, data: null);
   }
-}
+  // catch (e) {
+  //   return GetProfileModel(message: e.toString(), status: false, data: null);
+  // }
+// }

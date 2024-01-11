@@ -280,6 +280,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         const SizedBox(height: 12,),
 
                         IntlPhoneField(
+                          key: ValueKey(profileController.code),
                           flagsButtonPadding: const EdgeInsets.all(8),
                           showDropdownIcon: false,
                           cursorColor: Colors.black,
@@ -300,10 +301,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               ),
                               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
                               focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
-                          initialCountryCode: 'IN',
+                          initialCountryCode: profileController.code,
 
                           onChanged: (phone) {
-                            code = phone.countryCode.toString();
+                            profileController.code = phone.countryISOCode.toString();
+                            print(profileController.code.toString());
                           },
                         ),
 
@@ -508,7 +510,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             map['phone'] = profileController.mobileController.text.trim();
                             map['email'] = profileController.emailController.text.trim();
                             map['address'] = profileController.addressController.text.trim();
-
+                            map['country_code'] = profileController.code.toString();
                             UpdateProfileRepo(
                               fieldName1: 'profile_image',
                               mapData: map,

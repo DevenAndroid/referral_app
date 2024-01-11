@@ -373,7 +373,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(profileController.modal.value.data!.user!.name!.capitalizeFirst.toString(),
+                                      Text(profileController.modal.value.data!.user!.name!.toString(),
                                           style: GoogleFonts.mulish(
                                               fontWeight: FontWeight.w700, fontSize: 20, color: const Color(0xFF262626))),
                                       SizedBox(
@@ -596,7 +596,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                       .myRequest![index]
                                                                                       .userId!
                                                                                       .name!
-                                                                                      .capitalizeFirst
                                                                                       .toString(),
                                                                                   style: GoogleFonts.mulish(
                                                                                       fontWeight: FontWeight.w700,
@@ -777,7 +776,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                 ),
                                                                 Text(
                                                                   profileController.modal.value.data!.myRequest![index]
-                                                                      .title!.capitalizeFirst
+                                                                      .title!
                                                                       .toString(),
                                                                   style: GoogleFonts.mulish(
                                                                       fontWeight: FontWeight.w700,
@@ -790,7 +789,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                 ),
                                                                 Text(
                                                                   profileController.modal.value.data!.myRequest![index]
-                                                                      .description!.capitalizeFirst
+                                                                      .description!
                                                                       .toString(),
                                                                   style: GoogleFonts.mulish(
                                                                       fontWeight: FontWeight.w300,
@@ -1025,6 +1024,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                 child: Column(
                                                   children: [
                                                     Container(
+                                                      height: 58,
+                                                      width: 58,
                                                       padding: const EdgeInsets.all(10),
                                                       decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
                                                       child: ClipOval(
@@ -1062,6 +1063,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                 child: Column(
                                                   children: [
                                                     Container(
+                                                      height: 58,
+                                                      width: 58,
                                                       padding: const EdgeInsets.all(10),
                                                       decoration: BoxDecoration(border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
                                                       child: ClipOval(
@@ -1225,6 +1228,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                             child: CachedNetworkImage(
                                                               imageUrl:  profileController.single.value.data!.details![index].image.toString(),
                                                               fit: BoxFit.fill,
+                                                              errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
                                                             ),
                                                           );
                                                         },

@@ -35,6 +35,7 @@ import '../resourses/api_constant.dart';
 import '../routers/routers.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
+import 'Discover_screen_for_home.dart';
 import 'comment_screen.dart';
 import 'get_recommendation_ui.dart';
 
@@ -265,18 +266,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    //chooseCategories();
-    var size = MediaQuery
-        .of(context)
-        .size;
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    var width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    var size = MediaQuery.of(context).size;
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -373,7 +363,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             body: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Obx(() {
-                  if (profileController.refreshData.value > 0) {}
+                  if (profileController.refreshData1.value > 0) {}
                   return TabBarView(controller: _tabController, children: [
                     homeController.isDataLoading.value
                         ? SingleChildScrollView(
@@ -419,99 +409,107 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
-                                                        homeController
-                                                            .homeModel.value.data!.discover![index].userId!.id
-                                                            .toString(),
-                                                      ]);
-                                                    },
-                                                    child: ClipOval(
-                                                      child: CachedNetworkImage(
-                                                        width: 30,
-                                                        height: 30,
-                                                        fit: BoxFit.cover,
-                                                        imageUrl: homeController.homeModel.value.data!
-                                                            .discover![index].userId ==
-                                                            null
-                                                            ? AppAssets.man
-                                                            : homeController.homeModel.value.data!.discover![index]
-                                                            .userId!.profileImage
-                                                            .toString(),
-                                                        errorWidget: (_, __, ___) =>
-                                                            Image.asset(
-                                                              AppAssets.man,
-                                                              color: Colors.grey.shade200,
+                                                  Expanded(
+                                                    child: Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                                              homeController
+                                                                  .homeModel.value.data!.discover![index].userId!.id
+                                                                  .toString(),
+                                                            ]);
+                                                          },
+                                                          child: ClipOval(
+                                                            child: CachedNetworkImage(
+                                                              width: 30,
+                                                              height: 30,
+                                                              fit: BoxFit.cover,
+                                                              imageUrl: homeController.homeModel.value.data!
+                                                                  .discover![index].userId ==
+                                                                  null
+                                                                  ? AppAssets.man
+                                                                  : homeController.homeModel.value.data!.discover![index]
+                                                                  .userId!.profileImage
+                                                                  .toString(),
+                                                              errorWidget: (_, __, ___) =>
+                                                                  Image.asset(
+                                                                    AppAssets.man,
+                                                                    color: Colors.grey.shade200,
+                                                                  ),
+                                                              placeholder: (_, __) =>
+                                                                  Image.asset(
+                                                                    AppAssets.man,
+                                                                    color: Colors.grey.shade200,
+                                                                  ),
                                                             ),
-                                                        placeholder: (_, __) =>
-                                                            Image.asset(
-                                                              AppAssets.man,
-                                                              color: Colors.grey.shade200,
-                                                            ),
-                                                      ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        Flexible(
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              homeController.homeModel.value.data!.discover![index].userId
+                                                                  ?.name ==
+                                                                  ""
+                                                                  ? Text(
+                                                                "Name...",
+                                                                style: GoogleFonts.mulish(
+                                                                    fontWeight: FontWeight.w700,
+                                                                    // letterSpacing: 1,
+                                                                    fontSize: 14,
+                                                                    color: Colors.black),
+                                                              )
+                                                                  : Text(
+                                                                homeController.homeModel.value.data!.discover![index].userId!.name.toString(),
+                                                                overflow: TextOverflow.fade,
+                                                                style: GoogleFonts.mulish(
+                                                                    fontWeight: FontWeight.w700,
+                                                                    // letterSpacing: 1,
+                                                                    fontSize: 14,
+                                                                    color: Colors.black),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 15,
+                                                          width: 20,
+                                                          child: VerticalDivider(
+                                                            color: Color(0xffD9D9D9),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          homeController
+                                                              .homeModel.value.data!.discover![index].date!.capitalize
+                                                              .toString(),
+                                                          style: GoogleFonts.mulish(
+                                                            fontWeight: FontWeight.w300,
+                                                            // letterSpacing: 1,
+                                                            fontSize: 12,
+                                                            color: const Color(0xff878D98),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                   const SizedBox(
-                                                    width: 10,
+                                                    width: 5,
                                                   ),
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      homeController.homeModel.value.data!.discover![index].userId
-                                                          ?.name ==
-                                                          ""
-                                                          ? Text(
-                                                        "Name...",
-                                                        style: GoogleFonts.mulish(
-                                                            fontWeight: FontWeight.w700,
-                                                            // letterSpacing: 1,
-                                                            fontSize: 14,
-                                                            color: Colors.black),
-                                                      )
-                                                          : Text(
-                                                        homeController.homeModel.value.data!.discover![index]
-                                                            .userId!
-                                                            .name
-                                                            .toString()
-                                                            .capitalizeFirst
-                                                            .toString(),
-                                                        style: GoogleFonts.mulish(
-                                                            fontWeight: FontWeight.w700,
-                                                            // letterSpacing: 1,
-                                                            fontSize: 14,
-                                                            color: Colors.black),
+                                                  Obx(() {
+                                                    return Padding(
+                                                      padding: const EdgeInsets.symmetric(vertical: 6.0).copyWith(
+                                                        bottom: 0
                                                       ),
-                                                    ],
-                                                  ),
-
-                                                  const SizedBox(
-                                                    height: 15,
-                                                    width: 20,
-                                                    child: VerticalDivider(
-                                                      color: Color(0xffD9D9D9),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    homeController
-                                                        .homeModel.value.data!.discover![index].date!.capitalize
-                                                        .toString(),
-                                                    style: GoogleFonts.mulish(
-                                                      fontWeight: FontWeight.w300,
-                                                      // letterSpacing: 1,
-                                                      fontSize: 12,
-                                                      color: const Color(0xff878D98),
-                                                    ),
-                                                  ),
-                                                  const Spacer(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 8.0),
-                                                    child: Obx(() {
-                                                      return GestureDetector(
+                                                      child: GestureDetector(
                                                         onTap: () {
-                                                          // home.value.data!.discover![index].wishlist.toString();
-
                                                           bookmarkRepo(
                                                             context: context,
                                                             post_id: homeController
@@ -546,21 +544,26 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                           height: 20,
                                                         )
                                                             : SvgPicture.asset(AppAssets.bookmark),
-                                                      );
-                                                    }),
-                                                  ),
+                                                      ),
+                                                    );
+                                                  }),
                                                   const SizedBox(
                                                     width: 8,
                                                   ),
-                                                  GestureDetector(
-                                                      onTap: () {
-                                                        Share.share(
-                                                          homeController
-                                                              .homeModel.value.data!.discover![index].image
-                                                              .toString(),
-                                                        );
-                                                      },
-                                                      child: SvgPicture.asset(AppAssets.forward))
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(vertical: 4.0).copyWith(
+                                                        bottom: 0
+                                                    ),
+                                                    child: GestureDetector(
+                                                        onTap: () {
+                                                          Share.share(
+                                                            homeController
+                                                                .homeModel.value.data!.discover![index].image
+                                                                .toString(),
+                                                          );
+                                                        },
+                                                        child: SvgPicture.asset(AppAssets.forward)),
+                                                  ),
                                                 ],
                                               ),
                                               const SizedBox(
@@ -805,337 +808,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       ),
                     )
                         : const Center(child: CircularProgressIndicator()),
-                    Obx(() {
-                      if (profileController.refreshUserCat.value > 0) {}
-                      return SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.toNamed(MyRouters.categoryViewAllScreen);
-                                      },
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                                border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
-                                            child: ClipOval(
-                                              child: Image.asset('assets/images/categoryList.png', width: 35,),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            'Category list',
-                                            // maxLines: 2,
-                                            textAlign: TextAlign.center,
-                                            style: GoogleFonts.mulish(
-                                                fontWeight: FontWeight.w300,
-                                                // letterSpacing: 1,
-                                                fontSize: 14,
-                                                color: const Color(0xFF26282E)),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 18,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        profileController.check = false;
-                                        all();
-                                        setState(() {});
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.only(bottom: height * .04),
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(color: AppTheme.primaryColor), shape: BoxShape.circle),
-                                              child: ClipOval(
-                                                child: Image.asset('assets/images/viewAll.png', width: 35,),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              'View All',
-                                              // maxLines: 2,
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w300,
-                                                  // letterSpacing: 1,
-                                                  fontSize: 14,
-                                                  color: const Color(0xFF26282E)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 18,
-                                    ),
-                                    if(profileController.check == true)
-                                      profileController.single.value.data != null ?
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          ClipOval(
-                                            child: CachedNetworkImage(
-                                              width: 60,
-                                              height: 60,
-                                              fit: BoxFit.fill,
-                                              imageUrl: profileController.single.value.data!.categoryImage.toString(),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          SizedBox(
-                                            width: 70,
-                                            child: Text(
-                                              profileController.single.value.data!.categoryName.toString(),
-                                              maxLines: 2,
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w300,
-                                                  // letterSpacing: 1,
-                                                  fontSize: 14,
-                                                  color: const Color(0xFF26282E)),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                        ],
-                                      ) : const SizedBox(),
-                                    // SizedBox(
-                                    //     height: size.height * .15,
-                                    //     child: Obx(() {
-                                    //       return statusOfCategories.value.isSuccess &&
-                                    //               profileController.statusOfProfile.value.isSuccess
-                                    //           ? ListView.builder(
-                                    //               itemCount: categories.value.data!.length,
-                                    //               shrinkWrap: true,
-                                    //               scrollDirection: Axis.horizontal,
-                                    //               /*  physics:
-                                    //                   const AlwaysScrollableScrollPhysics(),*/
-                                    //               itemBuilder: (context, index) {
-                                    //                 return Padding(
-                                    //                   padding: const EdgeInsets.all(8.0),
-                                    //                   child: Column(
-                                    //                     children: [
-                                    //                       GestureDetector(
-                                    //                         onTap: () {
-                                    //                           print("id::::"+categories.value.data![index].id.toString(),);
-                                    //                          profileController.getSingleData(categoryId: categories.value.data![index].id.toString(),
-                                    //                              userId: profileController.modal.value.data!.user!.id.toString());
-                                    //
-                                    //                         },
-                                    //                         child: ClipOval(
-                                    //                           child: CachedNetworkImage(
-                                    //                             width: 70,
-                                    //                             height: 70,
-                                    //                             fit: BoxFit.fill,
-                                    //                             imageUrl: categories.value.data![index].image.toString(),
-                                    //                           ),
-                                    //                         ),
-                                    //                       ),
-                                    //                       const SizedBox(
-                                    //                         height: 2,
-                                    //                       ),
-                                    //                       Text(
-                                    //                         categories.value.data![index].name.toString(),
-                                    //                         style: GoogleFonts.mulish(
-                                    //                             fontWeight: FontWeight.w300,
-                                    //                             // letterSpacing: 1,
-                                    //                             fontSize: 14,
-                                    //                             color: const Color(0xFF26282E)),
-                                    //                       )
-                                    //                     ],
-                                    //                   ),
-                                    //                 );
-                                    //               })
-                                    //           : statusOfCategories.value.isError
-                                    //               ? CommonErrorWidget(
-                                    //                   errorText: "",
-                                    //                   onTap: () {},
-                                    //                 )
-                                    //               : const Center(child: CircularProgressIndicator());
-                                    //     })),
-                                  ],
-                                ),
-                              ),
-                              if ( profileController.check == true)
-                                profileController.statusOfSingle.value.isSuccess
-                                    ? Column(
-                                  children: [
-                                    if (profileController.single.value.data!.details!.isEmpty) Padding(
-                                        padding: EdgeInsets.only(top: Get.height / 5), child: const Text("No Record found")),
-                                    GridView.builder(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        // Number of columns
-                                        crossAxisSpacing: 10.0,
-                                        // Spacing between columns
-                                        mainAxisSpacing: 10.0, // Spacing between rows
-                                      ),
-                                      itemCount: profileController.single.value.data!.details!.length,
-                                      // Total number of items
-                                      itemBuilder: (BuildContext context, int index) {
-                                        // You can replace the Container with your image widget
-                                        return GestureDetector(
-                                          onTap: () {
-                                            print(
-                                              "id:::::::::::::::::::::::::::::${profileController.single.value.data!
-                                                  .details![index].id}",
-                                            );
-                                            Get.toNamed(
-                                              MyRouters.recommendationSingleScreen,
-                                              arguments: [
-                                                profileController.single.value.data!.details![index].id.toString(),
-                                              ],
-                                            );
-                                            print("object");
-                                          },
-                                          child: CachedNetworkImage(
-                                            errorWidget: (context, url, error) => const SizedBox(),
-                                            imageUrl: profileController.single.value.data!.details![index].image.toString(),
-                                            fit: BoxFit.fill,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                )
-                                    : profileController.statusOfSingle.value.isError
-                                    ? CommonErrorWidget(
-                                  errorText: "",
-                                  onTap: () {
-                                    print('object');
-                                  },
-                                )
-                                    : const Center(child: SizedBox()),
-                              if ( profileController.check == false)
-                                statusOfAllRecommendation.value.isSuccess
-                                    ?
-                                // SizedBox(
-                                //         height: 600,
-                                //         child: GridView.custom(
-                                //           gridDelegate: SliverWovenGridDelegate.count(
-                                //             crossAxisCount: 2,
-                                //             mainAxisSpacing: 8,
-                                //             crossAxisSpacing: 8,
-                                //             pattern: [
-                                //               const WovenGridTile(1),
-                                //               const WovenGridTile(
-                                //                 5 / 7,
-                                //                 crossAxisRatio: 0.9,
-                                //                 alignment: AlignmentDirectional.centerEnd,
-                                //               ),
-                                //             ],
-                                //           ),
-                                //           childrenDelegate: SliverChildBuilderDelegate(
-                                //             (context, index) => GestureDetector(
-                                //               onTap: () {
-                                //                 log("tgrhtr" + allRecommendation.value.data![index].wishlist.toString());
-                                //                 Get.toNamed(
-                                //                   MyRouters.recommendationSingleScreen,
-                                //                   arguments: [
-                                //                     allRecommendation.value.data![index].image.toString(),
-                                //                     allRecommendation.value.data![index].title.toString(),
-                                //                     allRecommendation.value.data![index].review.toString(),
-                                //                     allRecommendation.value.data![index].id.toString(),
-                                //                     allRecommendation.value.data![index].link.toString(),
-                                //                     allRecommendation.value.data![index].wishlist,
-                                //                   ],
-                                //                 );
-                                //               },
-                                //               child: CachedNetworkImage(
-                                //                 imageUrl: allRecommendation.value.data![index].image.toString(),
-                                //                 placeholder: (context, url) => const SizedBox(),
-                                //                 errorWidget: (context, url, error) => const SizedBox(),
-                                //                 fit: BoxFit.fill,
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         ),
-                                //       )
-                                GridView.builder(
-                                  padding: EdgeInsets.zero,
-                                  physics: const BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.vertical,
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    // Number of columns
-                                    crossAxisSpacing: 10.0,
-                                    // Spacing between columns
-                                    mainAxisSpacing: 10.0, // Spacing between rows
-                                  ),
-                                  itemCount: allRecommendation.value.data!.length,
-                                  // Total number of items
-                                  itemBuilder: (BuildContext context, int index) {
-                                    // You can replace the Container with your image widget
-                                    return GestureDetector(
-                                      onTap: () {
-                                        log("tgrhtr" + allRecommendation.value.data![index].wishlist.toString());
-                                        Get.toNamed(
-                                          MyRouters.recommendationSingleScreen,
-                                          arguments: [
-                                            allRecommendation.value.data![index].id.toString(),
-                                            allRecommendation.value.data![index].image.toString(),
-                                            allRecommendation.value.data![index].title.toString(),
-                                            allRecommendation.value.data![index].review.toString(),
-                                            allRecommendation.value.data![index].link.toString(),
-                                            allRecommendation.value.data![index].wishlist,
-                                          ],
-                                        );
-                                      },
-                                      child: CachedNetworkImage(
-                                        imageUrl: allRecommendation.value.data![index].image.toString(),
-                                        placeholder: (context, url) => const SizedBox(),
-                                        errorWidget: (_, __, ___) =>
-                                        const Icon(
-                                          Icons.error_outline_outlined,
-                                          color: Colors.red,
-                                        ),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    );
-                                  },
-                                )
-                                    : statusOfAllRecommendation.value.isError
-                                    ? CommonErrorWidget(
-                                  errorText: "",
-                                  onTap: () {
-                                    print('object');
-                                  },
-                                )
-                                    : const Center(child: CircularProgressIndicator()),
-                              const SizedBox(height: 40,)
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
+                    const DiscoverScreenHome()
                   ]);
                 }))));
   }
