@@ -630,9 +630,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                 print("object${profileController
                                                                                     .modal.value.data!.myRequest![index].id
                                                                                     .toString()}");
-                                                                                Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [ profileController
+                                                                                Get.to(()=>const UpdateMyRequestScreen(), arguments: [ profileController
                                                                                     .modal.value.data!.myRequest![index].id
                                                                                     .toString()]);
+                                                                                // Get.toNamed(MyRouters.addRecommendationScreen1, arguments: [ profileController
+                                                                                //     .modal.value.data!.myRequest![index].id
+                                                                                //     .toString()]);
                                                                               },
                                                                               child: Text('Edit')),
                                                                         ),
@@ -646,20 +649,18 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                   'Are you sure to delete recommendation',
                                                                                   style: TextStyle(fontSize: 16),
                                                                                 ),
-                                                                                actionsPadding: EdgeInsets.all(30),
+                                                                                actionsPadding: EdgeInsets.all(20),
                                                                                 actions: <Widget>[
-                                                                                  InkWell(
-                                                                                      onTap: () {
-                                                                                        Get.back();
-                                                                                        Get.back();
+                                                                                  TextButton(
+                                                                                      onPressed: () {
                                                                                         Get.back();
                                                                                       },
                                                                                       child: Text("Cancel ")),
                                                                                   const SizedBox(
                                                                                     width: 40,
                                                                                   ),
-                                                                                  InkWell(
-                                                                                      onTap: () {
+                                                                                  TextButton(
+                                                                                      onPressed: () {
                                                                                         deleteMyRequest(
                                                                                           context: context,
                                                                                           askRecommandationId : profileController
@@ -694,26 +695,25 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                 showDialog<String>(
                                                                                   context: context,
                                                                                   builder: (BuildContext context) => AlertDialog(
+                                                                                    actionsPadding: EdgeInsets.all(20),
                                                                                     title: const Text(
                                                                                       'Are you sure to delete recommendation',
                                                                                       style: TextStyle(fontSize: 16),
                                                                                     ),
                                                                                     actions: <Widget>[
-                                                                                      InkWell(
-                                                                                          onTap: () {
-                                                                                            Get.back();
-                                                                                            Get.back();
+                                                                                      TextButton(
+                                                                                          onPressed: () {
                                                                                             Get.back();
                                                                                           },
                                                                                           child: const Text("Cancel ")),
                                                                                       const SizedBox(
                                                                                         width: 40,
                                                                                       ),
-                                                                                      InkWell(
-                                                                                          onTap: () {
-                                                                                            deleteRecommRepo(
+                                                                                      TextButton(
+                                                                                          onPressed: () {
+                                                                                            deleteMyRequest(
                                                                                               context: context,
-                                                                                              recommandation_id: profileController
+                                                                                              askRecommandationId : profileController
                                                                                                   .modal.value.data!.myRequest![index].id
                                                                                                   .toString(),
                                                                                             ).then((value) async {
@@ -1213,17 +1213,16 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                           // You can replace the Container with your image widget
                                                           return GestureDetector(
                                                             onTap: () {
-                                                              print(
-                                                                "id:::::::::::::::::::::::::::::" +
-                                                                    profileController.single.value.data!.details![index].id.toString(),
-                                                              );
                                                               Get.toNamed(
-                                                                MyRouters.recommendationSingleScreen,
+                                                                MyRouters.singleScreen,
                                                                 arguments: [
+                                                                  profileController.single.value.data!.details![index].image.toString(),
+                                                                  profileController.single.value.data!.details![index].title.toString(),
+                                                                  profileController.single.value.data!.details![index].review.toString(),
                                                                   profileController.single.value.data!.details![index].id.toString(),
+                                                                  profileController.single.value.data!.details![index].link.toString(),
                                                                 ],
                                                               );
-                                                              print("object");
                                                             },
                                                             child: CachedNetworkImage(
                                                               imageUrl:  profileController.single.value.data!.details![index].image.toString(),

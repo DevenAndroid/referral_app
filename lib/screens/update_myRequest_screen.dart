@@ -103,6 +103,12 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
         minController.text = getMyRequestModel.value.data!.askRecommandation!.minPrice.toString();
         if(getMyRequestModel.value.data!.askRecommandation!.maxPrice!.isEmpty && getMyRequestModel.value.data!.askRecommandation!.minPrice!.isEmpty){
             value2 = true;
+            print('object${value2.toString()}');
+        }
+       else if(value2 == true){
+          print('object${value2.toString()}');
+          maxController.text = '';
+          minController.text = '';
         }
       } else {
         statusOfGetRequest.value = RxStatus.error();
@@ -182,13 +188,16 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                Obx(() {
-                                  return Text(
-                                    profileController.selectedValue.trim(),
-                                    style: GoogleFonts.mulish(
-                                        fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
-                                  );
-                                }),
+                                InkWell(
+                                  onTap: (){
+                                    // showDialogue15(context);
+                                    Get.toNamed(MyRouters.selectFriendsScreen);
+                                  },
+                                  child: Text(
+                                    'Tag Friends',
+                                    style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
+                                  ),
+                                ),
                                 const SizedBox(
                                   width: 2,
                                 ),
@@ -402,49 +411,6 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                               ],
                             )
                                 : const SizedBox(),
-
-                            // SliderTheme(
-                            //   data: SliderTheme.of(context).copyWith(
-                            //     showValueIndicator: ShowValueIndicator.onlyForDiscrete,
-                            //     trackHeight: 8,
-                            //     trackShape: const RoundedRectSliderTrackShape(),
-                            //     activeTrackColor: const Color(0xff3797EF),
-                            //     inactiveTrackColor: const Color(0xFF3797EF).withOpacity(
-                            //         0.12),
-                            //     // thumbShape: const RoundSliderThumbShape(
-                            //     //   enabledThumbRadius: 7.0,
-                            //     //   pressedElevation: 8.0,
-                            //     // ),
-                            //     thumbColor: Colors.white,
-                            //
-                            //     overlayColor: const Color(0xFF3797EF).withOpacity(0.12),
-                            //     // overlayShape: const RoundSliderOverlayShape(overlayRadius: 2.0),
-                            //     // tickMarkShape: const RoundSliderTickMarkShape(),
-                            //
-                            //     activeTickMarkColor: const Color(0xff3797EF),
-                            //     inactiveTickMarkColor: Colors.transparent,
-                            //     // valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-                            //     valueIndicatorColor: Colors.white10,
-                            //     valueIndicatorTextStyle: const TextStyle(
-                            //       color: Colors.black,
-                            //       fontSize: 20.0,
-                            //     ),
-                            //   ),
-                            //   child: RangeSlider(
-                            //     values: RangeValues(start, end),
-                            //     labels: RangeLabels(
-                            //         start.round().toString(), end.round().toString()),
-                            //     divisions: 10,
-                            //     onChanged: (value) {
-                            //       setState(() {
-                            //         start = value.start;
-                            //         end = value.end;
-                            //       });
-                            //     },
-                            //     min: 0.0,
-                            //     max: 100.0,
-                            //   ),
-                            // ),
                             const SizedBox(
                               height: 5,
                             ),
@@ -470,6 +436,7 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                                           setState(() {
                                             value2 = newValue!;
                                             checkboxColor.value = !newValue;
+                                            print('valrtret${value2}');
                                           });
                                         }),
                                   ),
@@ -492,12 +459,17 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                               onPressed: () {
                                 print('idd......${id.toString()}');
                                 if (formKey.currentState!.validate()) {
+                                  if(value2 == true){
+                                    minController.text = '';
+                                    maxController.text = '';
+                                  }
                                   if (minController.text.isNotEmpty && maxController.text.isNotEmpty) {
                                     int valueA = int.parse(minController.text);
                                     int valueB = int.parse(maxController.text);
                                     if (valueA > valueB) {
                                       showToast('Min value cannot be grater than Max value');
-                                    } else {
+                                    }
+                                    else {
                                       Map map = <String, String>{};
                                       map['title'] = tittleController.text.trim();
                                       map['description'] = descriptionController.text.trim();
@@ -514,15 +486,15 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                                         file1: categoryFile,
                                       ).then((value) async {
                                         if (value.status == true) {
-                                          bottomController.updateIndexValue(0);
+                                           profileController.getData();
                                           showToast(value.message.toString());
                                         } else {
-                                          // bottomController.updateIndexValue(0);
                                           showToast(value.message.toString());
                                         }
                                       });
                                     }
-                                  } else {
+                                  }
+                                  else {
                                     Map map = <String, String>{};
                                     map['title'] = tittleController.text.trim();
                                     map['description'] = descriptionController.text.trim();
@@ -539,7 +511,7 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                                       file1: categoryFile,
                                     ).then((value) async {
                                       if (value.status == true) {
-                                        bottomController.updateIndexValue(0);
+                                        profileController.getData();
                                         showToast(value.message.toString());
                                       } else {
                                         // bottomController.updateIndexValue(0);

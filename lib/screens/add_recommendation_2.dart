@@ -234,7 +234,7 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
                         Get.toNamed(MyRouters.categoriesScreen);
                       },
                       readOnly: true,
-                      controller: profileController.categoriesController,
+                      controller: categoriesController,
                       obSecure: false,
                       hintText: "Furniture"),
                   const SizedBox(

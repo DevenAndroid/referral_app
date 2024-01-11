@@ -140,7 +140,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       controller: search2Controller,
                       obSecure: false,
                       hintText: "Search for a Peoples",
-                      prefix: Padding(padding: const EdgeInsets.all(13.0), child: Icon(Icons.search)),
+                      prefix: const Padding(padding: EdgeInsets.all(13.0), child: Icon(Icons.search)),
                       onTap: () {
                         setState(() {});
                       },
@@ -279,13 +279,14 @@ class _SearchScreenState extends State<SearchScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          Obx(() {
+                    Obx(() {
                             List<AllRecommendation> searchData = [];
                             if (statusOfAllRecommendation.value.isSuccess && allRecommendation.value.data != null) {
                               String search = search1Controller.text.trim().toLowerCase();
                               if (search.isNotEmpty) {
-                                searchData = allRecommendation.value.data!.where((element) => element.title.toString().toLowerCase().contains(search)).toList();
-                                searchData = allRecommendation.value.data!.where((element) => element.review.toString().toLowerCase().contains(search)).toList();
+                                searchData = allRecommendation.value.data!.where((element) => element.title.toString().toLowerCase().contains(search) ||
+                                    element.review.toString().toLowerCase().contains(search)).toList();
+                                // searchData = allRecommendation.value.data!.where((element) => element.review.toString().toLowerCase().contains(search)).toList();
                               } else {
                                 searchData = allRecommendation.value.data!;
                               }
