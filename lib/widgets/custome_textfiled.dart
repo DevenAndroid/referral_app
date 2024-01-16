@@ -389,6 +389,37 @@ class CommonButton extends StatelessWidget {
     );
   }
 }
+class CommonButtonRed extends StatelessWidget {
+  final String title;
+  final VoidCallback? onPressed;
+
+  const CommonButtonRed({Key? key, required this.title, this.onPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(9), color: Colors.red),
+      child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(AddSize.screenWidth, AddSize.size50 * 1.0),
+            backgroundColor: Colors.red,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12), // <-- Radius
+            ),
+            // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          child: Text(
+            title,
+            style: GoogleFonts.mulish(
+                fontWeight: FontWeight.w700, fontSize: 15, color: Colors.white),
+          )),
+    );
+  }
+}
 class CommonButton2 extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;

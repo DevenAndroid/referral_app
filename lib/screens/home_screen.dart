@@ -471,6 +471,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                           child: Column(
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
+                                                              if(homeController.homeModel.value.data!.discover![index].userId != null)
                                                               homeController.homeModel.value.data!.discover![index].userId
                                                                   ?.name ==
                                                                   ""
@@ -483,8 +484,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                     color: Colors.black),
                                                               )
                                                                   : Text(
-                                                                homeController.homeModel.value.data!.discover![index].userId!
-                                                                    .name.toString(),
+                                                                homeController.homeModel.value.data!.discover![index].userId!.name.toString(),
                                                                 overflow: TextOverflow.fade,
                                                                 style: GoogleFonts.mulish(
                                                                     fontWeight: FontWeight.w700,

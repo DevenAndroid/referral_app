@@ -17,7 +17,9 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controller/profile_controller.dart';
+import '../models/delete_user_model.dart';
 import '../models/logout_Model.dart';
+import '../repositories/delete_user_repo.dart';
 import '../repositories/logout_repo.dart';
 import '../repositories/updateProfile_repo.dart';
 import '../resourses/api_constant.dart';
@@ -40,6 +42,7 @@ class _EditAccountState extends State<EditAccount> {
 
 
   Rx<LogoutModel> logout = LogoutModel().obs;
+  Rx<DeleteUserModel> deleteUserModel = DeleteUserModel().obs;
   Rx<RxStatus> statusOfLogout = RxStatus.empty().obs;
   String? address = "";
 
@@ -50,6 +53,25 @@ class _EditAccountState extends State<EditAccount> {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.clear();
         statusOfLogout.value = RxStatus.success();
+        Get.offAllNamed(MyRouters.loginScreen);
+
+        // holder();
+      } else {
+        statusOfLogout.value = RxStatus.error();
+      }
+
+      print('logout response${value.message.toString()}');
+    });
+  }
+  deleteUserApi() {
+    deleteUserRepo().then((value) async {
+      deleteUserModel.value = value;
+      if (value.status == true) {
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.clear();
+        showToastError(value.message.toString());
+        statusOfLogout.value = RxStatus.success();
+        profileController.dispose();
         Get.offAllNamed(MyRouters.loginScreen);
 
         // holder();
@@ -97,7 +119,7 @@ class _EditAccountState extends State<EditAccount> {
       },
       child: Scaffold(
 
-          backgroundColor:Color(0xffEAEEF1),
+          backgroundColor:const Color(0xffEAEEF1),
           appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
@@ -164,7 +186,7 @@ class _EditAccountState extends State<EditAccount> {
                                       ? Stack(
                                     children: [
                                       Container(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         decoration:
                                         BoxDecoration(
                                           borderRadius:
@@ -409,13 +431,34 @@ class _EditAccountState extends State<EditAccount> {
                                   }
 
                                 },),
-                                SizedBox(height: 26,),
+                                const SizedBox(height: 16,),
                                 CommonButton(title: "Logout",onPressed: () async {
                                   // SharedPreferences prefs = await SharedPreferences.getInstance();
                                   // await prefs.clear();
                                   // Get.toNamed(MyRouters.loginScreen);
                                  getLogout();
                                       }
+                                ),
+                                const SizedBox(height: 16,),
+                                CommonButtonRed(title: "Delete Account",onPressed: () async {
+                                  showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) => AlertDialog(
+                                      title: const Text('Delete Account'),
+                                      content: const Text('Do You Want To Delete Your Account'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () => Get.back(),
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>  deleteUserApi(),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
                                 )
 
 
