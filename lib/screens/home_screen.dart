@@ -38,6 +38,7 @@ import '../widgets/common_error_widget.dart';
 import 'Discover_screen_for_home.dart';
 import 'comment_screen.dart';
 import 'get_recommendation_ui.dart';
+import 'notification_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -266,7 +267,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var size = MediaQuery
+        .of(context)
+        .size;
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -315,6 +318,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ),
               centerTitle: true,
               actions: [
+                Obx(() {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 14.0),
+                    child: GestureDetector(
+                        onTap: () {
+                          Get.to(() => const NotificationScreen(), transition: Transition.fade);
+                        },
+                        child: homeController.homeModel.value.data!.notification == 'false' ? Image.asset(AppAssets.notification, height: 22,
+                          width: 22,):
+                        Image.asset(AppAssets.notification1, height: 22, width: 22,) ),
+                  );
+                }),
                 Padding(
                   padding: const EdgeInsets.only(right: 14.0),
                   child: GestureDetector(
@@ -322,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         Get.toNamed(MyRouters.searchScreen);
                       },
                       child: SvgPicture.asset(AppAssets.search)),
-                )
+                ),
               ],
               bottom: TabBar(
                 controller: _tabController,
@@ -468,7 +483,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                                     color: Colors.black),
                                                               )
                                                                   : Text(
-                                                                homeController.homeModel.value.data!.discover![index].userId!.name.toString(),
+                                                                homeController.homeModel.value.data!.discover![index].userId!
+                                                                    .name.toString(),
                                                                 overflow: TextOverflow.fade,
                                                                 style: GoogleFonts.mulish(
                                                                     fontWeight: FontWeight.w700,
@@ -506,7 +522,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                   Obx(() {
                                                     return Padding(
                                                       padding: const EdgeInsets.symmetric(vertical: 6.0).copyWith(
-                                                        bottom: 0
+                                                          bottom: 0
                                                       ),
                                                       child: GestureDetector(
                                                         onTap: () {

@@ -9,6 +9,8 @@ class AppAssets {
   static const String man = "assets/icons/man.png";
   static const String girl = "assets/icons/girl.png";
   static const String search = "assets/icons/search.svg";
+  static const String notification = "assets/images/notification.png";
+  static const String notification1 = "assets/icons/notification1.png";
   static const String home = "assets/icons/home.svg";
   static const String call = "assets/icons/call.svg";
   static const String tick = "assets/icons/tick.png";

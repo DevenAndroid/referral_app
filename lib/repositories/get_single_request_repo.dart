@@ -14,7 +14,8 @@ Future<GetSingleRequestModel> getMyRequestEditRepo({recommandationId}) async {
     if (response.statusCode == 200) {
       print(jsonDecode(response.body));
       return GetSingleRequestModel.fromJson(jsonDecode(response.body));
-    } else {
+    }
+    else {
       print(jsonDecode(response.body));
       return GetSingleRequestModel(
           message: jsonDecode(response.body)["message"],

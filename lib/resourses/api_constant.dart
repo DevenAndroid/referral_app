@@ -38,6 +38,7 @@ class ApiUrls {
   static const String deleteMyRequest = "${apiBaseUrl}delete-ask-recommandation";
   static const String addRemoveLike = "${apiBaseUrl}add-remove-like";
   static const String addComment = "${apiBaseUrl}add-comment";
+  static const String getNotification = "${apiBaseUrl}notification-list";
 
 }
 

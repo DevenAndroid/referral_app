@@ -178,7 +178,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                       controller: tittleController,
                       decoration: InputDecoration(
                         hintText: "I'm looking for...",
-                        hintStyle: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black),
+                        hintStyle: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black54),
                         // Remove the underline and border
                         disabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(color: AppTheme.shadowColor, width: 1.5),

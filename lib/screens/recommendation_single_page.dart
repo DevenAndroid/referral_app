@@ -218,7 +218,8 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                                 child: Text(
                                   single.value.data!.recommandation!.review.toString(),
                                   style: GoogleFonts.mulish(
-                                      fontWeight: FontWeight.w400, fontSize: 12, color: const Color(0xFF162224)),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15, color: const Color(0xFF162224)),
                                 ),
                               ),
                               Padding(
@@ -296,7 +297,6 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                           ),
                           getRecommendationController.getCommentModel.value.data != null && getRecommendationController.getCommentModel.value.data!.isNotEmpty ?
                           ListView.builder(
-                            reverse: true,
                             physics: const ScrollPhysics(),
                             itemCount: getRecommendationController.getCommentModel.value.data!.length,
                             scrollDirection: Axis.vertical,

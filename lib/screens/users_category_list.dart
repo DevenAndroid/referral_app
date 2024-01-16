@@ -57,6 +57,18 @@ class _UsersCategoryListState extends State<UsersCategoryList> {
             padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
             child: Column(
               children: [
+                if( profileController.userProfile.value.data!.myCategories!.isEmpty)
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: Get.height / 3),
+                    child: Center(
+                        child: Text(
+                          'No Data Found',
+                          style: GoogleFonts.mulish(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                              color: Colors.black),
+                        )),
+                  ),
                 GridView.builder(
                   shrinkWrap: true,
                   padding: const EdgeInsets.only(bottom: 25),

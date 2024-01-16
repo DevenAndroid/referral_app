@@ -312,7 +312,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                             ),
                             Row(
                               children: [
-                                Text(profileController.userProfile.value.data!.user!.name!. capitalizeFirst.toString(),
+                                Text(profileController.userProfile.value.data!.user!.name!.capitalizeFirst.toString(),
                                     style: GoogleFonts.mulish(
                                         fontWeight: FontWeight.w700, fontSize: 20, color: const Color(0xFF262626))),
                                 const Spacer(),
@@ -414,7 +414,9 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 },
                                 tabs: [
                                   Tab(
-                                    child: Text("Recco Feed",
+                                    child: Text(
+                                      '${profileController.userProfile.value.data!.user!.name!.capitalizeFirst.toString()} Requests',
+                                        // "Recco Feed",
                                         style: GoogleFonts.mulish(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 14,
@@ -431,7 +433,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                     ),
                                   ),
                                   Tab(
-                                    child: Text("Recommendations",
+                                    child: Text("${profileController.userProfile.value.data!.user!.name!.capitalizeFirst.toString()} Recommendations",
                                         style: GoogleFonts.mulish(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 14,
@@ -490,6 +492,18 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                   return profileController.statusOfUser.value.isSuccess
                                       ? Column(
                                     children: [
+                                      if (profileController.userProfile.value.data!.myRequest!.isEmpty)
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(vertical: Get.height / 5),
+                                          child: Center(
+                                              child: Text(
+                                                'No Data Found',
+                                                style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 15,
+                                                    color: Colors.black),
+                                              )),
+                                        ),
                                       ListView.builder(
                                           shrinkWrap: true,
                                           itemCount: profileController.userProfile.value.data!.myRequest!.length,
@@ -1251,10 +1265,12 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                       profileController.statusOfSingle.value.isSuccess
                                           ? Column(
                                         children: [
-                                          if (profileController.single.value.data!.details!.isEmpty) const Text("No Record found"),
+                                          if (profileController.single.value.data!.details!.isEmpty) const Text("No Record found",style: TextStyle(
+                                            color: Colors.black
+                                          ),),
                                           GridView.builder(
                                             padding: EdgeInsets.zero,
-                                            physics: NeverScrollableScrollPhysics(),
+                                            physics: const NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 3,

@@ -113,7 +113,6 @@ class _CommentScreenState extends State<CommentScreen> {
                 children: <Widget>[
                   getCommentController.getCommentModel.value.data != null && getCommentController.getCommentModel.value.data!.isNotEmpty?
                   ListView.builder(
-                    reverse: true,
                     physics: const ScrollPhysics(),
                     itemCount: getCommentController.getCommentModel.value.data!.length,
                     scrollDirection: Axis.vertical,

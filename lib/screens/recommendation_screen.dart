@@ -134,7 +134,7 @@ var postid = Get.arguments[0];
                 const SizedBox(
                   height: 12,
                 ),
-                CommonTextfield(controller: recommendationController, obSecure: false, hintText: "best color for furniture"),
+                CommonTextfield(controller: recommendationController, obSecure: false, hintText: "I recommend..."),
                 const SizedBox(
                   height: 15,
                 ),
@@ -149,7 +149,7 @@ var postid = Get.arguments[0];
                     isMulti: true,
                     controller: reviewController,
                     obSecure: false,
-                    hintText: "Lorem Ipsum is simply dummy text of the printing and "),
+                    hintText: "I recommend this because…"),
                 const SizedBox(
                   height: 15,
                 ),

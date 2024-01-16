@@ -340,7 +340,6 @@ class _SingleScreenState extends State<SingleScreen> {
                           getRecommendationController.getCommentModel.value.data != null &&
                               getRecommendationController.getCommentModel.value.data!.isNotEmpty ?
                           ListView.builder(
-                            reverse: true,
                             physics: const ScrollPhysics(),
                             itemCount: getRecommendationController.getCommentModel.value.data!.length,
                             scrollDirection: Axis.vertical,

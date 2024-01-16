@@ -35,8 +35,8 @@ class HomeModel {
 class Data {
   List<Discover>? discover;
   List<Recommandation>? recommandation;
-
-  Data({this.discover, this.recommandation});
+  dynamic notification;
+  Data({this.discover, this.recommandation,this.notification});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['discover'] != null) {
@@ -51,6 +51,7 @@ class Data {
         recommandation!.add(new Recommandation.fromJson(v));
       });
     }
+    notification = json['notification'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +63,7 @@ class Data {
       data['recommandation'] =
           this.recommandation!.map((v) => v.toJson()).toList();
     }
+    data['notification'] = this.notification;
     return data;
   }
 }

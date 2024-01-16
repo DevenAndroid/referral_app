@@ -46,6 +46,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
+          height: 60,
           width: double.maxFinite,
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -75,7 +76,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           bottomController.pageIndex.value == 0
