@@ -588,6 +588,7 @@ class UserProfileScreenState extends State<UserProfileScreen> with SingleTickerP
                                             imageUrl: userProfile.value.data!.myRecommandation![index].image.toString(),
                                             width: 50,
                                             height: 50,
+                                            errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
                                           );
                                         },
                                       ),

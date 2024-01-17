@@ -94,8 +94,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   }
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
+   super.dispose();
     profileController.dispose();
   }
   RxBool checkboxColor = false.obs;

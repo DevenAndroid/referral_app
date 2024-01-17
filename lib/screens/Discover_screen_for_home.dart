@@ -232,6 +232,7 @@ class _DiscoverScreenHomeState extends State<DiscoverScreenHome> {
                                 height: 60,
                                 fit: BoxFit.fill,
                                 imageUrl: profileController.single.value.data!.categoryImage.toString(),
+                                errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
                               ),
                             ),
                             const SizedBox(
@@ -347,7 +348,7 @@ class _DiscoverScreenHomeState extends State<DiscoverScreenHome> {
                               print("object");
                             },
                             child: CachedNetworkImage(
-                              errorWidget: (context, url, error) => const SizedBox(),
+                              errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
                               imageUrl: profileController.single.value.data!.details![index].image.toString(),
                               fit: BoxFit.fill,
                             ),

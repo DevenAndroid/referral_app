@@ -106,6 +106,7 @@ class _UsersCategoryListState extends State<UsersCategoryList> {
                                 child: CachedNetworkImage(
                                   imageUrl: item.image.toString(),
                                   height: 50,
+                                  errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
                                 ),
                               ),
                             ),

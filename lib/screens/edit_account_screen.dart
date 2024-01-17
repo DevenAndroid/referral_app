@@ -74,6 +74,11 @@ class _EditAccountState extends State<EditAccount> {
         statusOfLogout.value = RxStatus.success();
         profileController.modal.value = GetProfileModel();
         profileController.statusOfProfile.value = RxStatus.empty();
+        profileController.emailController.text = '';
+        profileController.mobileController.text = '';
+        profileController.address = '';
+        profileController.nameController.text = '';
+        profileController.code = '';
         Get.offAllNamed(MyRouters.loginScreen);
 
         // holder();
@@ -237,11 +242,11 @@ class _EditAccountState extends State<EditAccount> {
                                           .center,
                                       children: [
                                         CachedNetworkImage(
-
                                           imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
                                           height: 100,
                                           width: 100,
                                           fit: BoxFit.contain,
+                                          errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
                                         ),
                                         const SizedBox(
                                           height: 5,
