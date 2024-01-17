@@ -32,6 +32,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         useMaterial3 : false,
       ),
+      builder: (c, child)=> GestureDetector(
+        onTap: (){
+          FocusManager.instance.primaryFocus!.unfocus();
+        },
+        behavior: HitTestBehavior.translucent,
+        child: child!,
+      ),
       debugShowCheckedModeBanner: false,
       initialRoute: "/",
       getPages: MyRouters.route,

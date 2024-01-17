@@ -18,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controller/profile_controller.dart';
 import '../models/delete_user_model.dart';
+import '../models/get_profile_model.dart';
 import '../models/logout_Model.dart';
 import '../repositories/delete_user_repo.dart';
 import '../repositories/logout_repo.dart';
@@ -71,7 +72,8 @@ class _EditAccountState extends State<EditAccount> {
         pref.clear();
         showToastError(value.message.toString());
         statusOfLogout.value = RxStatus.success();
-        profileController.dispose();
+        profileController.modal.value = GetProfileModel();
+        profileController.statusOfProfile.value = RxStatus.empty();
         Get.offAllNamed(MyRouters.loginScreen);
 
         // holder();
