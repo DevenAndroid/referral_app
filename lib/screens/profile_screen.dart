@@ -294,7 +294,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                 fit: BoxFit.cover,
                                                 imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
                                                 placeholder: (context, url) => const SizedBox(),
-                                                errorWidget: (context, url, error) => const SizedBox(),
+                                                errorWidget: (context, url, error) => const Icon(
+                                                  Icons.error,
+                                                  color: Colors.red,
+                                                ),
                                               ),
                                             ),
                                           ),

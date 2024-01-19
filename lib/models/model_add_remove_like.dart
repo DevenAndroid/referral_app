@@ -1,5 +1,5 @@
 class ModelLikesAdd {
-  bool? status;
+  dynamic status;
   String? message;
 
   ModelLikesAdd({this.status, this.message});

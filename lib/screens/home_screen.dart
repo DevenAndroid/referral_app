@@ -303,13 +303,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           height: 100,
                           fit: BoxFit.fill,
                           imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
-                        errorWidget: (context, url, error) =>  Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset('assets/icons/profile.svg')
-                          ],
-                        )),
+                        errorWidget: (context, url, error) =>  Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration:
+                            BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                            child: SvgPicture.asset('assets/icons/profile.svg')),),
                     ),
                   ),
                 )

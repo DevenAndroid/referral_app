@@ -65,14 +65,16 @@ class _SelectFriendsScreenState extends State<SelectFriendsScreen> {
       ),
       body: Obx(() {
         return getFriendListController.isFriendLoad.value ?
-          ListView.builder(
+        getFriendListController.getFriendListModel.value.data!= null && getFriendListController.getFriendListModel.value.data!.isNotEmpty ?
+        ListView.builder(
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           itemCount: getFriendListController.getFriendListModel.value.data!.length,
           itemBuilder: (context, index) {
             var item = getFriendListController.getFriendListModel.value.data![index];
-            return Column(
+            return
+            Column(
               children: [
                 GestureDetector(
                   onTap: () {
@@ -170,7 +172,7 @@ class _SelectFriendsScreenState extends State<SelectFriendsScreen> {
               ],
             );
           },
-        ): const Center(child: CircularProgressIndicator());
+        ): const Center(child: Text('No Data Found',style: TextStyle(color: Colors.black),),) :const Center(child: CircularProgressIndicator());
       }),
     );
   }
