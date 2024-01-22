@@ -11,6 +11,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../controller/bottomNav_controller.dart';
+import '../controller/get_friend_controller.dart';
 import '../controller/profile_controller.dart';
 import '../models/get_profile_model.dart';
 import '../models/get_single_request_model.dart';
@@ -64,6 +65,7 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
   }
 
   final profileController = Get.put(ProfileController());
+  final getFriendListController = Get.put(GetFriendListController(),permanent: true);
   File image = File("");
 
   String? validateValue(String? value, int minValue, int maxValue) {
@@ -82,12 +84,14 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
   final formKey = GlobalKey<FormState>();
   Rx<GetSingleRequestModel> getMyRequestModel = GetSingleRequestModel().obs;
   Rx<RxStatus> statusOfGetRequest = RxStatus.empty().obs;
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('asdsdasdasdasdasdas${id.toString()}');
     profileController.getData();
+    getFriendListController.selectedFriendIds;
+    getFriendListController.getFriendList();
     UserProfile();
     //value2 = false;
   }
@@ -96,6 +100,11 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
     getMyRequestEditRepo(recommandationId: id.toString()).then((value) {
       getMyRequestModel.value = value;
       if (value.status == true) {
+        for(var element in getMyRequestModel.value.data!.tagFriends!){
+           getFriendListController.tagId.add(element.userId
+           );
+           print("Tag ids >${ getFriendListController.tagId}");
+      }
         statusOfGetRequest.value = RxStatus.success();
         tittleController.text = getMyRequestModel.value.data!.askRecommandation!.title.toString();
         descriptionController.text = getMyRequestModel.value.data!.askRecommandation!.description.toString();
@@ -155,61 +164,33 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Obx(() {
-                                  return profileController.statusOfProfile.value.isSuccess
-                                      ? Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ClipOval(
-                                      child: CachedNetworkImage(
-                                        height: 30,
-                                        width: 30,
-                                        fit: BoxFit.fill,
-                                        imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
-                                        placeholder: (context, url) =>
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 12.0),
-                                              child: Image.asset(AppAssets.man),
-                                            ),
-                                        errorWidget: (context, url, error) =>
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 12.0),
-                                              child: Image.asset(AppAssets.man),
-                                            ),
-                                      ),
-                                    ),
-                                  )
-                                      : profileController.statusOfProfile.value.isError
-                                      ? Image.asset(AppAssets.man)
-                                      : const Center(child: CircularProgressIndicator());
-                                }),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                InkWell(
-                                  onTap: (){
-                                    // showDialogue15(context);
-                                    Get.toNamed(MyRouters.selectFriendsScreen);
-                                  },
-                                  child: Text(
-                                    'Tag Friends',
-                                    style: GoogleFonts.mulish(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
+                            Obx(() {
+                              return profileController.statusOfProfile.value.isSuccess
+                                  ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipOval(
+                                  child: CachedNetworkImage(
+                                    height: 30,
+                                    width: 30,
+                                    fit: BoxFit.fill,
+                                    imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
+                                    placeholder: (context, url) =>
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 12.0),
+                                          child: Image.asset(AppAssets.man),
+                                        ),
+                                    errorWidget: (context, url, error) =>
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 12.0),
+                                          child: Image.asset(AppAssets.man),
+                                        ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 2,
-                                ),
-                                GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        showDialogue15(context);
-                                      });
-                                    },
-                                    child: const Icon(Icons.arrow_drop_down)),
-                              ],
-                            ),
+                              )
+                                  : profileController.statusOfProfile.value.isError
+                                  ? Image.asset(AppAssets.man)
+                                  : const Center(child: CircularProgressIndicator());
+                            }),
 
                             const SizedBox(
                               height: 15,
@@ -341,6 +322,24 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                                 ),
                               ),
                             ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Text(
+                              "Tag Your Friends",
+                              style: GoogleFonts.mulish(
+                                  fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.onboardingColor),
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            CommonTextfield(
+                                onTap: () {
+                                  Get.toNamed(MyRouters.selectFriendsScreen,);
+                                },
+                                readOnly: true,
+                                obSecure: false,
+                                hintText: "Tag Friends"),
                             const SizedBox(
                               height: 30,
                             ),
@@ -475,7 +474,8 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                                       map['description'] = descriptionController.text.trim();
                                       map['min_price'] = minController.text.toString();
                                       map['max_price'] = maxController.text.toString();
-                                      map['post_viewers_type'] = profileController.selectedValue.value;
+                                      map['post_viewers_type'] = getFriendListController.selectedFriendIds.isEmpty ?  'public' : profileController.selectedValue.value;
+                                      map['tag_id'] =  getFriendListController.selectedFriendIds.join(',');
                                       map['no_budget'] = value2 == true ? '1' : '0';
                                       map['id'] = id.toString();
 
@@ -500,7 +500,8 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                                     map['description'] = descriptionController.text.trim();
                                     map['min_price'] = minController.text.toString();
                                     map['max_price'] = maxController.text.toString();
-                                    map['post_viewers_type'] = profileController.selectedValue.value;
+                                    map['post_viewers_type'] = getFriendListController.selectedFriendIds.isEmpty ?  'public' : profileController.selectedValue.value;
+                                    map['tag_id'] =  getFriendListController.selectedFriendIds.join(',');
                                     map['no_budget'] = value2 == true ? '1' : '0';
                                     map['id'] = id.toString();
 

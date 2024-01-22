@@ -23,9 +23,13 @@ class GetFriendListController extends GetxController{
     getFriendListRepo().then((value) {
       isFriendLoad.value = true;
       getFriendListModel.value = value;
+      for(var i in  tagId){
+        getFriendListModel.value.data!.firstWhere((element) => element.id == i ).checkBoxValue = true;
+        print("Loppp hitted");
+      }
     });
   }
-
+  List<int> tagId = <int>[];
 
 
   @override

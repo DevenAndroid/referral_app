@@ -135,7 +135,7 @@ class _DiscoverScreenHomeState extends State<DiscoverScreenHome> {
       body: Obx(() {
         if (profileController.refreshData1.value > 0) {}
         return SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -429,6 +429,8 @@ class _DiscoverScreenHomeState extends State<DiscoverScreenHome> {
                       return GestureDetector(
                         onTap: () {
                           log("tgrhtr" + allRecommendation.value.data![index].wishlist.toString());
+                          print('idddd.............${allRecommendation.value.data![index].id.toString()}');
+                          print('idddd.............${allRecommendation.value.data![index].user!.id.toString()}');
                           Get.toNamed(
                             MyRouters.recommendationSingleScreen,
                             arguments: [
@@ -438,6 +440,7 @@ class _DiscoverScreenHomeState extends State<DiscoverScreenHome> {
                               allRecommendation.value.data![index].review.toString(),
                               allRecommendation.value.data![index].link.toString(),
                               allRecommendation.value.data![index].wishlist,
+                              allRecommendation.value.data![index].user!.id.toString(),
                             ],
                           );
                         },

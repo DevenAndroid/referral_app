@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../controller/bottomNav_controller.dart';
 import '../controller/get_recommendation_controller.dart';
 import '../controller/homeController.dart';
 import '../models/categories_model.dart';
@@ -57,6 +58,7 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
   Rx<ModelSingleUser> single = ModelSingleUser().obs;
 
   var id = Get.arguments[0];
+  var userIdUser = Get.arguments[6];
 
   SampleItem? selectedMenu;
 
@@ -65,7 +67,7 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
       recommandation_id: id,
     ).then((value) {
       single.value = value;
-      print(id);
+      print('idisssss....${id}');
       if (value.status == true) {
         statusOfUser.value = RxStatus.success();
       } else {
@@ -93,7 +95,7 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
   }
 
   final getRecommendationController = Get.put(GetRecommendationController());
-
+  final bottomController = Get.put(BottomNavBarController());
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -188,7 +190,10 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                               ),
                               InkWell(
                                 onTap: () {
-                                  Get.toNamed(MyRouters.userProfileScreen, arguments: [id]);
+                                  Get.back();
+                                  single.value.data!.myAccount == false ?
+                                  Get.toNamed(MyRouters.allUserProfileScreen, arguments: [userIdUser.toString()]):
+                                  bottomController.updateIndexValue(2);
                                 },
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),

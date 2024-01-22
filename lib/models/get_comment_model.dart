@@ -34,8 +34,9 @@ class Data {
   String? type;
   String? comment;
   String? date;
+  dynamic myAccount;
 
-  Data({this.id, this.userId, this.postId, this.type, this.comment, this.date});
+  Data({this.id, this.userId, this.postId, this.type, this.comment, this.date,this.myAccount});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -45,6 +46,7 @@ class Data {
     type = json['type'];
     comment = json['comment'];
     date = json['date'];
+    myAccount = json['my_account'];
   }
 
   Map<String, dynamic> toJson() {
@@ -57,6 +59,7 @@ class Data {
     data['type'] = this.type;
     data['comment'] = this.comment;
     data['date'] = this.date;
+    data['my_account'] = this.myAccount;
     return data;
   }
 }

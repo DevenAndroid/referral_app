@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../controller/get_recommendation_controller.dart';
 import '../controller/homeController.dart';
@@ -39,30 +40,80 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
 
   Future<http.Response>? _imageResponse;
   String _imageUrl = '';
+  String imageUrlApi = '';
 
-  void _fetchImage(String url) async {
-    if (url.isNotEmpty) {
-      // Fetch HTML content of the webpage
+  Future<File?> _fetchAndSaveImage(String url) async {
+    try {
+      // Fetch image
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
-        // Parse HTML content to extract image URL
-        final document = htmlParser.parse(response.body);
-        final images = document.getElementsByTagName('img');
+        // Get the documents directory for the app
+        final directory = await getApplicationDocumentsDirectory();
 
-        if (images.isNotEmpty) {
-          final imageUrl = images[8].attributes['src'];
-          setState(() {
-            _imageUrl = imageUrl!;
-          });
+        // Get the file name from the URL
+        final uri = Uri.parse(url);
+        final fileName = uri.pathSegments.last;
+
+        // Save the image to a file in the app's documents directory
+        final file = File('${directory.path}/$fileName');
+        await file.writeAsBytes(response.bodyBytes);
+
+        // Return the saved file
+        return file;
+      } else {
+        print("Failed to download image. Status code: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error downloading image: $e");
+      return null;
+    }
+  }
+
+  void _fetchImage(String url) async {
+    if (url.isNotEmpty) {
+      try {
+        // Fetch HTML content of the webpage
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          // Parse HTML content to extract image URL
+          final document = htmlParser.parse(response.body);
+          final images = document.getElementsByTagName('img');
+
+          if (images.isNotEmpty) {
+            final imageUrl = images[8].attributes['src'];
+            setState(() {
+              _imageUrl = imageUrl!;
+            });
+
+            // Download the image and get the File
+            final imageFile = await _fetchAndSaveImage(imageUrl!);
+
+            if (imageFile != null) {
+              setState(() {
+                imageUrlApi = imageFile.path;
+              });
+              print("Image saved to: ${imageFile.path}");
+            } else {
+              setState(() {
+                _imageUrl = "Failed to download and save image";
+              });
+            }
+          } else {
+            setState(() {
+              _imageUrl = "No image found on the webpage";
+            });
+          }
         } else {
           setState(() {
-            _imageUrl = "No image found on the webpage";
+            _imageUrl = "Failed to fetch webpage content";
           });
         }
-      } else {
+      } catch (e) {
         setState(() {
-          _imageUrl = "Failed to fetch webpage content";
+          _imageUrl = "Error: $e";
         });
       }
     }
@@ -89,140 +140,119 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
 
   final homeController = Get.put(HomeController());
 var postid = Get.arguments[0];
+@override
+  void initState() {
+    super.initState();
+    profileController.categoriesController.clear();
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     log(categoryFile.path.toString());
-    return GestureDetector(
-      onTap: () {
-        FocusManager.instance.primaryFocus!.unfocus();
-      },
-      child:
-
-      Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 35,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Add Your Recommendation",
-                      style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 16, color: const Color(0xFF3797EF)),
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: const Icon(Icons.clear))
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  "Recommendation",
-                  style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: Colors.black),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                CommonTextfield(controller: recommendationController, obSecure: false, hintText: "I recommend..."),
-                const SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "Review",
-                  style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                CommonTextfield(
-                    isMulti: true,
-                    controller: reviewController,
-                    obSecure: false,
-                    hintText: "I recommend this because…"),
-                const SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "Product Online link",
-                  style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                CommonTextfield(
-                  controller: linkController,
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(14.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 35,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Add Your Recommendation",
+                    style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 16, color: const Color(0xFF3797EF)),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: const Icon(Icons.clear))
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                "Recommendation",
+                style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: Colors.black),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              CommonTextfield(controller: recommendationController, obSecure: false, hintText: "I recommend..."),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Review",
+                style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              CommonTextfield(
+                  isMulti: true,
+                  controller: reviewController,
                   obSecure: false,
-                  hintText: "Link",
-                  onChanged: (url) {
-                    setState(() {
-                      _fetchImage(url);
-                    });
-                  },
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "Category",
-                  style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                CommonTextfield(
-                    onTap: () {
-                      Get.toNamed(MyRouters.categoriesScreen);
-                    },
-                    controller: profileController.categoriesController,
-                    obSecure: false,
-                    hintText: "Furniture"),
-                const SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "Photo Inspiration/Direction",
-                  style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                _imageUrl.isNotEmpty
-                    ? GestureDetector(onTap: (){
-                  _showActionSheet(context);
+                  hintText: "I recommend this because…"),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Product Online link",
+                style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              CommonTextfield(
+                controller: linkController,
+                obSecure: false,
+                hintText: "Link",
+                onChanged: (url) {
+                  setState(() {
+                    _fetchImage(url);
+                  });
                 },
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black12),
-                        color: Colors.white,
-                      ),
-                      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      width: double.maxFinite,
-                      height: 180,
-                      alignment: Alignment.center,
-                      child: Image.network(_imageUrl,
-                          errorBuilder: (_, __, ___) => Image.network(_imageUrl,
-                              errorBuilder: (_, __, ___) => const SizedBox())),
-                    )
-                )
-                    : GestureDetector(
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Category",
+                style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              CommonTextfield(
                   onTap: () {
-                    _showActionSheet(context);
+                    Get.toNamed(MyRouters.categoriesScreen);
                   },
-                  child: categoryFile.path != ""
-                      ? Container(
+                  controller: profileController.categoriesController,
+                  readOnly: true,
+                  obSecure: false,
+                  hintText: "Select category"),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Photo Inspiration/Direction",
+                style: GoogleFonts.mulish(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.onboardingColor),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              _imageUrl.isNotEmpty
+                  ? GestureDetector(onTap: (){
+                _showActionSheet(context);
+              },
+                  child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -233,72 +263,93 @@ var postid = Get.arguments[0];
                     width: double.maxFinite,
                     height: 180,
                     alignment: Alignment.center,
-                    child: Image.file(categoryFile,
-                        errorBuilder: (_, __, ___) => Image.network(categoryFile.path,
+                    child: Image.network(_imageUrl,
+                        errorBuilder: (_, __, ___) => Image.network(_imageUrl,
                             errorBuilder: (_, __, ___) => const SizedBox())),
                   )
-                      : Container(
-                    decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
-                    padding: const EdgeInsets.only(top: 8),
-                    width: double.maxFinite,
-                    height: 130,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          AppAssets.camera,
-                          height: 60,
-                          width: 50,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        const SizedBox(
-                          height: 11,
-                        ),
-                      ],
-                    ),
+              )
+                  : GestureDetector(
+                onTap: () {
+                  _showActionSheet(context);
+                },
+                child: categoryFile.path != ""
+                    ? Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.black12),
+                    color: Colors.white,
+                  ),
+                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  width: double.maxFinite,
+                  height: 180,
+                  alignment: Alignment.center,
+                  child: Image.file(categoryFile,
+                      errorBuilder: (_, __, ___) => Image.network(categoryFile.path,
+                          errorBuilder: (_, __, ___) => const SizedBox())),
+                )
+                    : Container(
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
+                  padding: const EdgeInsets.only(top: 8),
+                  width: double.maxFinite,
+                  height: 130,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        AppAssets.camera,
+                        height: 60,
+                        width: 50,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const SizedBox(
+                        height: 11,
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(
-                  height: 22,
-                ),
-                CommonButton(
-                    title: "Post",
-                    onPressed: () {
-                      // getImageUrlFromAmazon("https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014C5S7S/?_encoding=UTF8&pd_rd_w=Xibxh&content-id=amzn1.sym.64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_p=64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_r=1DD2JN3VYV13DGZPWR52&pd_rd_wg=wjvuL&pd_rd_r=baf78e1f-9861-4b19-8c00-b95400991097&ref_=pd_gw_crs_zg_bs_7141123011");
-                      Map map = <String, String>{};
-                      map['title'] = recommendationController.text.trim();
-                      map['review'] = reviewController.text.trim();
-                      map['link'] = linkController.text.trim();
-                      map['status'] = "publish";
-                      map['category_id'] = profileController.idController.text.trim();
-                      map['askrecommandation_id'] = postid;
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              CommonButton(
+                  title: "Post",
+                  onPressed: () {
+                    print('object${_imageUrl.isNotEmpty ? File(_imageUrl.toString()) : categoryFile}');
+                    // getImageUrlFromAmazon("https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014C5S7S/?_encoding=UTF8&pd_rd_w=Xibxh&content-id=amzn1.sym.64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_p=64be5821-f651-4b0b-8dd3-4f9b884f10e5&pf_rd_r=1DD2JN3VYV13DGZPWR52&pd_rd_wg=wjvuL&pd_rd_r=baf78e1f-9861-4b19-8c00-b95400991097&ref_=pd_gw_crs_zg_bs_7141123011");
+                    Map map = <String, String>{};
+                    map['title'] = recommendationController.text.trim();
+                    map['review'] = reviewController.text.trim();
+                    map['link'] = linkController.text.trim();
+                    map['status'] = "publish";
+                    map['category_id'] = profileController.idController.text.trim();
+                    map['askrecommandation_id'] = postid;
 
-                      addRecommendationRepo(
-                        fieldName1: 'image',
-                        mapData: map,
-                        context: context,
-                        file1: categoryFile,
-                      ).then((value) async {
-                        if (value.status == true) {
-                          profileController.getData();
-                          getRecommendationController.getRecommendation(idForReco: getRecommendationController.idForReco);
-                          profileController.UserProfile();
-                          homeController.getData();
-                          Get.back();
+                    addRecommendationRepo(
+                      fieldName1: 'image',
+                      mapData: map,
+                      context: context,
+                      file1:  _imageUrl.isNotEmpty ? File(imageUrlApi.toString()) : categoryFile,
+                    ).then((value) async {
+                      if (value.status == true) {
+                        profileController.getData();
+                        getRecommendationController.getRecommendation(idForReco: getRecommendationController.idForReco);
+                        profileController.UserProfile();
+                        homeController.getData();
+                        Get.back();
 
-                          // Get.toNamed(MyRouters.followingScreen);
-                          showToast(value.message.toString());
-                        }
-                        else {
-                          showToast(value.message.toString());
-                        }
+                        // Get.toNamed(MyRouters.followingScreen);
+                        showToast(value.message.toString());
                       }
-                      );
-                    })
-              ],
-            ),
+                      else {
+                        showToast(value.message.toString());
+                      }
+                    }
+                    );
+                  })
+            ],
           ),
         ),
       ),

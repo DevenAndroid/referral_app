@@ -25,6 +25,7 @@ class ModelSingleUser {
 class Data {
   Recommandation? recommandation;
   Category? category;
+  dynamic myAccount;
 
   Data({this.recommandation, this.category});
 
@@ -35,6 +36,7 @@ class Data {
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;
+    myAccount = json['my_account'];
   }
 
   Map<String, dynamic> toJson() {
@@ -45,6 +47,7 @@ class Data {
     if (this.category != null) {
       data['category'] = this.category!.toJson();
     }
+    data['my_account'] = this.myAccount;
     return data;
   }
 }

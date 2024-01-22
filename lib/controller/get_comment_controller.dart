@@ -20,6 +20,7 @@ class GetCommentController extends GetxController{
   getComment({id, type}){
     statusOfGetComment.value = RxStatus.empty();
     getCommentRepo(id: id,type: type).then((value) {
+      print('dfdfd${id.toString()}');
       statusOfGetComment.value = RxStatus.success();
       getCommentModel.value = value;
     });

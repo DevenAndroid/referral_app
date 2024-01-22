@@ -62,18 +62,18 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
             const SizedBox(
               height: 18,
             ),
-            Center(
-              child: Text(
-                "Lorem Ipsum is simply dummy text of \nthe printing",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: Colors.white,
-                  // fontStyle: FontStyle.italic,
-                ),
-              ),
-            ),
+            // Center(
+            //   child: Text(
+            //     "Lorem Ipsum is simply dummy text of \nthe printing",
+            //     textAlign: TextAlign.center,
+            //     style: GoogleFonts.quicksand(
+            //       fontWeight: FontWeight.w500,
+            //       fontSize: 16,
+            //       color: Colors.white,
+            //       // fontStyle: FontStyle.italic,
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               height: AddSize.size10,
             ),

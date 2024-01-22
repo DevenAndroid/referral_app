@@ -1,4 +1,4 @@
-  import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -20,11 +20,13 @@ class SingleProfilePost extends StatefulWidget {
 class _SingleProfilePostState extends State<SingleProfilePost> {
   final profileController = Get.put(ProfileController());
   Rx<ModelUserProfile> userProfile = ModelUserProfile().obs;
+
   @override
   Widget build(BuildContext context) {
-
-    var size = MediaQuery.of(context).size;
-    return  Scaffold(
+    var size = MediaQuery
+        .of(context)
+        .size;
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -48,113 +50,91 @@ class _SingleProfilePostState extends State<SingleProfilePost> {
         ),
 
       ),
-      body:           SingleChildScrollView(
-        physics:
-        const AlwaysScrollableScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              SizedBox(
-                  height: size.height * .15,
-                  child: Obx(() {
-                    return ListView.builder(
-                        itemCount:  userProfile.value.data!.myCategories!.length,
-                        shrinkWrap: true,
-                        scrollDirection:
-                        Axis.horizontal,
-                        physics:
-                        const AlwaysScrollableScrollPhysics(),
-                        itemBuilder:
-                            (context, index) {
-                          return Padding(
-                            padding:
-                            const EdgeInsets
-                                .all(8.0),
-                            child: Column(
-                              children: [
-
-                                GestureDetector(
-                                  onTap: () {
-                                    // profileController.categoriesController.text = item.name.toString();
-                                    // profileController.idController.text = item.id.toString();
-                                    // Get.back();
-                                  },
-                                  child:
-                                  ClipOval(
-                                    child:
-                                    CachedNetworkImage(
-                                      width: 70,
-                                      height:
-                                      70,
-                                      fit: BoxFit
-                                          .fill,
-                                      imageUrl:    userProfile.value.data!.myCategories![index].image.toString(),
+      body: Obx(() {
+        return userProfile.value.data!= null ?
+        SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                SizedBox(
+                    height: size.height * .15,
+                    child: Obx(() {
+                      return ListView.builder(
+                          itemCount: userProfile.value.data!.myCategories!.length,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      // profileController.categoriesController.text = item.name.toString();
+                                      // profileController.idController.text = item.id.toString();
+                                      // Get.back();
+                                    },
+                                    child: ClipOval(
+                                      child: CachedNetworkImage(
+                                        width: 70,
+                                        height: 70,
+                                        fit: BoxFit.fill,
+                                        imageUrl: userProfile.value.data!.myCategories![index].image.toString(),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 2,
-                                ),
-                                Text(
-                                  userProfile.value.data!.myCategories![index]
-                                      .name
-                                      .toString(),
-                                  style: GoogleFonts.mulish(
-                                      fontWeight: FontWeight.w300,
-                                      // letterSpacing: 1,
-                                      fontSize: 14,
-                                      color: Color(0xFF26282E)),
-                                )
-                              ],
-                            ),
-                          );
-                        });
+                                  const SizedBox(
+                                    height: 2,
+                                  ),
+                                  Text(
+                                    userProfile.value.data!.myCategories![index].name.toString(),
+                                    style: GoogleFonts.mulish(
+                                        fontWeight: FontWeight.w300,
+                                        // letterSpacing: 1,
+                                        fontSize: 14,
+                                        color: Color(0xFF26282E)),
+                                  )
+                                ],
+                              ),
+                            );
+                          });
+                    })),
+                Column(
+                  children: [
 
-                  })),
-              Column(
-                children: [
-                  if(userProfile.value.data!
-                      .myRecommandation!.isEmpty)
-                    Text("No data found "),
-                  GridView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
+                    GridView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
 
-                    gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      // Number of columns
-                      crossAxisSpacing: 8.0,
-                      // Spacing between columns
-                      mainAxisSpacing:
-                      2.0, // Spacing between rows
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        // Number of columns
+                        crossAxisSpacing: 8.0,
+                        // Spacing between columns
+                        mainAxisSpacing: 2.0, // Spacing between rows
+                      ),
+                      itemCount: userProfile.value.data!.myRecommandation!.length,
+                      // Total number of items
+                      itemBuilder: (BuildContext context, int index) {
+                        // You can replace the Container with your image widget
+                        return CachedNetworkImage(
+                          imageUrl: userProfile.value.data!.myRecommandation![index].image.toString(),
+                          width: 50,
+                          height: 50,
+                        );
+                      },
                     ),
-                    itemCount: userProfile.value.data!
-                        .myRecommandation!
-                        .length,
-                    // Total number of items
-                    itemBuilder: (BuildContext context,
-                        int index) {
-
-                      // You can replace the Container with your image widget
-                      return CachedNetworkImage(
-                        imageUrl: userProfile.value.data!
-                            .myRecommandation![index]
-                            .image
-                            .toString(),
-                        width: 50,
-                        height: 50,
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        ) : const Center(child: CircularProgressIndicator());
+      }),
     );
   }
 }

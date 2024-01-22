@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/bottomNav_controller.dart';
 import '../controller/get_recommendation_controller.dart';
 import '../controller/homeController.dart';
 import '../repositories/add_comment_repo.dart';
 import '../resourses/api_constant.dart';
+import '../routers/routers.dart';
 import '../widgets/custome_textfiled.dart';
 
 
@@ -22,6 +24,7 @@ class _ReccoCommentScreenState extends State<ReccoCommentScreen> {
 
   final getRecommendationController = Get.put(GetRecommendationController());
   final homeController = Get.put(HomeController());
+  final bottomController = Get.put(BottomNavBarController());
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -124,14 +127,23 @@ class _ReccoCommentScreenState extends State<ReccoCommentScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ClipOval(
-                              child: CachedNetworkImage(
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.cover,
-                                imageUrl: item.profileImage.toString(),
-                                placeholder: (context, url) => const SizedBox(),
-                                errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                            GestureDetector(
+                              onTap: (){
+                                Get.back();
+                                getRecommendationController.getCommentModel.value.data![index].myAccount == false ?
+                                Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                  getRecommendationController.getCommentModel.value.data![index].userId!.id.toString()
+                                ]):  bottomController.updateIndexValue(2);
+                              },
+                              child: ClipOval(
+                                child: CachedNetworkImage(
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.cover,
+                                  imageUrl: item.profileImage.toString(),
+                                  placeholder: (context, url) => const SizedBox(),
+                                  errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                                ),
                               ),
                             ),
                             const SizedBox(
@@ -152,14 +164,23 @@ class _ReccoCommentScreenState extends State<ReccoCommentScreen> {
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          overflow: TextOverflow.ellipsis,
-                                          item.name.toString(),
-                                          style: GoogleFonts.mulish(
-                                            fontWeight: FontWeight.w600,
-                                            // letterSpacing: 1,
-                                            fontSize: 14,
-                                            color: Colors.black,
+                                        GestureDetector(
+                                          onTap: (){
+                                            Get.back();
+                                            getRecommendationController.getCommentModel.value.data![index].myAccount == false ?
+                                            Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                              getRecommendationController.getCommentModel.value.data![index].userId!.id.toString()
+                                            ]):  bottomController.updateIndexValue(2);
+                                          },
+                                          child: Text(
+                                            overflow: TextOverflow.ellipsis,
+                                            item.name.toString(),
+                                            style: GoogleFonts.mulish(
+                                              fontWeight: FontWeight.w600,
+                                              // letterSpacing: 1,
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(

@@ -1,6 +1,6 @@
 class GetSingleRequestModel {
-  bool? status;
-  String? message;
+  dynamic status;
+  dynamic message;
   Data? data;
 
   GetSingleRequestModel({this.status, this.message, this.data});
@@ -24,13 +24,20 @@ class GetSingleRequestModel {
 
 class Data {
   AskRecommandation? askRecommandation;
+  List<TagFriends>? tagFriends;
 
-  Data({this.askRecommandation});
+  Data({this.askRecommandation, this.tagFriends});
 
   Data.fromJson(Map<String, dynamic> json) {
     askRecommandation = json['askRecommandation'] != null
         ? new AskRecommandation.fromJson(json['askRecommandation'])
         : null;
+    if (json['tagFriends'] != null) {
+      tagFriends = <TagFriends>[];
+      json['tagFriends'].forEach((v) {
+        tagFriends!.add(new TagFriends.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -38,20 +45,24 @@ class Data {
     if (this.askRecommandation != null) {
       data['askRecommandation'] = this.askRecommandation!.toJson();
     }
+    if (this.tagFriends != null) {
+      data['tagFriends'] = this.tagFriends!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
 
 class AskRecommandation {
-  int? id;
+ dynamic id;
   User? user;
-  String? title;
-  String? description;
-  String? minPrice;
-  String? maxPrice;
-  String? noBudget;
-  String? image;
-  String? postViewersType;
+  dynamic title;
+  dynamic description;
+  dynamic minPrice;
+  dynamic maxPrice;
+  dynamic noBudget;
+  dynamic image;
+  dynamic postViewersType;
+  dynamic date;
 
   AskRecommandation(
       {this.id,
@@ -62,7 +73,8 @@ class AskRecommandation {
         this.maxPrice,
         this.noBudget,
         this.image,
-        this.postViewersType});
+        this.postViewersType,
+        this.date});
 
   AskRecommandation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -74,6 +86,7 @@ class AskRecommandation {
     noBudget = json['no_budget'];
     image = json['image'];
     postViewersType = json['post_viewers_type'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -89,32 +102,34 @@ class AskRecommandation {
     data['no_budget'] = this.noBudget;
     data['image'] = this.image;
     data['post_viewers_type'] = this.postViewersType;
+    data['date'] = this.date;
     return data;
   }
 }
 
 class User {
-  int? id;
-  String? name;
-  String? email;
-  String? phone;
-  String? walletBalance;
-  String? earnedBalance;
-  String? profileImage;
-  String? address;
-  String? referalCode;
-  bool? isDriverOnline;
-  bool? isVendorOnline;
-  Null? deliveryRange;
-  bool? selfDelivery;
-  bool? asDriverVerified;
-  bool? asVendorVerified;
-  bool? asMarketingManagerVerified;
-  bool? isComplete;
-  int? followingCount;
-  int? followersCount;
-  int? postCount;
-  bool? isFollow;
+ dynamic id;
+  dynamic name;
+  dynamic email;
+  dynamic phone;
+  dynamic walletBalance;
+  dynamic earnedBalance;
+  dynamic profileImage;
+  dynamic address;
+  dynamic referalCode;
+  dynamic countryCode;
+  dynamic isDriverOnline;
+  dynamic isVendorOnline;
+  dynamic deliveryRange;
+  dynamic selfDelivery;
+  dynamic asDriverVerified;
+  dynamic asVendorVerified;
+  dynamic asMarketingManagerVerified;
+  dynamic isComplete;
+ dynamic followingCount;
+ dynamic followersCount;
+ dynamic postCount;
+  dynamic isFollow;
 
   User(
       {this.id,
@@ -126,6 +141,7 @@ class User {
         this.profileImage,
         this.address,
         this.referalCode,
+        this.countryCode,
         this.isDriverOnline,
         this.isVendorOnline,
         this.deliveryRange,
@@ -149,6 +165,7 @@ class User {
     profileImage = json['profile_image'];
     address = json['address'];
     referalCode = json['referal_code'];
+    countryCode = json['country_code'];
     isDriverOnline = json['is_driver_online'];
     isVendorOnline = json['is_vendor_online'];
     deliveryRange = json['delivery_range'];
@@ -174,6 +191,7 @@ class User {
     data['profile_image'] = this.profileImage;
     data['address'] = this.address;
     data['referal_code'] = this.referalCode;
+    data['country_code'] = this.countryCode;
     data['is_driver_online'] = this.isDriverOnline;
     data['is_vendor_online'] = this.isVendorOnline;
     data['delivery_range'] = this.deliveryRange;
@@ -186,6 +204,25 @@ class User {
     data['followers_count'] = this.followersCount;
     data['post_count'] = this.postCount;
     data['is_follow'] = this.isFollow;
+    return data;
+  }
+}
+
+class TagFriends {
+ dynamic askRecommandationId;
+ dynamic userId;
+
+  TagFriends({this.askRecommandationId, this.userId});
+
+  TagFriends.fromJson(Map<String, dynamic> json) {
+    askRecommandationId = json['ask_recommandation_id'];
+    userId = json['user_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ask_recommandation_id'] = this.askRecommandationId;
+    data['user_id'] = this.userId;
     return data;
   }
 }

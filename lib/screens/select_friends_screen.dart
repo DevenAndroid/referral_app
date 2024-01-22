@@ -24,9 +24,10 @@ class _SelectFriendsScreenState extends State<SelectFriendsScreen> {
   @override
   void initState() {
     super.initState();
-  //  getFriendListController.getFriendList();
+    getFriendListController.getFriendList();
     getFriendListController.selectedFriendIds.clear();
   }
+
 
   @override
   Widget build(BuildContext context) {

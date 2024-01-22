@@ -2,10 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/bottomNav_controller.dart';
 import '../controller/get_comment_controller.dart';
 import '../controller/homeController.dart';
 import '../repositories/add_comment_repo.dart';
 import '../resourses/api_constant.dart';
+import '../routers/routers.dart';
 import '../widgets/custome_textfiled.dart';
 
 
@@ -22,6 +24,7 @@ class _CommentScreenState extends State<CommentScreen> {
   String post = '';
   final homeController = Get.put(HomeController());
   final formKey6 = GlobalKey<FormState>();
+  final bottomController = Get.put(BottomNavBarController());
   @override
   void initState() {
     super.initState();
@@ -126,14 +129,22 @@ class _CommentScreenState extends State<CommentScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ClipOval(
-                              child: CachedNetworkImage(
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.cover,
-                                imageUrl: item.profileImage.toString(),
-                                placeholder: (context, url) => const SizedBox(),
-                                errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                            GestureDetector(
+                              onTap: (){
+                                Get.back();
+                                getCommentController.getCommentModel.value.data![index].myAccount == false ?
+                                Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                  getCommentController.getCommentModel.value.data![index].userId!.id.toString()
+                                ]):  bottomController.updateIndexValue(2);
+                              },  child: ClipOval(
+                                child: CachedNetworkImage(
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.cover,
+                                  imageUrl: item.profileImage.toString(),
+                                  placeholder: (context, url) => const SizedBox(),
+                                  errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                                ),
                               ),
                             ),
                             const SizedBox(
@@ -154,14 +165,23 @@ class _CommentScreenState extends State<CommentScreen> {
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          overflow: TextOverflow.ellipsis,
-                                          item.name.toString(),
-                                          style: GoogleFonts.mulish(
-                                            fontWeight: FontWeight.w600,
-                                            // letterSpacing: 1,
-                                            fontSize: 14,
-                                            color: Colors.black,
+                                        GestureDetector(
+                                          onTap: (){
+                                            Get.back();
+                                            getCommentController.getCommentModel.value.data![index].myAccount == false ?
+                                            Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                              getCommentController.getCommentModel.value.data![index].userId!.id.toString()
+                                            ]):  bottomController.updateIndexValue(2);
+                                          },
+                                          child: Text(
+                                            overflow: TextOverflow.ellipsis,
+                                            item.name.toString(),
+                                            style: GoogleFonts.mulish(
+                                              fontWeight: FontWeight.w600,
+                                              // letterSpacing: 1,
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(

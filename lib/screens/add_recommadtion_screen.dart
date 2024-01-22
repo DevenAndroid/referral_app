@@ -184,7 +184,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                     },
                     controller: profileController.categoriesController,
                     obSecure: false,
-                    hintText: "Furniture"),
+                    hintText: "Select category"),
                 const SizedBox(
                   height: 15,
                 ),

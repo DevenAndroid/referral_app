@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:referral_app/screens/recommendation_single_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../controller/bottomNav_controller.dart';
 import '../controller/get_recommendation_controller.dart';
 import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
@@ -64,7 +65,7 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
     print('idddddd....${getRecommendationController.idForReco.toString()}');
     getRecommendationController.getRecommendation(idForReco: getRecommendationController.idForReco);
   }
-
+  final bottomController = Get.put(BottomNavBarController());
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -103,6 +104,7 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 12).copyWith(bottom: 0),
           child:  GestureDetector(
             onTap: () {
+              Get.back();
               Get.toNamed(MyRouters.recommendationScreen,
                   arguments: [getRecommendationController.idForReco.toString()]);
             },
@@ -136,15 +138,26 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ClipOval(
-                                child: CachedNetworkImage(
-                                  width: 30,
-                                  height: 30,
-                                  fit: BoxFit.cover,
-                                  imageUrl: getRecommendationController.modelReviewList.value.data![index].user!
-                                      .profileImage.toString(),
-                                  placeholder: (context, url) => const SizedBox(),
-                                  errorWidget: (context, url, error) => const SizedBox(),
+                              GestureDetector(
+                                onTap: (){
+
+                                  Get.back();
+                                  getRecommendationController.modelReviewList.value.data![index].myAccount == false ?
+                                  Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                    getRecommendationController.modelReviewList.value.data![index].user!.id.toString()
+                                  ]):
+                                  bottomController.updateIndexValue(2);
+                                },
+                                child: ClipOval(
+                                  child: CachedNetworkImage(
+                                    width: 30,
+                                    height: 30,
+                                    fit: BoxFit.cover,
+                                    imageUrl: getRecommendationController.modelReviewList.value.data![index].user!
+                                        .profileImage.toString(),
+                                    placeholder: (context, url) => const SizedBox(),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -170,15 +183,25 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                overflow: TextOverflow.ellipsis,
-                                                getRecommendationController.modelReviewList.value.data![index].user!.name
-                                                    .toString(),
-                                                style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w600,
-                                                  // letterSpacing: 1,
-                                                  fontSize: 15,
-                                                  color: Colors.black,
+                                              GestureDetector(
+                                                onTap: (){
+                                                  Get.back();
+                                                  getRecommendationController.modelReviewList.value.data![index].myAccount == false ?
+                                                  Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                                    getRecommendationController.modelReviewList.value.data![index].user!.id.toString()
+                                                  ]):
+                                                  bottomController.updateIndexValue(2);
+                                                },
+                                                child: Text(
+                                                  overflow: TextOverflow.ellipsis,
+                                                  getRecommendationController.modelReviewList.value.data![index].user!.name
+                                                      .toString(),
+                                                  style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w600,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 15,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
                                               ),
                                               const SizedBox(
