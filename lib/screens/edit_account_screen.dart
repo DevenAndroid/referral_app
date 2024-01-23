@@ -53,6 +53,10 @@ class _EditAccountState extends State<EditAccount> {
       if (value.status == true) {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.clear();
+        profileController.mobileController.text = '';
+        profileController.address = '';
+        profileController.nameController.text = '';
+        profileController.code = '';
         statusOfLogout.value = RxStatus.success();
         Get.offAllNamed(MyRouters.loginScreen);
 
@@ -246,7 +250,17 @@ class _EditAccountState extends State<EditAccount> {
                                           height: 100,
                                           width: 100,
                                           fit: BoxFit.contain,
-                                          errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
+                                          errorWidget: (context, url, error) =>   Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                AppAssets.camera,
+                                                height: 60,
+                                                width: 50,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                         const SizedBox(
                                           height: 5,

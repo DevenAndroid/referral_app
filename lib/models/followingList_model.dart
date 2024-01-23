@@ -32,8 +32,10 @@ class Data {
   int? userId;
   Following? following;
   String? date;
+  bool? myAccount;
+  bool? followButton;
 
-  Data({this.id, this.userId, this.following, this.date});
+  Data({this.id, this.userId, this.following, this.date, this.myAccount,this.followButton});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -42,6 +44,8 @@ class Data {
         ? new Following.fromJson(json['following'])
         : null;
     date = json['date'];
+    myAccount = json['my_account'];
+    followButton = json['follow_button'];
   }
 
   Map<String, dynamic> toJson() {
@@ -52,6 +56,8 @@ class Data {
       data['following'] = this.following!.toJson();
     }
     data['date'] = this.date;
+    data['my_account'] = this.myAccount;
+    data['follow_button'] = this.followButton;
     return data;
   }
 }
@@ -66,6 +72,7 @@ class Following {
   String? profileImage;
   String? address;
   String? referalCode;
+  String? countryCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
   Null? deliveryRange;
@@ -77,28 +84,31 @@ class Following {
   int? followingCount;
   int? followersCount;
   int? postCount;
+  bool? isFollow;
 
   Following(
       {this.id,
-      this.name,
-      this.email,
-      this.phone,
-      this.walletBalance,
-      this.earnedBalance,
-      this.profileImage,
-      this.address,
-      this.referalCode,
-      this.isDriverOnline,
-      this.isVendorOnline,
-      this.deliveryRange,
-      this.selfDelivery,
-      this.asDriverVerified,
-      this.asVendorVerified,
-      this.asMarketingManagerVerified,
-      this.isComplete,
-      this.followingCount,
-      this.followersCount,
-      this.postCount});
+        this.name,
+        this.email,
+        this.phone,
+        this.walletBalance,
+        this.earnedBalance,
+        this.profileImage,
+        this.address,
+        this.referalCode,
+        this.countryCode,
+        this.isDriverOnline,
+        this.isVendorOnline,
+        this.deliveryRange,
+        this.selfDelivery,
+        this.asDriverVerified,
+        this.asVendorVerified,
+        this.asMarketingManagerVerified,
+        this.isComplete,
+        this.followingCount,
+        this.followersCount,
+        this.postCount,
+        this.isFollow});
 
   Following.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -110,6 +120,7 @@ class Following {
     profileImage = json['profile_image'];
     address = json['address'];
     referalCode = json['referal_code'];
+    countryCode = json['country_code'];
     isDriverOnline = json['is_driver_online'];
     isVendorOnline = json['is_vendor_online'];
     deliveryRange = json['delivery_range'];
@@ -121,6 +132,7 @@ class Following {
     followingCount = json['following_count'];
     followersCount = json['followers_count'];
     postCount = json['post_count'];
+    isFollow = json['is_follow'];
   }
 
   Map<String, dynamic> toJson() {
@@ -134,6 +146,7 @@ class Following {
     data['profile_image'] = this.profileImage;
     data['address'] = this.address;
     data['referal_code'] = this.referalCode;
+    data['country_code'] = this.countryCode;
     data['is_driver_online'] = this.isDriverOnline;
     data['is_vendor_online'] = this.isVendorOnline;
     data['delivery_range'] = this.deliveryRange;
@@ -145,6 +158,7 @@ class Following {
     data['following_count'] = this.followingCount;
     data['followers_count'] = this.followersCount;
     data['post_count'] = this.postCount;
+    data['is_follow'] = this.isFollow;
     return data;
   }
 }

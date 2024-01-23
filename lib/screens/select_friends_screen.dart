@@ -24,7 +24,7 @@ class _SelectFriendsScreenState extends State<SelectFriendsScreen> {
   @override
   void initState() {
     super.initState();
-    getFriendListController.getFriendList();
+    getFriendListController.getFriendListUpdate();
     getFriendListController.selectedFriendIds.clear();
   }
 
@@ -89,8 +89,12 @@ class _SelectFriendsScreenState extends State<SelectFriendsScreen> {
                         getFriendListController.selectedFriendIds.add(getFriendListController.getFriendListModel.value.data![index].id);
                         getFriendListController.selectedFriend.add(getFriendListController.getFriendListModel.value.data![index].checkBoxValue.toString());
                       }
-                      else {getFriendListController.selectedFriendIds.remove(getFriendListController.getFriendListModel.value.data![index].id);
+                      else {
+                        getFriendListController.selectedFriendIds.remove(getFriendListController.getFriendListModel.value.data![index].id);
                       getFriendListController.selectedFriend.remove(getFriendListController.getFriendListModel.value.data![index].checkBoxValue.toString());
+                      getFriendListController.getFriendListUpdate().then((value) {
+                        getFriendListController.tagId.removeWhere((id) => id == getFriendListController.getFriendListModel.value.data![index].id);
+                      });
                       }
 
                     });

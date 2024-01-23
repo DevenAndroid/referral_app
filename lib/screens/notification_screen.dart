@@ -105,7 +105,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Date: ${item.time.toString()}",
+                                item.time.toString(),
                                 style: const TextStyle(color: AppTheme.primaryColor, fontSize: 12, fontWeight: FontWeight.normal),
                               ),
                               addHeight(5),

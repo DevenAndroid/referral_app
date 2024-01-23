@@ -17,7 +17,7 @@ class ProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  String code = "IN";
+  String code = "US";
   RxString selectedValue = 'select friends'.obs;
   bool check = false;
   final categoriesController = TextEditingController();

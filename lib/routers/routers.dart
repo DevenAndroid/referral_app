@@ -10,6 +10,7 @@ import '../screens/category_viewAll_screen.dart';
 import '../screens/create_account.dart';
 import '../screens/edit_account_screen.dart';
 import '../screens/following_screen.dart';
+import '../screens/following_screen_user.dart';
 import '../screens/home_screen.dart';
 import '../screens/image.dart';
 import '../screens/login_screen.dart';
@@ -25,6 +26,7 @@ import '../screens/single_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/thank_you.dart';
 import '../screens/user_profile_screen.dart';
+import '../screens/user_reco_single.dart';
 
 class MyRouters {
   static var splashScreen = "/splashScreen";
@@ -43,6 +45,7 @@ class MyRouters {
   static var followingScreen = "/followingScreen";
   static var postScreen = "/postScreen";
   static var recommendationSingleScreen = "/recommendationSingleScreen";
+  static var userRecommendationSingleScreen = "/userRecommendationSingleScreen";
   static var categoriesScreen = "/categoriesScreen";
 
   static var userProfileScreen = "/userProfileScreen";
@@ -56,6 +59,7 @@ class MyRouters {
   static var recommendationScreen = "/recommendationScreen";
   static var categoryViewAllScreen = "/categoryViewAllScreen";
   static var selectFriendsScreen = "/selectFriendsScreen";
+  static var followingScreenUser = "/followingScreenUser";
 
 
   static var route = [
@@ -81,6 +85,7 @@ class MyRouters {
         page: () => const AddRecommendationScreen()),
     GetPage(name: '/editAccount', page: () => const EditAccount()),
     GetPage(name: '/followingScreen', page: () => const FollowingScreen()),
+    GetPage(name: '/followingScreenUser', page: () => const FollowingScreenUser()),
     GetPage(name: '/postScreen', page: () => const PostScreen()),
     GetPage(
         name: '/recommendationSingleScreen',
@@ -92,5 +97,6 @@ class MyRouters {
     GetPage(name: '/recommendationScreen', page: () => const RecommendationScreen()),
     GetPage(name: '/categoryViewAllScreen', page: () => const CategoryViewAllScreen()),
     GetPage(name: '/selectFriendsScreen', page: () => const SelectFriendsScreen()),
+    GetPage(name: '/userRecommendationSingleScreen', page: () => const UserRecommendationSingleScreen()),
   ];
 }

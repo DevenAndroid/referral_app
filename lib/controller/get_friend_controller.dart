@@ -18,15 +18,24 @@ class GetFriendListController extends GetxController{
   List<String?> selectedFriend = [];
 
 
-  getFriendList(){
+  Future getFriendListUpdate() async{
     isFriendLoad.value = false;
     getFriendListRepo().then((value) {
       isFriendLoad.value = true;
       getFriendListModel.value = value;
       for(var i in  tagId){
         getFriendListModel.value.data!.firstWhere((element) => element.id == i ).checkBoxValue = true;
+        selectedFriendIds.add(i);
         print("Loppp hitted");
+        print("Loppp hitted${i.toString()}");
       }
+    });
+  }
+  Future getFriendList() async{
+    isFriendLoad.value = false;
+    getFriendListRepo().then((value) {
+      isFriendLoad.value = true;
+      getFriendListModel.value = value;
     });
   }
   List<int> tagId = <int>[];

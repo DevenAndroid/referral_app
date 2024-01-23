@@ -65,7 +65,7 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
   }
 
   final profileController = Get.put(ProfileController());
-  final getFriendListController = Get.put(GetFriendListController(),permanent: true);
+  final getFriendListController = Get.put(GetFriendListController());
   File image = File("");
 
   String? validateValue(String? value, int minValue, int maxValue) {
@@ -486,7 +486,10 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                                         file1: categoryFile,
                                       ).then((value) async {
                                         if (value.status == true) {
+                                          UserProfile();
                                            profileController.getData();
+                                           getFriendListController.getFriendList();
+                                           Get.back();
                                           showToast(value.message.toString());
                                         } else {
                                           showToast(value.message.toString());
@@ -512,7 +515,10 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                                       file1: categoryFile,
                                     ).then((value) async {
                                       if (value.status == true) {
+                                        UserProfile();
                                         profileController.getData();
+                                        getFriendListController.getFriendList();
+                                        Get.back();
                                         showToast(value.message.toString());
                                       } else {
                                         // bottomController.updateIndexValue(0);

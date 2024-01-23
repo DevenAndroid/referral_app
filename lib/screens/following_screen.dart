@@ -270,7 +270,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                           if (followingList.value.data!.isEmpty)
                                             Center(
                                               child: Text(
-                                                "No followingList Found",
+                                                "No following List Found",
                                                 style: GoogleFonts.mulish(
                                                     fontWeight: FontWeight.w400,
                                                     // letterSpacing: 1,
@@ -314,17 +314,20 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                               width: 20,
                                                             ),
 
-
-                                                            Text(
-                                                              followingList.value.data![index].following!.name.toString(),
-                                                              style: GoogleFonts.mulish(
-                                                                  fontWeight: FontWeight.w400,
-                                                                  // letterSpacing: 1,
-                                                                  fontSize: 17,
-                                                                  color: Colors.black),
+                                                            Expanded(
+                                                              child: Text(
+                                                                maxLines: 2,
+                                                                followingList.value.data![index].following!.name.toString(),
+                                                                style: GoogleFonts.mulish(
+                                                                    fontWeight: FontWeight.w400,
+                                                                    // letterSpacing: 1,
+                                                                    fontSize: 17,
+                                                                    color: Colors.black),
+                                                              ),
                                                             ),
-                                                            Spacer(),
-
+                                                            followingList
+                                                                .value.data![index].myAccount == false
+                                                           ?
                                                             GestureDetector(
                                                               onTap: () {
                                                                 unFollowRepo(
@@ -360,7 +363,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                            )
+                                                            ) : const SizedBox()
                                                           ],
                                                         ),
                                                       ),

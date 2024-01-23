@@ -294,10 +294,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                 fit: BoxFit.cover,
                                                 imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
                                                 placeholder: (context, url) => const SizedBox(),
-                                                errorWidget: (context, url, error) => const Icon(
-                                                  Icons.error,
-                                                  color: Colors.red,
-                                                ),
+                                                errorWidget: (context, url, error) => Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset('assets/icons/profile.svg'),
+                                                  ],
+                                                )
                                               ),
                                             ),
                                           ),
@@ -327,6 +330,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           ),
                                         ),
                                         GestureDetector(
+                                          behavior: HitTestBehavior.translucent,
                                           onTap: () {
                                             Get.toNamed(MyRouters.followingScreen, arguments: [
                                               profileController.modal.value.data!.user!.followersCount.toString(),
@@ -357,6 +361,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           }),
                                         ),
                                         GestureDetector(
+                                          behavior: HitTestBehavior.translucent,
                                           onTap: () {
                                             profileController.profileDrawer == 1;
                                             Get.toNamed(MyRouters.followingScreen, arguments: [
@@ -391,9 +396,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(profileController.modal.value.data!.user!.name!.toString(),
-                                            style: GoogleFonts.mulish(
-                                                fontWeight: FontWeight.w700, fontSize: 20, color: const Color(0xFF262626))),
+                                        Expanded(
+                                          child: Text(profileController.modal.value.data!.user!.name!.toString(),
+                                              style: GoogleFonts.mulish(
+                                                  fontWeight: FontWeight.w700, fontSize: 20, color: const Color(0xFF262626))),
+                                        ),
                                         SizedBox(
                                             width: 100,
                                             height: 40,

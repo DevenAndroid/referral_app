@@ -90,13 +90,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   void initState() {
     super.initState();
+    profileController.getData();
     slug();
   }
-  @override
-  void dispose() {
-   super.dispose();
-    profileController.dispose();
-  }
+
   RxBool checkboxColor = false.obs;
   bool value = false;
   @override
@@ -301,7 +298,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
                               focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                           initialCountryCode: profileController.code,
-
                           onChanged: (phone) {
                             profileController.code = phone.countryISOCode.toString();
                             print(profileController.code.toString());

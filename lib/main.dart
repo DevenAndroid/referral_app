@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return GetMaterialApp(
-      title: 'Referral App',
+      title: 'Recs',
       theme: ThemeData(
         fontFamily: 'poppinsSans',
         primarySwatch: Colors.green,

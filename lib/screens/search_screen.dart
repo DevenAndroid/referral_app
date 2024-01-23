@@ -326,6 +326,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                                     item.title.toString(),
                                                     item.review.toString(),
                                                     item.link.toString(),
+                                                    allRecommendation.value.data![index].wishlist,
+                                                    allRecommendation.value.data![index].user!.id.toString(),
                                                   ],
                                                 );
                                               },

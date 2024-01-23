@@ -254,7 +254,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.toNamed(MyRouters.followingScreen, arguments: [
+                                    Get.toNamed(MyRouters.followingScreenUser, arguments: [
                                       profileController.userProfile.value.data!.user!.followersCount.toString(),
                                       profileController.userProfile.value.data!.user!.followingCount.toString(),
                                       profileController.userProfile.value.data!.user!.id.toString(),
@@ -281,7 +281,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 GestureDetector(
                                   onTap: () {
                                     currentDrawer == 1;
-                                    Get.toNamed(MyRouters.followingScreen, arguments: [
+                                    Get.toNamed(MyRouters.followingScreenUser, arguments: [
                                       profileController.userProfile.value.data!.user!.followersCount.toString(),
                                       profileController.userProfile.value.data!.user!.followingCount.toString(),
                                       profileController.userProfile.value.data!.user!.id.toString(),
@@ -1336,7 +1336,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                             return GestureDetector(
                                               onTap: () {
                                                 Get.toNamed(
-                                                  MyRouters.recommendationSingleScreen,
+                                                  MyRouters.userRecommendationSingleScreen,
                                                   arguments: [
                                                     // userProfile.value.data!.myRecommandation![index].image
                                                     //     .toString(),
