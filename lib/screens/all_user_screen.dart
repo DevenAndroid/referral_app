@@ -232,7 +232,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 GestureDetector(
                                   onTap: () {
                                     Get.toNamed(MyRouters.singlePostScreen,
-                                        arguments: [profileController.userProfile.value.data!.user!.postCount.toString(),]);
+                                        arguments: [profileController.userProfile.value.data!.user!.postCount.toString()]);
                                   },
                                   child: Column(
                                     children: [
