@@ -10,7 +10,8 @@ import '../widgets/app_theme.dart';
 
 
 class ApiUrls {
-  static const String apiBaseUrl = 'https://referral-app.eoxyslive.com/api/';
+  // static const String apiBaseUrl = 'https://referral-app.eoxyslive.com/api/';
+  static const String apiBaseUrl = 'http://3.131.10.217/api/';
   static const String login = "${apiBaseUrl}login";
   static const String verifyOtp = "${apiBaseUrl}verify-otp";
   static const String updateProfile = "${apiBaseUrl}update-profile";
