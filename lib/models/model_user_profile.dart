@@ -114,6 +114,7 @@ class User {
   int? followersCount;
   int? postCount;
   bool? isFollow;
+  bool? myAccount;
 
   User(
       {this.id,
@@ -136,7 +137,9 @@ class User {
         this.followingCount,
         this.followersCount,
         this.postCount,
-        this.isFollow});
+        this.isFollow,
+        this.myAccount
+      });
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -160,6 +163,7 @@ class User {
     followersCount = json['followers_count'];
     postCount = json['post_count'];
     isFollow = json['is_follow'];
+    myAccount = json['my_account'];
   }
 
   Map<String, dynamic> toJson() {
@@ -185,6 +189,7 @@ class User {
     data['followers_count'] = this.followersCount;
     data['post_count'] = this.postCount;
     data['is_follow'] = this.isFollow;
+    data['my_account'] = this.myAccount;
     return data;
   }
 }

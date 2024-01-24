@@ -86,7 +86,12 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
   final profileController = Get.put(ProfileController());
 
   final homeController = Get.put(HomeController());
-
+  @override
+  void initState() {
+    super.initState();
+    profileController.idController.clear();
+    profileController.categoriesController.clear();
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

@@ -316,6 +316,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                     style: GoogleFonts.mulish(
                                         fontWeight: FontWeight.w700, fontSize: 20, color: const Color(0xFF262626))),
                                 const Spacer(),
+                                profileController.userProfile.value.data!.user!.myAccount == false ?
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: Obx(() {
@@ -335,7 +336,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                 print('wishlist-----');
                                                 statusOfRemove.value = RxStatus.success();
                                                 //homeController.getPaginate();
-
+                                                 profileController.UserProfile();
                                                 // like=true;
                                                 showToast(value.message.toString());
                                               } else {
@@ -354,7 +355,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                           },
                                         ));
                                   }),
-                                )
+                                ) : const SizedBox()
                               ],
                             ),
                             const SizedBox(

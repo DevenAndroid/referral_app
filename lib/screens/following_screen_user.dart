@@ -185,6 +185,8 @@ class _FollowingScreenUserState extends State<FollowingScreenUser> {
                                         itemBuilder: (context, index) {
                                           return Column(
                                             children: [
+                                              if(followerList
+                                                  .value.data![index].following!=null)
                                               GestureDetector(
                                                 onTap : (){
                                                   Get.toNamed(MyRouters.allUserProfileScreen, arguments: [followerList
@@ -285,6 +287,8 @@ class _FollowingScreenUserState extends State<FollowingScreenUser> {
                                         itemBuilder: (context, index) {
                                           return Column(
                                             children: [
+                                              if(followingList
+                                                  .value.data![index].following!=null)
                                               GestureDetector(
                                                 onTap : (){
                                                   Get.toNamed(MyRouters.allUserProfileScreen, arguments: [followingList

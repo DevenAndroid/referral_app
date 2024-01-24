@@ -121,7 +121,9 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
         recommendationController.text = single.value.data!.recommandation!.title.toString();
         reviewController.text = single.value.data!.recommandation!.review.toString();
         categoryFile = File(single.value.data!.recommandation!.image.toString());
-        categoriesController.text = single.value.data!.category!.name.toString();
+        if( single.value.data!.category!= null) {
+          categoriesController.text = single.value.data!.category!.name.toString();
+        }
         linkController.text = _imageUrl;
         statusOfUser.value = RxStatus.success();
       } else {
@@ -234,9 +236,9 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
                         Get.toNamed(MyRouters.categoriesScreen);
                       },
                       readOnly: true,
-                      controller: categoriesController,
+                      controller: profileController.categoriesController,
                       obSecure: false,
-                      hintText: "Furniture"),
+                      hintText: "Select category"),
                   const SizedBox(
                     height: 15,
                   ),
@@ -317,6 +319,7 @@ class _AddRecommendationScreen1State extends State<AddRecommendationScreen1> {
                         map['review'] = reviewController.text.trim();
                         map['link'] = linkController.text.trim();
                         map['status'] = "publish";
+                        map['category_id'] = profileController.idController.text.trim();
                         map['id'] = id;
                         map['askrecommandation_id'] = getRecommendationController.idForAskReco.toString();
 
