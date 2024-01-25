@@ -437,11 +437,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                       children: [
                                                         GestureDetector(
                                                           onTap: () {
-                                                            Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
-                                                              homeController
-                                                                  .homeModel.value.data!.discover![index].userId!.id
-                                                                  .toString(),
-                                                            ]);
+                                                            bottomController.page1Index.value = 1;
+                                                            profileController.idUserPro = homeController.homeModel.value.data!.discover![index].userId!.id
+                                                                .toString();
+                                                            // Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                                            //   homeController.homeModel.value.data!.discover![index].userId!.id
+                                                            //       .toString(),
+                                                            // ]);
                                                           },
                                                           child: ClipOval(
                                                             child: CachedNetworkImage(

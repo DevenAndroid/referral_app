@@ -12,7 +12,7 @@ import '../resourses/helper.dart';
 
 Future<SearchModel> getSearchRepo({type,keyword}) async {
   try {
-    http.Response response = await http.get(Uri.parse("https://referral-app.eoxyslive.com/api/search?type=$type&keyword=$keyword"),
+    http.Response response = await http.get(Uri.parse("http://3.131.10.217/api/search?type=$type&keyword=$keyword"),
       headers: await getAuthHeader(),
     );
 

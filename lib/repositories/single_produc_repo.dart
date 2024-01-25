@@ -12,7 +12,7 @@ import '../resourses/helper.dart';
 
 Future<SingleProduct> getSingleRepo({category_id,userId}) async {
   try {
-    http.Response response = await http.get(Uri.parse("https://referral-app.eoxyslive.com/api/single-category?category_id=$category_id&user_id=$userId"),
+    http.Response response = await http.get(Uri.parse("http://3.131.10.217/api/single-category?category_id=$category_id&user_id=$userId"),
       headers: await getAuthHeader(),
     );
     log("response.....    ${response.body}");
@@ -29,7 +29,7 @@ Future<SingleProduct> getSingleRepoWithOut({category_id,userId}) async {
     //  HttpHeaders.authorizationHeader: 'Bearer ${userInfo.}'
   };
   try {
-    http.Response response = await http.get(Uri.parse("https://referral-app.eoxyslive.com/api/single-category?category_id=$category_id&user_id=$userId"),
+    http.Response response = await http.get(Uri.parse("http://3.131.10.217/api/single-category?category_id=$category_id&user_id=$userId"),
       headers: headers,
     );
 
