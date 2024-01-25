@@ -357,7 +357,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 },
                 tabs: [
                   Tab(
-                    child: Text("Recco Feed",
+                    child: Text("Recs Feed",
                       style: GoogleFonts.mulish(
                         fontWeight: FontWeight.w700, fontSize: 15,
                       ),
