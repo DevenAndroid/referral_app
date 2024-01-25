@@ -161,68 +161,75 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           onTap: () {
                             _showActionSheet(context);
                           },
-                          child: categoryFile.path != ""
-                              ? Container(
-                            padding: EdgeInsets.all(10),
-                            decoration:
-                            BoxDecoration(
-                              borderRadius:
-                              BorderRadius
-                                  .circular(10),
-                              border: Border.all(color: Colors.black12),
-                              color: Colors.white,
-
-                            ),
-                            margin: const EdgeInsets
-                                .symmetric(
-                                vertical: 10,
-                                horizontal: 10),
-                            width: double.maxFinite,
-                            height: 180,
-                            alignment:
-                            Alignment.center,
-                            child: Image.file(
-                                categoryFile,
-                                errorBuilder: (_, __, ___) =>
-                                    Image.network(
-                                        categoryFile
-                                            .path,
-                                        errorBuilder: (_,
-                                            __,
-                                            ___) =>
-                                        const SizedBox())),
-                          )
-                              : Container(
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black12),color: Colors.white),
-                            padding:
-                            const EdgeInsets.only(
-                                top: 8),
-
-
-                            width: double.maxFinite,
-                            height: 130,
-
-                            child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment
-                                  .center,
-                              children: [
-                                Image.asset(
-                                  AppAssets.camera,
-                                  height: 60,
-                                  width: 50,
+                          child: Stack(
+                            children: [
+                              categoryFile.path != ""
+                                  ? Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: Colors.black12),
+                                  color: Colors.white,
                                 ),
-                                const SizedBox(
-                                  height: 5,
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                width: double.maxFinite,
+                                height: 180,
+                                alignment: Alignment.center,
+                                child: Image.file(
+                                  categoryFile,
+                                  errorBuilder: (_, __, ___) =>
+                                      Image.network(
+                                        categoryFile.path,
+                                        errorBuilder: (_, __, ___) =>
+                                        const SizedBox(),
+                                      ),
                                 ),
-
-                                const SizedBox(
-                                  height: 11,
+                              )
+                                  : Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black12),
+                                  color: Colors.white,
                                 ),
-                              ],
-                            ),
+                                padding: const EdgeInsets.only(top: 8),
+                                width: double.maxFinite,
+                                height: 130,
+                                child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      AppAssets.camera,
+                                      height: 60,
+                                      width: 50,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    const SizedBox(
+                                      height: 11,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                top: 5,
+                                right: 5,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _showActionSheet(context);
+                                  },
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: Colors.black, // You can change the color
+                                    size: 24, // You can change the size
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+
                         /*    Container(
                     width: size.width,
                     height: size.height*.15,

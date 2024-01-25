@@ -12,7 +12,7 @@ Future<ModelUserProfile> userProfileRepo({recommandation_id,type}) async {
 
   try {
     http.Response response = await http.get(
-      Uri.parse("https://referral-app.eoxyslive.com/api/single-user?recommandation_id=$recommandation_id&type=$type"),
+      Uri.parse("http://3.131.10.217/api/single-user?recommandation_id=$recommandation_id&type=$type"),
       headers: await getAuthHeader(),
     );
 

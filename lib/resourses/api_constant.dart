@@ -29,7 +29,7 @@ class ApiUrls {
   static const String unfollow = "${apiBaseUrl}add-remove-follower";
   static const String pages = "${apiBaseUrl}pages?slug=";
   static const String singleCategories = "${apiBaseUrl}single-category?category_id=";
-  static const String userData = "${apiBaseUrl}single-user?recommandation_id=";
+  static const String userData = "${apiBaseUrl}single-user";
   static const String addRemoveBookmark = "${apiBaseUrl}add-remove-bookmark";
   static const String allUsers = "${apiBaseUrl}all-users";
   static const String addRemoveFollower = "${apiBaseUrl}add-remove-follower";
