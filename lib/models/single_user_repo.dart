@@ -13,7 +13,7 @@ Future<ModelSingleUser> singleUserRepo({recommandation_id,context}) async {
 
   // try {
     http.Response response = await http.get(
-      Uri.parse("https://referral-app.eoxyslive.com/api/singel-recommandation?recommandation_id=$recommandation_id"),
+      Uri.parse("http://3.131.10.217/api/singel-recommandation?recommandation_id=$recommandation_id"),
       headers: await getAuthHeader(),
     );
 

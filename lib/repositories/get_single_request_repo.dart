@@ -7,7 +7,7 @@ import '../resourses/api_constant.dart';
 Future<GetSingleRequestModel> getMyRequestEditRepo({recommandationId}) async {
   try {
     http.Response response = await http.get(
-      Uri.parse("https://referral-app.eoxyslive.com/api/ask-recommandation?askrecommandation_id=$recommandationId"),
+      Uri.parse("http://3.131.10.217/api/ask-recommandation?askrecommandation_id=$recommandationId"),
       headers: await getAuthHeader(),
     );
 
