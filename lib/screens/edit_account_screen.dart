@@ -193,85 +193,107 @@ class _EditAccountState extends State<EditAccount> {
                                   onTap: () {
                                     _showActionSheet(context);
                                   },
-                                  child: categoryFile.path != ""
-                                      ? Stack(
+                                  child: Stack(
                                     children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(10),
-                                        decoration:
-                                        BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius
-                                              .circular(10),
-                                          border: Border.all(color: Colors.black12),
-                                          color: Colors.white,
+                                      categoryFile.path != ""
+                                          ? Container(
+                                            padding: const EdgeInsets.all(10),
+                                            decoration:
+                                            BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius
+                                                  .circular(10),
+                                              border: Border.all(color: Colors.black12),
+                                              color: Colors.white,
 
-                                        ),
+                                            ),
+                                            margin: const EdgeInsets
+                                                .symmetric(
+                                                vertical: 10,
+                                                horizontal: 10),
+                                            width: double.maxFinite,
+                                            height: 180,
+                                            alignment:
+                                            Alignment.center,
+                                            child: Image.file(
+                                                categoryFile,
+                                                errorBuilder: (_, __, ___) =>
+                                                    Image.network(
+                                                        categoryFile
+                                                            .path,
+                                                        errorBuilder: (_,
+                                                            __,
+                                                            ___) =>
+                                                        const SizedBox())),
+                                          )
+                                          : Container(
+                                        decoration: BoxDecoration(border: Border.all(color: Colors.black12),color: Colors.white),
+                                        padding:
+                                        const EdgeInsets.only(
+                                            top: 8),
                                         margin: const EdgeInsets
                                             .symmetric(
-                                            vertical: 10,
-                                            horizontal: 10),
+                                            vertical: 8,
+                                            horizontal: 8),
                                         width: double.maxFinite,
-                                        height: 180,
-                                        alignment:
-                                        Alignment.center,
-                                        child: Image.file(
-                                            categoryFile,
-                                            errorBuilder: (_, __, ___) =>
-                                                Image.network(
-                                                    categoryFile
-                                                        .path,
-                                                    errorBuilder: (_,
-                                                        __,
-                                                        ___) =>
-                                                    const SizedBox())),
-                                      ),
-                                    ],
-                                  )
-                                      : Container(
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black12),color: Colors.white),
-                                    padding:
-                                    const EdgeInsets.only(
-                                        top: 8),
-                                    margin: const EdgeInsets
-                                        .symmetric(
-                                        vertical: 8,
-                                        horizontal: 8),
-                                    width: double.maxFinite,
-                                    height: 130,
-                                    alignment: Alignment.center,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment
-                                          .center,
-                                      children: [
-                                        CachedNetworkImage(
-                                          imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
-                                          height: 100,
-                                          width: 100,
-                                          fit: BoxFit.contain,
-                                          errorWidget: (context, url, error) =>   Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Image.asset(
-                                                AppAssets.camera,
-                                                height: 60,
-                                                width: 50,
+                                        height: 130,
+                                        alignment: Alignment.center,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .center,
+                                          children: [
+                                            CachedNetworkImage(
+                                              imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
+                                              height: 100,
+                                              width: 100,
+                                              fit: BoxFit.contain,
+                                              errorWidget: (context, url, error) =>   Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Image.asset(
+                                                    AppAssets.camera,
+                                                    height: 60,
+                                                    width: 50,
+                                                  ),
+                                                ],
                                               ),
-                                            ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+
+                                            const SizedBox(
+                                              height: 11,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 15,
+                                        right: 15,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            _showActionSheet(context);
+                                          },
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                                color: AppTheme.secondaryColor,
+                                                shape: BoxShape.circle
+                                            ),
+                                            padding: EdgeInsets.all(5),
+                                            child: const Icon(
+                                              Icons.edit,
+                                              color: Colors.white, // You can change the color
+                                              size: 18, // You can change the size
+                                            ),
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-
-                                        const SizedBox(
-                                          height: 11,
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
+
                                 ),
 
 

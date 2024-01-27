@@ -205,9 +205,11 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                                     placeholder: (context, url) => const SizedBox(
                                       height: 0,
                                     ),
-                                    errorWidget: (context, url, error) => const SizedBox(
-                                      height: 0,
-                                    ),
+                                      errorWidget: (context, url, error) =>  Container(
+                                          padding: const EdgeInsets.all(6),
+                                          decoration:
+                                          BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                          child: SvgPicture.asset('assets/icons/profile.svg'))
                                   ),
                                 ),
                               ),

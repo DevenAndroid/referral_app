@@ -267,59 +267,84 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                                 _showActionSheet(context);
                                 FocusManager.instance.primaryFocus!.unfocus();
                               },
-                              child: categoryFile.path == ""
-                                  ? Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: Colors.black12),
-                                  color: Colors.white,
-                                ),
-                                // margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                width: double.maxFinite,
-                                height: 180,
-                                alignment: Alignment.center,
-                                child: CachedNetworkImage(
-                                  width: 120,
-                                  height: 120,
-                                  fit: BoxFit.cover,
-                                  imageUrl: getMyRequestModel.value.data!.askRecommandation!.image.toString(),
-                                  placeholder: (context, url) => const SizedBox(),
-                                  errorWidget: (context, url, error) => Image.asset(
-                                    AppAssets.camera,
-                                    height: 60,
-                                    width: 50,
-                                  ),
-                                ),
-                                // Image.file(categoryFile,
-                                //     errorBuilder: (_, __, ___) =>
-                                //         Image.network(categoryFile.path, errorBuilder: (_, __, ___) => const SizedBox())),
-                              )
-                                  : Container(
-                                decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
-                                padding: const EdgeInsets.only(top: 8),
-                                width: double.maxFinite,
-                                // height: 130,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                      categoryFile.path == "" ? Image.asset(
+                              child: Stack(
+                                children: [
+                                  categoryFile.path == ""
+                                      ? Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(color: Colors.black12),
+                                      color: Colors.white,
+                                    ),
+                                    // margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                    width: double.maxFinite,
+                                    height: 180,
+                                    alignment: Alignment.center,
+                                    child: CachedNetworkImage(
+                                      width: 120,
+                                      height: 120,
+                                      fit: BoxFit.cover,
+                                      imageUrl: getMyRequestModel.value.data!.askRecommandation!.image.toString(),
+                                      placeholder: (context, url) => const SizedBox(),
+                                      errorWidget: (context, url, error) => Image.asset(
                                         AppAssets.camera,
                                         height: 60,
                                         width: 50,
-                                      ) : Image.file(categoryFile,
-                                      // width: 120,
-                                      height: 120,
-                                      fit: BoxFit.cover,
+                                      ),
                                     ),
-                                    const SizedBox(
-                                      height: 5,
+                                    // Image.file(categoryFile,
+                                    //     errorBuilder: (_, __, ___) =>
+                                    //         Image.network(categoryFile.path, errorBuilder: (_, __, ___) => const SizedBox())),
+                                  )
+                                      : Container(
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
+                                    padding: const EdgeInsets.only(top: 8),
+                                    width: double.maxFinite,
+                                    // height: 130,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                          categoryFile.path == "" ? Image.asset(
+                                            AppAssets.camera,
+                                            height: 60,
+                                            width: 50,
+                                          ) : Image.file(categoryFile,
+                                          // width: 120,
+                                          height: 120,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        const SizedBox(
+                                          height: 11,
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(
-                                      height: 11,
+                                  ),
+                                  Positioned(
+                                    top: 5,
+                                    right: 5,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        _showActionSheet(context);
+                                      },
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                            color: AppTheme.secondaryColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        padding: EdgeInsets.all(5),
+                                        child: const Icon(
+                                          Icons.edit,
+                                          color: Colors.white, // You can change the color
+                                          size: 18, // You can change the size
+                                        ),
+                                      ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                             const SizedBox(

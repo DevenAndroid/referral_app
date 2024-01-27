@@ -121,7 +121,6 @@ class _CommentScreenState extends State<CommentScreen> {
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      var item = getCommentController.getCommentModel.value.data![index].userId!;
                       var item1 = getCommentController.getCommentModel.value.data![index];
                       return Padding(
                         padding: const EdgeInsets.only(left: 8.0, top: 10),
@@ -129,6 +128,7 @@ class _CommentScreenState extends State<CommentScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            if(getCommentController.getCommentModel.value.data![index].userId!=null)
                             GestureDetector(
                               onTap: (){
                                 Get.back();
@@ -141,7 +141,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                   width: 30,
                                   height: 30,
                                   fit: BoxFit.cover,
-                                  imageUrl: item.profileImage.toString(),
+                                  imageUrl: item1.userId!.profileImage.toString(),
                                   placeholder: (context, url) => const SizedBox(),
                                   errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
                                 ),
@@ -162,9 +162,11 @@ class _CommentScreenState extends State<CommentScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    if(getCommentController.getCommentModel.value.data![index].userId!=null)
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
+
                                         GestureDetector(
                                           onTap: (){
                                             Get.back();
@@ -175,7 +177,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                           },
                                           child: Text(
                                             overflow: TextOverflow.ellipsis,
-                                            item.name.toString(),
+                                            item1.userId!.name.toString(),
                                             style: GoogleFonts.mulish(
                                               fontWeight: FontWeight.w600,
                                               // letterSpacing: 1,
