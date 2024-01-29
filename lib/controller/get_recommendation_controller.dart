@@ -13,6 +13,8 @@ import '../models/get_comment_model.dart';
 import '../models/model_review_list.dart';
 import '../repositories/get_comment_repo.dart';
 import '../repositories/repo_review_list.dart';
+import '../screens/comment_screen.dart';
+import '../screens/get_recommendation_ui.dart';
 import '../screens/recco_comment_ui.dart';
 
 class GetRecommendationController extends GetxController{
@@ -72,6 +74,56 @@ class GetRecommendationController extends GetxController{
         ),
         builder: (BuildContext context) {
           return const ReccoCommentScreen();
+        });
+  }
+
+  void settingModalBottomSheet(context) {
+    var size = MediaQuery
+        .of(context)
+        .size;
+    var hieght = MediaQuery
+        .of(context)
+        .size
+        .height;
+
+    showModalBottomSheet(
+        enableDrag: true,
+        isDismissible: true,
+        constraints: BoxConstraints(
+          maxHeight: hieght * .7,
+        ),
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.white,
+        elevation: 10,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+        ),
+        builder: (BuildContext context) {
+          return const GetRecommendationScreen();
+        });
+  }
+
+  void commentBottomSheet(context) {
+    var height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    showModalBottomSheet(
+        enableDrag: true,
+        isDismissible: true,
+        constraints: BoxConstraints(
+          maxHeight: height * .7,
+        ),
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.white,
+        elevation: 10,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+        ),
+        builder: (BuildContext context) {
+          return const CommentScreen();
         });
   }
 

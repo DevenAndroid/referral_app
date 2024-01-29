@@ -336,6 +336,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                 print('wishlist-----');
                                                 statusOfRemove.value = RxStatus.success();
                                                 //homeController.getPaginate();
+                                                 profileController.getData();
                                                  profileController.UserProfile();
                                                 // like=true;
                                                 showToast(value.message.toString());

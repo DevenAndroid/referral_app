@@ -212,14 +212,17 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                                 imageUrl: followerList
                                                                     .value.data![index].following!.profileImage
                                                                     .toString(),
-                                                                errorWidget: (_, __, ___) => Image.asset(
-                                                                  AppAssets.img,
-                                                                  color: Colors.grey.shade200,
+                                                                errorWidget: (context, url, error) => Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    SvgPicture.asset('assets/icons/profile.svg'),
+                                                                  ],
                                                                 ),
-                                                                placeholder: (_, __) => Image.asset(
-                                                                  AppAssets.img,
-                                                                  color: Colors.grey.shade200,
-                                                                ),
+                                                                // placeholder: (_, __) => Image.asset(
+                                                                //   AppAssets.img,
+                                                                //   color: Colors.grey.shade200,
+                                                                // ),
                                                               ),
                                                             ),
                                                             const SizedBox(
@@ -306,8 +309,13 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                                 imageUrl: followingList
                                                                     .value.data![index].following!.profileImage
                                                                     .toString(),
-                                                                errorWidget: (_, __, ___) => SizedBox(),
-                                                                placeholder: (_, __) => SizedBox(),
+                                                                  errorWidget: (context, url, error) => Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: [
+                                                                      SvgPicture.asset('assets/icons/profile.svg'),
+                                                                    ],
+                                                                  )
                                                               ),
                                                             ),
                                                             const SizedBox(
@@ -338,6 +346,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                                                   unfollowModel.value = value;
                                                                   if (value.status == true) {
                                                                     statusOfUnfollow.value = RxStatus.success();
+                                                                    profileController.getData();
                                                                     listFollowing();
                                                                     showToast(value.message.toString());
                                                                   } else {

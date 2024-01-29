@@ -52,17 +52,25 @@ class Data {
 class NotificationData {
   int? id;
   int? userId;
+ dynamic postId;
   String? title;
   String? body;
   int? seen;
   String? time;
 
   NotificationData(
-      {this.id, this.userId, this.title, this.body, this.seen, this.time});
+      {this.id,
+        this.userId,
+        this.postId,
+        this.title,
+        this.body,
+        this.seen,
+        this.time});
 
   NotificationData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
+    postId = json['post_id'];
     title = json['title'];
     body = json['body'];
     seen = json['seen'];
@@ -73,6 +81,7 @@ class NotificationData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['user_id'] = this.userId;
+    data['post_id'] = this.postId;
     data['title'] = this.title;
     data['body'] = this.body;
     data['seen'] = this.seen;

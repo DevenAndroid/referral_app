@@ -210,15 +210,13 @@ class _SearchScreenState extends State<SearchScreen> {
                                                         height: 50,
                                                         fit: BoxFit.cover,
                                                         imageUrl: item.profileImage.toString(),
-                                                        errorWidget: (_, __, ___) =>  Image.asset(
-                                    AppAssets.man,
-                                    color: Colors.grey.shade200,
-                                  ),
-                                  placeholder: (_, __) =>
-                                      Image.asset(
-                                        AppAssets.man,
-                                        color: Colors.grey.shade200,
-                                      ),
+                                                          errorWidget: (context, url, error) => Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              SvgPicture.asset('assets/icons/profile.svg'),
+                                                            ],
+                                                          )
                                                       ),
                                                     ),
                                                     const SizedBox(

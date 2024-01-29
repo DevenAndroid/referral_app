@@ -719,7 +719,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                           getRecommendationController.idForAskReco =
                                                               homeController.homeModel.value.data!.discover![index].id
                                                                   .toString();
-                                                          _settingModalBottomSheet(context);
+                                                          getRecommendationController.settingModalBottomSheet(context);
                                                         });
                                                       },
                                                       child: Container(
@@ -769,7 +769,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                               .homeModel.value.data!.discover![index].id
                                                               .toString();
                                                           getCommentController.type = 'askrecommandation';
-                                                          commentBottomSheet(context);
+                                                          getRecommendationController.commentBottomSheet(context);
                                                         });
                                                       },
                                                       child: Container(
@@ -831,55 +831,5 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     const DiscoverScreenHome()
                   ]);
                 }))));
-  }
-
-  void _settingModalBottomSheet(context) {
-    var size = MediaQuery
-        .of(context)
-        .size;
-    var hieght = MediaQuery
-        .of(context)
-        .size
-        .height;
-
-    showModalBottomSheet(
-        enableDrag: true,
-        isDismissible: true,
-        constraints: BoxConstraints(
-          maxHeight: hieght * .7,
-        ),
-        isScrollControlled: true,
-        context: context,
-        backgroundColor: Colors.white,
-        elevation: 10,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-        ),
-        builder: (BuildContext context) {
-          return const GetRecommendationScreen();
-        });
-  }
-
-  void commentBottomSheet(context) {
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    showModalBottomSheet(
-        enableDrag: true,
-        isDismissible: true,
-        constraints: BoxConstraints(
-          maxHeight: height * .7,
-        ),
-        isScrollControlled: true,
-        context: context,
-        backgroundColor: Colors.white,
-        elevation: 10,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-        ),
-        builder: (BuildContext context) {
-          return const CommentScreen();
-        });
   }
 }
