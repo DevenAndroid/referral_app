@@ -1,6 +1,6 @@
 class GetNotificationModel {
   bool? status;
-  String? message;
+  dynamic message;
   Data? data;
 
   GetNotificationModel({this.status, this.message, this.data});
@@ -24,7 +24,7 @@ class GetNotificationModel {
 
 class Data {
   List<NotificationData>? notificationData;
-  String? notification;
+  dynamic notification;
 
   Data({this.notificationData, this.notification});
 
@@ -50,18 +50,22 @@ class Data {
 }
 
 class NotificationData {
-  int? id;
-  int? userId;
- dynamic postId;
-  String? title;
-  String? body;
-  int? seen;
-  String? time;
+  dynamic id;
+  dynamic userId;
+  dynamic postId;
+  dynamic postType;
+  dynamic parentId;
+  dynamic title;
+  dynamic body;
+  dynamic seen;
+  dynamic time;
 
   NotificationData(
       {this.id,
         this.userId,
         this.postId,
+        this.postType,
+        this.parentId,
         this.title,
         this.body,
         this.seen,
@@ -71,6 +75,8 @@ class NotificationData {
     id = json['id'];
     userId = json['user_id'];
     postId = json['post_id'];
+    postType = json['post_type'];
+    parentId = json['parent_id'];
     title = json['title'];
     body = json['body'];
     seen = json['seen'];
@@ -82,6 +88,8 @@ class NotificationData {
     data['id'] = this.id;
     data['user_id'] = this.userId;
     data['post_id'] = this.postId;
+    data['post_type'] = this.postType;
+    data['parent_id'] = this.parentId;
     data['title'] = this.title;
     data['body'] = this.body;
     data['seen'] = this.seen;

@@ -3,8 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:referral_app/widgets/custome_size.dart';
+import '../controller/bottomNav_controller.dart';
+import '../controller/get_comment_controller.dart';
 import '../controller/get_notification_controller.dart';
+import '../controller/get_recommendation_controller.dart';
 import '../controller/homeController.dart';
+import '../routers/routers.dart';
 import '../widgets/app_theme.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -18,6 +22,9 @@ class NotificationScreenState extends State<NotificationScreen> {
 
   final getNotificationController = Get.put(GetNotificationController());
   final homeController = Get.put(HomeController());
+  final bottomController = Get.put(BottomNavBarController());
+  final getRecommendationController = Get.put(GetRecommendationController());
+  final getCommentController = Get.put(GetCommentController());
 
   @override
   Widget build(BuildContext context) {
@@ -58,70 +65,100 @@ class NotificationScreenState extends State<NotificationScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   final item = getNotificationController.getNotificationModel.value.data!.notificationData![index];
-                  return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(11),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 1,
-                          blurRadius: 2,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Container(
-                            width: 5,
-                            height: 70,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: AppTheme.primaryColor,
+                  return GestureDetector(
+                    onTap: (){
+                      switch (item.title) {
+                        case 'New Follow':
+                          Get.toNamed(MyRouters.allUserProfileScreen, arguments: [item.postId.toString()]);
+                          break;
+                        case 'Tag':
+                          Get.back();
+                          bottomController.updateIndexValue(0);
+                          break;
+                        case 'Recommendation':
+                        case 'Like':
+                          getRecommendationController.idForReco = item.parentId.toString();
+                          getRecommendationController.idForAskReco = item.parentId.toString();
+                          getRecommendationController.settingModalBottomSheet(context);
+                          break;
+                        case 'New Comment':
+                          if (item.postType == 'askrecommandation') {
+                            getCommentController.id = item.postId.toString();
+                            getCommentController.type = 'askrecommandation';
+                            getRecommendationController.commentBottomSheet(context);
+                          } else if (item.postType == 'recommandation') {
+                            getRecommendationController.getComments(item.postId.toString(), context);
+                            getRecommendationController.postId = item.postId.toString();
+                            getRecommendationController.commentBottomSheetReco(context);
+                          }
+                          break;
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      width: Get.width,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(11),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Container(
+                              width: 5,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: AppTheme.primaryColor,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                         CircleAvatar(
-                          maxRadius: 20,
-                          minRadius: 20,
-                          backgroundColor: AppTheme.primaryColor,
-                          child: SvgPicture.asset('assets/icons/rec.svg')
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                         Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item.time.toString(),
-                                style: const TextStyle(color: AppTheme.primaryColor, fontSize: 12, fontWeight: FontWeight.normal),
-                              ),
-                              addHeight(5),
-                              Text(
-                                item.title.toString(),
-                                style: const TextStyle(color: Color(0xff384953), fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                              addHeight(3),
-                              Text(
-                                item.body.toString(),
-                                style: const TextStyle(color: Color(0xff384953), fontSize: 12, fontWeight: FontWeight.normal),
-                              ),
-                            ],
+                          const SizedBox(
+                            width: 10,
                           ),
-                        ),
-                      ],
+                           CircleAvatar(
+                            maxRadius: 20,
+                            minRadius: 20,
+                            backgroundColor: AppTheme.primaryColor,
+                            child: SvgPicture.asset('assets/icons/rec.svg')
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                           Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.time.toString(),
+                                  style: const TextStyle(color: AppTheme.primaryColor, fontSize: 12, fontWeight: FontWeight.normal),
+                                ),
+                                addHeight(5),
+                                Text(
+                                  item.title.toString(),
+                                  style: const TextStyle(color: Color(0xff384953), fontSize: 14, fontWeight: FontWeight.bold),
+                                ),
+                                addHeight(3),
+                                Text(
+                                  item.body.toString(),
+                                  style: const TextStyle(color: Color(0xff384953), fontSize: 12, fontWeight: FontWeight.normal),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }):  Padding(

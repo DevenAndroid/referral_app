@@ -12,6 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../controller/bottomNav_controller.dart';
 import '../controller/get_comment_controller.dart';
 import '../controller/get_recommendation_controller.dart';
+import '../controller/homeController.dart';
+import '../controller/profile_controller.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/notification_service.dart';
 import 'add_recommadtion_screen.dart';
@@ -29,33 +31,57 @@ class _BottomNavbarState extends State<BottomNavbar> {
   final bottomController = Get.put(BottomNavBarController());
   final getRecommendationController = Get.put(GetRecommendationController());
   final getCommentController = Get.put(GetCommentController());
-
+  final profileController = Get.put(ProfileController(), permanent: true);
+  final homeController = Get.put(HomeController());
   manageNotification() {
     print("functionnnnn callll");
     NotificationService().initializeNotification();
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
       print('Notification issss${event.notification!.title.toString()}');
       print('Notification issss${event.data['post_id']}');
-      if(event.notification!.title == 'Following'){
-         Get.toNamed(MyRouters.allUserProfileScreen,arguments: [event.data['post_id'].toString()]);
-      }else if(event.notification!.title == 'Tag'){
-        bottomController.updateIndexValue(0);
-      }else if(event.notification!.title == 'Recommendation'){
-        getRecommendationController.idForReco = event.data['post_id'].toString();
-        getRecommendationController.idForAskReco = event.data['post_id'].toString();
-        getRecommendationController.settingModalBottomSheet(context);
-      }else if(event.notification!.title == 'Like'){
-        getRecommendationController.idForReco = event.data['post_id'].toString();
-        getRecommendationController.idForAskReco = event.data['post_id'].toString();
-        getRecommendationController.settingModalBottomSheet(context);
-      }else if(event.notification!.title == 'Comment' && event.data['post_type'] == 'askrecommandation'){
-        getCommentController.id = event.data['post_id'].toString();
-        getCommentController.type = 'askrecommandation';
-        getRecommendationController.commentBottomSheet(context);
-      }else if(event.notification!.title == 'Comment' && event.data['post_type'] == 'recommandation') {
-        getRecommendationController.getComments(event.data['post_id'].toString(),context);
-        getRecommendationController.postId = event.data['post_id'].toString();
-        getRecommendationController.commentBottomSheetReco(context);
+      switch (event.notification!.title) {
+        case 'Following':
+          Get.toNamed(MyRouters.allUserProfileScreen, arguments: [event.data['post_id'].toString()]);
+          break;
+        case 'Tag':
+          bottomController.updateIndexValue(0);
+          profileController.getData();
+          profileController.check = false;
+          homeController.getData();
+          break;
+        case 'Recommendation':
+          getRecommendationController.idForReco = event.data['post_id'].toString();
+          getRecommendationController.idForAskReco = event.data['post_id'].toString();
+          profileController.getData();
+          profileController.check = false;
+          homeController.getData();
+          getRecommendationController.settingModalBottomSheet(context);
+          break;
+        case 'Like':
+          getRecommendationController.idForReco = event.data['parent_id'].toString();
+          getRecommendationController.idForAskReco = event.data['parent_id'].toString();
+          profileController.getData();
+          profileController.check = false;
+          homeController.getData();
+          getRecommendationController.settingModalBottomSheet(context);
+          break;
+        case 'Comment':
+          if (event.data['post_type'] == 'askrecommandation') {
+            profileController.getData();
+            profileController.check = false;
+            homeController.getData();
+            getCommentController.id = event.data['post_id'].toString();
+            getCommentController.type = 'askrecommandation';
+            getRecommendationController.commentBottomSheet(context);
+          } else if (event.data['post_type'] == 'recommandation') {
+            profileController.getData();
+            profileController.check = false;
+            homeController.getData();
+            getRecommendationController.getComments(event.data['post_id'].toString(), context);
+            getRecommendationController.postId = event.data['post_id'].toString();
+            getRecommendationController.commentBottomSheetReco(context);
+          }
+          break;
       }
     });
   }
