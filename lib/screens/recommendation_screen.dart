@@ -248,68 +248,93 @@ var postid = Get.arguments[0];
               const SizedBox(
                 height: 12,
               ),
-              _imageUrl.isNotEmpty
-                  ? GestureDetector(onTap: (){
-                _showActionSheet(context);
-              },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.black12),
-                      color: Colors.white,
-                    ),
-                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    width: double.maxFinite,
-                    height: 180,
-                    alignment: Alignment.center,
-                    child: Image.network(_imageUrl,
-                        errorBuilder: (_, __, ___) => Image.network(_imageUrl,
-                            errorBuilder: (_, __, ___) => const SizedBox())),
+              Stack(
+                children: [
+                  _imageUrl.isNotEmpty
+                      ? GestureDetector(onTap: (){
+                    _showActionSheet(context);
+                  },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.black12),
+                          color: Colors.white,
+                        ),
+                        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        width: double.maxFinite,
+                        height: 180,
+                        alignment: Alignment.center,
+                        child: Image.network(_imageUrl,
+                            errorBuilder: (_, __, ___) => Image.network(_imageUrl,
+                                errorBuilder: (_, __, ___) => const SizedBox())),
+                      )
                   )
-              )
-                  : GestureDetector(
-                onTap: () {
-                  _showActionSheet(context);
-                },
-                child: categoryFile.path != ""
-                    ? Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.black12),
-                    color: Colors.white,
+                      : GestureDetector(
+                    onTap: () {
+                      _showActionSheet(context);
+                    },
+                    child: categoryFile.path != ""
+                        ? Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.black12),
+                        color: Colors.white,
+                      ),
+                      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      width: double.maxFinite,
+                      height: 180,
+                      alignment: Alignment.center,
+                      child: Image.file(categoryFile,
+                          errorBuilder: (_, __, ___) => Image.network(categoryFile.path,
+                              errorBuilder: (_, __, ___) => const SizedBox())),
+                    )
+                        : Container(
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
+                      padding: const EdgeInsets.only(top: 8),
+                      width: double.maxFinite,
+                      height: 130,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            AppAssets.camera,
+                            height: 60,
+                            width: 50,
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const SizedBox(
+                            height: 11,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  width: double.maxFinite,
-                  height: 180,
-                  alignment: Alignment.center,
-                  child: Image.file(categoryFile,
-                      errorBuilder: (_, __, ___) => Image.network(categoryFile.path,
-                          errorBuilder: (_, __, ___) => const SizedBox())),
-                )
-                    : Container(
-                  decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
-                  padding: const EdgeInsets.only(top: 8),
-                  width: double.maxFinite,
-                  height: 130,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        AppAssets.camera,
-                        height: 60,
-                        width: 50,
+                  Positioned(
+                    top: 15,
+                    right: 15,
+                    child: GestureDetector(
+                      onTap: () {
+                        _showActionSheet(context);
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            color: AppTheme.secondaryColor,
+                            shape: BoxShape.circle
+                        ),
+                        padding: EdgeInsets.all(5),
+                        child: const Icon(
+                          Icons.edit,
+                          color: Colors.white, // You can change the color
+                          size: 18, // You can change the size
+                        ),
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      const SizedBox(
-                        height: 11,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
               const SizedBox(
                 height: 22,

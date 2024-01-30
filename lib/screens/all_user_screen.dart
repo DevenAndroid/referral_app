@@ -1291,11 +1291,21 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                     "id:::::::::::::::::::::::::::::${profileController.single.value.data!.details![index].id}",
                                                   );
                                                   Get.toNamed(
-                                                    MyRouters.recommendationSingleScreen,
+                                                    MyRouters.userRecommendationSingleScreen,
                                                     arguments: [
-                                                      profileController.single.value.data!.details![index].id.toString(),
+                                                      // userProfile.value.data!.myRecommandation![index].image
+                                                      //     .toString(),
+                                                      // userProfile.value.data!.myRecommandation![index].title
+                                                      //     .toString(),
+                                                      // userProfile.value.data!.myRecommandation![index].review
+                                                      //     .toString(),
+                                                      profileController.userProfile.value.data!.myRecommandation![index].id
+                                                          .toString(),
+                                                      // userProfile.value.data!.myRecommandation![index].link
+                                                      //     .toString(),
                                                     ],
                                                   );
+                                                  print("object");
                                                   print("object");
                                                 },
                                                 child: CachedNetworkImage(

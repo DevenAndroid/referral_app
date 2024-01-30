@@ -87,7 +87,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
     super.initState();
     getFriendListController.selectedFriendIds;
     getFriendListController.getFriendList();
-
+    getFriendListController.selectedFriendIds.clear();
     //value2 = false;
   }
 
