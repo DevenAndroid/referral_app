@@ -342,13 +342,13 @@ class _DiscoverScreenHomeState extends State<DiscoverScreenHome> {
                               Get.toNamed(
                                 MyRouters.recommendationSingleScreen,
                                 arguments: [
-                                  allRecommendation.value.data![index].id.toString(),
+                                  profileController.single.value.data!.details![index].id.toString(),
                                   allRecommendation.value.data![index].image.toString(),
                                   allRecommendation.value.data![index].title.toString(),
                                   allRecommendation.value.data![index].review.toString(),
                                   allRecommendation.value.data![index].link.toString(),
                                   allRecommendation.value.data![index].wishlist,
-                                  allRecommendation.value.data![index].user!.id.toString(),
+                                  profileController.single.value.data!.details![index].user!.id.toString(),
                                 ],
                               );
                               print("object");
