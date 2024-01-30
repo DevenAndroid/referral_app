@@ -1,7 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dynamic_icon/flutter_dynamic_icon.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:referral_app/routers/routers.dart';
@@ -130,17 +129,17 @@ class _BottomNavbarState extends State<BottomNavbar> {
     });
   }
 
-  Future<void> setBatchNum(int count, BuildContext context) async {
-    try {
-      print('Setting badge number: $count');
-      await FlutterDynamicIcon.setApplicationIconBadgeNumber(count);
-      print('Badge number set successfully');
-    } on PlatformException catch (e) {
-      print('PlatformException: ${e.message}');
-    } catch (e) {
-      print('Exception: $e');
-    }
-  }
+  // Future<void> setBatchNum(int count, BuildContext context) async {
+  //   try {
+  //     print('Setting badge number: $count');
+  //     await FlutterDynamicIcon.setApplicationIconBadgeNumber(count);
+  //     print('Badge number set successfully');
+  //   } on PlatformException catch (e) {
+  //     print('PlatformException: ${e.message}');
+  //   } catch (e) {
+  //     print('Exception: $e');
+  //   }
+  // }
 
 @override
   void initState() {
@@ -198,7 +197,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     child: MaterialButton(
                       padding: const EdgeInsets.only(bottom: 10),
                       onPressed: () {
-                        setBatchNum(5,context);
+                        // setBatchNum(5,context);
                         bottomController.updateIndexValue(0);
                       },
                       child: Column(
