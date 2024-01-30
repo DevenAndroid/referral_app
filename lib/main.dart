@@ -29,8 +29,6 @@ Future<void> main() async {
   NotificationService().initializeNotification();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
-  String? token = await FirebaseMessaging.instance.getToken();
-  print(token);
   runApp(const MyApp());
 }
 

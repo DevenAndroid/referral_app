@@ -1,14 +1,12 @@
-import 'dart:developer';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_dynamic_icon/flutter_dynamic_icon.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:referral_app/routers/routers.dart';
 import 'package:referral_app/screens/home_screen.dart';
 import 'package:referral_app/screens/profile_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../controller/bottomNav_controller.dart';
 import '../controller/get_comment_controller.dart';
 import '../controller/get_recommendation_controller.dart';
@@ -16,9 +14,7 @@ import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/notification_service.dart';
-import 'add_recommadtion_screen.dart';
 import 'ask_recommendation_screen.dart';
-import 'edit_account_screen.dart';
 
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({Key? key}) : super(key: key);
@@ -84,8 +80,67 @@ class _BottomNavbarState extends State<BottomNavbar> {
           break;
       }
     });
+    FirebaseMessaging.onMessage.listen((event) {
+      print('Notification issss${event.notification!.title.toString()}');
+      print('Notification issss${event.data['post_id']}');
+      switch (event.notification!.title) {
+        case 'Following':
+          Get.toNamed(MyRouters.allUserProfileScreen, arguments: [event.data['post_id'].toString()]);
+          break;
+        case 'Tag':
+          bottomController.updateIndexValue(0);
+          profileController.getData();
+          profileController.check = false;
+          homeController.getData();
+          break;
+        case 'Recommendation':
+          getRecommendationController.idForReco = event.data['post_id'].toString();
+          getRecommendationController.idForAskReco = event.data['post_id'].toString();
+          profileController.getData();
+          profileController.check = false;
+          homeController.getData();
+          getRecommendationController.settingModalBottomSheet(context);
+          break;
+        case 'Like':
+          getRecommendationController.idForReco = event.data['parent_id'].toString();
+          getRecommendationController.idForAskReco = event.data['parent_id'].toString();
+          profileController.getData();
+          profileController.check = false;
+          homeController.getData();
+          getRecommendationController.settingModalBottomSheet(context);
+          break;
+        case 'Comment':
+          if (event.data['post_type'] == 'askrecommandation') {
+            profileController.getData();
+            profileController.check = false;
+            homeController.getData();
+            getCommentController.id = event.data['post_id'].toString();
+            getCommentController.type = 'askrecommandation';
+            getRecommendationController.commentBottomSheet(context);
+          } else if (event.data['post_type'] == 'recommandation') {
+            profileController.getData();
+            profileController.check = false;
+            homeController.getData();
+            getRecommendationController.getComments(event.data['post_id'].toString(), context);
+            getRecommendationController.postId = event.data['post_id'].toString();
+            getRecommendationController.commentBottomSheetReco(context);
+          }
+          break;
+      }
+    });
   }
 
+  Future<void> setBatchNum(int count, BuildContext context) async {
+    try {
+      print('Setting badge number: $count');
+      await FlutterDynamicIcon.setApplicationIconBadgeNumber(count);
+      print('Badge number set successfully');
+    } on PlatformException catch (e) {
+      print('PlatformException: ${e.message}');
+    } catch (e) {
+      print('Exception: $e');
+    }
+  }
 
 @override
   void initState() {
@@ -143,6 +198,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     child: MaterialButton(
                       padding: const EdgeInsets.only(bottom: 10),
                       onPressed: () {
+                        setBatchNum(5,context);
                         bottomController.updateIndexValue(0);
                       },
                       child: Column(
