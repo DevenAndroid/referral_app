@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   userCheck() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    print("FCM Token is generated $token");
     SharedPreferences pref = await SharedPreferences.getInstance();
     if (pref.getString('cookie') != null) {
       if (pref.getBool('complete') == true) {

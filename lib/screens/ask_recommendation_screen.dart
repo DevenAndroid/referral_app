@@ -173,7 +173,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                         height: 10,
                       ),
                       TextFormField(
-                        style: GoogleFonts.mulish(fontWeight: FontWeight.w300, fontSize: 12, color: const Color(0xFF162224)),
+                        style: GoogleFonts.mulish(   color: Colors.black87,),
                         controller: descriptionController,
                         maxLines: 3,
                         decoration: InputDecoration(

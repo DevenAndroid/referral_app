@@ -226,7 +226,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                       },
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           bottomController.pageIndex.value == 1

@@ -69,7 +69,7 @@ class _CommonTextfieldState extends State<CommonTextfield> {
     return TextFormField(
 
         style: const TextStyle(
-            color: Colors.black87
+            color: Colors.black87,
         ),
         autofocus: false,
         autovalidateMode: AutovalidateMode.onUserInteraction,

@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../controller/homeController.dart';
 import '../controller/profile_controller.dart';
@@ -38,30 +39,80 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
 
   Future<http.Response>? _imageResponse;
   String _imageUrl = '';
+  String imageUrlApi = '';
 
-  void _fetchImage(String url) async {
-    if (url.isNotEmpty) {
-      // Fetch HTML content of the webpage
+  Future<File?> _fetchAndSaveImage(String url) async {
+    try {
+      // Fetch image
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
-        // Parse HTML content to extract image URL
-        final document = htmlParser.parse(response.body);
-        final images = document.getElementsByTagName('img');
+        // Get the documents directory for the app
+        final directory = await getApplicationDocumentsDirectory();
 
-        if (images.isNotEmpty) {
-          final imageUrl = images[8].attributes['src'];
-          setState(() {
-            _imageUrl = imageUrl!;
-          });
+        // Get the file name from the URL
+        final uri = Uri.parse(url);
+        final fileName = uri.pathSegments.last;
+
+        // Save the image to a file in the app's documents directory
+        final file = File('${directory.path}/$fileName');
+        await file.writeAsBytes(response.bodyBytes);
+
+        // Return the saved file
+        return file;
+      } else {
+        print("Failed to download image. Status code: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error downloading image: $e");
+      return null;
+    }
+  }
+
+  void _fetchImage(String url) async {
+    if (url.isNotEmpty) {
+      try {
+        // Fetch HTML content of the webpage
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          // Parse HTML content to extract image URL
+          final document = htmlParser.parse(response.body);
+          final images = document.getElementsByTagName('img');
+
+          if (images.isNotEmpty) {
+            final imageUrl = images[8].attributes['src'];
+            setState(() {
+              _imageUrl = imageUrl!;
+            });
+
+            // Download the image and get the File
+            final imageFile = await _fetchAndSaveImage(imageUrl!);
+
+            if (imageFile != null) {
+              setState(() {
+                imageUrlApi = imageFile.path;
+              });
+              print("Image saved to: ${imageFile.path}");
+            } else {
+              setState(() {
+                _imageUrl = "Failed to download and save image";
+              });
+            }
+          } else {
+            setState(() {
+              _imageUrl = "No image found on the webpage";
+            });
+          }
         } else {
           setState(() {
-            _imageUrl = "No image found on the webpage";
+            _imageUrl = "Failed to fetch webpage content";
           });
         }
-      } else {
+      } catch (e) {
         setState(() {
-          _imageUrl = "Failed to fetch webpage content";
+          _imageUrl = "Error: $e";
         });
       }
     }
@@ -187,6 +238,7 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                     onTap: () {
                       Get.toNamed(MyRouters.categoriesScreen);
                     },
+                    readOnly: true,
                     controller: profileController.categoriesController,
                     obSecure: false,
                     hintText: "Select category"),
@@ -316,12 +368,13 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                         fieldName1: 'image',
                         mapData: map,
                         context: context,
-                        file1: categoryFile,
+                        file1:  _imageUrl.isNotEmpty ? File(imageUrlApi.toString()) : categoryFile,
                       ).then((value) async {
                         if (value.status == true) {
                           profileController.getData();
+                          profileController.UserProfile();
+                          homeController.getData();
                           Get.back();
-                          // Get.toNamed(MyRouters.followingScreen);
                           showToast(value.message.toString());
                         } else {
                           showToast(value.message.toString());
