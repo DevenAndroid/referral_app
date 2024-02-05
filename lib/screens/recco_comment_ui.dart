@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -142,7 +143,11 @@ class _ReccoCommentScreenState extends State<ReccoCommentScreen> {
                                   fit: BoxFit.cover,
                                   imageUrl: item.profileImage.toString(),
                                   placeholder: (context, url) => const SizedBox(),
-                                  errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                                  errorWidget: (context, url, error) =>  Container(
+                                      padding: const EdgeInsets.all(6),
+                                      decoration:
+                                      BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                      child: SvgPicture.asset('assets/icons/profile.svg'))
                                 ),
                               ),
                             ),

@@ -156,7 +156,11 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
                                     imageUrl: getRecommendationController.modelReviewList.value.data![index].user!
                                         .profileImage.toString(),
                                     placeholder: (context, url) => const SizedBox(),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
+                                    errorWidget: (context, url, error) =>  Container(
+                                        padding: const EdgeInsets.all(6),
+                                        decoration:
+                                        BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                        child: SvgPicture.asset('assets/icons/profile.svg'))
                                   ),
                                 ),
                               ),

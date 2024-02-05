@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controller/bottomNav_controller.dart';
@@ -143,7 +144,11 @@ class _CommentScreenState extends State<CommentScreen> {
                                   fit: BoxFit.cover,
                                   imageUrl: item1.userId!.profileImage.toString(),
                                   placeholder: (context, url) => const SizedBox(),
-                                  errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                                  errorWidget: (context, url, error) =>  Container(
+                                      padding: const EdgeInsets.all(6),
+                                      decoration:
+                                      BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                      child: SvgPicture.asset('assets/icons/profile.svg'))
                                 ),
                               ),
                             ),

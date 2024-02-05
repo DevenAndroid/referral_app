@@ -193,7 +193,12 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                               borderSide: const BorderSide(color: AppTheme.secondaryColor, width: 1.5),
                               borderRadius: BorderRadius.circular(8)),
                           hintText: 'I m looking for a water bottle that fits in my car cupholder and is at least 30 oz',
-                          hintStyle: GoogleFonts.mulish(fontWeight: FontWeight.w300, fontSize: 12, color: Color(0xFF162224)),
+                          hintStyle: const TextStyle(
+                            fontWeight: FontWeight.w500,
+
+                            color: AppTheme.textColor,
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                       const SizedBox(
