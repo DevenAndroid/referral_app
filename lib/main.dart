@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:referral_app/routers/routers.dart';
 import 'package:referral_app/widgets/notification_service.dart';
@@ -13,6 +14,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   log("Handling a background message: ${message.messageId}");
 }
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -28,6 +30,19 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   NotificationService().initializeNotification();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+
+  FirebaseMessaging.onMessage.listen((message) {
+    if (message.notification != null) {
+      FlutterAppBadger.isAppBadgeSupported().then((value) async {
+        if (value) {
+          FlutterAppBadger.updateBadgeCount(1);
+        }
+      });
+    }
+  });
+
+
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
   runApp(const MyApp());
 }
