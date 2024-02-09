@@ -22,6 +22,7 @@ import '../repositories/add_comment_repo.dart';
 import '../repositories/all_recommendation_repo.dart';
 import '../repositories/get_user_profile.dart';
 import '../repositories/remove_bookmark_repo.dart';
+import '../repositories/repo_add_like.dart';
 import '../repositories/repo_delete_recomm.dart';
 import '../repositories/single_produc_repo.dart';
 import '../resourses/api_constant.dart';
@@ -287,17 +288,67 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                           const SizedBox(
                             height: 15,
                           ),
-                          Container(
-                            height: 250,
-                            width: size.width,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                              image: NetworkImage(
-                                single.value.data!.recommandation!.image.toString(),
+                          Stack(
+                            children: [
+                              Container(
+                                height: 250,
+                                width: size.width,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                  image: NetworkImage(
+                                    single.value.data!.recommandation!.image.toString(),
+                                  ),
+                                )),
+                                // child: Image.network(image,fit: BoxFit.fill,),
                               ),
-                            )),
-                            // child: Image.network(image,fit: BoxFit.fill,),
+                              Positioned(
+                                  top: 4,
+                                  right: 4,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                            onTap: () {
+                                              addRemoveLikeRepo(
+                                                context: context,
+                                                recommended_id: id.toString(),
+                                              ).then((value) async {
+                                                if (value.status == true) {
+                                                  statusOfRemove.value = RxStatus.success();
+                                                  UserProfile();
+                                                  showToast(value.message.toString());
+                                                } else {
+                                                  statusOfRemove.value =
+                                                      RxStatus.error();
+                                                  // like=false;
+                                                  showToast(value.message.toString());
+                                                }
+                                              });
+                                              setState(() {});
+                                            },
+                                            child: single.value.data!.recommandation!.isLike == true
+                                                ? SvgPicture.asset(
+                                              AppAssets.heart,
+                                              height: 26,
+                                            )
+                                                : const Image(
+                                              image: AssetImage(
+                                                  'assets/icons/1814104_favorite_heart_like_love_icon 3.png'),
+                                              height: 25,
+                                            )),
+                                        Text(single.value.data!.recommandation!.likeCount.toString()),
+                                      ],
+                                    ),
+                                  )
+                              )
+
+                            ],
                           ),
                           const SizedBox(
                             height: 15,

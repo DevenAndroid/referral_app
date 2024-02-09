@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -32,6 +34,7 @@ class ProfileController extends GetxController {
   String? address = "";
   bool checkForUser = false;
   String idUserPro = '';
+
   getData() {
     getProfileRepo().then((value) async {
       modal.value = value;
@@ -41,6 +44,10 @@ class ProfileController extends GetxController {
         address = modal.value.data!.user!.address.toString();
         nameController.text = modal.value.data!.user!.name.toString();
         code = modal.value.data!.user!.countryCode.toString();
+        print("got value.....    ${code}");
+        if(code == "null" || code == ""){
+          code = 'US';
+        }
         statusOfProfile.value = RxStatus.success();
 
         // holder();

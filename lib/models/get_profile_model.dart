@@ -278,6 +278,8 @@ class MyRecommandation {
   bool? wishlist;
   dynamic isComment;
   dynamic date;
+  dynamic  isLike;
+  dynamic likeCount;
 
   MyRecommandation(
       {this.id,
@@ -291,6 +293,8 @@ class MyRecommandation {
         this.status,
         this.wishlist,
         this.isComment,
+        this.likeCount,
+        this.isLike,
         this.date});
 
   MyRecommandation.fromJson(Map<String, dynamic> json) {
@@ -305,6 +309,8 @@ class MyRecommandation {
     status = json['status'];
     wishlist = json['wishlist'];
     isComment = json['is_comment'];
+    isLike = json['is_like'];
+    likeCount = json['like_count'];
     date = json['date'];
   }
 
@@ -323,6 +329,8 @@ class MyRecommandation {
     data['status'] = this.status;
     data['wishlist'] = this.wishlist;
     data['is_comment'] = this.isComment;
+    data['is_like'] = this.isLike;
+    data['like_count'] = this.likeCount;
     data['date'] = this.date;
     return data;
   }

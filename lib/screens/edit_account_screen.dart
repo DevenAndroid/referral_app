@@ -356,8 +356,14 @@ class _EditAccountState extends State<EditAccount> {
                                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
                                       focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                                   initialCountryCode:  profileController.code,
+                                  onCountryChanged: (phone) {
+                                    profileController.code = phone.code;
+                                    print(phone.code);
+                                    print(profileController.code.toString());
+                                  },
                                   onChanged: (phone) {
                                     profileController.code = phone.countryISOCode.toString();
+                                    print(phone.countryCode);
                                     print(profileController.code.toString());
                                   },
                                 ),

@@ -17,13 +17,13 @@ Future<VerifyOtpModel> verifyOtpRepo({email, context, otp,token}) async {
   map['otp'] = otp;
   map['device_token'] = token;
 
-  print(map);
+  print('verify data...${map}');
   // try {
   http.Response response = await http.post(Uri.parse(ApiUrls.verifyOtp),
       headers: await getAuthHeader(), body: jsonEncode(map));
-  log("Sign IN DATA${response.body}");
+  log("verify IN DATA${response.body}");
   // http.Response response = await http.post(Uri.parse(ApiUrls.loginUser),
-  //     headers: await getAuthHeader(),body: jsonEncode(map) );
+  //     headers: await getAuthHeader(),body: jsonEncode(map) ); 
 
   if (response.statusCode == 200) {
     Helpers.hideLoader(loader);

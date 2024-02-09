@@ -79,54 +79,6 @@ class _BottomNavbarState extends State<BottomNavbar> {
           break;
       }
     });
-    FirebaseMessaging.onMessage.listen((event) {
-      print('Notification issss${event.notification!.title.toString()}');
-      print('Notification issss${event.data['post_id']}');
-      switch (event.notification!.title) {
-        case 'Following':
-          Get.toNamed(MyRouters.allUserProfileScreen, arguments: [event.data['post_id'].toString()]);
-          break;
-        case 'Tag':
-          bottomController.updateIndexValue(0);
-          profileController.getData();
-          profileController.check = false;
-          homeController.getData();
-          break;
-        case 'Recommendation':
-          getRecommendationController.idForReco = event.data['post_id'].toString();
-          getRecommendationController.idForAskReco = event.data['post_id'].toString();
-          profileController.getData();
-          profileController.check = false;
-          homeController.getData();
-          getRecommendationController.settingModalBottomSheet(context);
-          break;
-        case 'Like':
-          getRecommendationController.idForReco = event.data['parent_id'].toString();
-          getRecommendationController.idForAskReco = event.data['parent_id'].toString();
-          profileController.getData();
-          profileController.check = false;
-          homeController.getData();
-          getRecommendationController.settingModalBottomSheet(context);
-          break;
-        case 'Comment':
-          if (event.data['post_type'] == 'askrecommandation') {
-            profileController.getData();
-            profileController.check = false;
-            homeController.getData();
-            getCommentController.id = event.data['post_id'].toString();
-            getCommentController.type = 'askrecommandation';
-            getRecommendationController.commentBottomSheet(context);
-          } else if (event.data['post_type'] == 'recommandation') {
-            profileController.getData();
-            profileController.check = false;
-            homeController.getData();
-            getRecommendationController.getComments(event.data['post_id'].toString(), context);
-            getRecommendationController.postId = event.data['post_id'].toString();
-            getRecommendationController.commentBottomSheetReco(context);
-          }
-          break;
-      }
-    });
   }
 
   // Future<void> setBatchNum(int count, BuildContext context) async {

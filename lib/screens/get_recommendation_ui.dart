@@ -387,14 +387,16 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                getRecommendationController.modelReviewList.value.data![index].title
-                                                    .toString(),
-                                                style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w700,
-                                                  // letterSpacing: 1,
-                                                  fontSize: 18,
-                                                  color: Colors.black,
+                                              Expanded(
+                                                child: Text(
+                                                  getRecommendationController.modelReviewList.value.data![index].title
+                                                      .toString(),
+                                                  style: GoogleFonts.mulish(
+                                                    fontWeight: FontWeight.w700,
+                                                    // letterSpacing: 1,
+                                                    fontSize: 18,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
                                               ),
 

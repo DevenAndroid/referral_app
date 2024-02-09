@@ -333,9 +333,15 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
                                 focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                             initialCountryCode: profileController.code.toString(),
+                            onCountryChanged: (phone) {
+                              profileController.code = phone.code;
+                              print(phone.code);
+                              print(profileController.code.toString());
+                            },
                             onChanged: (phone) {
                               profileController.code = phone.countryISOCode.toString();
-                              print('code isss ${profileController.code.toString()}');
+                              print(phone.countryCode);
+                              print(profileController.code.toString());
                             },
                           ),
 

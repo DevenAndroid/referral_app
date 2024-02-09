@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
-import '../models/categories_model.dart';
 import '../models/get_profile_model.dart';
 import '../resourses/api_constant.dart';
-import '../resourses/helper.dart';
 
 Future<GetProfileModel> getProfileRepo() async {
   // try {
@@ -15,14 +12,11 @@ Future<GetProfileModel> getProfileRepo() async {
     );
 
     if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
+      log(jsonDecode(response.body).toString());
       return GetProfileModel.fromJson(jsonDecode(response.body));
     } else {
-      print(jsonDecode(response.body));
-      return GetProfileModel(
-          message: jsonDecode(response.body)["message"],
-          status: false,
-          data: null);
+      log(jsonDecode(response.body).toString());
+      return GetProfileModel.fromJson(jsonDecode(response.body));
     }
   }
   // catch (e) {
