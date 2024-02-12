@@ -324,8 +324,7 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                                                   UserProfile();
                                                   showToast(value.message.toString());
                                                 } else {
-                                                  statusOfRemove.value =
-                                                      RxStatus.error();
+                                                  statusOfRemove.value = RxStatus.error();
                                                   // like=false;
                                                   showToast(value.message.toString());
                                                 }
