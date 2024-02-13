@@ -34,6 +34,7 @@ import '../resourses/api_constant.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/common_error_widget.dart';
 import '../widgets/custome_textfiled.dart';
+import 'blockList_screen.dart';
 import 'comment_screen.dart';
 import 'edit_account_screen.dart';
 import 'edit_account_screen.dart';
@@ -259,15 +260,46 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                         Text("My Profile",
                                             style: GoogleFonts.mulish(
                                                 fontWeight: FontWeight.w700, fontSize: 18, color: const Color(0xFF262626))),
-                                        Obx(() {
-                                          return GestureDetector(
-                                              onTap: () {
-                                                Get.to(() => const NotificationScreen(), transition: Transition.fade);
-                                              },
-                                              child: homeController.homeModel.value.data!.notification == 'false' ? Image.asset(AppAssets.notification, height: 22,
-                                                width: 22,):
-                                              Image.asset(AppAssets.notification1, height: 22, width: 22,) );
-                                        }),
+                                       Row(
+                                         children: [
+                                           Obx(() {
+                                             return GestureDetector(
+                                                 onTap: () {
+                                                   Get.to(() => const NotificationScreen(), transition: Transition.fade);
+                                                 },
+                                                 child: homeController.homeModel.value.data!.notification == 'false' ? Image.asset(AppAssets.notification, height: 22,
+                                                   width: 22,):
+                                                 Image.asset(AppAssets.notification1, height: 22, width: 22,) );
+
+                                           }),
+                                           const SizedBox(
+                                             width: 20,
+                                           ),
+                                           PopupMenuButton<SampleItem>(
+                                             initialValue: selectedMenu,
+                                             padding: EdgeInsets.zero,
+                                             position: PopupMenuPosition.under,
+                                             onSelected: (SampleItem item) {
+                                               setState(() {
+                                                 selectedMenu = item;
+                                               });
+                                             },
+                                             itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+                                               PopupMenuItem<SampleItem>(
+                                                 value: SampleItem.itemOne,
+                                                 onTap: (){
+                                                   Get.to(()=> const BlockUserScreen());
+                                                 },
+                                                 child: const Text('Block User List'),
+                                               ),
+                                             ],
+                                             child: Container(
+                                                 alignment: Alignment.centerRight,
+                                                 child: Image.asset(
+                                                   'assets/icons/popup_icon.png', width: 25, height: 25,color: Colors.black,)),
+                                           ),
+                                         ],
+                                       )
                                       ],
                                     ),
                                     const SizedBox(

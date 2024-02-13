@@ -29,6 +29,7 @@ class Data {
   List<SaveRecommandation>? saveRecommandation;
   List<MyCategories>? myCategories;
   int? notificationCount;
+  bool? isBlock;
 
   Data(
       {this.user,
@@ -36,7 +37,9 @@ class Data {
         this.myRecommandation,
         this.saveRecommandation,
         this.myCategories,
-        this.notificationCount});
+        this.notificationCount,
+        this.isBlock
+      });
 
   Data.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
@@ -65,6 +68,7 @@ class Data {
       });
     }
     notificationCount = json['notification_count'];
+    isBlock = json['is_block'];
   }
 
   Map<String, dynamic> toJson() {
@@ -88,6 +92,7 @@ class Data {
           this.myCategories!.map((v) => v.toJson()).toList();
     }
     data['notification_count'] = this.notificationCount;
+    data['is_block'] = this.isBlock;
     return data;
   }
 }

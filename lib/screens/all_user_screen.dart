@@ -23,6 +23,7 @@ import '../models/model_user_profile.dart';
 import '../models/single_product_model.dart';
 import '../repositories/add_comment_repo.dart';
 import '../repositories/add_remove_follow_repo.dart';
+import '../repositories/addblock_remove_repo.dart';
 import '../repositories/categories_repo.dart';
 import '../repositories/get_comment_repo.dart';
 import '../repositories/get_user_profile.dart';
@@ -87,6 +88,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
   //   });
   // }
   SampleItem? selectedMenu;
+
   reviewList(id) {
     getReviewListRepo(context: context, id: id).then((value) {
       modelReviewList.value = value;
@@ -186,18 +188,114 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                               height: 30,
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 GestureDetector(
                                     onTap: () {
                                       Get.back();
                                     },
                                     child: const Icon(Icons.arrow_back)),
-                                SizedBox(
-                                  width: 130,
-                                ),
                                 Text("Profile",
                                     style: GoogleFonts.mulish(
                                         fontWeight: FontWeight.w700, fontSize: 18, color: const Color(0xFF262626))),
+                                PopupMenuButton<SampleItem>(
+                                  initialValue: selectedMenu,
+                                  padding: EdgeInsets.zero,
+                                  position: PopupMenuPosition.under,
+                                  onSelected: (SampleItem item) {
+                                    setState(() {
+                                      selectedMenu = item;
+                                    });
+                                  },
+                                  itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+                                    PopupMenuItem<SampleItem>(
+                                      value: SampleItem.itemOne,
+                                      onTap: () {
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) => AlertDialog(
+                                            title: const Text(
+                                              'Are you sure you want to block?',
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                            actionsPadding: EdgeInsets.all(20),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Get.back();
+                                                  },
+                                                  child: const Text("Cancel ")),
+                                              const SizedBox(
+                                                width: 40,
+                                              ),
+                                              TextButton(
+                                                  onPressed: (){
+                                                       addRemoveBlockRepo(blockUserId: id.toString(),context: context).then((value) {
+                                                           if(value.status == true){
+                                                             showToast(value.message.toString());
+                                                             profileController.UserProfile();
+                                                             homeController.getData();
+                                                             Get.back();
+                                                           }
+                                                           else{
+                                                             showToast(value.message.toString());
+                                                             Get.back();
+                                                           }
+                                                       });
+                                                  },
+                                                  child: const Text('OK')),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      child: InkWell(
+                                          onTap: () {
+                                            showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) => AlertDialog(
+                                                actionsPadding: EdgeInsets.all(20),
+                                                title: const Text(
+                                                  'Are you sure you want to block this user?',
+                                                  style: TextStyle(fontSize: 16),
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Get.back();
+                                                      },
+                                                      child: const Text("Cancel ")),
+                                                  const SizedBox(
+                                                    width: 40,
+                                                  ),
+                                                  TextButton(
+                                                      onPressed: (){
+                                                        addRemoveBlockRepo(blockUserId: id.toString(),context: context).then((value) {
+                                                          if(value.status == true){
+                                                            showToast(value.message.toString());
+                                                            homeController.getData();
+                                                            Get.back();
+                                                          }
+                                                          else{
+                                                            showToast(value.message.toString());
+                                                            Get.back();
+                                                          }
+                                                        });
+                                                      },
+                                                      child: const Text('OK')),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                          child: const Text('Block')),
+                                    ),
+                                  ],
+                                    child: Container(
+                                        alignment: Alignment.centerRight,
+                                        child: Image.asset(
+                                            'assets/icons/popup_icon.png', width: 25, height: 25,color: Colors.black,)),
+                                ),
+
                               ],
                             ),
                             const SizedBox(
@@ -307,7 +405,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -362,23 +460,6 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                             const SizedBox(
                               height: 10,
                             ),
-
-                            // Row(
-                            //   children: [
-                            //     SvgPicture.asset(AppAssets.location1),
-                            //     SizedBox(
-                            //       width: 6,
-                            //     ),
-                            //     Text(
-                            //         profileController
-                            //             .modal.value.data!.user!.address
-                            //             .toString(),
-                            //         style: GoogleFonts.mulish(
-                            //             fontWeight: FontWeight.w300,
-                            //             fontSize: 16,
-                            //             color: const Color(0xFF262626))),
-                            //   ],
-                            // ),
                           ],
                         ),
                       ),
@@ -476,7 +557,12 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(
+                    profileController.userProfile.value.data!.isBlock == true ? Padding(
+                      padding:  EdgeInsets.symmetric(vertical:Get.height/7),
+                      child:  Center(child:
+                      Text('Blocked', style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.w700, fontSize: 15, color: Colors.black),),),
+                    ) :  Container(
                       width: size.width,
                       height: size.height,
                       color: Colors.white,

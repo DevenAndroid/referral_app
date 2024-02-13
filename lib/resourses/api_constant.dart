@@ -41,6 +41,8 @@ class ApiUrls {
   static const String addRemoveLike = "${apiBaseUrl}add-remove-like";
   static const String addComment = "${apiBaseUrl}add-comment";
   static const String getNotification = "${apiBaseUrl}notification-list";
+  static const String blockUser = "${apiBaseUrl}add-remove-block";
+  static const String getBlockList = "${apiBaseUrl}blocked-users-list";
 
 }
 
