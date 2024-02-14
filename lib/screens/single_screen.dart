@@ -15,6 +15,7 @@ import '../models/get_profile_model.dart';
 import '../models/model_single_user.dart';
 import '../models/single_user_repo.dart';
 import '../repositories/add_comment_repo.dart';
+import '../repositories/delete_comment_repo.dart';
 import '../repositories/repo_add_like.dart';
 import '../repositories/repo_delete_recomm.dart';
 import '../repositories/repo_review_list.dart';
@@ -499,8 +500,36 @@ class _SingleScreenState extends State<SingleScreen> {
                                             ),
                                           ),
                                           const SizedBox(
-                                            height: 8,
+                                            height: 5,
                                           ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              getRecommendationController.getCommentModel.value.data![index].myAccount == true ||     getRecommendationController.getCommentModel.value.data![index].myComment == true?
+                                              TextButton(
+                                                  onPressed: (){
+                                                    deleteCommentRepo(deleteId: item1.id.toString(), context: context).then((value) {
+                                                      if (value.status == true) {
+                                                        showToast(value.message.toString());
+                                                        getRecommendationController.getComments(id, 'recommandation');
+                                                      }
+                                                      else {
+                                                        showToast(value.message.toString());
+                                                      }
+                                                    });
+                                                  },
+                                                  child: const Text('Delete')) : const SizedBox(),
+                                              TextButton(
+                                                  onPressed: (){
+
+                                                  },
+                                                  child: const Text('Report',
+                                                    style: TextStyle(
+                                                        color: Colors.red
+                                                    ),
+                                                  )),
+                                            ],
+                                          )
                                         ],
                                       ),
                                     ),

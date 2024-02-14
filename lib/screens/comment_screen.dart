@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:referral_app/screens/recommendation_single_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../controller/bottomNav_controller.dart';
 import '../controller/get_comment_controller.dart';
 import '../controller/homeController.dart';
 import '../repositories/add_comment_repo.dart';
+import '../repositories/addblock_remove_repo.dart';
+import '../repositories/delete_comment_repo.dart';
 import '../resourses/api_constant.dart';
 import '../routers/routers.dart';
 import '../widgets/custome_textfiled.dart';
@@ -26,6 +30,14 @@ class _CommentScreenState extends State<CommentScreen> {
   final homeController = Get.put(HomeController());
   final formKey6 = GlobalKey<FormState>();
   final bottomController = Get.put(BottomNavBarController());
+  SampleItem? selectedMenu;
+  void launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      showToast('Could not launch $url');
+    }
+  }
   @override
   void initState() {
     super.initState();
@@ -169,9 +181,8 @@ class _CommentScreenState extends State<CommentScreen> {
                                   children: [
                                     if(getCommentController.getCommentModel.value.data![index].userId!=null)
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-
                                         GestureDetector(
                                           onTap: (){
                                             Get.back();
@@ -206,7 +217,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                       ],
                                     ),
                                     const SizedBox(
-                                      height: 20,
+                                      height: 16,
                                     ),
                                     Text(
                                       item1.comment.toString(),
@@ -218,8 +229,53 @@ class _CommentScreenState extends State<CommentScreen> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      height: 8,
+                                      height: 5,
                                     ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        getCommentController.getCommentModel.value.data![index].myAccount == true ||   getCommentController.getCommentModel.value.data![index].myComment == true?
+                                        TextButton(
+                                            onPressed: (){
+                                              deleteCommentRepo(deleteId: item1.id.toString(), context: context).then((value) {
+                                                if (value.status == true) {
+                                                  showToast(value.message.toString());
+                                                  getCommentController.getComment(type: getCommentController.type,id: getCommentController.id);
+                                                }
+                                                else {
+                                                  showToast(value.message.toString());
+                                                }
+                                              });
+                                            },
+                                            child: const Text('Delete')) : const SizedBox(),
+                                        TextButton(
+                                            onPressed: () {
+                                              reportRepo(deleteId: item1.id.toString(), context: context).then((value) async {
+                                                if (value.status == true) {
+                                                  String email = Uri.encodeComponent("stewartsherpa1@gmail.com");
+                                                  String subject = Uri.encodeComponent("");
+                                                  String body = Uri.encodeComponent("");
+                                                  //output: Hello%20Flutter
+                                                  Uri mail = Uri.parse(
+                                                      "mailto:$email?subject=$subject&body=$body");
+                                                  if (await launchUrl(mail)) {
+
+                                                } else {
+                                                }
+                                                  showToast(value.message.toString());
+                                                }
+                                                else {
+                                                  showToast(value.message.toString());
+                                                }
+                                              });
+                                            },
+                                            child: const Text('Report',
+                                              style: TextStyle(
+                                                color: Colors.red
+                                              ),
+                                            )),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),

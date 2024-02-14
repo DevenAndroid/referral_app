@@ -20,6 +20,7 @@ import '../models/remove_reomeendation.dart';
 import '../models/single_user_repo.dart';
 import '../repositories/add_comment_repo.dart';
 import '../repositories/all_recommendation_repo.dart';
+import '../repositories/delete_comment_repo.dart';
 import '../repositories/get_user_profile.dart';
 import '../repositories/remove_bookmark_repo.dart';
 import '../repositories/repo_add_like.dart';
@@ -435,8 +436,53 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                                               ),
                                             ),
                                             const SizedBox(
-                                              height: 8,
+                                              height: 5,
                                             ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                getRecommendationController.getCommentModel.value.data![index].myAccount == true ||     getRecommendationController.getCommentModel.value.data![index].myComment == true?
+                                                TextButton(
+                                                    onPressed: (){
+                                                      deleteCommentRepo(deleteId: item1.id.toString(), context: context).then((value) {
+                                                        if (value.status == true) {
+                                                          showToast(value.message.toString());
+                                                          getRecommendationController.getComments(id,'recommandation');
+                                                        }
+                                                        else {
+                                                          showToast(value.message.toString());
+                                                        }
+                                                      });
+                                                    },
+                                                    child: const Text('Delete')) : const SizedBox(),
+                                                TextButton(
+                                                    onPressed: (){
+                                                      reportRepo(deleteId: item1.id.toString(), context: context).then((value) async {
+                                                        if (value.status == true) {
+                                                          String email = Uri.encodeComponent("stewartsherpa1@gmail.com");
+                                                          String subject = Uri.encodeComponent("");
+                                                          String body = Uri.encodeComponent("");
+                                                          //output: Hello%20Flutter
+                                                          Uri mail = Uri.parse(
+                                                              "mailto:$email?subject=$subject&body=$body");
+                                                          if (await launchUrl(mail)) {
+
+                                                          } else {
+                                                          }
+                                                          showToast(value.message.toString());
+                                                        }
+                                                        else {
+                                                          showToast(value.message.toString());
+                                                        }
+                                                      });
+                                                    },
+                                                    child: const Text('Report',
+                                                      style: TextStyle(
+                                                          color: Colors.red
+                                                      ),
+                                                    )),
+                                              ],
+                                            )
                                           ],
                                         ),
                                       ),

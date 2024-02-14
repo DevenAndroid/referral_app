@@ -432,92 +432,101 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Expanded(
-                                                    child: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      children: [
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
-                                                              homeController
-                                                                  .homeModel.value.data!.discover![index].userId!.id
-                                                                  .toString(),
-                                                            ]);
-                                                          },
-                                                          child: ClipOval(
-                                                            child: CachedNetworkImage(
-                                                              width: 30,
-                                                              height: 30,
-                                                              fit: BoxFit.cover,
-                                                              imageUrl: homeController.homeModel.value.data!
-                                                                  .discover![index].userId ==
-                                                                  null
-                                                                  ? AppAssets.man
-                                                                  : homeController.homeModel.value.data!.discover![index]
-                                                                  .userId!.profileImage
-                                                                  .toString(),
-                                                              errorWidget: (_, __, ___) =>
-                                                                  Image.asset(
-                                                                    AppAssets.man,
-                                                                    color: Colors.grey.shade200,
-                                                                  ),
-                                                              placeholder: (_, __) =>
-                                                                  Image.asset(
-                                                                    AppAssets.man,
-                                                                    color: Colors.grey.shade200,
-                                                                  ),
+                                                    child: GestureDetector(
+                                                      onTap: (){
+                                                        Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                                          homeController
+                                                              .homeModel.value.data!.discover![index].userId!.id
+                                                              .toString(),
+                                                        ]);
+                                                      },
+                                                      child: Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                                                homeController
+                                                                    .homeModel.value.data!.discover![index].userId!.id
+                                                                    .toString(),
+                                                              ]);
+                                                            },
+                                                            child: ClipOval(
+                                                              child: CachedNetworkImage(
+                                                                width: 30,
+                                                                height: 30,
+                                                                fit: BoxFit.cover,
+                                                                imageUrl: homeController.homeModel.value.data!
+                                                                    .discover![index].userId ==
+                                                                    null
+                                                                    ? AppAssets.man
+                                                                    : homeController.homeModel.value.data!.discover![index]
+                                                                    .userId!.profileImage
+                                                                    .toString(),
+                                                                errorWidget: (_, __, ___) =>
+                                                                    Image.asset(
+                                                                      AppAssets.man,
+                                                                      color: Colors.grey.shade200,
+                                                                    ),
+                                                                placeholder: (_, __) =>
+                                                                    Image.asset(
+                                                                      AppAssets.man,
+                                                                      color: Colors.grey.shade200,
+                                                                    ),
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        Flexible(
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              if(homeController.homeModel.value.data!.discover![index].userId != null)
-                                                              homeController.homeModel.value.data!.discover![index].userId
-                                                                  ?.name ==
-                                                                  ""
-                                                                  ? Text(
-                                                                "Name...",
-                                                                style: GoogleFonts.mulish(
-                                                                    fontWeight: FontWeight.w700,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize: 14,
-                                                                    color: Colors.black),
-                                                              )
-                                                                  : Text(
-                                                                homeController.homeModel.value.data!.discover![index].userId!.name.toString(),
-                                                                overflow: TextOverflow.fade,
-                                                                style: GoogleFonts.mulish(
-                                                                    fontWeight: FontWeight.w700,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize: 14,
-                                                                    color: Colors.black),
-                                                              ),
-                                                            ],
+                                                          const SizedBox(
+                                                            width: 10,
                                                           ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                          width: 20,
-                                                          child: VerticalDivider(
-                                                            color: Color(0xffD9D9D9),
+                                                          Flexible(
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                if(homeController.homeModel.value.data!.discover![index].userId != null)
+                                                                homeController.homeModel.value.data!.discover![index].userId
+                                                                    ?.name ==
+                                                                    ""
+                                                                    ? Text(
+                                                                  "Name...",
+                                                                  style: GoogleFonts.mulish(
+                                                                      fontWeight: FontWeight.w700,
+                                                                      // letterSpacing: 1,
+                                                                      fontSize: 14,
+                                                                      color: Colors.black),
+                                                                )
+                                                                    : Text(
+                                                                  homeController.homeModel.value.data!.discover![index].userId!.name.toString(),
+                                                                  overflow: TextOverflow.fade,
+                                                                  style: GoogleFonts.mulish(
+                                                                      fontWeight: FontWeight.w700,
+                                                                      // letterSpacing: 1,
+                                                                      fontSize: 14,
+                                                                      color: Colors.black),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        Text(
-                                                          homeController
-                                                              .homeModel.value.data!.discover![index].date!.capitalize
-                                                              .toString(),
-                                                          style: GoogleFonts.mulish(
-                                                            fontWeight: FontWeight.w300,
-                                                            // letterSpacing: 1,
-                                                            fontSize: 12,
-                                                            color: const Color(0xff878D98),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                            width: 20,
+                                                            child: VerticalDivider(
+                                                              color: Color(0xffD9D9D9),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                          Text(
+                                                            homeController
+                                                                .homeModel.value.data!.discover![index].date!.capitalize
+                                                                .toString(),
+                                                            style: GoogleFonts.mulish(
+                                                              fontWeight: FontWeight.w300,
+                                                              // letterSpacing: 1,
+                                                              fontSize: 12,
+                                                              color: const Color(0xff878D98),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                   const SizedBox(

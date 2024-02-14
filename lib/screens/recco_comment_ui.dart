@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../controller/bottomNav_controller.dart';
 import '../controller/get_recommendation_controller.dart';
 import '../controller/homeController.dart';
 import '../repositories/add_comment_repo.dart';
+import '../repositories/delete_comment_repo.dart';
 import '../resourses/api_constant.dart';
 import '../routers/routers.dart';
 import '../widgets/custome_textfiled.dart';
@@ -215,8 +217,53 @@ class _ReccoCommentScreenState extends State<ReccoCommentScreen> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      height: 8,
+                                      height: 5,
                                     ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        getRecommendationController.getCommentModel.value.data![index].myAccount == true ||     getRecommendationController.getCommentModel.value.data![index].myComment == true?
+                                        TextButton(
+                                            onPressed: (){
+                                              deleteCommentRepo(deleteId: item1.id.toString(), context: context).then((value) {
+                                                if (value.status == true) {
+                                                  showToast(value.message.toString());
+                                                  getRecommendationController.getComments(getRecommendationController.postId.toString(),context);
+                                                }
+                                                else {
+                                                  showToast(value.message.toString());
+                                                }
+                                              });
+                                            },
+                                            child: const Text('Delete')) : const SizedBox(),
+                                        TextButton(
+                                            onPressed: (){
+                                              reportRepo(deleteId: item1.id.toString(), context: context).then((value) async {
+                                                if (value.status == true) {
+                                                  String email = Uri.encodeComponent("stewartsherpa1@gmail.com");
+                                                  String subject = Uri.encodeComponent("");
+                                                  String body = Uri.encodeComponent("");
+                                                  //output: Hello%20Flutter
+                                                  Uri mail = Uri.parse(
+                                                      "mailto:$email?subject=$subject&body=$body");
+                                                  if (await launchUrl(mail)) {
+
+                                                  } else {
+                                                  }
+                                                  showToast(value.message.toString());
+                                                }
+                                                else {
+                                                  showToast(value.message.toString());
+                                                }
+                                              });
+                                            },
+                                            child: const Text('Report',
+                                              style: TextStyle(
+                                                  color: Colors.red
+                                              ),
+                                            )),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),
