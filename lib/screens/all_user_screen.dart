@@ -215,11 +215,12 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                         showDialog<String>(
                                           context: context,
                                           builder: (BuildContext context) => AlertDialog(
-                                            title: const Text(
-                                              'Are you sure you want to block?',
-                                              style: TextStyle(fontSize: 16),
+                                            title:  Text(
+                                              profileController.userProfile.value.data!.isBlock == true ?   'Are you sure you want to Unblock?'
+                                              : 'Are you sure you want to block?',
+                                              style: const TextStyle(fontSize: 16),
                                             ),
-                                            actionsPadding: EdgeInsets.all(20),
+                                            actionsPadding: const EdgeInsets.all(20),
                                             actions: <Widget>[
                                               TextButton(
                                                   onPressed: () {
@@ -254,10 +255,11 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                             showDialog<String>(
                                               context: context,
                                               builder: (BuildContext context) => AlertDialog(
-                                                actionsPadding: EdgeInsets.all(20),
-                                                title: const Text(
-                                                  'Are you sure you want to block this user?',
-                                                  style: TextStyle(fontSize: 16),
+                                                actionsPadding: const EdgeInsets.all(20),
+                                                title:  Text(
+                                                  profileController.userProfile.value.data!.isBlock == true ?   'Are you sure you want to Unblock?'
+                                                      : 'Are you sure you want to block?',
+                                                  style: const TextStyle(fontSize: 16),
                                                 ),
                                                 actions: <Widget>[
                                                   TextButton(
@@ -273,6 +275,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                         addRemoveBlockRepo(blockUserId: id.toString(),context: context).then((value) {
                                                           if(value.status == true){
                                                             showToast(value.message.toString());
+                                                            profileController.UserProfile();
                                                             homeController.getData();
                                                             Get.back();
                                                           }
@@ -287,7 +290,9 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                               ),
                                             );
                                           },
-                                          child: const Text('Block')),
+                                          child:  Text(
+                                              profileController.userProfile.value.data!.isBlock == true ?
+                                            'Unblock' : 'Block')),
                                     ),
                                   ],
                                     child: Container(
@@ -306,12 +311,12 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                               // crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
                                       border: Border.all(color: AppTheme.secondaryColor.withOpacity(.3), width: 1),
                                       shape: BoxShape.circle),
                                   child: Container(
-                                    padding: EdgeInsets.all(5),
+                                    padding: const EdgeInsets.all(5),
                                     decoration: BoxDecoration(
                                         border: Border.all(color: AppTheme.secondaryColor.withOpacity(.3), width: 1),
                                         shape: BoxShape.circle),
@@ -414,7 +419,8 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                     style: GoogleFonts.mulish(
                                         fontWeight: FontWeight.w700, fontSize: 20, color: const Color(0xFF262626))),
                                 const Spacer(),
-                                profileController.userProfile.value.data!.user!.myAccount == false ?
+                                profileController.userProfile.value.data!.user!.myAccount == false &&
+                                    profileController.userProfile.value.data!.isBlock == false ?
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: Obx(() {
@@ -682,7 +688,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                               ),
                                                             ],
                                                           ),
-                                                          SizedBox(width: 5,),
+                                                          const SizedBox(width: 5,),
 
 
                                                           // const SizedBox(
@@ -703,7 +709,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                           //     color:  Color(0xff878D98),
                                                           //   ),
                                                           // ),
-                                                          Spacer(),
+                                                          const Spacer(),
 
                                                           Padding(
                                                             padding: const EdgeInsets.only(right: 8.0),
@@ -983,7 +989,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(height: 20,),
+                                                const SizedBox(height: 20,),
                                                 // Container(
                                                 //   padding: const EdgeInsets.all(10),
                                                 //   decoration: BoxDecoration(
@@ -1416,7 +1422,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                           ? SingleChildScrollView(
                                         child: GridView.builder(
                                           physics: const BouncingScrollPhysics(),
-                                          padding: EdgeInsets.only(bottom: 50),
+                                          padding: const EdgeInsets.only(bottom: 50),
                                           shrinkWrap: true,
 
                                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -1468,7 +1474,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                         onTap: () {},
                                       )
                                           : const Center(child: SizedBox()),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 300,
                                     )
                                   ],
