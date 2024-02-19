@@ -396,19 +396,16 @@ var postid = Get.arguments[0];
                 CroppedFile? croppedFile = await ImageCropper().cropImage(
                   sourcePath: value.path,
                   aspectRatioPresets: [
-                    CropAspectRatioPreset.square,
-                    CropAspectRatioPreset.ratio3x2,
-                    CropAspectRatioPreset.original,
                     CropAspectRatioPreset.ratio4x3,
-                    CropAspectRatioPreset.ratio16x9
                   ],
+                  aspectRatio: const CropAspectRatio(ratioX: 4, ratioY: 3),
                   uiSettings: [
                     AndroidUiSettings(
                         toolbarTitle: 'Cropper',
                         toolbarColor: Colors.deepOrange,
                         toolbarWidgetColor: Colors.white,
-                        initAspectRatio: CropAspectRatioPreset.original,
-                        lockAspectRatio: false),
+                        initAspectRatio: CropAspectRatioPreset.ratio4x3,
+                        lockAspectRatio: true),
                     IOSUiSettings(
                       title: 'Cropper',
                     ),
@@ -436,19 +433,16 @@ var postid = Get.arguments[0];
                 CroppedFile? croppedFile = await ImageCropper().cropImage(
                   sourcePath: value.path,
                   aspectRatioPresets: [
-                    CropAspectRatioPreset.square,
-                    CropAspectRatioPreset.ratio3x2,
-                    CropAspectRatioPreset.original,
                     CropAspectRatioPreset.ratio4x3,
-                    CropAspectRatioPreset.ratio16x9
                   ],
+                  aspectRatio: const CropAspectRatio(ratioX: 4, ratioY: 3),
                   uiSettings: [
                     AndroidUiSettings(
                         toolbarTitle: 'Cropper',
                         toolbarColor: Colors.deepOrange,
                         toolbarWidgetColor: Colors.white,
-                        initAspectRatio: CropAspectRatioPreset.original,
-                        lockAspectRatio: false),
+                        initAspectRatio: CropAspectRatioPreset.ratio4x3,
+                        lockAspectRatio: true),
                     IOSUiSettings(
                       title: 'Cropper',
                     ),
