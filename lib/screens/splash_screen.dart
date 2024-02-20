@@ -18,8 +18,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   userCheck() async {
-    String? token = await FirebaseMessaging.instance.getToken();
-    print("FCM Token is generated $token");
+    // String? token = await FirebaseMessaging.instance.getToken();
+    // print("FCM Token is generated $token");
     SharedPreferences pref = await SharedPreferences.getInstance();
     if (pref.getString('cookie') != null) {
       if (pref.getBool('complete') == true) {

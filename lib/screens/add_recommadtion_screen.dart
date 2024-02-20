@@ -417,6 +417,9 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                         lockAspectRatio: true),
                     IOSUiSettings(
                       title: 'Cropper',
+                        aspectRatioLockEnabled: true,
+                        rectX: 4,
+                        rectY: 3
                     ),
                     WebUiSettings(
                       context: context,
@@ -454,6 +457,10 @@ class _AddRecommendationScreenState extends State<AddRecommendationScreen> {
                         lockAspectRatio: true),
                     IOSUiSettings(
                       title: 'Cropper',
+                       aspectRatioLockEnabled: true,
+                       rectX: 4,
+                      rectY: 3
+
                     ),
                     WebUiSettings(
                       context: context,

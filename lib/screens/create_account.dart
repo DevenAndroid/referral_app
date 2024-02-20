@@ -617,6 +617,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             lockAspectRatio: true),
                         IOSUiSettings(
                           title: 'Cropper',
+                            aspectRatioLockEnabled: true,
+                            rectX: 4,
+                            rectY: 3
                         ),
                         WebUiSettings(
                           context: context,
@@ -653,6 +656,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             lockAspectRatio: true),
                         IOSUiSettings(
                           title: 'Cropper',
+                            aspectRatioLockEnabled: true,
+                            rectX: 4,
+                            rectY: 3
                         ),
                         WebUiSettings(
                           context: context,

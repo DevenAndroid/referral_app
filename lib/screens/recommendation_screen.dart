@@ -408,6 +408,9 @@ var postid = Get.arguments[0];
                         lockAspectRatio: true),
                     IOSUiSettings(
                       title: 'Cropper',
+                        aspectRatioLockEnabled: true,
+                        rectX: 4,
+                        rectY: 3
                     ),
                     WebUiSettings(
                       context: context,
@@ -445,6 +448,9 @@ var postid = Get.arguments[0];
                         lockAspectRatio: true),
                     IOSUiSettings(
                       title: 'Cropper',
+                        aspectRatioLockEnabled: true,
+                        rectX: 4,
+                        rectY: 3
                     ),
                     WebUiSettings(
                       context: context,
