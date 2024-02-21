@@ -1,4 +1,3 @@
-// import 'package:anandmart_driver/routers/routers.dart';
 import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -19,18 +18,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      announcement: true,
-      badge: true,
-      carPlay: true,
-      criticalAlert: true,
-      provisional: true,
-      sound: true
-  );
+      alert: true, announcement: true, badge: true, carPlay: true, criticalAlert: true, provisional: true, sound: true);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   NotificationService().initializeNotification();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
 
   FirebaseMessaging.onMessage.listen((message) {
     if (message.notification != null) {
@@ -42,16 +33,12 @@ Future<void> main() async {
     }
   });
 
-
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -63,10 +50,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'poppinsSans',
         primarySwatch: Colors.green,
-        useMaterial3 : false,
+        useMaterial3: false,
       ),
-      builder: (c, child)=> GestureDetector(
-        onTap: (){
+      builder: (c, child) => GestureDetector(
+        onTap: () {
           FocusManager.instance.primaryFocus!.unfocus();
         },
         behavior: HitTestBehavior.translucent,
