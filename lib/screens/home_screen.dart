@@ -14,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../controller/bottomNav_controller.dart';
 import '../controller/get_comment_controller.dart';
 import '../controller/get_recommendation_controller.dart';
+import '../controller/notification_count_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wishlist controller.dart';
 import '../models/all_recommendation_model.dart';
@@ -160,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   final wishListController = Get.put(WishListController());
   final getCommentController = Get.put(GetCommentController());
   final getRecommendationController = Get.put(GetRecommendationController());
+  final getcount = Get.put(NotificationCountController());
   final profileController = Get.put(ProfileController(), permanent: true);
 
   Rx<RemoveRecommendationModel> modalRemove = RemoveRecommendationModel().obs;
@@ -234,6 +236,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_tabListener);
     profileController.getData();
+    getcount.getNotification();
     profileController.check = false;
     all();
     /* homeController..getFeedBack().then((value) (value1){

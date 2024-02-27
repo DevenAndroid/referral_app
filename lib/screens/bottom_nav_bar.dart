@@ -33,7 +33,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     NotificationService().initializeNotification();
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
       print('Notification issss${event.notification!.title.toString()}');
-      print('Notification issss${event.data['post_id']}');
+      print('Notification issss${event.notification!.toMap()}');
       switch (event.notification!.title) {
         case 'Following':
           Get.toNamed(MyRouters.allUserProfileScreen, arguments: [event.data['post_id'].toString()]);

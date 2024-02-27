@@ -1,6 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
+import '../controller/notification_count_controller.dart';
 
 class NotificationService {
+  RxInt count = 0.obs;
   FlutterLocalNotificationsPlugin localNotificationsPlugin = FlutterLocalNotificationsPlugin();
   AndroidInitializationSettings androidInitializationSettings =
       const AndroidInitializationSettings("@mipmap/ic_launcher");
@@ -15,6 +23,8 @@ class NotificationService {
       const AndroidNotificationDetails("referral", "referral_app", priority: Priority.max, importance: Importance.max);
   DarwinNotificationDetails darwinNotificationDetails = const DarwinNotificationDetails(
     presentSound: true,
+    presentBadge: true, // Adding this line to enable badge on iOS
+    badgeNumber: 1,
   );
   initializeNotification() async {
     InitializationSettings initializationSettings =
@@ -23,7 +33,7 @@ class NotificationService {
       initializationSettings,
       onDidReceiveNotificationResponse: (response) {
         if (response.payload != null) {
-          // log(response.payload.toString());
+          // log("payloadd issss.....${response.payload.toString()}");
           // Map<dynamic, dynamic> map = jsonDecode(response.payload.toString());
         }
       },
@@ -93,7 +103,12 @@ class NotificationService {
         maxProgress: maxProgress,
         progress: progress);
     final NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetailsProgress);
-    localNotificationsPlugin.show(progressId, title, body, notificationDetails, payload: payload).catchError((e) {
+    localNotificationsPlugin.show(
+        progressId,
+        title,
+        body,
+        notificationDetails,
+        payload: payload).catchError((e) {
       throw Exception(e);
     });
   }
