@@ -815,7 +815,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                           child: CachedNetworkImage(
                                                                             width: size.width,
                                                                             height: 200,
-                                                                            fit: BoxFit.fill,
+                                                                            fit: BoxFit.contain,
                                                                             imageUrl: profileController
                                                                                 .modal.value.data!.myRequest![index].image
                                                                                 .toString(),
@@ -1533,7 +1533,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                   child: CachedNetworkImage(
                                                                                     width: size.width,
                                                                                     height: 200,
-                                                                                    fit: BoxFit.fill,
+                                                                                    fit: BoxFit.contain,
                                                                                     imageUrl: profileController
                                                                                         .modal
                                                                                         .value

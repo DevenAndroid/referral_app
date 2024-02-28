@@ -608,7 +608,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                 child: CachedNetworkImage(
                                                   width: size.width,
                                                   height: 200,
-                                                  fit: BoxFit.fill,
+                                                  fit: BoxFit.contain,
                                                   imageUrl: homeController
                                                       .homeModel.value.data!.discover![index].image
                                                       .toString(),

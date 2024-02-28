@@ -192,7 +192,7 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                           border: OutlineInputBorder(
                               borderSide: const BorderSide(color: AppTheme.secondaryColor, width: 1.5),
                               borderRadius: BorderRadius.circular(8)),
-                          hintText: 'I m looking for a water bottle that fits in my car cupholder and is at least 30 oz',
+                          hintText: 'I\'m looking for a water bottle that fits in my car cupholder and is at least 30 oz',
                           hintStyle: const TextStyle(
                             fontWeight: FontWeight.w500,
 
