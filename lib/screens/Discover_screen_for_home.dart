@@ -424,9 +424,9 @@ class _DiscoverScreenHomeState extends State<DiscoverScreenHome> {
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       // Number of columns
-                      crossAxisSpacing: 10.0,
+                      crossAxisSpacing: 11.0,
                       // Spacing between columns
-                      mainAxisSpacing: 10.0, // Spacing between rows
+                      mainAxisSpacing: 14.0, // Spacing between rows
                     ),
                     itemCount: allRecommendation.value.data!.length,
                     // Total number of items

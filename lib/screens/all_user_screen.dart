@@ -575,7 +575,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                       padding: const EdgeInsets.all(8.0),
                       child: TabBarView(controller: _tabController, children: [
                         SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(

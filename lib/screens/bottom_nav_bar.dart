@@ -30,6 +30,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   final homeController = Get.put(HomeController());
   manageNotification() {
     print("functionnnnn callll");
+    getInit();
     NotificationService().initializeNotification();
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
       print('Notification issss${event.notification!.title.toString()}');
@@ -80,7 +81,55 @@ class _BottomNavbarState extends State<BottomNavbar> {
       }
     });
   }
-
+  getInit() async{
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if(initialMessage != null && initialMessage.notification != null){
+      switch (initialMessage.notification!.title) {
+        case 'Following':
+          Get.toNamed(MyRouters.allUserProfileScreen, arguments: [initialMessage.data['post_id'].toString()]);
+          break;
+        case 'Tag':
+          bottomController.updateIndexValue(0);
+          profileController.getData();
+          profileController.check = false;
+          homeController.getData();
+          break;
+        case 'Recommendation':
+          getRecommendationController.idForReco = initialMessage.data['post_id'].toString();
+          getRecommendationController.idForAskReco = initialMessage.data['post_id'].toString();
+          profileController.getData();
+          profileController.check = false;
+          homeController.getData();
+          getRecommendationController.settingModalBottomSheet(context);
+          break;
+        case 'Like':
+          getRecommendationController.idForReco = initialMessage.data['parent_id'].toString();
+          getRecommendationController.idForAskReco = initialMessage.data['parent_id'].toString();
+          profileController.getData();
+          profileController.check = false;
+          homeController.getData();
+          getRecommendationController.settingModalBottomSheet(context);
+          break;
+        case 'Comment':
+          if (initialMessage.data['post_type'] == 'askrecommandation') {
+            profileController.getData();
+            profileController.check = false;
+            homeController.getData();
+            getCommentController.id = initialMessage.data['post_id'].toString();
+            getCommentController.type = 'askrecommandation';
+            getRecommendationController.commentBottomSheet(context);
+          } else if (initialMessage.data['post_type'] == 'recommandation') {
+            profileController.getData();
+            profileController.check = false;
+            homeController.getData();
+            getRecommendationController.getComments(initialMessage.data['post_id'].toString(), context);
+            getRecommendationController.postId = initialMessage.data['post_id'].toString();
+            getRecommendationController.commentBottomSheetReco(context);
+          }
+          break;
+      }
+    }
+  }
   // Future<void> setBatchNum(int count, BuildContext context) async {
   //   try {
   //     print('Setting badge number: $count');

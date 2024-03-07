@@ -150,8 +150,8 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
                                 },
                                 child: ClipOval(
                                   child: CachedNetworkImage(
-                                    width: 30,
-                                    height: 30,
+                                    width: 42,
+                                    height: 42,
                                     fit: BoxFit.cover,
                                     imageUrl: getRecommendationController.modelReviewList.value.data![index].user!
                                         .profileImage.toString(),

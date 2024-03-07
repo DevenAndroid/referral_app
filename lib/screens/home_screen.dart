@@ -304,7 +304,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     child: ClipOval(
                       child: CachedNetworkImage(
                           height: 100,
-                          fit: BoxFit.fill,
+                          width: 100,
+                          fit: BoxFit.cover,
                           imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
                         errorWidget: (context, url, error) =>  Container(
                             padding: const EdgeInsets.all(6),
@@ -456,8 +457,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             },
                                                             child: ClipOval(
                                                               child: CachedNetworkImage(
-                                                                width: 30,
-                                                                height: 30,
+                                                                width: 40,
+                                                                height: 40,
                                                                 fit: BoxFit.cover,
                                                                 imageUrl: homeController.homeModel.value.data!
                                                                     .discover![index].userId ==

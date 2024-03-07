@@ -151,8 +151,8 @@ class _CommentScreenState extends State<CommentScreen> {
                                 ]):  bottomController.updateIndexValue(2);
                               },  child: ClipOval(
                                 child: CachedNetworkImage(
-                                  width: 30,
-                                  height: 30,
+                                  width: 42,
+                                  height: 42,
                                   fit: BoxFit.cover,
                                   imageUrl: item1.userId!.profileImage.toString(),
                                   placeholder: (context, url) => const SizedBox(),

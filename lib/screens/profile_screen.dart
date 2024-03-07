@@ -613,8 +613,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                     children: [
                                                                       ClipOval(
                                                                         child: CachedNetworkImage(
-                                                                          width: 30,
-                                                                          height: 30,
+                                                                          width: 42,
+                                                                          height: 42,
                                                                           fit: BoxFit.cover,
                                                                           imageUrl: profileController.modal.value.data!
                                                                               .myRequest![index].userId!.profileImage
@@ -1440,8 +1440,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                                             .profileImage !=
                                                                                         null
                                                                                     ? CachedNetworkImage(
-                                                                                        width: 30,
-                                                                                        height: 30,
+                                                                                        width: 42,
+                                                                                        height: 42,
                                                                                         fit: BoxFit.cover,
                                                                                         imageUrl: profileController
                                                                                             .modal

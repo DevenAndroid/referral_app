@@ -198,10 +198,10 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                                   bottomController.updateIndexValue(2);
                                 },
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(50),
                                   child: CachedNetworkImage(
-                                    width: 40,
-                                    height: 40,
+                                    width: 50,
+                                    height: 50,
                                     fit: BoxFit.fill,
                                     imageUrl: single.value.data!.recommandation!.user!.profileImage.toString(),
                                     placeholder: (context, url) => const SizedBox(
