@@ -18,6 +18,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:referral_app/routers/routers.dart';
 import 'package:referral_app/widgets/app_assets.dart';
 import 'package:referral_app/widgets/custome_textfiled.dart';
@@ -272,7 +273,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               fontWeight: FontWeight.w600,
                               fontSize: 13,
                               color: AppTheme.onboardingColor
-                          ),),
+                          ),
+
+
+                        ),
                         const SizedBox(height: 12,),
 
                         IntlPhoneField(
@@ -298,7 +302,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
                               focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                           initialCountryCode: profileController.code,
-                          onChanged: (phone) {
+                          onChanged: (PhoneNumber phone) {
                             profileController.code = phone.countryISOCode.toString();
                             print(profileController.code.toString());
                           },
