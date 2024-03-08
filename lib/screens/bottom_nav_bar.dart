@@ -7,6 +7,7 @@ import 'package:referral_app/screens/profile_screen.dart';
 import '../controller/bottomNav_controller.dart';
 import '../widgets/app_theme.dart';
 import 'add_recommadtion_screen.dart';
+import 'all_user_screen.dart';
 import 'ask_recommendation_screen.dart';
 import 'edit_account_screen.dart';
 
@@ -32,11 +33,92 @@ class _BottomNavbarState extends State<BottomNavbar> {
   Widget build(BuildContext context) {
     return Obx(() {
       return Scaffold(
-        body: pages.elementAt(bottomController.pageIndex.value),
+        body: Center(
+          child: Obx(() {
+            return IndexedStack(
+              index: bottomController.pageIndex.value,
+              children: [
+                if (bottomController.page1Index.value == 0)
+                  HomeScreen(),
+                if (bottomController.page1Index.value == 1)
+                  AllUserProfileScreen(),
+                const AskRecommendationScreen(),
+                const ProfileScreen(),
+              ],
+            );
+          }),
+        ),
         extendBody: true,
         // extendBodyBehindAppBar: true,
         backgroundColor: Colors.white,
-        bottomNavigationBar: buildMyNavBar(context),
+        bottomNavigationBar: BottomAppBar(
+            color: Colors.white,
+            shape: const CircularNotchedRectangle(),
+            clipBehavior: Clip.antiAlias,
+            child: Theme(
+                data: ThemeData(
+                    splashColor: Colors.white,
+                    bottomNavigationBarTheme:
+                        const BottomNavigationBarThemeData(elevation: 0)),
+                child: BottomNavigationBar(
+                    backgroundColor: Colors.white,
+                    unselectedLabelStyle: const TextStyle(
+                        color: AppTheme.textColor,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400),
+                    selectedLabelStyle: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: AppTheme.primaryColor),
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 10,
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/icons/home.svg',
+                              color: AppTheme.secondaryColor,
+                            )),
+                        label: '',
+                      ),
+                      // BottomNavigationBarItem(
+                      //      icon: Padding(
+                      //        padding: EdgeInsets.only(
+                      //          bottom: 06,
+                      //        ),
+                      //        child: ImageIcon(
+                      //          AssetImage(AppAssets.coupon),
+                      //          size: 20,
+                      //        ),
+                      //      ),
+                      //      label: '     My\nCoupons'),
+                      BottomNavigationBarItem(
+                          icon: Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 10,
+                              ),
+                              child: SvgPicture.asset(
+                                'assets/icons/add.svg',
+                              )),
+                          label: ''),
+                      BottomNavigationBarItem(
+                          icon: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 06,
+                              ),
+                              child: SvgPicture.asset(
+                                'assets/icons/profile.svg',
+                                color: AppTheme.secondaryColor,
+                              )),
+                          label: ''),
+                    ],
+                    type: BottomNavigationBarType.fixed,
+                    currentIndex: bottomController.pageIndex.value,
+                    selectedItemColor: AppTheme.primaryColor,
+                    unselectedItemColor: Colors.grey.shade400,
+                    onTap: bottomController.updateIndexValue,
+                    elevation: 0))),
       );
     });
   }
@@ -71,7 +153,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     child: MaterialButton(
                       padding: const EdgeInsets.only(bottom: 10),
                       onPressed: () {
-                        bottomController.updateIndexValue(0);
+                        // bottomController.updateIndexValue;
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -95,11 +177,11 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     child: MaterialButton(
                       padding: const EdgeInsets.only(bottom: 10),
                       onPressed: () {
-                        bottomController.updateIndexValue(1);
+                        // bottomController.updateIndexValue(1);
                       },
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           bottomController.pageIndex.value == 1
@@ -119,11 +201,11 @@ class _BottomNavbarState extends State<BottomNavbar> {
                       child: MaterialButton(
                         padding: const EdgeInsets.only(bottom: 10),
                         onPressed: () {
-                          bottomController.updateIndexValue(2);
+                          // bottomController.updateIndexValue(2);
                         },
                         child: Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
                             bottomController.pageIndex.value == 2

@@ -19,7 +19,6 @@ class SingleProfilePost extends StatefulWidget {
 
 class _SingleProfilePostState extends State<SingleProfilePost> {
   final profileController = Get.put(ProfileController());
-  Rx<ModelUserProfile> userProfile = ModelUserProfile().obs;
 
   @override
   Widget build(BuildContext context) {
@@ -51,19 +50,20 @@ class _SingleProfilePostState extends State<SingleProfilePost> {
 
       ),
       body: Obx(() {
-        return userProfile.value.data!= null ?
+        return profileController.userProfile.value.data!= null ?
         SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           scrollDirection: Axis.vertical,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                     height: size.height * .15,
                     child: Obx(() {
                       return ListView.builder(
-                          itemCount: userProfile.value.data!.myCategories!.length,
+                          itemCount: profileController.userProfile.value.data!.myCategories!.length,
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           physics: const AlwaysScrollableScrollPhysics(),
@@ -83,7 +83,7 @@ class _SingleProfilePostState extends State<SingleProfilePost> {
                                         width: 70,
                                         height: 70,
                                         fit: BoxFit.fill,
-                                        imageUrl: userProfile.value.data!.myCategories![index].image.toString(),
+                                        imageUrl: profileController.userProfile.value.data!.myCategories![index].image.toString(),
                                       ),
                                     ),
                                   ),
@@ -91,7 +91,7 @@ class _SingleProfilePostState extends State<SingleProfilePost> {
                                     height: 2,
                                   ),
                                   Text(
-                                    userProfile.value.data!.myCategories![index].name.toString(),
+                                    profileController.userProfile.value.data!.myCategories![index].name.toString(),
                                     style: GoogleFonts.mulish(
                                         fontWeight: FontWeight.w300,
                                         // letterSpacing: 1,
@@ -117,12 +117,12 @@ class _SingleProfilePostState extends State<SingleProfilePost> {
                         // Spacing between columns
                         mainAxisSpacing: 2.0, // Spacing between rows
                       ),
-                      itemCount: userProfile.value.data!.myRecommandation!.length,
+                      itemCount: profileController.userProfile.value.data!.myRecommandation!.length,
                       // Total number of items
                       itemBuilder: (BuildContext context, int index) {
                         // You can replace the Container with your image widget
                         return CachedNetworkImage(
-                          imageUrl: userProfile.value.data!.myRecommandation![index].image.toString(),
+                          imageUrl: profileController.userProfile.value.data!.myRecommandation![index].image.toString(),
                           width: 50,
                           height: 50,
                         );

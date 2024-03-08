@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../resourses/api_constant.dart';
 import '../../widgets/common_error_widget.dart';
+import '../controller/bottomNav_controller.dart';
 import '../controller/profile_controller.dart';
 import '../models/all_recommendation_model.dart';
 import '../models/all_user_model.dart';
@@ -72,7 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   final profileController = Get.put(ProfileController());
-
+  final bottomNavBar = Get.put(BottomNavBarController());
   // final controller = Get.put(registerController());
   final TextEditingController search1Controller = TextEditingController();
   final TextEditingController search2Controller = TextEditingController();
@@ -100,10 +101,13 @@ class _SearchScreenState extends State<SearchScreen> {
             centerTitle: true,
             title: Text(
               "Search",
-              style: GoogleFonts.poppins(color: const Color(0xFF1D1D1D), fontSize: 20, fontWeight: FontWeight.w500),
+              style: GoogleFonts.poppins(
+                  color: const Color(0xFF1D1D1D),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500),
             ),
             bottom: TabBar(
-              labelColor:  const Color(0xFF3797EF),
+              labelColor: const Color(0xFF3797EF),
               unselectedLabelColor: Colors.black,
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorColor: AppTheme.primaryColor,
@@ -116,20 +120,24 @@ class _SearchScreenState extends State<SearchScreen> {
               tabs: [
                 Tab(
                   child: Text("Peoples",
-                      style:  GoogleFonts.mulish(
-                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15)),
+                      style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1,
+                          fontSize: 15)),
                 ),
                 Tab(
                   child: Text("Recommendation",
                       style: GoogleFonts.mulish(
-                              fontWeight: FontWeight.w700, letterSpacing: 1, fontSize: 15)),
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1,
+                          fontSize: 15)),
                 ),
               ],
             ),
           ),
           body: TabBarView(children: [
             SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -140,7 +148,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       controller: search2Controller,
                       obSecure: false,
                       hintText: "Search for a Peoples",
-                      prefix: const Padding(padding: EdgeInsets.all(13.0), child: Icon(Icons.search)),
+                      prefix: const Padding(
+                          padding: EdgeInsets.all(13.0),
+                          child: Icon(Icons.search)),
                       onTap: () {
                         setState(() {});
                       },
@@ -151,11 +161,18 @@ class _SearchScreenState extends State<SearchScreen> {
                     SingleChildScrollView(
                       child: Obx(() {
                         List<Data> searchData1 = [];
-                        if (statusOfAllRecommendation.value.isSuccess && userList.value.data != null) {
-                          String search = search2Controller.text.trim().toLowerCase();
+                        if (statusOfAllRecommendation.value.isSuccess &&
+                            userList.value.data != null) {
+                          String search =
+                              search2Controller.text.trim().toLowerCase();
                           // String search1 = search2Controller.text.trim().toLowerCase();
                           if (search.isNotEmpty) {
-                            searchData1 = userList.value.data!.where((element) => element.name.toString().toLowerCase().contains(search)).toList();
+                            searchData1 = userList.value.data!
+                                .where((element) => element.name
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(search))
+                                .toList();
                           } else {
                             searchData1 = userList.value.data!;
                           }
@@ -187,18 +204,33 @@ class _SearchScreenState extends State<SearchScreen> {
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                Get.toNamed(MyRouters.allUserProfileScreen, arguments: [item.id.toString()]);
-                                                print('idd iss...${item.id.toString()}');
+                                                bottomNavBar.page1Index.value = 1;
+                                                profileController.idUserPro = item.id.toString();
+                                                Get.back();
+                                                // Get.toNamed(
+                                                //     MyRouters
+                                                //         .allUserProfileScreen,
+                                                //     arguments: [
+                                                //       item.id.toString()
+                                                //     ]);
+                                                print(
+                                                    'idd iss...${item.id.toString()}');
                                               },
                                               child: Container(
-                                                padding: const EdgeInsets.all(10),
+                                                padding:
+                                                    const EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                     boxShadow: [
                                                       BoxShadow(
-                                                        color: const Color(0xFF5F5F5F).withOpacity(0.2),
-                                                        offset: const Offset(0.0, 0.2),
+                                                        color: const Color(
+                                                                0xFF5F5F5F)
+                                                            .withOpacity(0.2),
+                                                        offset: const Offset(
+                                                            0.0, 0.2),
                                                         blurRadius: 2,
                                                       ),
                                                     ]),
@@ -209,16 +241,22 @@ class _SearchScreenState extends State<SearchScreen> {
                                                         width: 50,
                                                         height: 50,
                                                         fit: BoxFit.cover,
-                                                        imageUrl: item.profileImage.toString(),
-                                                        errorWidget: (_, __, ___) =>  Image.asset(
-                                    AppAssets.man,
-                                    color: Colors.grey.shade200,
-                                  ),
-                                  placeholder: (_, __) =>
-                                      Image.asset(
-                                        AppAssets.man,
-                                        color: Colors.grey.shade200,
-                                      ),
+                                                        imageUrl: item
+                                                            .profileImage
+                                                            .toString(),
+                                                        errorWidget:
+                                                            (_, __, ___) =>
+                                                                Image.asset(
+                                                          AppAssets.man,
+                                                          color: Colors
+                                                              .grey.shade200,
+                                                        ),
+                                                        placeholder: (_, __) =>
+                                                            Image.asset(
+                                                          AppAssets.man,
+                                                          color: Colors
+                                                              .grey.shade200,
+                                                        ),
                                                       ),
                                                     ),
                                                     const SizedBox(
@@ -227,7 +265,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                                     Text(
                                                       item.name.toString(),
                                                       style: GoogleFonts.mulish(
-                                                          fontWeight: FontWeight.w400,
+                                                          fontWeight:
+                                                              FontWeight.w400,
                                                           // letterSpacing: 1,
                                                           fontSize: 17,
                                                           color: Colors.black),
@@ -249,7 +288,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                     errorText: "",
                                     onTap: () {},
                                   )
-                                : const Center(child: Center(child: CircularProgressIndicator()));
+                                : const Center(
+                                    child: Center(
+                                        child: CircularProgressIndicator()));
                       }),
                     )
                   ],
@@ -268,7 +309,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             controller: search1Controller,
                             obSecure: false,
                             hintText: "Search for a Recommendation",
-                            prefix: const Padding(padding: EdgeInsets.all(13.0), child: Icon(Icons.search)),
+                            prefix: const Padding(
+                                padding: EdgeInsets.all(13.0),
+                                child: Icon(Icons.search)),
                             onTap: () {
                               setState(() {});
                             },
@@ -279,13 +322,24 @@ class _SearchScreenState extends State<SearchScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                    Obx(() {
+                          Obx(() {
                             List<AllRecommendation> searchData = [];
-                            if (statusOfAllRecommendation.value.isSuccess && allRecommendation.value.data != null) {
-                              String search = search1Controller.text.trim().toLowerCase();
+                            if (statusOfAllRecommendation.value.isSuccess &&
+                                allRecommendation.value.data != null) {
+                              String search =
+                                  search1Controller.text.trim().toLowerCase();
                               if (search.isNotEmpty) {
-                                searchData = allRecommendation.value.data!.where((element) => element.title.toString().toLowerCase().contains(search) ||
-                                    element.review.toString().toLowerCase().contains(search)).toList();
+                                searchData = allRecommendation.value.data!
+                                    .where((element) =>
+                                        element.title
+                                            .toString()
+                                            .toLowerCase()
+                                            .contains(search) ||
+                                        element.review
+                                            .toString()
+                                            .toLowerCase()
+                                            .contains(search))
+                                    .toList();
                                 // searchData = allRecommendation.value.data!.where((element) => element.review.toString().toLowerCase().contains(search)).toList();
                               } else {
                                 searchData = allRecommendation.value.data!;
@@ -294,22 +348,27 @@ class _SearchScreenState extends State<SearchScreen> {
                             return statusOfAllRecommendation.value.isSuccess
                                 ? Column(
                                     children: [
-                                      if (searchData.isEmpty) Text("No data Found"),
+                                      if (searchData.isEmpty)
+                                        Text("No data Found"),
                                       SingleChildScrollView(
                                         child: GridView.builder(
-                                          physics: const BouncingScrollPhysics(),
+                                          physics:
+                                              const BouncingScrollPhysics(),
                                           padding: EdgeInsets.zero,
                                           shrinkWrap: true,
-                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                          gridDelegate:
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 3,
                                             // Number of columns
                                             crossAxisSpacing: 10.0,
                                             // Spacing between columns
-                                            mainAxisSpacing: 10.0, // Spacing between rows
+                                            mainAxisSpacing:
+                                                10.0, // Spacing between rows
                                           ),
                                           itemCount: searchData.length,
                                           // Total number of items
-                                          itemBuilder: (BuildContext context, int index) {
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
                                             final item = searchData[index];
                                             // You can replace the Container with your image widget
                                             return GestureDetector(
@@ -319,22 +378,31 @@ class _SearchScreenState extends State<SearchScreen> {
                                                       item.id.toString(),
                                                 );
                                                 Get.toNamed(
-                                                  MyRouters.recommendationSingleScreen,
+                                                  MyRouters
+                                                      .recommendationSingleScreen,
                                                   arguments: [
                                                     item.id.toString(),
                                                     item.image.toString(),
                                                     item.title.toString(),
                                                     item.review.toString(),
                                                     item.link.toString(),
-                                                    allRecommendation.value.data![index].wishlist,
-                                                    allRecommendation.value.data![index].user!.id.toString(),
+                                                    allRecommendation.value
+                                                        .data![index].wishlist,
+                                                    allRecommendation.value
+                                                        .data![index].user!.id
+                                                        .toString(),
                                                   ],
                                                 );
                                               },
                                               child: CachedNetworkImage(
                                                 imageUrl: item.image.toString(),
                                                 fit: BoxFit.fill,
-                                                errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(
+                                                  Icons.error,
+                                                  color: Colors.red,
+                                                ),
                                               ),
                                             );
                                           },
@@ -347,9 +415,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                         errorText: "",
                                         onTap: () {},
                                       )
-                                    : const Center(child: CircularProgressIndicator());
+                                    : const Center(
+                                        child: CircularProgressIndicator());
                           }),
-    const SizedBox(height: 50,),
+                          const SizedBox(
+                            height: 50,
+                          ),
                         ]))),
           ]),
         ));

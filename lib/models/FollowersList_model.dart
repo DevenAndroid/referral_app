@@ -57,26 +57,26 @@ class Data {
 }
 
 class Following {
-  int? id;
-  String? name;
-  String? email;
-  String? phone;
-  String? walletBalance;
-  String? earnedBalance;
-  String? profileImage;
-  String? address;
-  String? referalCode;
-  bool? isDriverOnline;
-  bool? isVendorOnline;
-  Null? deliveryRange;
-  bool? selfDelivery;
-  bool? asDriverVerified;
-  bool? asVendorVerified;
-  bool? asMarketingManagerVerified;
-  bool? isComplete;
-  int? followingCount;
-  int? followersCount;
-  int? postCount;
+  dynamic id;
+  dynamic name;
+  dynamic email;
+  dynamic phone;
+  dynamic walletBalance;
+  dynamic earnedBalance;
+  dynamic profileImage;
+  dynamic address;
+  dynamic referalCode;
+  dynamic  isDriverOnline;
+  dynamic  isVendorOnline;
+  dynamic  deliveryRange;
+  dynamic  selfDelivery;
+  dynamic  asDriverVerified;
+  dynamic  asVendorVerified;
+  dynamic  asMarketingManagerVerified;
+  dynamic  isComplete;
+  dynamic followingCount;
+  dynamic followersCount;
+  dynamic postCount;
 
   Following(
       {this.id,

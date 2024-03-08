@@ -10,7 +10,8 @@ import '../widgets/app_theme.dart';
 
 
 class ApiUrls {
-  static const String apiBaseUrl = 'https://referral-app.eoxyslive.com/api/';
+  // static const String apiBaseUrl = 'https://referral-app.eoxyslive.com/api/';
+  static const String apiBaseUrl = 'http://3.131.10.217/api/';
   static const String login = "${apiBaseUrl}login";
   static const String verifyOtp = "${apiBaseUrl}verify-otp";
   static const String updateProfile = "${apiBaseUrl}update-profile";
@@ -28,7 +29,7 @@ class ApiUrls {
   static const String unfollow = "${apiBaseUrl}add-remove-follower";
   static const String pages = "${apiBaseUrl}pages?slug=";
   static const String singleCategories = "${apiBaseUrl}single-category?category_id=";
-  static const String userData = "${apiBaseUrl}single-user?recommandation_id=";
+  static const String userData = "${apiBaseUrl}single-user";
   static const String addRemoveBookmark = "${apiBaseUrl}add-remove-bookmark";
   static const String allUsers = "${apiBaseUrl}all-users";
   static const String addRemoveFollower = "${apiBaseUrl}add-remove-follower";
