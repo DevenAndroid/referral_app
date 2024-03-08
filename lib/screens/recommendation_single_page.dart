@@ -202,7 +202,7 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                                   child: CachedNetworkImage(
                                     width: 50,
                                     height: 50,
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.cover,
                                     imageUrl: single.value.data!.recommandation!.user!.profileImage.toString(),
                                     placeholder: (context, url) => const SizedBox(
                                       height: 0,
@@ -296,7 +296,7 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                                 width: size.width,
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.contain,
                                   image: NetworkImage(
                                     single.value.data!.recommandation!.image.toString(),
                                   ),

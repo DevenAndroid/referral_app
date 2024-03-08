@@ -53,6 +53,8 @@ class _ProfilePostState extends State<ProfilePost> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
                   height: size.height * .15,

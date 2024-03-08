@@ -45,6 +45,8 @@ class ApiUrls {
   static const String getBlockList = "${apiBaseUrl}blocked-users-list";
   static const String deleteCommentUrl = "${apiBaseUrl}delete-comment";
   static const String reportCommentUrl = "${apiBaseUrl}report-admin";
+  static const String updateVersionUrl = "${apiBaseUrl}update-app-version";
+  static const String getUpdateUrl = "${apiBaseUrl}app-version?version_code=";
 
 }
 

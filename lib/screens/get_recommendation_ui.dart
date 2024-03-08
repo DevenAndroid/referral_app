@@ -447,7 +447,7 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
                                             child: CachedNetworkImage(
                                                 width: size.width,
                                                 height: 200,
-                                                fit: BoxFit.fill,
+                                                fit: BoxFit.contain,
                                                 imageUrl: getRecommendationController.modelReviewList.value.data![index]
                                                     .image.toString(),
                                                 placeholder: (context, url) =>

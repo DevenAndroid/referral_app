@@ -356,7 +356,7 @@ class _DiscoverScreenHomeState extends State<DiscoverScreenHome> {
                             child: CachedNetworkImage(
                               errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
                               imageUrl: profileController.single.value.data!.details![index].image.toString(),
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                             ),
                           );
                         },
@@ -458,7 +458,7 @@ class _DiscoverScreenHomeState extends State<DiscoverScreenHome> {
                             Icons.error_outline_outlined,
                             color: Colors.red,
                           ),
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       );
                     },

@@ -364,7 +364,7 @@ class _SingleScreenState extends State<SingleScreen> {
                               width: size.width,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.contain,
                                     image: NetworkImage(image),
                                   )),
                               // child: Image.network(image,fit: BoxFit.fill,),

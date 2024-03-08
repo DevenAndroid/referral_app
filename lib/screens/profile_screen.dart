@@ -1283,7 +1283,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                               },
                                                               child: CachedNetworkImage(
                                                                 imageUrl:  profileController.single.value.data!.details![index].image.toString(),
-                                                                fit: BoxFit.fill,
+                                                                fit: BoxFit.cover,
                                                                 errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.red,),
                                                               ),
                                                             );
@@ -1347,7 +1347,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                     imageUrl: profileController
                                                                         .modal.value.data!.myRecommandation![index].image
                                                                         .toString(),
-                                                                    fit: BoxFit.fill,
+                                                                    fit: BoxFit.cover,
                                                                     height: 110,
                                                                     errorWidget: (_, __, ___) => const Icon(
                                                                       Icons.error_outline_outlined,

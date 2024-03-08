@@ -576,602 +576,601 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                       child: TabBarView(controller: _tabController, children: [
                         SingleChildScrollView(
                           physics: const BouncingScrollPhysics(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Obx(() {
-                                  return profileController.statusOfUser.value.isSuccess
-                                      ? Column(
-                                    children: [
-                                      if (profileController.userProfile.value.data!.myRequest!.isEmpty)
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(vertical: Get.height / 5),
-                                          child: Center(
-                                              child: Text(
-                                                'No Data Found',
-                                                style: GoogleFonts.mulish(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 15,
-                                                    color: Colors.black),
-                                              )),
-                                        ),
-                                      ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: profileController.userProfile.value.data!.myRequest!.length,
-                                          physics: const NeverScrollableScrollPhysics(),
-                                          itemBuilder: (context, index) {
-                                            return Column(
-                                              children: [
+                          padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 2),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Obx(() {
+                                return profileController.statusOfUser.value.isSuccess
+                                    ? Column(
+                                  children: [
+                                    if (profileController.userProfile.value.data!.myRequest!.isEmpty)
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical: Get.height / 5),
+                                        child: Center(
+                                            child: Text(
+                                              'No Data Found',
+                                              style: GoogleFonts.mulish(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 15,
+                                                  color: Colors.black),
+                                            )),
+                                      ),
+                                    ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: profileController.userProfile.value.data!.myRequest!.length,
+                                        padding: EdgeInsets.zero,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          return Column(
+                                            children: [
 
-                                                Container(
-                                                  padding: const EdgeInsets.all(10),
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: const Color(0xFF5F5F5F).withOpacity(0.2),
-                                                          offset: const Offset(0.0, 0.2),
-                                                          blurRadius: 2,
-                                                        ),
-                                                      ]),
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              // Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
-                                                              //   homeController.homeModel.value.data!.discover![index]
-                                                              //       .userId!.id
-                                                              //       .toString(),
-                                                              // ]);
-                                                            },
-                                                            child: ClipOval(
-                                                              child: CachedNetworkImage(
-                                                                width: 30,
-                                                                height: 30,
-                                                                fit: BoxFit.cover,
-                                                                imageUrl: profileController.userProfile.value.data!
-                                                                    .myRequest![index].userId ==
-                                                                    null
-                                                                    ? AppAssets.man
-                                                                    : profileController.userProfile.value.data!
-                                                                    .myRequest![index]
-                                                                    .userId!.profileImage
-                                                                    .toString(),
-                                                                errorWidget: (_, __, ___) => Image.asset(
-                                                                  AppAssets.man,
-                                                                  color: Colors.grey.shade200,
-                                                                ),
-                                                                placeholder: (_, __) => Image.asset(
-                                                                  AppAssets.man,
-                                                                  color: Colors.grey.shade200,
-                                                                ),
+                                              Container(
+                                                padding: const EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: const Color(0xFF5F5F5F).withOpacity(0.2),
+                                                        offset: const Offset(0.0, 0.2),
+                                                        blurRadius: 2,
+                                                      ),
+                                                    ]),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            // Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                                            //   homeController.homeModel.value.data!.discover![index]
+                                                            //       .userId!.id
+                                                            //       .toString(),
+                                                            // ]);
+                                                          },
+                                                          child: ClipOval(
+                                                            child: CachedNetworkImage(
+                                                              width: 35,
+                                                              height: 35,
+                                                              fit: BoxFit.cover,
+                                                              imageUrl: profileController.userProfile.value.data!
+                                                                  .myRequest![index].userId ==
+                                                                  null
+                                                                  ? AppAssets.man
+                                                                  : profileController.userProfile.value.data!
+                                                                  .myRequest![index]
+                                                                  .userId!.profileImage
+                                                                  .toString(),
+                                                              errorWidget: (_, __, ___) => Image.asset(
+                                                                AppAssets.man,
+                                                                color: Colors.grey.shade200,
+                                                              ),
+                                                              placeholder: (_, __) => Image.asset(
+                                                                AppAssets.man,
+                                                                color: Colors.grey.shade200,
                                                               ),
                                                             ),
                                                           ),
-                                                          const SizedBox(
-                                                            width: 20,
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            profileController.userProfile.value.data!
+                                                                .myRequest![index]
+                                                                .userId?.name ==
+                                                                ""
+                                                                ? Text(
+                                                              "Name...",
+                                                              style: GoogleFonts.mulish(
+                                                                  fontWeight: FontWeight.w700,
+                                                                  // letterSpacing: 1,
+                                                                  fontSize: 14,
+                                                                  color: Colors.black),
+                                                            )
+                                                                : Text(
                                                               profileController.userProfile.value.data!
-                                                                  .myRequest![index]
-                                                                  .userId?.name ==
-                                                                  ""
-                                                                  ? Text(
-                                                                "Name...",
-                                                                style: GoogleFonts.mulish(
-                                                                    fontWeight: FontWeight.w700,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize: 14,
-                                                                    color: Colors.black),
-                                                              )
-                                                                  : Text(
-                                                                profileController.userProfile.value.data!
-                                                                    .myRequest![index].userId!.name
-                                                                    .toString()
-                                                                    .capitalizeFirst
-                                                                    .toString(),
-                                                                style: GoogleFonts.mulish(
-                                                                    fontWeight: FontWeight.w700,
-                                                                    // letterSpacing: 1,
-                                                                    fontSize: 14,
-                                                                    color: Colors.black),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(width: 5,),
+                                                                  .myRequest![index].userId!.name
+                                                                  .toString()
+                                                                  .capitalizeFirst
+                                                                  .toString(),
+                                                              style: GoogleFonts.mulish(
+                                                                  fontWeight: FontWeight.w700,
+                                                                  // letterSpacing: 1,
+                                                                  fontSize: 14,
+                                                                  color: Colors.black),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(width: 5,),
 
 
-                                                          // const SizedBox(
-                                                          //   height: 15,
-                                                          //   width: 20,
-                                                          //   child: VerticalDivider(
-                                                          //     color: Color(0xffD9D9D9),
-                                                          //
-                                                          //   ),
-                                                          // ),
-                                                          // Text(
-                                                          //   userProfile.value.data!
-                                                          //       .myRequest![index].!.capitalize.toString(),
-                                                          //   style: GoogleFonts.mulish(
-                                                          //     fontWeight: FontWeight.w300,
-                                                          //     // letterSpacing: 1,
-                                                          //     fontSize: 12,
-                                                          //     color:  Color(0xff878D98),
-                                                          //   ),
-                                                          // ),
-                                                          const Spacer(),
+                                                        // const SizedBox(
+                                                        //   height: 15,
+                                                        //   width: 20,
+                                                        //   child: VerticalDivider(
+                                                        //     color: Color(0xffD9D9D9),
+                                                        //
+                                                        //   ),
+                                                        // ),
+                                                        // Text(
+                                                        //   userProfile.value.data!
+                                                        //       .myRequest![index].!.capitalize.toString(),
+                                                        //   style: GoogleFonts.mulish(
+                                                        //     fontWeight: FontWeight.w300,
+                                                        //     // letterSpacing: 1,
+                                                        //     fontSize: 12,
+                                                        //     color:  Color(0xff878D98),
+                                                        //   ),
+                                                        // ),
+                                                        const Spacer(),
 
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(right: 8.0),
-                                                            child: Obx(() {
-                                                              return GestureDetector(
-                                                                onTap: () {
-                                                                  // home.value.data!.discover![index].wishlist.toString();
-
-                                                                  // bookmarkRepo(
-                                                                  //   context: context,
-                                                                  //   post_id: userProfile.value.data!
-                                                                  //       .myRequest![index].id
-                                                                  //       .toString(),
-                                                                  //   type: "askrecommandation",
-                                                                  // ).then((value) async {
-                                                                  //   modalRemove.value = value;
-                                                                  //   if (value.status == true) {
-                                                                  //     print('wishlist-----');
-                                                                  //     homeController.getData();
-                                                                  //     statusOfRemove.value = RxStatus.success();
-                                                                  //     //homeController.getPaginate();
-                                                                  //
-                                                                  //     // like=true;
-                                                                  //     showToast(value.message.toString());
-                                                                  //   } else {
-                                                                  //     statusOfRemove.value = RxStatus.error();
-                                                                  //     // like=false;
-                                                                  //     showToast(value.message.toString());
-                                                                  //   }
-                                                                  // });
-                                                                  // setState(() {});
-                                                                },
-                                                                child: profileController.userProfile.value.data!
-                                                                    .myRequest![index].wishlist ==
-                                                                    true
-                                                                    ? SvgPicture.asset(
-                                                                  AppAssets.bookmark1,
-                                                                  height: 20,
-                                                                )
-                                                                    : SvgPicture.asset(AppAssets.bookmark),
-                                                              );
-                                                            }),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 15,
-                                                          ),
-                                                          GestureDetector(
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 8.0),
+                                                          child: Obx(() {
+                                                            return GestureDetector(
                                                               onTap: () {
-                                                                Share.share(
-                                                                  profileController.userProfile.value.data!
-                                                                      .myRequest![index].image
-                                                                      .toString(),
-                                                                );
+                                                                // home.value.data!.discover![index].wishlist.toString();
+
+                                                                // bookmarkRepo(
+                                                                //   context: context,
+                                                                //   post_id: userProfile.value.data!
+                                                                //       .myRequest![index].id
+                                                                //       .toString(),
+                                                                //   type: "askrecommandation",
+                                                                // ).then((value) async {
+                                                                //   modalRemove.value = value;
+                                                                //   if (value.status == true) {
+                                                                //     print('wishlist-----');
+                                                                //     homeController.getData();
+                                                                //     statusOfRemove.value = RxStatus.success();
+                                                                //     //homeController.getPaginate();
+                                                                //
+                                                                //     // like=true;
+                                                                //     showToast(value.message.toString());
+                                                                //   } else {
+                                                                //     statusOfRemove.value = RxStatus.error();
+                                                                //     // like=false;
+                                                                //     showToast(value.message.toString());
+                                                                //   }
+                                                                // });
+                                                                // setState(() {});
                                                               },
-                                                              child: SvgPicture.asset(AppAssets.forward))
-                                                        ],
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 15,
-                                                      ),
-                                                      profileController.userProfile.value.data!
-                                                          .myRequest![index].image == ""
-                                                          ? const SizedBox()
-                                                          : ClipRRect(
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        child: CachedNetworkImage(
-                                                          width: size.width,
-                                                          height: 200,
-                                                          fit: BoxFit.fill,
-                                                          imageUrl: profileController.userProfile.value.data!
-                                                              .myRequest![index].image
-                                                              .toString(),
-                                                          placeholder: (context, url) => const SizedBox(
-                                                            height: 0,
-                                                          ),
-                                                          errorWidget: (context, url, error) => const SizedBox(
-                                                            height: 0,
-                                                          ),
+                                                              child: profileController.userProfile.value.data!
+                                                                  .myRequest![index].wishlist ==
+                                                                  true
+                                                                  ? SvgPicture.asset(
+                                                                AppAssets.bookmark1,
+                                                                height: 20,
+                                                              )
+                                                                  : SvgPicture.asset(AppAssets.bookmark),
+                                                            );
+                                                          }),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 15,
+                                                        ),
+                                                        GestureDetector(
+                                                            onTap: () {
+                                                              Share.share(
+                                                                profileController.userProfile.value.data!
+                                                                    .myRequest![index].image
+                                                                    .toString(),
+                                                              );
+                                                            },
+                                                            child: SvgPicture.asset(AppAssets.forward))
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 15,
+                                                    ),
+                                                    profileController.userProfile.value.data!
+                                                        .myRequest![index].image == ""
+                                                        ? const SizedBox()
+                                                        : ClipRRect(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      child: CachedNetworkImage(
+                                                        width: size.width,
+                                                        height: 200,
+                                                        fit: BoxFit.contain,
+                                                        imageUrl: profileController.userProfile.value.data!
+                                                            .myRequest![index].image
+                                                            .toString(),
+                                                        placeholder: (context, url) => const SizedBox(
+                                                          height: 0,
+                                                        ),
+                                                        errorWidget: (context, url, error) => const SizedBox(
+                                                          height: 0,
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Text(
-                                                        profileController.userProfile.value.data!
-                                                            .myRequest![index].title
-                                                            .toString()
-                                                            .capitalizeFirst
-                                                            .toString(),
-                                                        style: GoogleFonts.mulish(
-                                                            fontWeight: FontWeight.w700,
-                                                            // letterSpacing: 1,
-                                                            fontSize: 17,
-                                                            color: Colors.black),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Text(
-                                                        profileController.userProfile.value.data!
-                                                            .myRequest![index].description
-                                                            .toString()
-                                                            .capitalizeFirst
-                                                            .toString(),
-                                                        style: GoogleFonts.mulish(
-                                                            fontWeight: FontWeight.w300,
-                                                            // letterSpacing: 1,
-                                                            fontSize: 14,
-                                                            color: const Color(0xFF6F7683)),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Column(
-                                                            children: [
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Text(
+                                                      profileController.userProfile.value.data!
+                                                          .myRequest![index].title
+                                                          .toString()
+                                                          .capitalizeFirst
+                                                          .toString(),
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w700,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 17,
+                                                          color: Colors.black),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Text(
+                                                      profileController.userProfile.value.data!
+                                                          .myRequest![index].description
+                                                          .toString()
+                                                          .capitalizeFirst
+                                                          .toString(),
+                                                      style: GoogleFonts.mulish(
+                                                          fontWeight: FontWeight.w300,
+                                                          // letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          color: const Color(0xFF6F7683)),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Column(
+                                                          children: [
+                                                            profileController.userProfile.value.data!
+                                                                .myRequest![index].minPrice
+                                                                .toString()
+                                                                .isNotEmpty
+                                                                ? const Text("Min Price")
+                                                                : const Text('No Budget'),
+                                                            profileController.userProfile.value.data!
+                                                                .myRequest![index].minPrice
+                                                                .toString()
+                                                                .isNotEmpty
+                                                                ? Text(
                                                               profileController.userProfile.value.data!
                                                                   .myRequest![index].minPrice
-                                                                  .toString()
-                                                                  .isNotEmpty
-                                                                  ? const Text("Min Price")
-                                                                  : const Text('No Budget'),
-                                                              profileController.userProfile.value.data!
-                                                                  .myRequest![index].minPrice
-                                                                  .toString()
-                                                                  .isNotEmpty
-                                                                  ? Text(
-                                                                profileController.userProfile.value.data!
-                                                                    .myRequest![index].minPrice
-                                                                    .toString(),
-                                                              )
-                                                                  : const SizedBox(),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 30,
-                                                          ),
-                                                          Column(
-                                                            children: [
-                                                              profileController.userProfile.value.data!
-                                                                  .myRequest![index].maxPrice
-                                                                  .toString()
-                                                                  .isNotEmpty
-                                                                  ? const Text("Max Price")
-                                                                  : const SizedBox(),
+                                                                  .toString(),
+                                                            )
+                                                                : const SizedBox(),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 30,
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            profileController.userProfile.value.data!
+                                                                .myRequest![index].maxPrice
+                                                                .toString()
+                                                                .isNotEmpty
+                                                                ? const Text("Max Price")
+                                                                : const SizedBox(),
+                                                            profileController.userProfile.value.data!
+                                                                .myRequest![index].maxPrice
+                                                                .toString()
+                                                                .isNotEmpty
+                                                                ? Text(
                                                               profileController.userProfile.value.data!
                                                                   .myRequest![index].maxPrice
-                                                                  .toString()
-                                                                  .isNotEmpty
-                                                                  ? Text(
-                                                                profileController.userProfile.value.data!
-                                                                    .myRequest![index].maxPrice
-                                                                    .toString(),
-                                                              )
-                                                                  : const SizedBox(),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          Expanded(
-                                                            child: GestureDetector(
-                                                              onTap: () {
-                                                                // setState(() {
-                                                                //   getReviewListRepo(
-                                                                //       context: context,
-                                                                //       id: profileController.userProfile.value.data!.myRequest![index].id.toString())
-                                                                //       .then((value) {
-                                                                //     modelReviewList.value = value;
-                                                                //     if (value.status == true) {
-                                                                //       statusOfReviewList.value = RxStatus.success();
-                                                                //       post1 = profileController.userProfile.value.data!.myRequest![index].id.toString();
-                                                                //       _settingModalBottomSheet(context);
-                                                                //     } else {
-                                                                //       statusOfReviewList.value = RxStatus.error();
-                                                                //     }
-                                                                //     setState(() {});
-                                                                //   });
-                                                                // });
-                                                                setState(() {
-                                                                  getRecommendationController.idForReco = profileController.userProfile.value.data!.myRequest![index].id.toString();
-                                                                  getRecommendationController.idForAskReco = profileController.userProfile.value.data!.myRequest![index].id.toString();
-                                                                  _settingModalBottomSheet(context);
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                                                height: 30,
-                                                                decoration: BoxDecoration(
-                                                                  color: const Color(0xFF3797EF).withOpacity(.09),
-                                                                  borderRadius: BorderRadius.circular(5),
-                                                                ),
-                                                                child: Row(
-                                                                  children: [
-                                                                    SvgPicture.asset(
-                                                                      AppAssets.message,
-                                                                      height: 16,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      width: 6,
-                                                                    ),
-                                                                    Expanded(
-                                                                      child: FittedBox(
-                                                                        child: Text(
-                                                                          "Recommendation: ${profileController.userProfile.value.data!.myRequest![index].reviewCount.toString()}",
-                                                                          maxLines: 2,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: GoogleFonts.mulish(
-                                                                              fontWeight: FontWeight.w500,
-                                                                              // letterSpacing: 1,
-                                                                              fontSize: 12,
-                                                                              color: const Color(0xFF3797EF)),
-                                                                        ),
+                                                                  .toString(),
+                                                            )
+                                                                : const SizedBox(),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Expanded(
+                                                          child: GestureDetector(
+                                                            onTap: () {
+                                                              // setState(() {
+                                                              //   getReviewListRepo(
+                                                              //       context: context,
+                                                              //       id: profileController.userProfile.value.data!.myRequest![index].id.toString())
+                                                              //       .then((value) {
+                                                              //     modelReviewList.value = value;
+                                                              //     if (value.status == true) {
+                                                              //       statusOfReviewList.value = RxStatus.success();
+                                                              //       post1 = profileController.userProfile.value.data!.myRequest![index].id.toString();
+                                                              //       _settingModalBottomSheet(context);
+                                                              //     } else {
+                                                              //       statusOfReviewList.value = RxStatus.error();
+                                                              //     }
+                                                              //     setState(() {});
+                                                              //   });
+                                                              // });
+                                                              setState(() {
+                                                                getRecommendationController.idForReco = profileController.userProfile.value.data!.myRequest![index].id.toString();
+                                                                getRecommendationController.idForAskReco = profileController.userProfile.value.data!.myRequest![index].id.toString();
+                                                                _settingModalBottomSheet(context);
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                              height: 30,
+                                                              decoration: BoxDecoration(
+                                                                color: const Color(0xFF3797EF).withOpacity(.09),
+                                                                borderRadius: BorderRadius.circular(5),
+                                                              ),
+                                                              child: Row(
+                                                                children: [
+                                                                  SvgPicture.asset(
+                                                                    AppAssets.message,
+                                                                    height: 16,
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    width: 6,
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: FittedBox(
+                                                                      child: Text(
+                                                                        "Recommendation: ${profileController.userProfile.value.data!.myRequest![index].reviewCount.toString()}",
+                                                                        maxLines: 2,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        style: GoogleFonts.mulish(
+                                                                            fontWeight: FontWeight.w500,
+                                                                            // letterSpacing: 1,
+                                                                            fontSize: 12,
+                                                                            color: const Color(0xFF3797EF)),
                                                                       ),
                                                                     ),
-                                                                  ],
-                                                                ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
                                                           ),
-                                                          const SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          Expanded(
-                                                            child: GestureDetector(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  getCommentController.id = profileController.userProfile.value.data!.myRequest![index].id.toString();
-                                                                  getCommentController.type = 'askrecommandation';
-                                                                  commentBottomSheet(context);
-                                                                  print('Id Is....${profileController.userProfile.value.data!
-                                                                      .myRequest![index].id.toString()}');
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                padding: const EdgeInsets.only(left: 15),
-                                                                width: size.width * .45,
-                                                                height: 30,
-                                                                decoration: BoxDecoration(
-                                                                  color: const Color(0xFF3797EF).withOpacity(.09),
-                                                                  borderRadius: BorderRadius.circular(5),
-                                                                ),
-                                                                child: Row(
-                                                                  children: [
-                                                                    SvgPicture.asset(
-                                                                      AppAssets.message,
-                                                                      height: 16,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      width: 6,
-                                                                    ),
-                                                                    Text(
-                                                                      "Comments:   ${profileController.userProfile.value.data!
-                                                                          .myRequest![index].commentCount.toString()}",
-                                                                      style: GoogleFonts.mulish(
-                                                                          fontWeight: FontWeight.w500,
-                                                                          // letterSpacing: 1,
-                                                                          fontSize: 12,
-                                                                          color: const Color(0xFF3797EF)),
-                                                                    ),
-                                                                  ],
-                                                                ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        Expanded(
+                                                          child: GestureDetector(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                getCommentController.id = profileController.userProfile.value.data!.myRequest![index].id.toString();
+                                                                getCommentController.type = 'askrecommandation';
+                                                                commentBottomSheet(context);
+                                                                print('Id Is....${profileController.userProfile.value.data!
+                                                                    .myRequest![index].id.toString()}');
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              padding: const EdgeInsets.only(left: 15),
+                                                              width: size.width * .45,
+                                                              height: 30,
+                                                              decoration: BoxDecoration(
+                                                                color: const Color(0xFF3797EF).withOpacity(.09),
+                                                                borderRadius: BorderRadius.circular(5),
+                                                              ),
+                                                              child: Row(
+                                                                children: [
+                                                                  SvgPicture.asset(
+                                                                    AppAssets.message,
+                                                                    height: 16,
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    width: 6,
+                                                                  ),
+                                                                  Text(
+                                                                    "Comments:   ${profileController.userProfile.value.data!
+                                                                        .myRequest![index].commentCount.toString()}",
+                                                                    style: GoogleFonts.mulish(
+                                                                        fontWeight: FontWeight.w500,
+                                                                        // letterSpacing: 1,
+                                                                        fontSize: 12,
+                                                                        color: const Color(0xFF3797EF)),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
                                                           ),
-                                                        ],
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                    ],
-                                                  ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                  ],
                                                 ),
-                                                const SizedBox(height: 20,),
-                                                // Container(
-                                                //   padding: const EdgeInsets.all(10),
-                                                //   decoration: BoxDecoration(
-                                                //       color: Colors.white,
-                                                //       borderRadius: BorderRadius.circular(10),
-                                                //       boxShadow: [
-                                                //         BoxShadow(
-                                                //           color: const Color(0xFF5F5F5F).withOpacity(0.2),
-                                                //           offset: const Offset(0.0, 0.2),
-                                                //           blurRadius: 2,
-                                                //         ),
-                                                //       ]),
-                                                //   child: Column(
-                                                //     mainAxisAlignment: MainAxisAlignment.start,
-                                                //     crossAxisAlignment: CrossAxisAlignment.start,
-                                                //     children: [
-                                                //       Row(
-                                                //         children: [
-                                                //           ClipOval(
-                                                //             child: CachedNetworkImage(
-                                                //               width: 30,
-                                                //               height: 30,
-                                                //               fit: BoxFit.cover,
-                                                //               imageUrl: userProfile.value.data!.myRequest![index]
-                                                //                   .userId!.profileImage
-                                                //                   .toString(),
-                                                //               placeholder: (context, url) =>
-                                                //                   Image.asset(AppAssets.girl),
-                                                //               errorWidget: (context, url, error) =>
-                                                //                   Image.asset(AppAssets.girl),
-                                                //             ),
-                                                //           ),
-                                                //           const SizedBox(
-                                                //             width: 20,
-                                                //           ),
-                                                //           Expanded(
-                                                //             child: Column(
-                                                //               mainAxisAlignment: MainAxisAlignment.start,
-                                                //               crossAxisAlignment: CrossAxisAlignment.start,
-                                                //               children: [
-                                                //                 userProfile.value.data!.myRequest![index].userId!
-                                                //                     .name
-                                                //                     .toString() ==
-                                                //                     ""
-                                                //                     ? Text(
-                                                //                   "Name...",
-                                                //                   style: GoogleFonts.mulish(
-                                                //                       fontWeight: FontWeight.w700,
-                                                //                       // letterSpacing: 1,
-                                                //                       fontSize: 14,
-                                                //                       color: Colors.black),
-                                                //                 )
-                                                //                     : Text(
-                                                //                   userProfile.value.data!.myRequest![index]
-                                                //                       .userId!.name
-                                                //                       .toString(),
-                                                //                   style: GoogleFonts.mulish(
-                                                //                       fontWeight: FontWeight.w700,
-                                                //                       // letterSpacing: 1,
-                                                //                       fontSize: 14,
-                                                //                       color: Colors.black),
-                                                //                 ),
-                                                //                 // Row(
-                                                //                 //   crossAxisAlignment: CrossAxisAlignment.start,
-                                                //                 //   children: [
-                                                //                 //
-                                                //                 //     const SizedBox(
-                                                //                 //       height: 15,
-                                                //                 //       child: VerticalDivider(
-                                                //                 //         width: 8,
-                                                //                 //         thickness: 1,
-                                                //                 //         color: Colors.grey,
-                                                //                 //       ),
-                                                //                 //     ),
-                                                //                 //     Text(
-                                                //                 //       "3 Hour",
-                                                //                 //       style: GoogleFonts.mulish(
-                                                //                 //           fontWeight: FontWeight.w300,
-                                                //                 //           // letterSpacing: 1,
-                                                //                 //           fontSize: 12,
-                                                //                 //           color: const Color(0xFF878D98)),
-                                                //                 //     ),
-                                                //                 //   ],
-                                                //                 // )
-                                                //               ],
-                                                //             ),
-                                                //           ),
-                                                //           SvgPicture.asset(AppAssets.bookmark),
-                                                //         ],
-                                                //       ),
-                                                //       const SizedBox(
-                                                //         height: 15,
-                                                //       ),
-                                                //       CachedNetworkImage(
-                                                //         width: size.width,
-                                                //         height: 200,
-                                                //         fit: BoxFit.fill,
-                                                //         imageUrl: userProfile.value.data!.myRequest![index].image
-                                                //             .toString(),
-                                                //         placeholder: (context, url) =>
-                                                //             Image.asset(AppAssets.picture),
-                                                //         errorWidget: (context, url, error) =>
-                                                //             Image.asset(AppAssets.picture),
-                                                //       ),
-                                                //       const SizedBox(
-                                                //         height: 10,
-                                                //       ),
-                                                //       Text(
-                                                //         userProfile.value.data!.myRequest![index].title
-                                                //             .toString(),
-                                                //         style: GoogleFonts.mulish(
-                                                //             fontWeight: FontWeight.w700,
-                                                //             // letterSpacing: 1,
-                                                //             fontSize: 17,
-                                                //             color: Colors.black),
-                                                //       ),
-                                                //       const SizedBox(
-                                                //         height: 10,
-                                                //       ),
-                                                //       Text(
-                                                //         userProfile.value.data!.myRequest![index].description
-                                                //             .toString(),
-                                                //         style: GoogleFonts.mulish(
-                                                //             fontWeight: FontWeight.w300,
-                                                //             // letterSpacing: 1,
-                                                //             fontSize: 14,
-                                                //             color: const Color(0xFF6F7683)),
-                                                //       ),
-                                                //       const SizedBox(
-                                                //         height: 10,
-                                                //       ),
-                                                //       // Container(
-                                                //       //   padding: const EdgeInsets.all(5),
-                                                //       //   width: 180,
-                                                //       //   height: 30,
-                                                //       //   decoration: BoxDecoration(
-                                                //       //     color: const Color(0xFF3797EF).withOpacity(.09),
-                                                //       //     borderRadius: BorderRadius.circular(10),
-                                                //       //   ),
-                                                //       //   child: Row(
-                                                //       //     children: [
-                                                //       //       SvgPicture.asset(AppAssets.message),
-                                                //       //       const SizedBox(
-                                                //       //         width: 6,
-                                                //       //       ),
-                                                //       //       Text(
-                                                //       //         "Recommendations: 120",
-                                                //       //         style: GoogleFonts.mulish(
-                                                //       //             fontWeight: FontWeight.w500,
-                                                //       //             // letterSpacing: 1,
-                                                //       //             fontSize: 12,
-                                                //       //             color: const Color(0xFF3797EF)),
-                                                //       //       ),
-                                                //       //     ],
-                                                //       //   ),
-                                                //       // ),
-                                                //       const SizedBox(
-                                                //         height: 10,
-                                                //       ),
-                                                //     ],
-                                                //   ),
-                                                // ),
-                                                const SizedBox(
-                                                  height: 15,
-                                                )
-                                              ],
-                                            );
-                                          }),
-                                      const SizedBox(
-                                        height: 350,
-                                      )
-                                    ],
-                                  )
-                                      : profileController.statusOfUser.value.isError
-                                      ? CommonErrorWidget(
-                                    errorText: "",
-                                    onTap: () {},
-                                  )
-                                      : const Center(child: CircularProgressIndicator());
-                                })
-                              ],
-                            ),
+                                              ),
+                                              const SizedBox(height: 20,),
+                                              // Container(
+                                              //   padding: const EdgeInsets.all(10),
+                                              //   decoration: BoxDecoration(
+                                              //       color: Colors.white,
+                                              //       borderRadius: BorderRadius.circular(10),
+                                              //       boxShadow: [
+                                              //         BoxShadow(
+                                              //           color: const Color(0xFF5F5F5F).withOpacity(0.2),
+                                              //           offset: const Offset(0.0, 0.2),
+                                              //           blurRadius: 2,
+                                              //         ),
+                                              //       ]),
+                                              //   child: Column(
+                                              //     mainAxisAlignment: MainAxisAlignment.start,
+                                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                                              //     children: [
+                                              //       Row(
+                                              //         children: [
+                                              //           ClipOval(
+                                              //             child: CachedNetworkImage(
+                                              //               width: 30,
+                                              //               height: 30,
+                                              //               fit: BoxFit.cover,
+                                              //               imageUrl: userProfile.value.data!.myRequest![index]
+                                              //                   .userId!.profileImage
+                                              //                   .toString(),
+                                              //               placeholder: (context, url) =>
+                                              //                   Image.asset(AppAssets.girl),
+                                              //               errorWidget: (context, url, error) =>
+                                              //                   Image.asset(AppAssets.girl),
+                                              //             ),
+                                              //           ),
+                                              //           const SizedBox(
+                                              //             width: 20,
+                                              //           ),
+                                              //           Expanded(
+                                              //             child: Column(
+                                              //               mainAxisAlignment: MainAxisAlignment.start,
+                                              //               crossAxisAlignment: CrossAxisAlignment.start,
+                                              //               children: [
+                                              //                 userProfile.value.data!.myRequest![index].userId!
+                                              //                     .name
+                                              //                     .toString() ==
+                                              //                     ""
+                                              //                     ? Text(
+                                              //                   "Name...",
+                                              //                   style: GoogleFonts.mulish(
+                                              //                       fontWeight: FontWeight.w700,
+                                              //                       // letterSpacing: 1,
+                                              //                       fontSize: 14,
+                                              //                       color: Colors.black),
+                                              //                 )
+                                              //                     : Text(
+                                              //                   userProfile.value.data!.myRequest![index]
+                                              //                       .userId!.name
+                                              //                       .toString(),
+                                              //                   style: GoogleFonts.mulish(
+                                              //                       fontWeight: FontWeight.w700,
+                                              //                       // letterSpacing: 1,
+                                              //                       fontSize: 14,
+                                              //                       color: Colors.black),
+                                              //                 ),
+                                              //                 // Row(
+                                              //                 //   crossAxisAlignment: CrossAxisAlignment.start,
+                                              //                 //   children: [
+                                              //                 //
+                                              //                 //     const SizedBox(
+                                              //                 //       height: 15,
+                                              //                 //       child: VerticalDivider(
+                                              //                 //         width: 8,
+                                              //                 //         thickness: 1,
+                                              //                 //         color: Colors.grey,
+                                              //                 //       ),
+                                              //                 //     ),
+                                              //                 //     Text(
+                                              //                 //       "3 Hour",
+                                              //                 //       style: GoogleFonts.mulish(
+                                              //                 //           fontWeight: FontWeight.w300,
+                                              //                 //           // letterSpacing: 1,
+                                              //                 //           fontSize: 12,
+                                              //                 //           color: const Color(0xFF878D98)),
+                                              //                 //     ),
+                                              //                 //   ],
+                                              //                 // )
+                                              //               ],
+                                              //             ),
+                                              //           ),
+                                              //           SvgPicture.asset(AppAssets.bookmark),
+                                              //         ],
+                                              //       ),
+                                              //       const SizedBox(
+                                              //         height: 15,
+                                              //       ),
+                                              //       CachedNetworkImage(
+                                              //         width: size.width,
+                                              //         height: 200,
+                                              //         fit: BoxFit.fill,
+                                              //         imageUrl: userProfile.value.data!.myRequest![index].image
+                                              //             .toString(),
+                                              //         placeholder: (context, url) =>
+                                              //             Image.asset(AppAssets.picture),
+                                              //         errorWidget: (context, url, error) =>
+                                              //             Image.asset(AppAssets.picture),
+                                              //       ),
+                                              //       const SizedBox(
+                                              //         height: 10,
+                                              //       ),
+                                              //       Text(
+                                              //         userProfile.value.data!.myRequest![index].title
+                                              //             .toString(),
+                                              //         style: GoogleFonts.mulish(
+                                              //             fontWeight: FontWeight.w700,
+                                              //             // letterSpacing: 1,
+                                              //             fontSize: 17,
+                                              //             color: Colors.black),
+                                              //       ),
+                                              //       const SizedBox(
+                                              //         height: 10,
+                                              //       ),
+                                              //       Text(
+                                              //         userProfile.value.data!.myRequest![index].description
+                                              //             .toString(),
+                                              //         style: GoogleFonts.mulish(
+                                              //             fontWeight: FontWeight.w300,
+                                              //             // letterSpacing: 1,
+                                              //             fontSize: 14,
+                                              //             color: const Color(0xFF6F7683)),
+                                              //       ),
+                                              //       const SizedBox(
+                                              //         height: 10,
+                                              //       ),
+                                              //       // Container(
+                                              //       //   padding: const EdgeInsets.all(5),
+                                              //       //   width: 180,
+                                              //       //   height: 30,
+                                              //       //   decoration: BoxDecoration(
+                                              //       //     color: const Color(0xFF3797EF).withOpacity(.09),
+                                              //       //     borderRadius: BorderRadius.circular(10),
+                                              //       //   ),
+                                              //       //   child: Row(
+                                              //       //     children: [
+                                              //       //       SvgPicture.asset(AppAssets.message),
+                                              //       //       const SizedBox(
+                                              //       //         width: 6,
+                                              //       //       ),
+                                              //       //       Text(
+                                              //       //         "Recommendations: 120",
+                                              //       //         style: GoogleFonts.mulish(
+                                              //       //             fontWeight: FontWeight.w500,
+                                              //       //             // letterSpacing: 1,
+                                              //       //             fontSize: 12,
+                                              //       //             color: const Color(0xFF3797EF)),
+                                              //       //       ),
+                                              //       //     ],
+                                              //       //   ),
+                                              //       // ),
+                                              //       const SizedBox(
+                                              //         height: 10,
+                                              //       ),
+                                              //     ],
+                                              //   ),
+                                              // ),
+                                              const SizedBox(
+                                                height: 15,
+                                              )
+                                            ],
+                                          );
+                                        }),
+                                    const SizedBox(
+                                      height: 350,
+                                    )
+                                  ],
+                                )
+                                    : profileController.statusOfUser.value.isError
+                                    ? CommonErrorWidget(
+                                  errorText: "",
+                                  onTap: () {},
+                                )
+                                    : const Center(child: CircularProgressIndicator());
+                              })
+                            ],
                           ),
                         ),
                         SingleChildScrollView(
@@ -1459,7 +1458,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                               child: CachedNetworkImage(
                                                 imageUrl: profileController.userProfile.value.data!.myRecommandation![index].image
                                                     .toString(),
-                                                fit: BoxFit.fill,
+                                                fit: BoxFit.cover,
                                                 errorWidget: (_, __, ___) =>  const Icon(
                                                   Icons.error_outline_outlined,
                                                   color: Colors.red,

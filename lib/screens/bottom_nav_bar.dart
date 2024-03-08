@@ -28,6 +28,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   final getCommentController = Get.put(GetCommentController());
   final profileController = Get.put(ProfileController(), permanent: true);
   final homeController = Get.put(HomeController());
+
   manageNotification() {
     print("functionnnnn callll");
     getInit();

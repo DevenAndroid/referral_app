@@ -114,6 +114,7 @@ class _CategoryViewAllScreenState extends State<CategoryViewAllScreen> {
                                 child: CachedNetworkImage(
                                   imageUrl: item.image.toString(),
                                   height: 50,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
