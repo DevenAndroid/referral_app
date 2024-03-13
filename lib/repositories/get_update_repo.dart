@@ -8,10 +8,10 @@ import '../models/verify_otp_model.dart';
 import '../resourses/api_constant.dart';
 import '../resourses/helper.dart';
 
-Future<GetUpdateModel> getUpdateVersion({version}) async {
+Future<GetUpdateModel> getUpdateVersion({version,type}) async {
 
   // try {
-  http.Response response = await http.get(Uri.parse(ApiUrls.getUpdateUrl+version),
+  http.Response response = await http.get(Uri.parse("http://3.131.10.217/api/app-version?version_code=$version&type=$type"),
       headers: await getAuthHeader());
   log("verify IN DATA${response.body}");
   // http.Response response = await http.post(Uri.parse(ApiUrls.loginUser),

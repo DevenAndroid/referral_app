@@ -24,19 +24,19 @@ class GetUpdateModel {
 
 class Data {
   String? link;
-  bool? isUpdate;
+  bool? isUpdated;
 
-  Data({this.link, this.isUpdate});
+  Data({this.link, this.isUpdated});
 
   Data.fromJson(Map<String, dynamic> json) {
     link = json['link'];
-    isUpdate = json['is_update'];
+    isUpdated = json['is_updated'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['link'] = this.link;
-    data['is_update'] = this.isUpdate;
+    data['is_updated'] = this.isUpdated;
     return data;
   }
 }

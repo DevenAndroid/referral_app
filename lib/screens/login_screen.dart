@@ -7,6 +7,7 @@ import 'package:referral_app/widgets/app_text.dart';
 import 'package:referral_app/widgets/app_theme.dart';
 import 'package:referral_app/widgets/common_textfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:upgrader/upgrader.dart';
 
 import '../controller/profile_controller.dart';
 import '../models/login_model.dart';
@@ -55,131 +56,133 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKey6,
-          child: Column(
-            children: [
-              SizedBox(
-                height: size.height,
-                child: Stack(children: [
-                  Container(
-                    height: size.height * .4,
-                    decoration: const BoxDecoration(
-                      color: AppTheme.primaryColor,
-                    ),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 100,
-                        ),
-                        Center(
-                        child: Image(image: const AssetImage('assets/icons/oginsignuplogo.png'),height: size.height*.08,)
-                        )
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 250,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      width: size.width,
-                      height: size.height,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(15),
-                            topLeft: Radius.circular(15)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xFF5F5F5F).withOpacity(0.4),
-                            offset: Offset(0.0, 0.5),
-                            blurRadius: 5,
-                          ),
-                        ],
+    return UpgradeAlert(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Form(
+            key: formKey6,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: size.height,
+                  child: Stack(children: [
+                    Container(
+                      height: size.height * .4,
+                      decoration: const BoxDecoration(
+                        color: AppTheme.primaryColor,
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            height: size.height * .05,
-                          ),
-                          Text(
-                            "Login Your Account",
-                            style: GoogleFonts.mulish(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 18,
-                                color: Color(0xFF000000)),
-                          ),
-                          SizedBox(
-                            height: size.height * .07,
-                          ),
-                          Text(
-                            "Enter Your Email ID",
-                            style: GoogleFonts.mulish(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                                color: AppTheme.onboardingColor),
-                          ),
                           const SizedBox(
-                            height: 10,
-                          ),
-                          CommonTextfield(
-                              controller: profileController.emailController,
-                              validator: (value) {
-                                if (profileController
-                                    .emailController.text.isEmpty) {
-                                  return "Please enter your email";
-                                } else if (profileController
-                                        .emailController.text
-                                        .contains('+') ||
-                                    profileController.emailController.text
-                                        .contains(' ')) {
-                                  return "Email is invalid";
-                                } else if (RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(profileController
-                                        .emailController.text)) {
-                                  return null;
-                                } else {
-                                  return 'Please type a valid email address';
-                                }
-                              },
-                              obSecure: false,
-                              hintText: "info@gmail.com"),
-                          SizedBox(
-                            height: size.height * .04,
-                          ),
-                          CommonButton(
-                            title: "SEND OTP",
-                            onPressed: () {
-                              loginApi(context);
-
-                              // Get.toNamed(MyRouters.otpScreen);
-                            },
-                          ),
-                          SizedBox(
-                            height: size.height * .12,
+                            height: 100,
                           ),
                           Center(
-                            child: Text(
-                              "We will send you a one time SMS massage",
-                              style: GoogleFonts.mulish(
-                                  fontWeight: FontWeight.w300,
-letterSpacing: .7,
-                                  fontSize: 14,
-                                  color: AppTheme.onboardingColor),
-                            ),
-                          ),
+                          child: Image(image: const AssetImage('assets/icons/oginsignuplogo.png'),height: size.height*.08,)
+                          )
                         ],
                       ),
                     ),
-                  )
-                ]),
-              )
-            ],
+                    Positioned(
+                      top: 250,
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        width: size.width,
+                        height: size.height,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(15),
+                              topLeft: Radius.circular(15)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xFF5F5F5F).withOpacity(0.4),
+                              offset: Offset(0.0, 0.5),
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: size.height * .05,
+                            ),
+                            Text(
+                              "Login Your Account",
+                              style: GoogleFonts.mulish(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18,
+                                  color: Color(0xFF000000)),
+                            ),
+                            SizedBox(
+                              height: size.height * .07,
+                            ),
+                            Text(
+                              "Enter Your Email ID",
+                              style: GoogleFonts.mulish(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                  color: AppTheme.onboardingColor),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CommonTextfield(
+                                controller: profileController.emailController,
+                                validator: (value) {
+                                  if (profileController
+                                      .emailController.text.isEmpty) {
+                                    return "Please enter your email";
+                                  } else if (profileController
+                                          .emailController.text
+                                          .contains('+') ||
+                                      profileController.emailController.text
+                                          .contains(' ')) {
+                                    return "Email is invalid";
+                                  } else if (RegExp(
+                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                      .hasMatch(profileController
+                                          .emailController.text)) {
+                                    return null;
+                                  } else {
+                                    return 'Please type a valid email address';
+                                  }
+                                },
+                                obSecure: false,
+                                hintText: "info@gmail.com"),
+                            SizedBox(
+                              height: size.height * .04,
+                            ),
+                            CommonButton(
+                              title: "SEND OTP",
+                              onPressed: () {
+                                loginApi(context);
+      
+                                // Get.toNamed(MyRouters.otpScreen);
+                              },
+                            ),
+                            SizedBox(
+                              height: size.height * .12,
+                            ),
+                            Center(
+                              child: Text(
+                                "We will send you a one time SMS massage",
+                                style: GoogleFonts.mulish(
+                                    fontWeight: FontWeight.w300,
+      letterSpacing: .7,
+                                    fontSize: 14,
+                                    color: AppTheme.onboardingColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ]),
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -140,8 +140,8 @@ class _ReccoCommentScreenState extends State<ReccoCommentScreen> {
                               },
                               child: ClipOval(
                                 child: CachedNetworkImage(
-                                  width: 30,
-                                  height: 30,
+                                  width: 42,
+                                  height: 42,
                                   fit: BoxFit.cover,
                                   imageUrl: item.profileImage.toString(),
                                   placeholder: (context, url) => const SizedBox(),

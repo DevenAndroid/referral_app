@@ -148,6 +148,7 @@ class UserId {
   String? walletBalance;
   String? earnedBalance;
   String? profileImage;
+  String? cropImage;
   String? address;
   String? referalCode;
   bool? isDriverOnline;
@@ -171,6 +172,7 @@ class UserId {
         this.walletBalance,
         this.earnedBalance,
         this.profileImage,
+        this.cropImage,
         this.address,
         this.referalCode,
         this.isDriverOnline,
@@ -194,6 +196,7 @@ class UserId {
     walletBalance = json['wallet_balance'];
     earnedBalance = json['earned_balance'];
     profileImage = json['profile_image'];
+    cropImage = json['crop_image'];
     address = json['address'];
     referalCode = json['referal_code'];
     isDriverOnline = json['is_driver_online'];
@@ -219,6 +222,7 @@ class UserId {
     data['wallet_balance'] = this.walletBalance;
     data['earned_balance'] = this.earnedBalance;
     data['profile_image'] = this.profileImage;
+    data['crop_image'] = this.cropImage;
     data['address'] = this.address;
     data['referal_code'] = this.referalCode;
     data['is_driver_online'] = this.isDriverOnline;

@@ -122,14 +122,15 @@ class _AskRecommendationScreenState extends State<AskRecommendationScreen> {
                                   bottomController.updateIndexValue(2);
                                 },
                                 child: SizedBox(
-                                  height: 35,
-                                  width: 35,
+
                                   child: ClipOval(
                                     child: CachedNetworkImage(
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.cover,
+                                      height: 44,
+                                      width: 44,
                                       imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
                                       errorWidget: (context, url, error) => Container(
-                                          padding: const EdgeInsets.all(6),
+                                          padding: const EdgeInsets.all(9),
                                           decoration:
                                               BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
                                           child: SvgPicture.asset('assets/icons/profile.svg')),

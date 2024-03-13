@@ -170,8 +170,8 @@ class _UpdateMyRequestScreenState extends State<UpdateMyRequestScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: ClipOval(
                                   child: CachedNetworkImage(
-                                    height: 30,
-                                    width: 30,
+                                    height: 44,
+                                    width: 44,
                                     fit: BoxFit.fill,
                                     imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
                                     placeholder: (context, url) =>
