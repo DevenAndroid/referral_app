@@ -97,19 +97,14 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
         ],
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(0.0).copyWith(
-          bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 12).copyWith(bottom: 0),
-          child:  GestureDetector(
-            onTap: () {
-              Get.back();
-              Get.toNamed(MyRouters.recommendationScreen,
-                  arguments: [getRecommendationController.idForReco.toString()]);
-            },
-            child: const CommonButton(title: "Send Recommendation"),
-          ),
+        padding: const EdgeInsets.only(left: 20,bottom: 25,right: 20),
+        child:  GestureDetector(
+          onTap: () {
+            Get.back();
+            Get.toNamed(MyRouters.recommendationScreen,
+                arguments: [getRecommendationController.idForReco.toString()]);
+          },
+          child: const CommonButton(title: "Send Recommendation"),
         ),
       ),
       body: Obx(() {

@@ -72,9 +72,7 @@ class _CommentScreenState extends State<CommentScreen> {
         ],
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(10.0).copyWith(
-          bottom: MediaQuery.of(context).viewInsets.bottom + 18.0,
-        ),
+        padding: const EdgeInsets.only(left: 20.0,right: 20,bottom: 25),
         child: Container(
           height: 50,
           decoration: BoxDecoration(
