@@ -553,7 +553,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                     Expanded(
                                                       child: GestureDetector(
                                                         onTap: (){
-                                                          Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                                          homeController
+                                                              .homeModel.value.data!.discover![index].userId!.myAccount == true ? bottomController.updateIndexValue(2)
+                                                              : Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
                                                             homeController
                                                                 .homeModel.value.data!.discover![index].userId!.id
                                                                 .toString(),
@@ -563,8 +565,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                           crossAxisAlignment: CrossAxisAlignment.center,
                                                           children: [
                                                             GestureDetector(
-                                                              onTap: () {
-                                                                Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
+                                                              onTap: (){
+                                                                homeController
+                                                                    .homeModel.value.data!.discover![index].userId!.myAccount == true ? bottomController.updateIndexValue(2)
+                                                                    : Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
                                                                   homeController
                                                                       .homeModel.value.data!.discover![index].userId!.id
                                                                       .toString(),

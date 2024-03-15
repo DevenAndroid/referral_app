@@ -246,6 +246,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                               });
                                             },
                                             child: const Text('Delete')) : const SizedBox(),
+                                        getCommentController.getCommentModel.value.data![index].myAccount == false ||   getCommentController.getCommentModel.value.data![index].myComment == false?
                                         TextButton(
                                             onPressed: () {
                                               reportRepo(deleteId: item1.id.toString(), context: context).then((value) async {
@@ -271,7 +272,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                               style: TextStyle(
                                                 color: Colors.red
                                               ),
-                                            )),
+                                            )): SizedBox(),
                                       ],
                                     )
                                   ],

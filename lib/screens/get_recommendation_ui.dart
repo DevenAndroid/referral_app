@@ -104,7 +104,7 @@ class _GetRecommendationScreenState extends State<GetRecommendationScreen> {
             Get.toNamed(MyRouters.recommendationScreen,
                 arguments: [getRecommendationController.idForReco.toString()]);
           },
-          child: const CommonButton(title: "Send Recommendation"),
+          child: const CommonButton(title: "Write Recommendation"),
         ),
       ),
       body: Obx(() {

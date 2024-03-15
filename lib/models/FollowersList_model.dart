@@ -32,8 +32,9 @@ class Data {
   int? userId;
   Following? following;
   String? date;
+  bool? myAccount;
 
-  Data({this.id, this.userId, this.following, this.date});
+  Data({this.id, this.userId, this.following, this.date,this.myAccount});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -42,6 +43,7 @@ class Data {
         ? new Following.fromJson(json['following'])
         : null;
     date = json['date'];
+    myAccount = json['my_account'];
   }
 
   Map<String, dynamic> toJson() {
@@ -52,6 +54,7 @@ class Data {
       data['following'] = this.following!.toJson();
     }
     data['date'] = this.date;
+    data['my_account'] = this.myAccount;
     return data;
   }
 }

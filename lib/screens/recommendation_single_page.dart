@@ -363,22 +363,30 @@ class _RecommendationSingleScreenState extends State<RecommendationSingleScreen>
                               var item = getRecommendationController.getCommentModel.value.data![index].userId!;
                               var item1 = getRecommendationController.getCommentModel.value.data![index];
                               return Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 10),
+                                padding: const EdgeInsets.only(left: 5.0, top: 10),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    ClipOval(
-                                      child: CachedNetworkImage(
-                                        width: 30,
-                                        height: 30,
-                                        fit: BoxFit.cover,
-                                        imageUrl: item.profileImage.toString(),
-                                        errorWidget: (context, url, error) =>  Container(
-                                            padding: const EdgeInsets.all(6),
-                                            decoration:
-                                            BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
-                                            child: SvgPicture.asset('assets/icons/profile.svg'))
+                                    InkWell(
+                                      onTap: (){
+                                        Get.back();
+                                        item1.myAccount == false ?
+                                        Get.toNamed(MyRouters.allUserProfileScreen, arguments: [item.id.toString()]):
+                                        bottomController.updateIndexValue(2);
+                                      },
+                                      child: ClipOval(
+                                        child: CachedNetworkImage(
+                                          width: 40,
+                                          height: 40,
+                                          fit: BoxFit.cover,
+                                          imageUrl: item.profileImage.toString(),
+                                          errorWidget: (context, url, error) =>  Container(
+                                              padding: const EdgeInsets.all(6),
+                                              decoration:
+                                              BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                              child: SvgPicture.asset('assets/icons/profile.svg'))
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(

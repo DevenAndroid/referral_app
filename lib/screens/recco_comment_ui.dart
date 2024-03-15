@@ -137,6 +137,7 @@ class _ReccoCommentScreenState extends State<ReccoCommentScreen> {
                                 Get.toNamed(MyRouters.allUserProfileScreen, arguments: [
                                   getRecommendationController.getCommentModel.value.data![index].userId!.id.toString()
                                 ]):  bottomController.updateIndexValue(2);
+                                getRecommendationController.getCommentModel.value.data![index].myAccount == true ? Get.back() : null;
                               },
                               child: ClipOval(
                                 child: CachedNetworkImage(

@@ -613,16 +613,17 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                     children: [
                                                                       ClipOval(
                                                                         child: CachedNetworkImage(
-                                                                          width: 42,
-                                                                          height: 42,
+                                                                          width: 35,
+                                                                          height: 35,
                                                                           fit: BoxFit.cover,
                                                                           imageUrl: profileController.modal.value.data!
                                                                               .myRequest![index].userId!.profileImage
                                                                               .toString(),
-                                                                          placeholder: (context, url) =>
-                                                                              Image.asset(AppAssets.girl),
-                                                                          errorWidget: (context, url, error) =>
-                                                                              Image.asset(AppAssets.girl),
+                                                                            errorWidget: (context, url, error) =>  Container(
+                                                                                padding: const EdgeInsets.all(6),
+                                                                                decoration:
+                                                                                BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                                                                child: SvgPicture.asset('assets/icons/profile.svg'))
                                                                         ),
                                                                       ),
                                                                       const SizedBox(

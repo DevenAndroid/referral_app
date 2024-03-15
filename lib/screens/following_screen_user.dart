@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:referral_app/models/FollowersList_model.dart';
 
+import '../controller/bottomNav_controller.dart';
 import '../controller/profile_controller.dart';
 import '../models/followingList_model.dart';
 import '../models/unfollow_model.dart';
@@ -27,7 +28,7 @@ class FollowingScreenUser extends StatefulWidget {
 class _FollowingScreenUserState extends State<FollowingScreenUser> {
   Rx<RxStatus> statusOfFollower = RxStatus.empty().obs;
   Rx<FollowerListModel> followerList = FollowerListModel().obs;
-
+  final bottomController = Get.put(BottomNavBarController());
   // String followers = '';
   // String following = '';
   //
@@ -189,8 +190,17 @@ class _FollowingScreenUserState extends State<FollowingScreenUser> {
                                                   .value.data![index].following!=null)
                                               GestureDetector(
                                                 onTap : (){
+                                                  followerList
+                                                      .value.data![index].myAccount == false ? null : Get.back();
+                                                  followerList
+                                                      .value.data![index].myAccount == false ? null : Get.back();
+                                                  followerList
+                                                      .value.data![index].myAccount == false ? null : Get.back();
+                                                  followerList
+                                                      .value.data![index].myAccount == false ? null : Get.back();
+                                                  followerList.value.data![index].myAccount == false ?
                                                   Get.toNamed(MyRouters.allUserProfileScreen, arguments: [followerList
-                                                      .value.data![index].following!.id.toString()]);
+                                                      .value.data![index].following!.id.toString()]) : bottomController.updateIndexValue(2);
                                                 },
                                                 child: Container(
                                                   padding: const EdgeInsets.all(10),
@@ -214,14 +224,11 @@ class _FollowingScreenUserState extends State<FollowingScreenUser> {
                                                           imageUrl: followerList
                                                               .value.data![index].following!.profileImage
                                                               .toString(),
-                                                          errorWidget: (_, __, ___) => Image.asset(
-                                                            AppAssets.img,
-                                                            color: Colors.grey.shade200,
-                                                          ),
-                                                          placeholder: (_, __) => Image.asset(
-                                                            AppAssets.img,
-                                                            color: Colors.grey.shade200,
-                                                          ),
+                                                            errorWidget: (context, url, error) =>  Container(
+                                                                padding: const EdgeInsets.all(13),
+                                                                decoration:
+                                                                BoxDecoration(border: Border.all(color: Colors.black), shape: BoxShape.circle),
+                                                                child: SvgPicture.asset('assets/icons/profile.svg'))
                                                         ),
                                                       ),
                                                       const SizedBox(
@@ -291,8 +298,17 @@ class _FollowingScreenUserState extends State<FollowingScreenUser> {
                                                   .value.data![index].following!=null)
                                               GestureDetector(
                                                 onTap : (){
-                                                  Get.toNamed(MyRouters.allUserProfileScreen, arguments: [followingList
-                                                      .value.data![index].following!.id.toString()]);
+                                                  followingList
+                                                      .value.data![index].myAccount == false ? null : Get.back();
+                                                  followingList
+                                                      .value.data![index].myAccount == false ? null : Get.back();
+                                                  followingList
+                                                      .value.data![index].myAccount == false ? null : Get.back();
+                                                  followingList
+                                                      .value.data![index].myAccount == false ? null : Get.back();
+                                                  followingList
+                                                      .value.data![index].myAccount == false ?  Get.toNamed(MyRouters.allUserProfileScreen, arguments: [followingList
+                                                      .value.data![index].following!.id.toString()]) : bottomController.updateIndexValue(2);
                                                 },
                                                 child: Container(
                                                   padding: const EdgeInsets.all(10),

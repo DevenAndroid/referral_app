@@ -82,6 +82,7 @@ class Discover {
   int? reviewCount;
   String? date;
   bool? isEditable;
+  bool? myAccount;
   int? commentCount;
 
   Discover(
@@ -98,6 +99,7 @@ class Discover {
         this.reviewCount,
         this.isEditable,
         this.commentCount,
+        this.myAccount,
         this.date});
 
   Discover.fromJson(Map<String, dynamic> json) {
@@ -115,6 +117,7 @@ class Discover {
     reviewCount = json['review_count'];
     isEditable = json['is_editable'];
     commentCount = json['comment_count'];
+    myAccount = json['my_account'];
     date = json['date'];
   }
 
@@ -136,6 +139,7 @@ class Discover {
     data['date'] = this.date;
     data['comment_count'] = this.commentCount;
     data['is_editable'] = this.isEditable;
+    data['my_account'] = this.myAccount;
     return data;
   }
 }
@@ -163,6 +167,7 @@ class UserId {
   int? followersCount;
   int? postCount;
   bool? isFollow;
+  bool? myAccount;
 
   UserId(
       {this.id,
@@ -186,6 +191,7 @@ class UserId {
         this.followingCount,
         this.followersCount,
         this.postCount,
+        this.myAccount,
         this.isFollow});
 
   UserId.fromJson(Map<String, dynamic> json) {
@@ -211,6 +217,7 @@ class UserId {
     followersCount = json['followers_count'];
     postCount = json['post_count'];
     isFollow = json['is_follow'];
+    myAccount = json['my_account'];
   }
 
   Map<String, dynamic> toJson() {
@@ -237,6 +244,7 @@ class UserId {
     data['followers_count'] = this.followersCount;
     data['post_count'] = this.postCount;
     data['is_follow'] = this.isFollow;
+    data['my_account'] = this.myAccount;
     return data;
   }
 }
