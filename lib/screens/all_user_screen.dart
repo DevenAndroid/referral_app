@@ -191,11 +191,14 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                GestureDetector(
+                                InkWell(
                                     onTap: () {
                                       Get.back();
                                     },
-                                    child: const Icon(Icons.arrow_back)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: const Icon(Icons.arrow_back),
+                                    )),
                                 Text("Profile",
                                     style: GoogleFonts.mulish(
                                         fontWeight: FontWeight.w700, fontSize: 18, color: const Color(0xFF262626))),
@@ -504,7 +507,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 tabs: [
                                   Tab(
                                     child: Text(
-                                      '${profileController.userProfile.value.data!.user!.name!.capitalizeFirst.toString()} Requests',
+                                      'Requests Recs ',
                                         // "Recco Feed",
                                         style: GoogleFonts.mulish(
                                           fontWeight: FontWeight.w400,
@@ -522,7 +525,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                     ),
                                   ),
                                   Tab(
-                                    child: Text("${profileController.userProfile.value.data!.user!.name!.capitalizeFirst.toString()} Recommendations",
+                                    child: Text("Recommendations Recs",
                                         style: GoogleFonts.mulish(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 14,
@@ -797,7 +800,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                       profileController.userProfile.value.data!
                                                           .myRequest![index].title
                                                           .toString()
-                                                          .capitalizeFirst
+                                                          .capitalize
                                                           .toString(),
                                                       style: GoogleFonts.mulish(
                                                           fontWeight: FontWeight.w700,

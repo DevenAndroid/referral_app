@@ -661,7 +661,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             ),
                                                             Text(
                                                               homeController
-                                                                  .homeModel.value.data!.discover![index].date!.capitalize
+                                                                  .homeModel.value.data!.discover![index].date!.capitalizeFirst
                                                                   .toString(),
                                                               style: GoogleFonts.mulish(
                                                                 fontWeight: FontWeight.w300,
@@ -733,6 +733,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                             Share.share(
                                                               homeController
                                                                   .homeModel.value.data!.discover![index].image
+                                                                  .toString()+" Description:- "+homeController
+                                                                  .homeModel.value.data!.discover![index].description
                                                                   .toString(),
                                                             );
                                                           },
@@ -770,7 +772,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                 Text(
                                                   homeController.homeModel.value.data!.discover![index].title
                                                       .toString()
-                                                      .capitalizeFirst
+                                                      .capitalize
                                                       .toString(),
                                                   style: GoogleFonts.mulish(
                                                       fontWeight: FontWeight.w700,

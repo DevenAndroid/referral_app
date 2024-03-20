@@ -523,7 +523,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                             ),
                                           ),
                                           Tab(
-                                            child: Text("My recommendations",
+                                            child: Text("My Recs",
                                               style: GoogleFonts.mulish(
                                                 fontWeight: FontWeight.w600,
                                                 letterSpacing: 1,
@@ -543,7 +543,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                             ),
                                           ),
                                           Tab(
-                                            child: Text("Saved recommendations",
+                                            child: Text("Saved Recs",
                                               style: GoogleFonts.mulish(
                                                 fontWeight: FontWeight.w600,
                                                 letterSpacing: 1,
@@ -835,7 +835,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                   Text(
                                                                     profileController.modal.value.data!.myRequest![index]
                                                                         .title!
-                                                                        .toString(),
+                                                                        .toString().capitalize.toString(),
                                                                     style: GoogleFonts.mulish(
                                                                         fontWeight: FontWeight.w700,
                                                                         // letterSpacing: 1,

@@ -2,35 +2,29 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>1034755606968-4l8jcigfqlfqfpcvg2cqnlfrhc6vhi59.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1034755606968-4l8jcigfqlfqfpcvg2cqnlfrhc6vhi59</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>1034755606968-0t9s5stfoqdmi95sie6ject21hrl5l6j.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDGt1Jl-sslOEXj-ey8cmOoRevY5fSF2eQ</string>
+	<string>AIzaSyB3JANUG-DcRvVzuMviMoMtWaxH7Hqwnc8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1034755606968</string>
+	<string>1033954404810</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.dirise.diris</string>
+	<string>com.referralApp.referralApp</string>
 	<key>PROJECT_ID</key>
-	<string>dirise-app</string>
+	<string>referral-ff5e0</string>
 	<key>STORAGE_BUCKET</key>
-	<string>dirise-app.appspot.com</string>
+	<string>referral-ff5e0.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1034755606968:ios:36fafc6b3b4a650717e74d</string>
+	<string>1:1033954404810:ios:cd7f7d96a2d5cb26968733</string>
 </dict>
 </plist>
