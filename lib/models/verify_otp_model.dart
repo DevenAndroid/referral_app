@@ -44,6 +44,7 @@ class Data {
   bool? asMarketingManagerVerified;
   bool? isProfileComplete;
   dynamic followingCount;
+  dynamic isComplete;
   dynamic followersCount;
   dynamic postCount;
 
@@ -60,6 +61,7 @@ class Data {
     this.isVendorOnline,
     this.deliveryRange,
     this.selfDelivery,
+    this.isComplete,
     this.asDriverVerified,
     this.asVendorVerified,
     this.asMarketingManagerVerified,
@@ -89,6 +91,7 @@ class Data {
     followingCount = json['following_count'];
     followersCount = json['followers_count'];
     postCount = json['post_count'];
+    isComplete = json['is_complete'];
   }
 
   Map<String, dynamic> toJson() {
@@ -113,6 +116,7 @@ class Data {
     data['following_count'] = this.followingCount;
     data['followers_count'] = this.followersCount;
     data['post_count'] = this.postCount;
+    data['is_complete'] = this.isComplete;
     return data;
   }
 }

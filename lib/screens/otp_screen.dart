@@ -8,6 +8,7 @@ import 'package:referral_app/routers/routers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
+import '../controller/profile_controller.dart';
 import '../models/model_resend_otp.dart';
 import '../models/verify_otp_model.dart';
 import '../repositories/resend_otp_repo.dart';
@@ -33,8 +34,10 @@ class _OtpScreenState extends State<OtpScreen> {
   Rx<RxStatus> statusOfOtpResend= RxStatus.empty().obs;
   Rx<VerifyOtpModel> otpVerify = VerifyOtpModel().obs;
   Rx<ModelResendOtp> otpResend = ModelResendOtp().obs;
+  final profileController = Get.put(ProfileController());
   final formKey6 = GlobalKey<FormState>();
   var email= Get.arguments[0];
+
   verify(context) async {
     if (formKey6.currentState!.validate()) {
       String? token = await FirebaseMessaging.instance.getToken();
@@ -48,11 +51,15 @@ class _OtpScreenState extends State<OtpScreen> {
         if (value.status == true) {
 
           SharedPreferences pref = await SharedPreferences.getInstance();
-          if (pref.getBool('complete') == true) {
+          // profileController.modal.value.data!.user!.isComplete == true?
+          // Get.offAllNamed(MyRouters.bottomNavbar):Get.offAllNamed(MyRouters.createAccountScreen);
+          print('valueee iss${value.data!.isComplete.toString()   }');
+          if( value.data!.isComplete == true ) {
             Get.offAllNamed(MyRouters.bottomNavbar);
+          }else{
+            Get.offAllNamed(MyRouters.createAccountScreen);
           }
           pref.setString('cookie', value.authToken.toString());
-          Get.offAllNamed(MyRouters.createAccountScreen);
           // Get.offAllNamed(MyRouters.bottomNavbar);
           statusOfOtpVerify.value = RxStatus.success();
           showToast(value.message.toString());
@@ -94,11 +101,17 @@ class _OtpScreenState extends State<OtpScreen> {
     }
   }
   @override
+  void initState() {
+    super.initState();
+    profileController.getData();
+  }
+  @override
   void dispose() {
     otpController.dispose();
     focusNode.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

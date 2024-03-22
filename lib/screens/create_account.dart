@@ -205,24 +205,38 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                               const SizedBox())),
                                 )
                                     : Container(
-                                  decoration: BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white),
+                                  decoration: BoxDecoration(border: Border.all(color: Colors.black12),color: Colors.white),
                                   padding:
                                   const EdgeInsets.only(
                                       top: 8),
-
-
+                                  margin: const EdgeInsets
+                                      .symmetric(
+                                      vertical: 8,
+                                      horizontal: 8),
                                   width: double.maxFinite,
                                   height: 130,
-
+                                  alignment: Alignment.center,
                                   child: Column(
                                     mainAxisAlignment:
                                     MainAxisAlignment
                                         .center,
                                     children: [
-                                      Image.asset(
-                                        AppAssets.camera,
-                                        height: 60,
-                                        width: 50,
+                                      CachedNetworkImage(
+                                        imageUrl: profileController.modal.value.data!.user!.profileImage.toString(),
+                                        height: 100,
+                                        width: 100,
+                                        fit: BoxFit.contain,
+                                        errorWidget: (context, url, error) =>   Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              AppAssets.camera,
+                                              height: 60,
+                                              width: 50,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 5,

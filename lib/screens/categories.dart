@@ -69,7 +69,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ),
           centerTitle: true,
           title: Text(
-            "Choose Catrgories",
+            "Choose Categories",
             style: GoogleFonts.poppins(
                 color: const Color(0xFF1D1D1D),
                 fontSize: 20,
@@ -86,7 +86,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       CommonTextfield(
                         controller: search1Controller,
                         obSecure: false,
-                        hintText: "Search for a catrgories",
+                        hintText: "Search for a categories",
                         prefix: Padding(
                             padding: const EdgeInsets.all(13.0),
                             child: Icon(Icons.search)),

@@ -489,7 +489,8 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                             children: [
                               TabBar(
                                 controller: _tabController,
-                                padding: EdgeInsets.zero,
+                                padding: EdgeInsets.only(left: 10),
+                                labelPadding: EdgeInsets.symmetric(horizontal: 60),
                                 isScrollable: true,
                                 labelColor:  const Color(0xFF3797EF),
                                 unselectedLabelColor: Colors.black,
@@ -497,7 +498,8 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 // indicatorSize: TabBarIndicatorSize.tab,
                                 indicatorColor: AppTheme.primaryColor,
-                                tabAlignment: TabAlignment.start,
+                                tabAlignment: TabAlignment.center,
+
                                 // automaticIndicatorColorAdjustment: true,
                                 onTap: (value) {
                                   currentDrawer = value;
@@ -507,7 +509,7 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                 tabs: [
                                   Tab(
                                     child: Text(
-                                      'Requests Recs ',
+                                      'Requests',
                                         // "Recco Feed",
                                         style: GoogleFonts.mulish(
                                           fontWeight: FontWeight.w400,
@@ -524,8 +526,9 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                       //     color: Colors.black)
                                     ),
                                   ),
+
                                   Tab(
-                                    child: Text("Recommendations Recs",
+                                    child: Text("Recs",
                                         style: GoogleFonts.mulish(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 14,
@@ -813,10 +816,8 @@ class AllUserProfileScreenState extends State<AllUserProfileScreen> with SingleT
                                                     ),
                                                     Text(
                                                       profileController.userProfile.value.data!
-                                                          .myRequest![index].description
-                                                          .toString()
-                                                          .capitalizeFirst
-                                                          .toString(),
+                                                          .myRequest![index].description!.substring(0, 1).toUpperCase() +  profileController.userProfile.value.data!
+                                                          .myRequest![index].description!.substring(1),
                                                       style: GoogleFonts.mulish(
                                                           fontWeight: FontWeight.w300,
                                                           // letterSpacing: 1,

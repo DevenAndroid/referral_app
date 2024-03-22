@@ -784,10 +784,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                                   height: 10,
                                                 ),
                                                 Text(
-                                                  homeController.homeModel.value.data!.discover![index].description
-                                                      .toString()
-                                                      .capitalizeFirst
-                                                      .toString(),
+                                                  homeController.homeModel.value.data!.discover![index].description!.substring(0, 1).toUpperCase() +   homeController.homeModel.value.data!.discover![index].description!.substring(1),
+
                                                   style: GoogleFonts.mulish(
                                                       fontWeight: FontWeight.w300,
                                                       // letterSpacing: 1,

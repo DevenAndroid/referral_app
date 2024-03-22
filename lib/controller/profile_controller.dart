@@ -34,7 +34,7 @@ class ProfileController extends GetxController {
   String? address = "";
   bool checkForUser = false;
   String idUserPro = '';
-
+  String isComplete = '';
   getData() {
     getProfileRepo().then((value) async {
       modal.value = value;
@@ -44,7 +44,9 @@ class ProfileController extends GetxController {
         address = modal.value.data!.user!.address.toString();
         nameController.text = modal.value.data!.user!.name.toString();
         code = modal.value.data!.user!.countryCode.toString();
+        isComplete =  modal.value.data!.user!.isComplete.toString();
         print("got value.....    ${code}");
+        print("got compelete.....    ${isComplete.toString()}");
         if(code == "null" || code == ""){
           code = 'US';
         }

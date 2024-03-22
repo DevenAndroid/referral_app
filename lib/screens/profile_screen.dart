@@ -846,9 +846,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                                     height: 10,
                                                                   ),
                                                                   Text(
+
                                                                     profileController.modal.value.data!.myRequest![index]
-                                                                        .description!
-                                                                        .toString(),
+                                                                        .description!.substring(0, 1).toUpperCase() +   profileController.modal.value.data!.myRequest![index]
+                                                                        .description!.substring(1),
+
+
                                                                     style: GoogleFonts.mulish(
                                                                         fontWeight: FontWeight.w300,
                                                                         // letterSpacing: 1,
